@@ -1,9 +1,90 @@
 {
+	"tabBar": {
+		"selectedColor": "#409EFF",
+		"list": [{
+				"text": "服务大厅",
+				"pagePath": "pages/home/index",
+				"iconPath": "static/info.png",
+				"selectedIconPath": "static/info_active.png"
+			},
+			{
+				"text": "活动大厅",
+				"pagePath": "pages/activity/index",
+				"iconPath": "static/info.png",
+				"selectedIconPath": "static/info_active.png"
+			}, {
+				"text": "消息资源",
+				"pagePath": "pages/resources/index",
+				"iconPath": "static/info.png",
+				"selectedIconPath": "static/info_active.png"
+			},
+			{
+				"text": "个人中心",
+				"pagePath": "pages/center/index",
+				"iconPath": "static/info.png",
+				"selectedIconPath": "static/info_active.png"
+			}
+		]
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		//主页
 		{
-			"path": "pages/index/index",
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "主页"
+			}
+		}, {
+			"path": "pages/home/search",
 			"style": {
 				"navigationBarTitleText": "uni-app"
+			}
+		}, {
+			"path": "pages/service/consult",
+			"style": {
+				"navigationBarTitleText": "智能答疑"
+			}
+		},
+		{
+			"path": "pages/service/inner",
+			"style": {
+				"navigationBarTitleText": "文章详情"
+			}
+		}, {
+			"path": "pages/service/list",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/web-view",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		//
+		{
+			"path": "pages/activity/index",
+			"style": {
+				"navigationBarTitleText": "活动"
+			}
+		},
+		{
+			"path": "pages/resources/index",
+			"style": {
+				"navigationBarTitleText": "消息资源"
+			}
+		},
+
+		//个人中心
+		{
+			"path": "pages/center/index",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/center/login",
+			"style": {
+				"navigationBarTitleText": "登录"
 			}
 		}
 	],

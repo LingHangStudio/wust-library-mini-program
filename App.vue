@@ -1,15 +1,34 @@
-<script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+<script setup lang="ts">
+	import {
+		onShow,
+		onHide,
+		onLaunch
+	} from "@dcloudio/uni-app"
+	import routingIntercept from "@/router/permission.js"
+	onLaunch(() => {
+		routingIntercept()
+		// console.log("加载字体");
+		// uni.loadFontFace({
+		// 	family: 'luxun',
+		// 	source: 'url("./static/luxun.otf")',
+		// 	success() {
+		// 		console.log("success");
+		// 	}, fail() {
+		// 		console.log("err");
+		// 	},
+		// 	complete() {
+		// 		console.log("over");
+		// 	}
+		// })
+		console.log('App Launch')
+
+	})
+	onShow(() => {
+		console.log('App Show')
+	})
+	onHide(() => {
+		console.log('App Hide')
+	})
 </script>
 
 <style>
