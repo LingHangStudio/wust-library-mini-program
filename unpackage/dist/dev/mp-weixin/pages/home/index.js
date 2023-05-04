@@ -198,7 +198,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           type: "line"
         }),
         k: common_vendor.p({
-          title: "为您推荐",
           margin: "10px 8px 5px 8px",
           padding: "0px"
         })

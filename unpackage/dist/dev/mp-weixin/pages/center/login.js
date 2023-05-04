@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   _easycom_uni_easyinput2();
@@ -24,9 +23,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     return (_ctx, _cache) => {
       return {
-        a: common_assets._imports_0$1,
-        b: common_vendor.o(($event) => userForm.value.username = $event),
-        c: common_vendor.p({
+        a: common_vendor.o(($event) => userForm.value.username = $event),
+        b: common_vendor.p({
           inputBorder: false,
           maxlength: "13",
           prefixIcon: "person-filled",
@@ -34,17 +32,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           placeholder: "请输入学号",
           modelValue: userForm.value.username
         }),
-        d: common_vendor.o(($event) => userForm.value.password = $event),
-        e: common_vendor.p({
+        c: common_vendor.o(($event) => userForm.value.password = $event),
+        d: common_vendor.p({
           inputBorder: false,
           prefixIcon: "locked",
           type: "password",
           placeholder: "请输入密码",
           modelValue: userForm.value.password
         }),
-        f: common_vendor.o(() => {
+        e: common_vendor.o(() => {
         }),
-        g: common_vendor.o(login)
+        f: common_vendor.o(login)
       };
     };
   }

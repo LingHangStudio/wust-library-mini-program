@@ -12,7 +12,8 @@
 			</p>
 		</view>
 		<view class="background">
-			<img class="background-img" src="../../static/library.png" alt="">
+			<img class="background-img"
+				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt="">
 		</view>
 	</view>
 	<view class="search">
@@ -56,7 +57,7 @@
 			</uni-grid> -->
 		</view>
 	</uni-card>
-	<uni-card title="为您推荐" margin="10px 8px 5px 8px" padding="0px">
+	<uni-card margin="10px 8px 5px 8px" padding="0px">
 		<uni-section title="为您推荐" type="line">
 			<uni-group>
 				<view @tap="goToInner(item.id)" v-for="(item,index) in recommendList" :key="index">
@@ -203,7 +204,7 @@
 
 <style lang="scss" scoped>
 	.head {
-		border: 1px solid red;
+		// border: 1px solid red;
 		// top: 3px;
 		display: flex;
 		justify-content: space-around;
@@ -256,7 +257,7 @@
 		.background {
 			position: absolute;
 			z-index: -1;
-			border: 1px solid red;
+			// border: 1px solid red;
 			width: 100vw;
 			max-height: 10rem;
 			overflow: hidden;
@@ -290,7 +291,7 @@
 		// display: flex;
 		flex-wrap: nowrap;
 		overflow: hidden;
-		border: 1px solid red;
+		// border: 1px solid red;
 		white-space: nowrap;
 
 		.item {

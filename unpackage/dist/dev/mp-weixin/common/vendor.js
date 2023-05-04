@@ -7885,31 +7885,31 @@ const Pinia = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
   storeToRefs
 }, Symbol.toStringTag, { value: "Module" }));
 const tabBar = {
-  selectedColor: "#409EFF",
+  selectedColor: "#142d88",
   list: [
     {
       text: "服务大厅",
       pagePath: "pages/home/index",
-      iconPath: "static/info.png",
-      selectedIconPath: "static/info_active.png"
+      iconPath: "static/icon/home.png",
+      selectedIconPath: "static/icon/home_active.png"
     },
     {
       text: "活动大厅",
       pagePath: "pages/activity/index",
-      iconPath: "static/info.png",
-      selectedIconPath: "static/info_active.png"
+      iconPath: "static/icon/home.png",
+      selectedIconPath: "static/icon/home_active.png"
     },
     {
       text: "消息资源",
       pagePath: "pages/resources/index",
-      iconPath: "static/info.png",
-      selectedIconPath: "static/info_active.png"
+      iconPath: "static/icon/home.png",
+      selectedIconPath: "static/icon/home_active.png"
     },
     {
       text: "个人中心",
       pagePath: "pages/center/index",
-      iconPath: "static/info.png",
-      selectedIconPath: "static/info_active.png"
+      iconPath: "static/icon/home.png",
+      selectedIconPath: "static/icon/home_active.png"
     }
   ]
 };

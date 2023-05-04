@@ -1,6 +1,8 @@
 <template>
 	<view class="background">
-		<image src="@/static/library.png" mode=""></image>
+		<image style="width: 100vw"
+			src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" mode="scaleToFill">
+		</image>
 	</view>
 	<view class="form">
 		<uni-easyinput class="input" v-model="userForm.username" :inputBorder="false" maxlength="13"
@@ -38,6 +40,7 @@
 <style scoped lang="scss">
 	.background {
 		width: 100%;
+		// border: 1px solid red;
 		// margin-bottom: 5px;
 
 		uni-image {

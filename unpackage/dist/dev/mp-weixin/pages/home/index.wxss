@@ -24,7 +24,6 @@
 /* 透明度 */
 /* 文章场景相关 */
 .head.data-v-4978fed5 {
-  border: 1px solid red;
   display: flex;
   justify-content: space-around;
   position: relative;
@@ -59,7 +58,6 @@
 .head .background.data-v-4978fed5 {
   position: absolute;
   z-index: -1;
-  border: 1px solid red;
   width: 100vw;
   max-height: 10rem;
   overflow: hidden;
@@ -76,7 +74,6 @@ swiper image.data-v-4978fed5 {
 .homeMenu.data-v-4978fed5 {
   flex-wrap: nowrap;
   overflow: hidden;
-  border: 1px solid red;
   white-space: nowrap;
 }
 .homeMenu .item.data-v-4978fed5 {
