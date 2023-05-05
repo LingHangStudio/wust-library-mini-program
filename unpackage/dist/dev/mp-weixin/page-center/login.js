@@ -1,10 +1,10 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../common/vendor.js");
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   _easycom_uni_easyinput2();
 }
-const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
+const _easycom_uni_easyinput = () => "../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 if (!Math) {
   _easycom_uni_easyinput();
 }
@@ -47,5 +47,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-e0df2198"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/center/login.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-86e9187d"], ["__file", "C:/Users/31986/wust-library-miniprogram/page-center/login.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,15 +1,33 @@
 {
   "pages": [
     "pages/home/index",
-    "pages/home/search",
-    "pages/service/consult",
-    "pages/service/inner",
-    "pages/service/list",
-    "pages/web-view",
     "pages/activity/index",
     "pages/resources/index",
-    "pages/center/index",
-    "pages/center/login"
+    "pages/center/index"
+  ],
+  "subPackages": [
+    {
+      "root": "page-home",
+      "pages": [
+        "consult"
+      ]
+    },
+    {
+      "root": "page-service",
+      "pages": [
+        "web-view",
+        "search",
+        "inner",
+        "list",
+        "test"
+      ]
+    },
+    {
+      "root": "page-center",
+      "pages": [
+        "login"
+      ]
+    }
   ],
   "window": {
     "navigationBarTextStyle": "black",

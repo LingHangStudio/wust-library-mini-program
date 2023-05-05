@@ -1,14 +1,14 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
-const api_consult = require("../../api/consult.js");
-require("../../api/request.js");
+const common_vendor = require("../common/vendor.js");
+const api_consult = require("../api/consult.js");
+require("../api/request.js");
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   (_easycom_uni_easyinput2 + _easycom_uni_card2)();
 }
-const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
+const _easycom_uni_easyinput = () => "../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
+const _easycom_uni_card = () => "../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
   (_easycom_uni_easyinput + _easycom_uni_card)();
 }
@@ -119,5 +119,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-23c86ab3"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/service/consult.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-16e46d8a"], ["__file", "C:/Users/31986/wust-library-miniprogram/page-home/consult.vue"]]);
 wx.createPage(MiniProgramPage);

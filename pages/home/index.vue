@@ -17,8 +17,8 @@
 		</view>
 	</view>
 	<view class="search">
-		<uni-search-bar @focus="goTo('/pages/home/search')" cancelButton="none" @confirm="search" v-model="searchValue"
-			placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
+		<uni-search-bar @focus="goTo('/page-service/search')" cancelButton="none" @confirm="search"
+			v-model="searchValue" placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
@@ -90,7 +90,7 @@
 		}, {
 			id: "",
 			name: "智能答疑",
-			url: "/pages/service/consult",
+			url: "/page-home/consult",
 			icon: "chatboxes-filled"
 		}, {
 			id: "",
@@ -100,7 +100,7 @@
 		}, {
 			id: "",
 			name: "馆藏分布",
-			url: "/pages/service/inner?id=40",
+			url: "/page-service/inner?id=40",
 			icon: "location-filled"
 		}, {
 			id: "",

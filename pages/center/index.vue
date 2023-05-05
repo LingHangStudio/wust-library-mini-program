@@ -40,13 +40,13 @@
 		{
 			id: "",
 			name: "搜索资源",
-			url: "/pages/home/search",
+			url: "/page-service/search",
 			icon: "search",
 			complete: "1"
 		}, {
 			id: "",
 			name: "绑定用户",
-			url: "/pages/center/login",
+			url: "/page-center/login",
 			icon: "locked", complete: "1"
 		}, {
 			id: "",

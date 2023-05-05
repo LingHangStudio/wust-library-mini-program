@@ -1,7 +1,7 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
-const api_api = require("../../api/api.js");
-require("../../api/request.js");
+const common_vendor = require("../common/vendor.js");
+const api_api = require("../api/api.js");
+require("../api/request.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "list",
   setup(__props) {
@@ -55,5 +55,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-45ef07a2"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/service/list.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-fb6ba72c"], ["__file", "C:/Users/31986/wust-library-miniprogram/page-service/list.vue"]]);
 wx.createPage(MiniProgramPage);

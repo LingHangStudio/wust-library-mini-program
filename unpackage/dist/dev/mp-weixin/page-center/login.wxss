@@ -23,27 +23,27 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.background.data-v-e0df2198 {
+.background.data-v-86e9187d {
   width: 100%;
 }
-.background uni-image.data-v-e0df2198 {
+.background uni-image.data-v-86e9187d {
   width: 99%;
 }
-.form.data-v-e0df2198 {
+.form.data-v-86e9187d {
   margin: 20px auto;
   width: 80vw;
 }
-.form .input.data-v-e0df2198 {
+.form .input.data-v-86e9187d {
   margin: 10px 0;
 }
-.form .forget.data-v-e0df2198 {
+.form .forget.data-v-86e9187d {
   margin: 20px 0;
   text-decoration: underline;
 }
-.button.data-v-e0df2198 {
+.button.data-v-86e9187d {
   border-radius: 3px;
 }
-.data-v-e0df2198 .input .uni-input-placeholder {
+.data-v-86e9187d .input .uni-input-placeholder {
   font-size: 20px;
   color: #b5b4b2;
 }

@@ -36,7 +36,7 @@
 			<view class="chatLine">
 				<uni-easyinput placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
 				<view class="searchBtn" @click="searchQuestions()">
-					<img class="img" src="../../static/face1.png" alt="">
+					<img class="img" src="../static/face1.png" alt="">
 				</view>
 			</view>
 		</view>

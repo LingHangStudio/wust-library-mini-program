@@ -7921,36 +7921,6 @@ const pages = [
     }
   },
   {
-    path: "pages/home/search",
-    style: {
-      navigationBarTitleText: "uni-app"
-    }
-  },
-  {
-    path: "pages/service/consult",
-    style: {
-      navigationBarTitleText: "智能答疑"
-    }
-  },
-  {
-    path: "pages/service/inner",
-    style: {
-      navigationBarTitleText: "文章详情"
-    }
-  },
-  {
-    path: "pages/service/list",
-    style: {
-      navigationBarTitleText: "uni-app"
-    }
-  },
-  {
-    path: "pages/web-view",
-    style: {
-      navigationBarTitleText: "uni-app"
-    }
-  },
-  {
     path: "pages/activity/index",
     style: {
       navigationBarTitleText: "活动"
@@ -7967,12 +7937,65 @@ const pages = [
     style: {
       navigationBarTitleText: "个人中心"
     }
+  }
+];
+const subPackages = [
+  {
+    root: "page-home",
+    pages: [
+      {
+        path: "consult",
+        style: {
+          navigationBarTitleText: "咨询"
+        }
+      }
+    ]
   },
   {
-    path: "pages/center/login",
-    style: {
-      navigationBarTitleText: "登录"
-    }
+    root: "page-service",
+    pages: [
+      {
+        path: "web-view",
+        style: {
+          navigationBarTitleText: ""
+        }
+      },
+      {
+        path: "search",
+        style: {
+          navigationBarTitleText: "搜索"
+        }
+      },
+      {
+        path: "inner",
+        style: {
+          navigationBarTitleText: ""
+        }
+      },
+      {
+        path: "list",
+        style: {
+          navigationBarTitleText: ""
+        }
+      },
+      {
+        path: "test",
+        style: {
+          navigationBarTitleText: ""
+        }
+      }
+    ]
+  },
+  {
+    root: "page-center",
+    pages: [
+      {
+        path: "login",
+        style: {
+          navigationBarTitleText: "登录"
+        }
+      }
+    ]
   }
 ];
 const globalStyle = {
@@ -7985,6 +8008,7 @@ const uniIdRouter = {};
 const t = {
   tabBar,
   pages,
+  subPackages,
   globalStyle,
   uniIdRouter
 };

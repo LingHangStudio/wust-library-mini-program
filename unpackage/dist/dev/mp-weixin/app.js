@@ -5,15 +5,16 @@ const router_permission = require("./router/permission.js");
 require("./router/auth.js");
 if (!Math) {
   "./pages/home/index.js";
-  "./pages/home/search.js";
-  "./pages/service/consult.js";
-  "./pages/service/inner.js";
-  "./pages/service/list.js";
-  "./pages/web-view.js";
   "./pages/activity/index.js";
   "./pages/resources/index.js";
   "./pages/center/index.js";
-  "./pages/center/login.js";
+  "./page-home/consult.js";
+  "./page-service/web-view.js";
+  "./page-service/search.js";
+  "./page-service/inner.js";
+  "./page-service/list.js";
+  "./page-service/test.js";
+  "./page-center/login.js";
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "App",

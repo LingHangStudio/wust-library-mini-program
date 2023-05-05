@@ -33,35 +33,7 @@
 			"style": {
 				"navigationBarTitleText": "主页"
 			}
-		}, {
-			"path": "pages/home/search",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}, {
-			"path": "pages/service/consult",
-			"style": {
-				"navigationBarTitleText": "智能答疑"
-			}
 		},
-		{
-			"path": "pages/service/inner",
-			"style": {
-				"navigationBarTitleText": "文章详情"
-			}
-		}, {
-			"path": "pages/service/list",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		},
-		{
-			"path": "pages/web-view",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		},
-		//
 		{
 			"path": "pages/activity/index",
 			"style": {
@@ -74,20 +46,59 @@
 				"navigationBarTitleText": "消息资源"
 			}
 		},
-
 		//个人中心
 		{
 			"path": "pages/center/index",
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		}
+	],
+	"subPackages": [{
+		"root": "page-home",
+		"pages": [{
+			"path": "consult",
+			"style": {
+				"navigationBarTitleText": "咨询"
+			}
+		}]
+	}, {
+		"root": "page-service",
+		"pages": [{
+			"path": "web-view",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}, {
-			"path": "pages/center/login",
+			"path": "search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		}, {
+			"path": "inner",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "list",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "test",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}]
+	}, {
+		"root": "page-center",
+		"pages": [{
+			"path": "login",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
-		}
-	],
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

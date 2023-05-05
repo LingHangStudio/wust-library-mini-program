@@ -1,1 +1,0 @@
-<view wx:if="{{a}}" class=" data-v-45ef07a2"><view wx:for="{{b}}" wx:for-item="item" class=" data-v-45ef07a2">{{item.a}}</view></view><view wx:else class="err data-v-45ef07a2"><image class="data-v-45ef07a2" src="/static/urban-no-data-found-2.png"></image><view class="data-v-45ef07a2">这里什么都没有..</view></view>

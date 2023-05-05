@@ -1,14 +1,14 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../common/vendor.js");
 if (!Array) {
   const _easycom_uni_data_select2 = common_vendor.resolveComponent("uni-data-select");
   const _easycom_uni_search_bar2 = common_vendor.resolveComponent("uni-search-bar");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   (_easycom_uni_data_select2 + _easycom_uni_search_bar2 + _easycom_uni_card2)();
 }
-const _easycom_uni_data_select = () => "../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select.js";
-const _easycom_uni_search_bar = () => "../../uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.js";
-const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
+const _easycom_uni_data_select = () => "../uni_modules/uni-data-select/components/uni-data-select/uni-data-select.js";
+const _easycom_uni_search_bar = () => "../uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.js";
+const _easycom_uni_card = () => "../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
   (_easycom_uni_data_select + _easycom_uni_search_bar + _easycom_uni_card)();
 }
@@ -148,5 +148,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-b05802bf"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/home/search.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-0296aeab"], ["__file", "C:/Users/31986/wust-library-miniprogram/page-service/search.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -38,7 +38,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       {
         id: "",
         name: "智能答疑",
-        url: "/pages/service/consult",
+        url: "/page-home/consult",
         icon: "chatboxes-filled"
       },
       {
@@ -50,7 +50,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       {
         id: "",
         name: "馆藏分布",
-        url: "/pages/service/inner?id=40",
+        url: "/page-service/inner?id=40",
         icon: "location-filled"
       },
       {
@@ -148,7 +148,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.o(($event) => goTo("/pages/home/search")),
+        a: common_vendor.o(($event) => goTo("/page-service/search")),
         b: common_vendor.o(search),
         c: common_vendor.o(($event) => searchValue.value = $event),
         d: common_vendor.p({
