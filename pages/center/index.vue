@@ -66,9 +66,9 @@
 		}, {
 			id: "",
 			name: "反馈意见",
-			url: "",
+			url: "/page-center/feedback",
 			icon: "staff",
-			complete: ""
+			complete: "1"
 		}, {
 			id: "",
 			name: "test",

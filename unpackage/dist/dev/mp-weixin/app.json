@@ -26,7 +26,8 @@
       "root": "page-center",
       "pages": [
         "login",
-        "aboutMe"
+        "aboutMe",
+        "feedback"
       ]
     }
   ],

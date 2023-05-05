@@ -8000,6 +8000,12 @@ const subPackages = [
         style: {
           navigationBarTitleText: "关于"
         }
+      },
+      {
+        path: "feedback",
+        style: {
+          navigationBarTitleText: "反馈"
+        }
       }
     ]
   }

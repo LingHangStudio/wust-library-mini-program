@@ -55,9 +55,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       {
         id: "",
         name: "反馈意见",
-        url: "",
+        url: "/page-center/feedback",
         icon: "staff",
-        complete: ""
+        complete: "1"
       },
       {
         id: "",

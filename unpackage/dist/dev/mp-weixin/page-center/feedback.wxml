@@ -1,0 +1,1 @@
+<uni-card wx:if="{{e}}" u-s="{{['d']}}" u-i="36e89c48-0" bind:__l="__l" u-p="{{e}}"><uni-rate wx:if="{{c}}" bindchange="{{a}}" u-i="36e89c48-1,36e89c48-0" bind:__l="__l" bindupdateModelValue="{{b}}" u-p="{{c}}"/><textarea value="{{d}}" placeholder="asd" maxlength="100" style="border:1px solid lightgray"/><button form-type="submit">Submit</button></uni-card>
