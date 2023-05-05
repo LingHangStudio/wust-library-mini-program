@@ -7994,6 +7994,12 @@ const subPackages = [
         style: {
           navigationBarTitleText: "登录"
         }
+      },
+      {
+        path: "aboutMe",
+        style: {
+          navigationBarTitleText: "关于"
+        }
       }
     ]
   }

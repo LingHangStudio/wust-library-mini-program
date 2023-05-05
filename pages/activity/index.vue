@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 	import { ref } from "vue"
-	const items = ref(['全部', "讲座", "培训"])
+	const items = ref(["讲座", "培训", "阅读活动"])
 	const current = ref(0)
 	const onClickItem = (e) => {
 		if (current.value != e.currentIndex)

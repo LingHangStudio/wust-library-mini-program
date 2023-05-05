@@ -25,7 +25,8 @@
     {
       "root": "page-center",
       "pages": [
-        "login"
+        "login",
+        "aboutMe"
       ]
     }
   ],

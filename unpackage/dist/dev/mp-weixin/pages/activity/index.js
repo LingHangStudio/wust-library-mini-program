@@ -11,7 +11,7 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
-    const items = common_vendor.ref(["全部", "讲座", "培训"]);
+    const items = common_vendor.ref(["讲座", "培训", "阅读活动"]);
     const current = common_vendor.ref(0);
     const onClickItem = (e) => {
       if (current.value != e.currentIndex)

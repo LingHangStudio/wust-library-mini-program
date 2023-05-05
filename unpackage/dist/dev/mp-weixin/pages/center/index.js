@@ -19,13 +19,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const menu = [
       {
         id: "",
-        name: "搜索资源",
-        url: "/page-service/search",
-        icon: "search",
-        complete: "1"
-      },
-      {
-        id: "",
         name: "绑定用户",
         url: "/page-center/login",
         icon: "locked",
@@ -54,17 +47,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       },
       {
         id: "",
-        name: "我的订阅",
-        url: "",
-        icon: "cloud-upload",
-        complete: ""
-      },
-      {
-        id: "",
         name: "关于我们",
-        url: "",
+        url: "/page-center/aboutMe",
         icon: "info",
-        complete: ""
+        complete: "1"
       },
       {
         id: "",
@@ -75,17 +61,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       },
       {
         id: "",
-        name: "退出登录",
-        url: "",
-        icon: "close",
-        complete: ""
-      },
-      {
-        id: "",
         name: "test",
-        url: "/pages/test",
+        url: "/page-service/test",
         icon: "",
-        complete: ""
+        complete: "1"
       }
     ];
     const goTo = (url) => {
@@ -114,9 +93,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             }),
             c: common_vendor.t(item.name),
             d: item.complete
-          }, item.complete ? {} : {}, {
-            e: common_vendor.o(($event) => goTo(item.url), index),
-            f: index
+          }, item.complete ? {
+            e: "b067d044-3-" + i0 + ",b067d044-1",
+            f: common_vendor.p({
+              type: "forward"
+            })
+          } : {}, {
+            g: common_vendor.o(($event) => goTo(item.url), index),
+            h: index
           });
         }),
         f: common_vendor.p({

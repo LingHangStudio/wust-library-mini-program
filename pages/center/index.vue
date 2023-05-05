@@ -23,7 +23,7 @@
 				{{item.name}}
 			</view>
 			<view style="position:absolute;right:10px;" v-if="item.complete" class="">
-				&gt;
+				<uni-icons type="forward"></uni-icons>
 			</view>
 		</view>
 	</uni-card>
@@ -38,12 +38,6 @@
 	console.log(user);
 	const menu = [
 		{
-			id: "",
-			name: "搜索资源",
-			url: "/page-service/search",
-			icon: "search",
-			complete: "1"
-		}, {
 			id: "",
 			name: "绑定用户",
 			url: "/page-center/login",
@@ -65,16 +59,10 @@
 			icon: "folder-add", complete: ""
 		}, {
 			id: "",
-			name: "我的订阅",
-			url: "",
-			icon: "cloud-upload",
-			complete: ""
-		}, {
-			id: "",
 			name: "关于我们",
-			url: "",
+			url: "/page-center/aboutMe",
 			icon: "info",
-			complete: ""
+			complete: "1"
 		}, {
 			id: "",
 			name: "反馈意见",
@@ -83,16 +71,10 @@
 			complete: ""
 		}, {
 			id: "",
-			name: "退出登录",
-			url: "",
-			icon: "close",
-			complete: ""
-		}, {
-			id: "",
 			name: "test",
-			url: "/pages/test",
+			url: "/page-service/test",
 			icon: "",
-			complete: ""
+			complete: "1"
 		},
 	]
 	const goTo = (url) => {
