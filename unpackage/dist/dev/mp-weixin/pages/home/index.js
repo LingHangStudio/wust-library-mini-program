@@ -145,6 +145,25 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onMounted(() => {
       getBanner();
       recommend();
+      common_vendor.index.login({
+        provider: "weixin",
+        success: function(loginRes) {
+          console.log(loginRes);
+          common_vendor.index.setStorageSync("WechatToken", loginRes.code);
+          common_vendor.index.getUserInfo({
+            provider: "weixin",
+            success: function(infoRes) {
+              common_vendor.index.setStorageSync("WechatUser", infoRes.userInfo);
+              console.log(infoRes);
+            }
+          });
+        },
+        fail: () => {
+          common_vendor.index.showToast({
+            title: "获取信息失败！"
+          });
+        }
+      });
     });
     return (_ctx, _cache) => {
       return {

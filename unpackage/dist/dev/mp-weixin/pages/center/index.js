@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 if (!Array) {
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -15,7 +14,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
     const user = common_vendor.index.getStorageSync("user");
-    console.log(user);
+    const wechatUser = common_vendor.index.getStorageSync("WechatUser");
     const menu = [
       {
         id: "",
@@ -75,16 +74,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.unref(user)
-      }, common_vendor.unref(user) ? {
-        b: common_assets._imports_0,
-        c: common_vendor.t(common_vendor.unref(user).username)
-      } : {}, {
-        d: common_vendor.p({
+      }, common_vendor.unref(user) ? common_vendor.e({
+        b: common_vendor.unref(wechatUser).avatarUrl,
+        c: common_vendor.unref(user).username
+      }, common_vendor.unref(user).username ? {
+        d: common_vendor.t(common_vendor.unref(user).username)
+      } : {
+        e: common_vendor.t(common_vendor.unref(wechatUser).nickName)
+      }) : {}, {
+        f: common_vendor.p({
           margin: "10px 0px 5px 0px",
           padding: "0px",
           spacing: "0px"
         }),
-        e: common_vendor.f(menu, (item, index, i0) => {
+        g: common_vendor.f(menu, (item, index, i0) => {
           return common_vendor.e({
             a: "b067d044-2-" + i0 + ",b067d044-1",
             b: common_vendor.p({
@@ -103,7 +106,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             h: index
           });
         }),
-        f: common_vendor.p({
+        h: common_vendor.p({
           title: ""
         })
       });

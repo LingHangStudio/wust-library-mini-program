@@ -1,9 +1,12 @@
 <template>
 	<uni-card margin="10px 0px 5px 0px" padding="0px" spacing="0px">
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-			<img class="header-image" src="@/static/logo.png" alt="">
-			<view class="info">
+			<img class="header-image" :src="wechatUser.avatarUrl" alt="">
+			<view v-if="user.username" class="info">
 				{{user.username}}
+			</view>
+			<view v-else class="">
+				{{wechatUser.nickName}}
 			</view>
 			<!-- <view class="background">
 				<img src="" alt="">
@@ -29,13 +32,13 @@
 	</uni-card>
 	<view class="copyright">
 		<p>Copyright © 2023</p>
-		<p>Version v1.0.0</p>
+		<p>Version v1.0.0 test</p>
 	</view>
 </template>
 
 <script setup lang="ts">
 	const user = uni.getStorageSync("user")
-	console.log(user);
+	const wechatUser = uni.getStorageSync("WechatUser")
 	const menu = [
 		{
 			id: "",
@@ -95,7 +98,7 @@
 
 
 		.header-image {
-
+			border-radius: 50%;
 			display: block;
 			width: 5rem;
 			height: 5rem;

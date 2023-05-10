@@ -30,6 +30,7 @@
   justify-content: center;
 }
 .user .header-image {
+  border-radius: 50%;
   display: block;
   width: 5rem;
   height: 5rem;
