@@ -9,6 +9,7 @@ if (!Math) {
   "./pages/resources/index.js";
   "./pages/center/index.js";
   "./page-home/consult.js";
+  "./page-home/hello.js";
   "./page-service/web-view.js";
   "./page-service/search.js";
   "./page-service/inner.js";
@@ -24,6 +25,36 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onLaunch(() => {
       router_permission.routingIntercept();
       console.log("App Launch");
+      if (common_vendor.index.getStorageSync("WechatToken")) {
+        console.log("微信以授权");
+      }
+      common_vendor.index.getSetting({
+        success(res) {
+          console.log(res);
+          if (res.authSetting["scope.userInfo"]) {
+            common_vendor.index.getUserInfo({
+              success(res2) {
+                console.log(res2.userInfo);
+                setTimeout(() => {
+                  common_vendor.index.setStorageSync("WechatToken", res2.encryptedData);
+                }, 1e3);
+                console.log("获取信息成功");
+              },
+              fail() {
+                console.log("获取用户信息失败");
+              }
+            });
+          } else if (!res.authSetting["scope.userInfo"]) {
+            common_vendor.index.navigateTo({
+              url: "/page-home/hello"
+            });
+            console.log("需要点击按钮手动授权");
+          }
+        },
+        fail() {
+          console.log("获取已授权选项失败");
+        }
+      });
     });
     common_vendor.onShow(() => {
       console.log("App Show");

@@ -7896,20 +7896,20 @@ const tabBar = {
     {
       text: "活动大厅",
       pagePath: "pages/activity/index",
-      iconPath: "static/icon/home.png",
-      selectedIconPath: "static/icon/home_active.png"
+      iconPath: "static/icon/activity.png",
+      selectedIconPath: "static/icon/activity_active.png"
     },
     {
       text: "消息资源",
       pagePath: "pages/resources/index",
-      iconPath: "static/icon/home.png",
-      selectedIconPath: "static/icon/home_active.png"
+      iconPath: "static/icon/resource.png",
+      selectedIconPath: "static/icon/resource_active.png"
     },
     {
       text: "个人中心",
       pagePath: "pages/center/index",
-      iconPath: "static/icon/home.png",
-      selectedIconPath: "static/icon/home_active.png"
+      iconPath: "static/icon/center.png",
+      selectedIconPath: "static/icon/center_active.png"
     }
   ]
 };
@@ -7947,6 +7947,12 @@ const subPackages = [
         path: "consult",
         style: {
           navigationBarTitleText: "咨询"
+        }
+      },
+      {
+        path: "hello",
+        style: {
+          navigationStyle: "custom"
         }
       }
     ]
