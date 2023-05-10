@@ -48,8 +48,8 @@
 		}, {
 			id: "",
 			name: "我的借阅",
-			url: "",
-			icon: "eye", complete: ""
+			url: "/page-center/subscribe",
+			icon: "eye", complete: "1"
 		}, {
 			id: "",
 			name: "我的预约",

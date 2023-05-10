@@ -17,6 +17,7 @@ if (!Math) {
   "./page-service/test.js";
   "./page-center/login.js";
   "./page-center/aboutMe.js";
+  "./page-center/subscribe.js";
   "./page-center/feedback.js";
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({

@@ -26,9 +26,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       {
         id: "",
         name: "我的借阅",
-        url: "",
+        url: "/page-center/subscribe",
         icon: "eye",
-        complete: ""
+        complete: "1"
       },
       {
         id: "",

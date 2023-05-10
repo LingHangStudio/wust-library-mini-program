@@ -8008,6 +8008,12 @@ const subPackages = [
         }
       },
       {
+        path: "subscribe",
+        style: {
+          navigationBarTitleText: "我的"
+        }
+      },
+      {
         path: "feedback",
         style: {
           navigationBarTitleText: "反馈"

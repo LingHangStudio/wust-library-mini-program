@@ -55,27 +55,6 @@
 				console.log("获取已授权选项失败")
 			}
 		})
-		// uni.login({
-		// 	provider: 'weixin',
-		// 	success: function (loginRes) {
-		// 		console.log(loginRes);
-		// 		uni.setStorageSync("WechatToken", loginRes.code)
-		// 		// 获取用户信息
-		// 		uni.getUserInfo({
-		// 			provider: 'weixin',
-		// 			success: function (infoRes) {
-		// 				uni.setStorageSync("WechatUser", infoRes.userInfo)
-		// 				console.log(infoRes);
-		// 			}
-		// 		});
-		// 	},
-		// 	fail: () => {
-		// 		uni.showToast({
-		// 			title: "获取信息失败！"
-		// 		})
-		// 	}
-		// });
-
 	})
 	onShow(() => {
 		console.log('App Show')

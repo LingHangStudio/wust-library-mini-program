@@ -24,10 +24,6 @@
 		username: "as",
 		password: "dasd"
 	})
-	const style = {
-		"background-color": "#e9e9e9",
-		"borderColor": '#2979FF'
-	}
 	function login() {
 		const res = 0;
 		uni.setStorageSync("user", userForm.value)
@@ -39,18 +35,38 @@
 
 <style scoped lang="scss">
 	.background {
-		width: 100%;
+		width: 100vw;
 		// border: 1px solid red;
 		// margin-bottom: 5px;
 
 		uni-image {
+			// border-radius: 0 0 25% 25%;
 			width: 99%;
 		}
+
+		// uni-image::after {
+		// 	content: 'dsd';
+		// 	width: 120%;
+		// 	height: 100%;
+		// 	position: absolute;
+		// 	// left: -10%;
+		// 	top: 0;
+		// 	// z-index: -1;
+		// 	border-radius: 0 0 50% 50%;
+		// 	background: #2ea7e0;
+		// }
+
+
+
+
+
+		// border-radius:0 0 30px 0;
 	}
 
 	.form {
 		margin: 20px auto;
 		width: 80vw;
+
 
 		.input {
 			margin: 10px 0;

@@ -1,0 +1,1 @@
+<view class="root data-v-adc39c06"><view wx:for="{{a}}" wx:for-item="item" wx:key="e" class="item data-v-adc39c06"><view class="data-v-adc39c06">{{item.a}}</view><view class="data-v-adc39c06"> 索书号：{{item.b}}</view><view class="data-v-adc39c06">ISBN:{{item.c}}</view><view class="data-v-adc39c06">出版年:{{item.d}}</view></view></view>

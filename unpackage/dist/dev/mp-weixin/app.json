@@ -28,6 +28,7 @@
       "pages": [
         "login",
         "aboutMe",
+        "subscribe",
         "feedback"
       ]
     }
