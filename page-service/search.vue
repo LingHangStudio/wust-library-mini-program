@@ -69,12 +69,12 @@
 		if (choiceType.value == searchType[2].value) {
 			//站内检索
 			uni.navigateTo({
-				url: "/pages/service/list?keyword=" + searchValue.value
+				url: "/page-service/list?keyword=" + searchValue.value
 			})
 		} else {
 			//馆藏目录,数据库
 			uni.navigateTo({
-				url: "/pages/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
+				url: "/page-service/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
 			})
 		}
 	}

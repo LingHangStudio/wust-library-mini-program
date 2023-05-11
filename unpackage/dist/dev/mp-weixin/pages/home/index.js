@@ -139,7 +139,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
     const goToInner = (id) => {
       common_vendor.index.navigateTo({
-        url: "/pages/service/inner?id=" + id
+        url: "/page-service/inner?id=" + id
       });
     };
     common_vendor.onMounted(() => {

@@ -3,7 +3,8 @@ const common_vendor = require("../common/vendor.js");
 const router_auth = require("./auth.js");
 const whiteList = [
   "/",
-  "/pages/center/login"
+  "/pages/home/index",
+  "/page-center/login"
 ];
 async function routingIntercept() {
   const list = ["navigateTo", "redirectTo", "reLaunch", "switchTab"];
@@ -27,7 +28,7 @@ async function routingIntercept() {
             icon: "error"
           });
           common_vendor.index.navigateTo({
-            url: "/pages/center/login"
+            url: "/page-center/login"
           });
           return false;
         }

@@ -55,11 +55,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       console.log(choiceType);
       if (choiceType.value == searchType[2].value) {
         common_vendor.index.navigateTo({
-          url: "/pages/service/list?keyword=" + searchValue.value
+          url: "/page-service/list?keyword=" + searchValue.value
         });
       } else {
         common_vendor.index.navigateTo({
-          url: "/pages/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
+          url: "/page-service/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
         });
       }
     };

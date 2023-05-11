@@ -5,7 +5,8 @@ import {
 // 白名单
 const whiteList = [
 	'/',
-	'/pages/center/login',
+	"/pages/home/index",
+	'/page-center/login',
 ]
 
 export default async function() {
@@ -36,7 +37,7 @@ export default async function() {
 						icon: 'error'
 					})
 					uni.navigateTo({
-						url: "/pages/center/login"
+						url: "/page-center/login"
 					})
 					return false
 				}

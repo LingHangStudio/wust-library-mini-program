@@ -191,7 +191,7 @@
 	}
 	const goToInner = (id) => {
 		uni.navigateTo({
-			url: "/pages/service/inner?id=" + id
+			url: "/page-service/inner?id=" + id
 		})
 	}
 	const isWechatLogin = () => {
