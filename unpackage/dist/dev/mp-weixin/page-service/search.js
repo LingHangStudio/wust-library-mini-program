@@ -16,6 +16,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "search",
   setup(__props) {
     const searchValue = common_vendor.ref("");
+    const searchHistory = common_vendor.index.getStorageSync("searchHistory") ? common_vendor.ref(common_vendor.index.getStorageSync("searchHistory")) : common_vendor.ref([]);
     let collectionHotWord = common_vendor.reactive([]);
     let searchType = common_vendor.reactive([
       {
@@ -52,14 +53,22 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const choiceType = common_vendor.ref(0);
     const isShow = common_vendor.ref(true);
     const search = () => {
-      console.log(choiceType);
+      let value = searchValue.value;
+      searchHistory.value.push(searchValue.value);
+      if (searchHistory.value.length > 5) {
+        console.log(searchHistory.value.slice(-5, -1));
+        searchHistory.value = searchHistory.value.slice(-4, -1);
+      }
+      common_vendor.index.setStorageSync("searchHistory", searchHistory.value);
       if (choiceType.value == searchType[2].value) {
+        searchValue.value = "";
         common_vendor.index.navigateTo({
-          url: "/page-service/list?keyword=" + searchValue.value
+          url: "/page-service/list?keyword=" + value
         });
       } else {
+        searchValue.value = "";
         common_vendor.index.navigateTo({
-          url: "/page-service/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
+          url: "/page-service/web-view?keyword=" + value + "&strSearchType=" + choiceType.value
         });
       }
     };
@@ -127,7 +136,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           cancelButton: false,
           modelValue: searchValue.value
         }),
-        j: common_vendor.f(common_vendor.unref(collectionHotWord), (item, index, i0) => {
+        j: common_vendor.f(common_vendor.unref(searchHistory), (item, index, i0) => {
           return {
             a: common_vendor.t(item),
             b: index,
@@ -135,11 +144,22 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           };
         }),
         k: common_vendor.p({
+          title: "检索历史",
+          margin: "0px"
+        }),
+        l: common_vendor.f(common_vendor.unref(collectionHotWord), (item, index, i0) => {
+          return {
+            a: common_vendor.t(item),
+            b: index,
+            c: common_vendor.o(($event) => searchHot(), index)
+          };
+        }),
+        m: common_vendor.p({
           title: "热门检索",
           margin: "0px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
         }),
-        l: common_vendor.p({
+        n: common_vendor.p({
           title: "大家都在看",
           margin: "0px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"

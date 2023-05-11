@@ -13,7 +13,13 @@
 				:clearButton="false" :cancelButton="false"></uni-search-bar>
 		</view>
 	</view>
-
+	<uni-card class="history" title="检索历史" margin="0px">
+		<view class="" style="display: flex;flex-direction:column-reverse">
+			<view v-for="(item, index) in searchHistory" :key="index" @click="searchHot(item)">
+				{{ item }}
+			</view>
+		</view>
+	</uni-card>
 	<uni-card class="recommend" title="热门检索" margin="0px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
 		<view class="">
@@ -32,7 +38,9 @@
 
 <script setup lang="ts">
 	import { reactive, ref } from "vue"
+	// import { onShow } from "@dcloudio/uni-app"
 	const searchValue = ref("")
+	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
 	//馆藏目录：热门检索
 	let collectionHotWord = reactive([])
 	let searchType = reactive([
@@ -65,16 +73,25 @@
 	const choiceType = ref(0)
 	const isShow = ref(true)
 	const search = () => {
-		console.log(choiceType);
+		let value = searchValue.value
+
+		searchHistory.value.push(searchValue.value)
+		if (searchHistory.value.length > 5) {
+			console.log(searchHistory.value.slice(-5, -1));
+			searchHistory.value = searchHistory.value.slice(-4, -1)
+		}
+		uni.setStorageSync("searchHistory", searchHistory.value)
 		if (choiceType.value == searchType[2].value) {
 			//站内检索
+			searchValue.value = ""
 			uni.navigateTo({
-				url: "/page-service/list?keyword=" + searchValue.value
+				url: "/page-service/list?keyword=" + value
 			})
 		} else {
 			//馆藏目录,数据库
+			searchValue.value = ""
 			uni.navigateTo({
-				url: "/page-service/web-view?keyword=" + searchValue.value + "&strSearchType=" + choiceType.value
+				url: "/page-service/web-view?keyword=" + value + "&strSearchType=" + choiceType.value
 			})
 		}
 	}
@@ -118,6 +135,9 @@
 	const searchHot = (item) => {
 
 	}
+	// onShow(() => {
+	// 	searchHistory.value = uni.getStorageSync("searchHistory")
+	// })
 </script>
 
 <style scoped lang="scss">
