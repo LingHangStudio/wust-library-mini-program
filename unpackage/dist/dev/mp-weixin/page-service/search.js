@@ -54,19 +54,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const isShow = common_vendor.ref(true);
     const search = () => {
       let value = searchValue.value;
-      searchHistory.value.push(searchValue.value);
-      if (searchHistory.value.length > 5) {
-        console.log(searchHistory.value.slice(-5, -1));
-        searchHistory.value = searchHistory.value.slice(-4, -1);
+      searchValue.value = "";
+      searchHistory.value.unshift(value);
+      if (searchHistory.value.length > 7) {
+        searchHistory.value.pop();
       }
       common_vendor.index.setStorageSync("searchHistory", searchHistory.value);
       if (choiceType.value == searchType[2].value) {
-        searchValue.value = "";
         common_vendor.index.navigateTo({
           url: "/page-service/list?keyword=" + value
         });
       } else {
-        searchValue.value = "";
         common_vendor.index.navigateTo({
           url: "/page-service/web-view?keyword=" + value + "&strSearchType=" + choiceType.value
         });

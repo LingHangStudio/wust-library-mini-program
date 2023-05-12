@@ -17,8 +17,8 @@
 		</view>
 	</view>
 	<view class="search">
-		<uni-search-bar @focus="goTo('/page-service/search')" cancelButton="none" @confirm="search"
-			v-model="searchValue" placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
+		<uni-search-bar @tap.stop="goTo('/page-service/search')" cancelButton="none" @confirm="search"
+			placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
@@ -75,12 +75,12 @@
 	import { reactive, ref, onMounted } from "vue"
 	import { banner, getDisciplineCate } from "@/api/api.js"
 	// import { fileToBase64 } from "@/utils/toBase64.js"
-	const searchValue = ref("")
+	// const searchValue = ref("")
 	const menu = [
 		{
 			id: "",
 			name: "我的借阅",
-			url: "",
+			url: "/page-center/subscribe",
 			icon: "calendar"
 		}, {
 			id: "",

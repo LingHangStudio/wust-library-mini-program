@@ -13,9 +13,9 @@
 				:clearButton="false" :cancelButton="false"></uni-search-bar>
 		</view>
 	</view>
-	<uni-card class="history" title="检索历史" margin="0px">
-		<view class="" style="display: flex;flex-direction:column-reverse">
-			<view v-for="(item, index) in searchHistory" :key="index" @click="searchHot(item)">
+	<uni-card title="检索历史" margin="0px">
+		<view class="history">
+			<view class="item" v-for="(item, index) in searchHistory" :key="index" @click="searchHot(item)">
 				{{ item }}
 			</view>
 		</view>
@@ -74,22 +74,20 @@
 	const isShow = ref(true)
 	const search = () => {
 		let value = searchValue.value
-
-		searchHistory.value.push(searchValue.value)
-		if (searchHistory.value.length > 5) {
-			console.log(searchHistory.value.slice(-5, -1));
-			searchHistory.value = searchHistory.value.slice(-4, -1)
+		searchValue.value = ""
+		searchHistory.value.unshift(value)
+		if (searchHistory.value.length > 7) {
+			searchHistory.value.pop()
 		}
 		uni.setStorageSync("searchHistory", searchHistory.value)
 		if (choiceType.value == searchType[2].value) {
 			//站内检索
-			searchValue.value = ""
+
 			uni.navigateTo({
 				url: "/page-service/list?keyword=" + value
 			})
 		} else {
 			//馆藏目录,数据库
-			searchValue.value = ""
 			uni.navigateTo({
 				url: "/page-service/web-view?keyword=" + value + "&strSearchType=" + choiceType.value
 			})
@@ -149,5 +147,19 @@
 
 		.value {}
 
+	}
+
+	.history {
+		// border: 1px solid red;
+		display: flex;
+		flex-wrap: wrap;
+
+		.item {
+			background-color: darkgray;
+			color: whitesmoke;
+			margin: 0 3px;
+			border-radius: 3px;
+			padding: 1px 2px;
+		}
 	}
 </style>

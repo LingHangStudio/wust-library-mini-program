@@ -21,12 +21,11 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
-    const searchValue = common_vendor.ref("");
     const menu = [
       {
         id: "",
         name: "我的借阅",
-        url: "",
+        url: "/page-center/subscribe",
         icon: "calendar"
       },
       {
@@ -150,20 +149,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       return {
         a: common_vendor.o(($event) => goTo("/page-service/search")),
         b: common_vendor.o(search),
-        c: common_vendor.o(($event) => searchValue.value = $event),
-        d: common_vendor.p({
+        c: common_vendor.p({
           cancelButton: "none",
           placeholder: "搜索书名,作者,分类,IBSN",
-          radius: 100,
-          modelValue: searchValue.value
+          radius: 100
         }),
-        e: common_vendor.f(bannerList.value, (item, index, i0) => {
+        d: common_vendor.f(bannerList.value, (item, index, i0) => {
           return {
             a: item.url,
             b: index
           };
         }),
-        f: common_vendor.f(menu, (item, index, i0) => {
+        e: common_vendor.f(menu, (item, index, i0) => {
           return {
             a: "4978fed5-2-" + i0 + ",4978fed5-1",
             b: common_vendor.p({
@@ -177,12 +174,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             g: common_vendor.n("nav-li bg-index" + (index + 1))
           };
         }),
-        g: common_vendor.p({
+        f: common_vendor.p({
           margin: "30px 1px 30px 1px",
           padding: "1px",
           spacing: "1px"
         }),
-        h: common_vendor.f(recommendList.value, (item, index, i0) => {
+        g: common_vendor.f(recommendList.value, (item, index, i0) => {
           return {
             a: common_vendor.t(item.title),
             b: "4978fed5-6-" + i0 + ",4978fed5-5",
@@ -190,14 +187,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             d: index
           };
         }),
-        i: common_vendor.p({
+        h: common_vendor.p({
           ["is-full"]: true
         }),
-        j: common_vendor.p({
+        i: common_vendor.p({
           title: "为您推荐",
           type: "line"
         }),
-        k: common_vendor.p({
+        j: common_vendor.p({
           margin: "10px 8px 5px 8px",
           padding: "0px"
         })
