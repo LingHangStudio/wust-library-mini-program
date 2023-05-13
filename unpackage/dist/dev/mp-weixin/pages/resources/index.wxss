@@ -37,15 +37,17 @@
   margin: 0 3px;
   background-color: firebrick;
 }
-.line.data-v-bd941a4b {
-  display: inline-block;
+.box.data-v-bd941a4b {
+  display: flex;
+}
+.box .line.data-v-bd941a4b {
   width: 3px;
   height: 1rem;
   margin: 0 3px;
   background-color: firebrick;
 }
-.font.data-v-bd941a4b {
-  display: inline-block;
+.box .font.data-v-bd941a4b {
+  margin: auto 0;
   font-size: 1rem;
   line-height: 1rem;
 }

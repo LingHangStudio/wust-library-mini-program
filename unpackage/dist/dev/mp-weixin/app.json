@@ -16,7 +16,8 @@
     {
       "root": "page-service",
       "pages": [
-        "web-view",
+        "search-webview",
+        "foreign-webview",
         "search",
         "inner",
         "list",

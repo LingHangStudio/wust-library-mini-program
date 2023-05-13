@@ -21,12 +21,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         name: "绑定用户",
         url: "/page-center/login",
         icon: "locked",
+        inner: true,
         complete: "1"
       },
       {
         id: "",
         name: "我的借阅",
-        url: "/page-center/subscribe",
+        url: "/page-service/foreign-webview",
+        inner: false,
         icon: "eye",
         complete: "1"
       },
@@ -34,6 +36,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         id: "",
         name: "我的预约",
         url: "",
+        inner: false,
         icon: "tune",
         complete: ""
       },
@@ -41,6 +44,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         id: "",
         name: "我的收藏",
         url: "",
+        inner: false,
         icon: "folder-add",
         complete: ""
       },
@@ -49,6 +53,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         name: "关于我们",
         url: "/page-center/aboutMe",
         icon: "info",
+        inner: true,
         complete: "1"
       },
       {
@@ -56,6 +61,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         name: "反馈意见",
         url: "/page-center/feedback",
         icon: "staff",
+        inner: true,
         complete: "1"
       },
       {
@@ -63,13 +69,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         name: "test",
         url: "/page-service/test",
         icon: "",
+        inner: true,
         complete: "1"
       }
     ];
-    const goTo = (url) => {
-      common_vendor.index.navigateTo({
-        url
-      });
+    const goTo = (item) => {
+      if (item.inner) {
+        common_vendor.index.navigateTo({
+          url: item.url
+        });
+      } else {
+        common_vendor.index.navigateTo({
+          url: item.url
+        });
+      }
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
@@ -102,7 +115,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
               type: "forward"
             })
           } : {}, {
-            g: common_vendor.o(($event) => goTo(item.url), index),
+            g: common_vendor.o(($event) => goTo(item), index),
             h: index
           });
         }),

@@ -19,7 +19,7 @@
 	</uni-card>
 
 	<uni-card title="">
-		<view @click="goTo(item.url)" class="item" v-for="(item,index) in menu" :key="index">
+		<view @click="goTo(item)" class="item" v-for="(item,index) in menu" :key="index">
 			<!-- <p class="line"></p> -->
 			<uni-icons :type="item.icon" size="40"></uni-icons>
 			<view class="font">
@@ -44,46 +44,61 @@
 			id: "",
 			name: "绑定用户",
 			url: "/page-center/login",
-			icon: "locked", complete: "1"
+			icon: "locked",
+			inner: true,
+			complete: "1"
 		}, {
 			id: "",
 			name: "我的借阅",
-			url: "/page-center/subscribe",
+			url: "/page-service/foreign-webview",
+			inner: false,
 			icon: "eye", complete: "1"
 		}, {
 			id: "",
 			name: "我的预约",
 			url: "",
+			inner: false,
 			icon: "tune", complete: ""
 		}, {
 			id: "",
 			name: "我的收藏",
 			url: "",
+			inner: false,
 			icon: "folder-add", complete: ""
 		}, {
 			id: "",
 			name: "关于我们",
 			url: "/page-center/aboutMe",
 			icon: "info",
+			inner: true,
 			complete: "1"
 		}, {
 			id: "",
 			name: "反馈意见",
 			url: "/page-center/feedback",
 			icon: "staff",
-			complete: "1"
+			inner: true,
+			complete: "1",
 		}, {
 			id: "",
 			name: "test",
 			url: "/page-service/test",
 			icon: "",
+			inner: true,
 			complete: "1"
 		},
 	]
-	const goTo = (url) => {
-		uni.navigateTo({
-			url: url
-		})
+	const goTo = (item) => {
+		if (item.inner) {
+			uni.navigateTo({
+				url: item.url
+			})
+		} else {
+			uni.navigateTo({
+				url: item.url
+			})
+		}
+
 	}
 </script>
 

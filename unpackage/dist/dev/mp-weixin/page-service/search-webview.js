@@ -1,7 +1,7 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
-  __name: "web-view",
+  __name: "search-webview",
   setup(__props) {
     const goToLink = common_vendor.ref("");
     const goTo = (value) => {
@@ -41,5 +41,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/31986/wust-library-miniprogram/page-service/web-view.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/31986/wust-library-miniprogram/page-service/search-webview.vue"]]);
 wx.createPage(MiniProgramPage);

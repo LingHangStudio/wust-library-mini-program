@@ -28,7 +28,8 @@
   margin: 8px 4px 1px 4px;
 }
 .historyBox .head.data-v-0296aeab {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   margin: 2px 5px 3px 20px;
   color: #181963;
 }

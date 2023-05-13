@@ -70,7 +70,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
       } else {
         common_vendor.index.navigateTo({
-          url: "/page-service/web-view?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
+          url: "/page-service/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
         });
       }
     };
@@ -113,6 +113,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     const searchHot = (item) => {
     };
+    const clear = () => {
+      searchHistory.value = [];
+      common_vendor.index.removeStorageSync("searchHistory");
+    };
     async function getRecomend() {
       const res = await api_api.getDisciplineCate();
       console.log(res);
@@ -149,9 +153,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           cancelButton: false,
           modelValue: searchValue.value
         }),
-        j: common_vendor.unref(searchHistory)
-      }, common_vendor.unref(searchHistory) ? {
-        k: common_vendor.f(common_vendor.unref(searchHistory), (item, index, i0) => {
+        j: common_vendor.unref(searchHistory).length != 0
+      }, common_vendor.unref(searchHistory).length != 0 ? {
+        k: common_vendor.o(clear),
+        l: common_vendor.f(common_vendor.unref(searchHistory), (item, index, i0) => {
           return {
             a: common_vendor.t(item),
             b: common_vendor.o(($event) => selectOne(item), index),
@@ -159,24 +164,24 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           };
         })
       } : {}, {
-        l: common_vendor.f(collectionHotWord.value, (item, index, i0) => {
+        m: common_vendor.f(collectionHotWord.value, (item, index, i0) => {
           return {
             a: common_vendor.t(item),
             b: index,
             c: common_vendor.o(($event) => searchHot(), index)
           };
         }),
-        m: common_vendor.p({
+        n: common_vendor.p({
           title: "热门检索",
           margin: "2px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
         }),
-        n: common_vendor.f(recommendList.value, (item, index, i0) => {
+        o: common_vendor.f(recommendList.value, (item, index, i0) => {
           return {
             a: index
           };
         }),
-        o: common_vendor.p({
+        p: common_vendor.p({
           title: "大家都在看",
           margin: "2px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"

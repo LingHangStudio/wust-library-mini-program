@@ -10,7 +10,8 @@ if (!Math) {
   "./pages/center/index.js";
   "./page-home/consult.js";
   "./page-home/hello.js";
-  "./page-service/web-view.js";
+  "./page-service/search-webview.js";
+  "./page-service/foreign-webview.js";
   "./page-service/search.js";
   "./page-service/inner.js";
   "./page-service/list.js";

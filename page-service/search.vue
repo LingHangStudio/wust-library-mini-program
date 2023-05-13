@@ -12,13 +12,23 @@
 				:clearButton="false" :cancelButton="false"></uni-search-bar>
 		</view>
 	</view>
-	<view v-if="searchHistory" class="historyBox">
+	<view v-if="searchHistory.length!=0" class="historyBox">
 		<!-- <uni-card title="检索历史" margin="0px"> -->
-		<view class="head">检索历史</view>
+		<view class="head">
+			<view class="">
+				检索历史
+			</view>
+
+			<view @tap="clear" class="">
+				清空
+			</view>
+		</view>
+
 		<view class="history">
 			<view @tap="selectOne(item)" class="item" v-for="(item, index) in searchHistory" :key="index">
 				{{ item }}
 			</view>
+
 		</view>
 		<!-- </uni-card> -->
 	</view>
@@ -34,7 +44,6 @@
 	<uni-card title="大家都在看" class="hot" margin="2px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
 		<view v-for="(item,index) in recommendList" :key="index" class="hotBox">
-
 		</view>
 	</uni-card>
 </template>
@@ -94,7 +103,7 @@
 		} else {
 			//馆藏目录,数据库
 			uni.navigateTo({
-				url: "/page-service/web-view?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
+				url: "/page-service/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
 			})
 		}
 	}
@@ -141,6 +150,10 @@
 
 	}
 
+	const clear = () => {
+		searchHistory.value = []
+		uni.removeStorageSync("searchHistory")
+	}
 	async function getRecomend() {
 		const res = await getDisciplineCate()
 		console.log(res);
@@ -173,10 +186,14 @@
 
 	.historyBox {
 		.head {
-			display: inline-block;
+			// display: inline-block;
+			display: flex;
+			justify-content: space-between;
 			// border: 1px solid red;
 			margin: 2px 5px 3px 20px;
 			color: #181963;
+
+			view {}
 		}
 
 		.history {

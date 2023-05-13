@@ -4,15 +4,25 @@
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
 	<view class="content">
-		<view class="list" v-if="current === 0">
-			<view @tap="goTo(item.id)" v-for="(item,index) in reourseList" class="item" :key="index">
-				<uni-card :is-full="true">
-					<view class="line">
+		<view class="list">
+			<view @tap="goTo(item.id)" v-for="(item,index) in showList" class="item" :key="index">
+				<uni-card margin="3px" padding="3px" :is-full="true">
+					<view class="box">
+						<view style="border: 1px solid red;margin: 3px;" class="">
+							<img style=" display: block;border: 1px solid blue;width: 40px;height: 40px;"
+								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+						</view>
+						<!-- <view class="line">
+					</view> -->
+						<view class="font">
+							<view class="">
+								{{item.title}}
+							</view>
+							<view class="">
+								<uni-icons type="eye"></uni-icons>{{item.browse}}
+							</view>
+						</view>
 					</view>
-					<view class="font">
-						{{item.title}}
-					</view>
-
 				</uni-card>
 				<!-- <view class="body">
 					<view class="line">
@@ -22,34 +32,36 @@
 				</view> -->
 			</view>
 		</view>
-		<view class="list" v-if="current === 1">
+		<!-- <view class="list" v-if="current === 1">
 			<view @tap="goTo(item.id)" v-for="(item,index) in noticeList" class="item" :key="index">
-				<!-- <view class="head">
+				<view class="head">
 					{{item.createdAt.split("T")[0].split("-")[0]}}
-				</view> -->
+				</view>
 				<uni-card :is-full="true">
 					<view class="line">
 					</view>
 					{{item.title}}
 				</uni-card>
-				<!-- <view class="body">
+				<view class="body">
 					{{item.createdAt.split("T")[0].split("-")[1]}}-{{item.createdAt.split("T")[0].split("-")[2]}}
 					<view class="line">
 					</view>
 					{{item.title}}
 					{{item.createdAt}}
-				</view> -->
+				</view>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
 <script setup lang="ts">
 	import { ref, reactive, onMounted } from "vue"
 	import { getArticleList, getArticleContent } from "@/api/api.js"
+	import { closeDialog } from "vant";
 	const items = ref(['最新资源', "最新消息"])
 	const current = ref(0)
 	const noticeList = ref([])
+	const showList = ref([])
 	const reourseList = ref([])
 	const year = ref(0)
 
@@ -68,23 +80,27 @@
 	// 	}
 	// }
 	const onClickItem = (e) => {
-		if (current.value != e.currentIndex)
+		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
+			showList.value = e.currentIndex == 0 ? reourseList.value : noticeList.value
+		}
+
 	}
 	async function getArticle() {
-		//获取通知公告列表
+		//获取新闻，公告列表
 		const res1 = await getArticleList({
 			categoryId: 30
 		})
 
-		noticeList.value = res1.data;
+		noticeList.value = res1.data
 
 		//获取最新资源列表
 		const res2 = await getArticleList({
 			categoryId: 46,
 		});
-		console.log(res2);
-		reourseList.value = res2.data;
+		console.log(res2)
+		reourseList.value = res2.data
+		showList.value = res2.data
 	}
 
 	async function getDetials(id) {
@@ -99,6 +115,7 @@
 	}
 	onMounted(() => {
 		getArticle()
+
 	})
 </script>
 
@@ -129,21 +146,26 @@
 		}
 	}
 
-	.line {
-		display: inline-block;
-		width: 3px;
-		height: 1rem;
-		margin: 0 3px;
-		background-color: firebrick;
-	}
+	.box {
+		display: flex;
 
-	.font {
-		// overflow: hidden;
-		// flex-wrap: nowrap;
-		display: inline-block;
-		// word-break: keep-all;
-		// white-space: nowrap;
-		font-size: 1rem;
-		line-height: 1rem;
+		.line {
+			// display: inline-block;
+			width: 3px;
+			height: 1rem;
+			margin: 0 3px;
+			background-color: firebrick;
+		}
+
+		.font {
+			// overflow: hidden;
+			// flex-wrap: nowrap;
+			// display: inline-block;
+			// word-break: keep-all;
+			// white-space: nowrap;
+			margin: auto 0;
+			font-size: 1rem;
+			line-height: 1rem;
+		}
 	}
 </style>

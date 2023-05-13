@@ -5,14 +5,16 @@ require("../../api/request.js");
 if (!Array) {
   const _easycom_uni_notice_bar2 = common_vendor.resolveComponent("uni-notice-bar");
   const _easycom_uni_segmented_control2 = common_vendor.resolveComponent("uni-segmented-control");
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
-  (_easycom_uni_notice_bar2 + _easycom_uni_segmented_control2 + _easycom_uni_card2)();
+  (_easycom_uni_notice_bar2 + _easycom_uni_segmented_control2 + _easycom_uni_icons2 + _easycom_uni_card2)();
 }
 const _easycom_uni_notice_bar = () => "../../uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.js";
 const _easycom_uni_segmented_control = () => "../../uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.js";
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
-  (_easycom_uni_notice_bar + _easycom_uni_segmented_control + _easycom_uni_card)();
+  (_easycom_uni_notice_bar + _easycom_uni_segmented_control + _easycom_uni_icons + _easycom_uni_card)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
@@ -20,11 +22,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const items = common_vendor.ref(["最新资源", "最新消息"]);
     const current = common_vendor.ref(0);
     const noticeList = common_vendor.ref([]);
+    const showList = common_vendor.ref([]);
     const reourseList = common_vendor.ref([]);
     common_vendor.ref(0);
     const onClickItem = (e) => {
-      if (current.value != e.currentIndex)
+      if (current.value != e.currentIndex) {
         current.value = e.currentIndex;
+        showList.value = e.currentIndex == 0 ? reourseList.value : noticeList.value;
+      }
     };
     async function getArticle() {
       const res1 = await api_api.getArticleList({
@@ -36,6 +41,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       });
       console.log(res2);
       reourseList.value = res2.data;
+      showList.value = res2.data;
     }
     const goTo = (id) => {
       common_vendor.index.navigateTo({
@@ -46,7 +52,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       getArticle();
     });
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return {
         a: common_vendor.p({
           ["show-icon"]: true,
           text: "最新消息!"
@@ -56,34 +62,25 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           current: current.value,
           values: items.value
         }),
-        d: current.value === 0
-      }, current.value === 0 ? {
-        e: common_vendor.f(reourseList.value, (item, index, i0) => {
+        d: common_vendor.f(showList.value, (item, index, i0) => {
           return {
             a: common_vendor.t(item.title),
-            b: "bd941a4b-2-" + i0,
-            c: common_vendor.o(($event) => goTo(item.id), index),
-            d: index
+            b: "bd941a4b-3-" + i0 + "," + ("bd941a4b-2-" + i0),
+            c: common_vendor.t(item.browse),
+            d: "bd941a4b-2-" + i0,
+            e: common_vendor.o(($event) => goTo(item.id), index),
+            f: index
           };
+        }),
+        e: common_vendor.p({
+          type: "eye"
         }),
         f: common_vendor.p({
+          margin: "3px",
+          padding: "3px",
           ["is-full"]: true
         })
-      } : {}, {
-        g: current.value === 1
-      }, current.value === 1 ? {
-        h: common_vendor.f(noticeList.value, (item, index, i0) => {
-          return {
-            a: common_vendor.t(item.title),
-            b: "bd941a4b-3-" + i0,
-            c: common_vendor.o(($event) => goTo(item.id), index),
-            d: index
-          };
-        }),
-        i: common_vendor.p({
-          ["is-full"]: true
-        })
-      } : {});
+      };
     };
   }
 });

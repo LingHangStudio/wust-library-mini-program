@@ -7961,7 +7961,13 @@ const subPackages = [
     root: "page-service",
     pages: [
       {
-        path: "web-view",
+        path: "search-webview",
+        style: {
+          navigationBarTitleText: ""
+        }
+      },
+      {
+        path: "foreign-webview",
         style: {
           navigationBarTitleText: ""
         }
