@@ -9,17 +9,24 @@
 	const goTo = (value) => {
 		//有 馆藏目录和数据库搜索
 		console.log(value);
-		if (value.strSearchType == "1") {
+		if (value.strSearchType1 == "1") {
 			// 数据库
-			goToLink.value = 'https://libsys.wust.edu.cn/mspace/database?searchWord=' + value.keyword
-		} else if (value.strSearchType == "0") {
+			goToLink.value = 'https://libsys.wust.edu.cn/mspace/database/1?searchWord=' + value.keyword
+		} else if (value.strSearchType2 == "0") {
 			// 馆藏目录
-			goToLink.value = "https://libsys.wust.edu.cn/space/searchList?strSearchType=" + value + "&strText=" + value.keyword
+			let type = "titles"
+			switch (value.strSearchType1) {
+				case "0": type = "titles"; break;
+				case "1": type = "authors"; break;
+				case "2": type = "subjects"; break;
+				case "3": type = "series"; break;
+			}
+			console.log("https://libsys.wust.edu.cn/space/searchList?strSearchType=" + type + "&strText=" + value.keyword);
+			goToLink.value = "https://libsys.wust.edu.cn/space/searchList?strSearchType=" + type + "&strText=" + value.keyword
 		} else {
 
 		}
 	}
-
 	onLoad((e) => {
 		if (e) {
 			goTo(e)

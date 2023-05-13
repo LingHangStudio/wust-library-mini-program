@@ -26,9 +26,9 @@ export function getArticleList(data) {
 	})
 }
 
-//文章检索
+//文章检索:通过标题进行的检索
 export function searchArticle(data) {
-	return request({
+	return request({ 
 		url: '/article/search',
 		method: "GET",
 		data: data

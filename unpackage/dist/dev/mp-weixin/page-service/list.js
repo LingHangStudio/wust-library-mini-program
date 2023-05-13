@@ -45,13 +45,16 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: !err.value
-      }, !err.value ? {
-        b: common_vendor.f(common_vendor.unref(searchList), (item, index, i0) => {
+      }, !err.value ? common_vendor.e({
+        b: !common_vendor.unref(searchList)
+      }, !common_vendor.unref(searchList) ? {} : {
+        c: common_vendor.f(common_vendor.unref(searchList), (item, index, i0) => {
           return {
-            a: common_vendor.t(item.title)
+            a: common_vendor.t(item.title),
+            b: index
           };
         })
-      } : {});
+      }) : {});
     };
   }
 });

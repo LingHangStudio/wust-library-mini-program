@@ -12,7 +12,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "login",
   setup(__props) {
     const userForm = common_vendor.ref({
-      username: "as",
+      username: "202113407294",
       password: "dasd"
     });
     function login() {
@@ -28,8 +28,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           inputBorder: false,
           maxlength: "13",
           prefixIcon: "person-filled",
-          type: "text",
-          placeholder: "请输入学号",
+          type: "number",
+          placeholder: "请输入学号/工号",
           modelValue: userForm.value.username
         }),
         c: common_vendor.o(($event) => userForm.value.password = $event),

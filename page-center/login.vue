@@ -6,14 +6,14 @@
 	</view>
 	<view class="form">
 		<uni-easyinput class="input" v-model="userForm.username" :inputBorder="false" maxlength="13"
-			prefixIcon="person-filled" type="text" placeholder="请输入学号" />
+			prefixIcon="person-filled" type="number" placeholder="请输入学号/工号" />
 		<uni-easyinput class="input" v-model="userForm.password" :inputBorder="false" prefixIcon="locked"
 			type="password" placeholder="请输入密码" />
 		<view @tap="" class="forget">
 			忘记密码?
 		</view>
 		<view class="button">
-			<button type="primary" @tap="login">提交</button>
+			<button @tap="login">提交</button>
 		</view>
 	</view>
 </template>
@@ -21,12 +21,13 @@
 <script setup lang="ts">
 	import { ref } from "vue"
 	const userForm = ref({
-		username: "as",
+		username: "202113407294",
 		password: "dasd"
 	})
 	function login() {
 		const res = 0;
 		uni.setStorageSync("user", userForm.value)
+		
 		uni.switchTab({
 			url: '/pages/home/index'
 		});
@@ -77,7 +78,13 @@
 			text-decoration: underline;
 		}
 
-		.button {}
+		.button {
+			button {
+				// background-color: #142d88;
+				color: #142d88;
+			}
+
+		}
 	}
 
 	.button {

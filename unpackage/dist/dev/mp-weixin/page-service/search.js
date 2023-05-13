@@ -1,5 +1,7 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
+const api_api = require("../api/api.js");
+require("../api/request.js");
 if (!Array) {
   const _easycom_uni_data_select2 = common_vendor.resolveComponent("uni-data-select");
   const _easycom_uni_search_bar2 = common_vendor.resolveComponent("uni-search-bar");
@@ -17,7 +19,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const searchValue = common_vendor.ref("");
     const searchHistory = common_vendor.index.getStorageSync("searchHistory") ? common_vendor.ref(common_vendor.index.getStorageSync("searchHistory")) : common_vendor.ref([]);
-    let collectionHotWord = common_vendor.reactive([]);
+    const collectionHotWord = common_vendor.ref([]);
+    const recommendList = common_vendor.ref([]);
     let searchType = common_vendor.reactive([
       {
         value: 0,
@@ -50,7 +53,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         text: "站内检索"
       }
     ]);
-    const choiceType = common_vendor.ref(0);
+    const choiceType1 = common_vendor.ref(0);
+    const choiceType2 = common_vendor.ref(0);
     const isShow = common_vendor.ref(true);
     const search = () => {
       let value = searchValue.value;
@@ -60,22 +64,24 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         searchHistory.value.pop();
       }
       common_vendor.index.setStorageSync("searchHistory", searchHistory.value);
-      if (choiceType.value == searchType[2].value) {
+      if (choiceType1.value == searchType[2].value) {
         common_vendor.index.navigateTo({
           url: "/page-service/list?keyword=" + value
         });
       } else {
         common_vendor.index.navigateTo({
-          url: "/page-service/web-view?keyword=" + value + "&strSearchType=" + choiceType.value
+          url: "/page-service/web-view?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
         });
       }
     };
     const isShowNext = (e) => {
+      console.log(e);
       if (e == 0) {
         isShow.value = true;
       } else {
         isShow.value = false;
       }
+      console.log(isShow);
     };
     let list = [
       {
@@ -103,28 +109,37 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     ];
     list.forEach((item) => {
-      collectionHotWord.push(item.title);
+      collectionHotWord.value.push(item.title);
     });
     const searchHot = (item) => {
     };
+    async function getRecomend() {
+      const res = await api_api.getDisciplineCate();
+      console.log(res);
+    }
+    const selectOne = (item) => {
+      searchValue.value = item;
+      search();
+    };
+    getRecomend();
     return (_ctx, _cache) => {
-      return {
+      return common_vendor.e({
         a: common_vendor.o(isShowNext),
-        b: common_vendor.o(($event) => choiceType.value = $event),
+        b: common_vendor.o(($event) => choiceType1.value = $event),
         c: common_vendor.p({
           clear: false,
-          placeholder: "馆藏目录",
           localdata: common_vendor.unref(searchType),
-          modelValue: choiceType.value
+          modelValue: choiceType1.value
         }),
-        d: common_vendor.o(($event) => choiceType.value = $event),
-        e: common_vendor.p({
+        d: isShow.value
+      }, isShow.value ? {
+        e: common_vendor.o(($event) => choiceType2.value = $event),
+        f: common_vendor.p({
           clear: false,
-          placeholder: "馆藏目录",
           localdata: common_vendor.unref(searchType)[0].array,
-          modelValue: choiceType.value
-        }),
-        f: isShow.value,
+          modelValue: choiceType2.value
+        })
+      } : {}, {
         g: common_vendor.o(search),
         h: common_vendor.o(($event) => searchValue.value = $event),
         i: common_vendor.p({
@@ -134,18 +149,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           cancelButton: false,
           modelValue: searchValue.value
         }),
-        j: common_vendor.f(common_vendor.unref(searchHistory), (item, index, i0) => {
+        j: common_vendor.unref(searchHistory)
+      }, common_vendor.unref(searchHistory) ? {
+        k: common_vendor.f(common_vendor.unref(searchHistory), (item, index, i0) => {
           return {
             a: common_vendor.t(item),
-            b: index,
-            c: common_vendor.o(($event) => searchHot(), index)
+            b: common_vendor.o(($event) => selectOne(item), index),
+            c: index
           };
-        }),
-        k: common_vendor.p({
-          title: "检索历史",
-          margin: "0px"
-        }),
-        l: common_vendor.f(common_vendor.unref(collectionHotWord), (item, index, i0) => {
+        })
+      } : {}, {
+        l: common_vendor.f(collectionHotWord.value, (item, index, i0) => {
           return {
             a: common_vendor.t(item),
             b: index,
@@ -154,15 +168,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         m: common_vendor.p({
           title: "热门检索",
-          margin: "0px",
+          margin: "2px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
         }),
-        n: common_vendor.p({
+        n: common_vendor.f(recommendList.value, (item, index, i0) => {
+          return {
+            a: index
+          };
+        }),
+        o: common_vendor.p({
           title: "大家都在看",
-          margin: "0px",
+          margin: "2px",
           thumbnail: "https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
         })
-      };
+      });
     };
   }
 });

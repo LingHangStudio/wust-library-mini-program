@@ -40,6 +40,9 @@
   margin: 20px 0;
   text-decoration: underline;
 }
+.form .button button.data-v-86e9187d {
+  color: #142d88;
+}
 .button.data-v-86e9187d {
   border-radius: 3px;
 }

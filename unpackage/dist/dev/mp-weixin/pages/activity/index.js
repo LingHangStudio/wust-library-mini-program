@@ -1,5 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const api_api = require("../../api/api.js");
+require("../../api/request.js");
 if (!Array) {
   const _easycom_uni_segmented_control2 = common_vendor.resolveComponent("uni-segmented-control");
   _easycom_uni_segmented_control2();
@@ -12,11 +14,30 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
     const items = common_vendor.ref(["全部", "讲座", "培训", "阅读活动"]);
+    const readList = common_vendor.ref([]);
+    const lectureList = common_vendor.ref([]);
+    const trainList = common_vendor.ref([]);
     const current = common_vendor.ref(0);
     const onClickItem = (e) => {
       if (current.value != e.currentIndex)
         current.value = e.currentIndex;
     };
+    async function getArticle() {
+      const res1 = await api_api.getArticleList({
+        categoryId: 39
+      });
+      lectureList.value = res1.data;
+      const res2 = await api_api.getArticleList({
+        categoryId: 46
+      });
+      console.log(res2);
+      trainList.value = res2.data;
+      const res3 = await api_api.getArticleList({
+        categoryId: num
+      });
+      readList.value = res3.data;
+    }
+    getArticle();
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.o(onClickItem),

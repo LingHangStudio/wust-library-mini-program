@@ -1,12 +1,16 @@
 <template>
 	<view v-if="!err" class="">
-		<view v-for="(item,index) in searchList" class="">
+		<view v-if="!searchList" class="">
+			<image src="../../static/urban-no-data-found-2.png"></image>
+			<div>这里什么都没有..试试其他关键词</div>
+		</view>
+		<view v-else v-for="(item,index) in searchList" :key="index" class="">
 			{{item.title}}
 		</view>
 	</view>
 	<view v-else class="err">
 		<image src="../../static/urban-no-data-found-2.png"></image>
-		<div>这里什么都没有..</div>
+		<div>出错啦..</div>
 	</view>
 </template>
 
@@ -17,7 +21,7 @@
 	import { getArticleList, searchArticle } from "@/api/api.js"
 	const searchInput = ref("") //从搜索页传参
 	let searchList = reactive([])
-	// 当前页
+	// 当前页 
 	const currentPage = ref(1)
 	// 页数
 	const pageNum = ref(10)
@@ -28,7 +32,7 @@
 			searchInput.value = e.keyword
 		}
 	})
-	//获取检索列表
+	//获取检索列表:站内
 	async function getSearch() {
 		const res = await searchArticle({
 			keyword: searchInput.value,
