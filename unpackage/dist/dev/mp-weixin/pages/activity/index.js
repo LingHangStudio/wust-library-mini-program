@@ -4,38 +4,62 @@ const api_api = require("../../api/api.js");
 require("../../api/request.js");
 if (!Array) {
   const _easycom_uni_segmented_control2 = common_vendor.resolveComponent("uni-segmented-control");
-  _easycom_uni_segmented_control2();
+  const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
+  const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
+  (_easycom_uni_segmented_control2 + _easycom_uni_tag2 + _easycom_uni_card2)();
 }
 const _easycom_uni_segmented_control = () => "../../uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.js";
+const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
+const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
-  _easycom_uni_segmented_control();
+  (_easycom_uni_segmented_control + _easycom_uni_tag + _easycom_uni_card)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
     const items = common_vendor.ref(["全部", "讲座", "培训", "阅读活动"]);
     const readList = common_vendor.ref([]);
+    const readArticle = common_vendor.ref("");
     const lectureList = common_vendor.ref([]);
+    const lectureArticle = common_vendor.ref("");
     const trainList = common_vendor.ref([]);
     const current = common_vendor.ref(0);
+    const all = common_vendor.ref([]);
+    const showList = common_vendor.ref([]);
     const onClickItem = (e) => {
-      if (current.value != e.currentIndex)
+      if (current.value != e.currentIndex) {
         current.value = e.currentIndex;
+        if (e.currentIndex == 0) {
+          showList.value = all.value;
+        } else if (e.currentIndex == 2) {
+          showList.value = trainList.value;
+        }
+      }
     };
     async function getArticle() {
       const res1 = await api_api.getArticleList({
         categoryId: 39
       });
       lectureList.value = res1.data;
-      const res2 = await api_api.getArticleList({
-        categoryId: 46
+      const res2 = await api_api.getArticleContent({
+        id: "52"
       });
-      console.log(res2);
-      trainList.value = res2.data;
+      lectureArticle.value = res2.data;
       const res3 = await api_api.getArticleList({
-        categoryId: num
+        categoryId: 37
       });
-      readList.value = res3.data;
+      console.log("培训列表", res3);
+      trainList.value = res3.data;
+      Array.prototype.push.apply(all.value, res3.data);
+      const res4 = await api_api.getArticleContent({
+        id: "22"
+      });
+      readArticle.value = res4.data;
+      const test = await api_api.getArticleList({
+        categoryId: 40
+      });
+      Array.prototype.push.apply(all.value, test.data);
+      showList.value = all.value;
     }
     getArticle();
     return (_ctx, _cache) => {
@@ -45,16 +69,43 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           current: current.value,
           values: items.value
         }),
-        c: current.value === 0
-      }, current.value === 0 ? {} : {}, {
-        d: current.value === 1
-      }, current.value === 1 ? {} : {}, {
-        e: current.value === 2
-      }, current.value === 2 ? {} : {}, {
-        f: current.value === 3
-      }, current.value === 3 ? {} : {});
+        c: current.value === 0 || current.value === 2
+      }, current.value === 0 || current.value === 2 ? {
+        d: common_vendor.f(showList.value, (item, index, i0) => {
+          return {
+            a: common_vendor.t(item.title),
+            b: common_vendor.t(item.createdAt),
+            c: "2c61ebca-2-" + i0 + "," + ("2c61ebca-1-" + i0),
+            d: common_vendor.p({
+              text: item.tag,
+              type: "primary",
+              circle: true
+            }),
+            e: "2c61ebca-1-" + i0,
+            f: index
+          };
+        }),
+        e: common_vendor.p({
+          margin: "3px",
+          padding: "3px",
+          ["is-full"]: true
+        })
+      } : {}, {
+        f: current.value === 1
+      }, current.value === 1 ? {
+        g: lectureArticle.value.content
+      } : {}, {
+        h: current.value === 3
+      }, current.value === 3 ? {
+        i: readArticle.value.content,
+        j: common_vendor.f(readList.value, (item, index, i0) => {
+          return {
+            a: common_vendor.t(item.title)
+          };
+        })
+      } : {});
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/31986/wust-library-miniprogram/pages/activity/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-2c61ebca"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/activity/index.vue"]]);
 wx.createPage(MiniProgramPage);

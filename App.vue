@@ -37,6 +37,9 @@
 							setTimeout(() => {
 								uni.setStorageSync("WechatToken", res.encryptedData)
 							}, 1000)
+							setTimeout(() => {
+								uni.setStorageSync("WechatInfo", res.userInfo)
+							}, 1000)
 							// _this.isdisplay = false
 							console.log('获取信息成功')
 						},

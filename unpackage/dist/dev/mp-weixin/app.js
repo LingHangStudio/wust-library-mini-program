@@ -40,6 +40,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
                 setTimeout(() => {
                   common_vendor.index.setStorageSync("WechatToken", res2.encryptedData);
                 }, 1e3);
+                setTimeout(() => {
+                  common_vendor.index.setStorageSync("WechatInfo", res2.userInfo);
+                }, 1e3);
                 console.log("获取信息成功");
               },
               fail() {

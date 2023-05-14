@@ -12,8 +12,6 @@
 							<img style=" display: block;border: 1px solid blue;width: 40px;height: 40px;"
 								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
 						</view>
-						<!-- <view class="line">
-					</view> -->
 						<view class="font">
 							<view class="">
 								{{item.title}}
@@ -24,33 +22,10 @@
 						</view>
 					</view>
 				</uni-card>
-				<!-- <view class="body">
-					<view class="line">
-					</view>
-					{{item.title}}
-					{{item.createdAt}}
-				</view> -->
+
 			</view>
 		</view>
-		<!-- <view class="list" v-if="current === 1">
-			<view @tap="goTo(item.id)" v-for="(item,index) in noticeList" class="item" :key="index">
-				<view class="head">
-					{{item.createdAt.split("T")[0].split("-")[0]}}
-				</view>
-				<uni-card :is-full="true">
-					<view class="line">
-					</view>
-					{{item.title}}
-				</uni-card>
-				<view class="body">
-					{{item.createdAt.split("T")[0].split("-")[1]}}-{{item.createdAt.split("T")[0].split("-")[2]}}
-					<view class="line">
-					</view>
-					{{item.title}}
-					{{item.createdAt}}
-				</view>
-			</view>
-		</view> -->
+
 	</view>
 </template>
 
