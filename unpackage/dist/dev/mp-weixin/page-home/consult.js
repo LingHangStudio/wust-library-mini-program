@@ -4,13 +4,11 @@ const api_consult = require("../api/consult.js");
 require("../api/request.js");
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
-  (_easycom_uni_easyinput2 + _easycom_uni_card2)();
+  _easycom_uni_easyinput2();
 }
 const _easycom_uni_easyinput = () => "../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_card = () => "../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_card)();
+  _easycom_uni_easyinput();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "consult",
@@ -56,7 +54,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
       if (questionList.length == 0)
         ;
-      this.scrollBottom();
+      scrollBottom();
     }
     const seeQuestionDetail = (ele) => {
       chatList.push({
@@ -66,12 +64,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       scrollBottom();
     };
     const scrollBottom = () => {
-      let ele = document.getElementById("chatBody");
-      if (ele.scrollHeight > ele.clientHeight) {
-        setTimeout(function() {
-          ele.scrollTop = ele.scrollHeight;
-        }, 500);
-      }
+      common_vendor.index.createSelectorQuery().select("#chatBody").boundingClientRect(function(rect) {
+        console.log(rect);
+        var timer = setTimeout(() => {
+          common_vendor.index.pageScrollTo({
+            scrollTop: 9999,
+            duration: 0
+            // 滑动速度
+          });
+          clearTimeout(timer);
+        }, 100);
+      }).exec();
     };
     return (_ctx, _cache) => {
       return {
@@ -110,11 +113,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           placeholder: "请输入咨询内容",
           modelValue: questionInput.value
         }),
-        f: common_vendor.o(($event) => searchQuestions()),
-        g: common_vendor.p({
-          padding: "5px",
-          margin: "0px"
-        })
+        f: common_vendor.o(($event) => searchQuestions())
       };
     };
   }

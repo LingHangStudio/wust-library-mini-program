@@ -1,47 +1,48 @@
 <template>
-	<uni-card padding="5px" margin="0px">
-		<!-- 咨询页 -->
-		<view class="helloTitle">
-			<view class="hello">Hi,你好</view>
-			<view class="word">有问题咨询小图？</view>
-		</view>
-		<!-- 常见问题 -->
-		<view class="hot">
-			<view class="title">常见问题</view>
-			<view class="hotBox">
-				<view class="item" v-for="(item, index) in hotList" :key="index" @click="commonSearch(item)">
-					{{ item }}
-				</view>
-			</view>
-		</view>
-		<!-- 聊天框 -->
-		<view class="chat">
-			<view class="chatBox" id="chatBody">
-				<view class="chatWord" v-for="(item, index) in chatList" :key="index"
-					:class="item.id == 1 ? 'chatQuestion' : ''">
-					<view class="icon"></view>
-					<view class="wordBox" v-if="!item.questionList">
-						{{ item.content }}
-					</view>
-					<view class="judge" v-if="item.id == 2"></view>
-					<view class="questionList" v-if="item.questionList">
-						<view class="tips">小图为您找到了以下问题~点击查看详情</view>
-						<view class="questionItem" v-for="ele in item.questionList" :key="ele.id"
-							@click="seeQuestionDetail(ele)">
-							{{ ele.question }}
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="chatLine">
-				<uni-easyinput placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
-				<view class="searchBtn" @click="searchQuestions()">
-					<img class="img" src="../static/face1.png" alt="">
-				</view>
-			</view>
-		</view>
 
-	</uni-card>
+	<!-- 聊天框 -->
+	<view class="chat">
+		<scroll-view class="chatBox" id="chatBody">
+			<!-- 咨询页 -->
+			<view class="helloTitle">
+				<view class="hello">Hi,你好</view>
+				<view class="word">有问题咨询小图？</view>
+			</view>
+			<!-- 常见问题 -->
+			<view class="hot">
+				<view class="title">常见问题</view>
+				<view class="hotBox">
+					<view class="item" v-for="(item, index) in hotList" :key="index" @click="commonSearch(item)">
+						{{ item }}
+					</view>
+				</view>
+			</view>
+			<view class="chatWord" v-for="(item, index) in chatList" :key="index"
+				:class="item.id == 1 ? 'chatQuestion' : ''">
+				<view class="icon"></view>
+				<view class="wordBox" v-if="!item.questionList">
+					{{ item.content }}
+				</view>
+				<view class="judge" v-if="item.id == 2"></view>
+				<view class="questionList" v-if="item.questionList">
+					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
+					<view class="questionItem" v-for="ele in item.questionList" :key="ele.id"
+						@click="seeQuestionDetail(ele)">
+						{{ ele.question }}
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+
+	</view>
+	<view class="chatLine">
+		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
+		<view class="searchBtn" @click="searchQuestions()">
+			<img class="img" src="../static/face1.png" alt="">
+		</view>
+	</view>
+
+
 </template>
 
 <script setup lang="ts">
@@ -105,7 +106,7 @@
 			// 	// questionList: questionList,
 			// });
 		}
-		this.scrollBottom();
+		scrollBottom();
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {
@@ -117,12 +118,16 @@
 	}
 	//滚动到底部
 	const scrollBottom = () => {
-		let ele = document.getElementById("chatBody");
-		if (ele.scrollHeight > ele.clientHeight) {
-			setTimeout(function () {
-				ele.scrollTop = ele.scrollHeight;
-			}, 500);
-		}
+		uni.createSelectorQuery().select("#chatBody").boundingClientRect(function (rect) {
+			console.log(rect);
+			var timer = setTimeout(() => {
+				uni.pageScrollTo({
+					scrollTop: 9999,
+					duration: 0,// 滑动速度
+				})
+				clearTimeout(timer)
+			}, 100)
+		}).exec()
 	}
 </script>
 
@@ -136,58 +141,21 @@
 	// 	flex-direction: column;
 
 	//
-	.helloTitle {
-		font-weight: bold;
 
-		.hello {
-			font-size: 34px;
-			color: #142d88;
-		}
-
-		.word {
-			font-size: 20px;
-			margin-top: 5px;
-		}
-	}
-
-	.hot {
-		margin-top: 20px;
-		margin-left: 20px;
-
-		.title {
-			font-weight: bold;
-			color: #142d88;
-		}
-
-		.hotBox {
-			margin-top: 10px;
-			display: flex;
-			flex-wrap: wrap;
-
-			.item {
-				padding: 10px;
-				background-color: #f8f5f8;
-				color: #666;
-				font-size: 14px;
-				margin-right: 5px;
-				margin-bottom: 8px;
-				border-radius: 20px;
-				cursor: pointer;
-			}
-		}
-	}
 
 	.chat {
 		flex: 1;
-		margin-top: 10px;
+		margin-bottom: 10px;
+		padding: 20px;
 		display: flex;
 		flex-direction: column;
 		user-select: text;
 
 		.chatBox {
-			height: 250px;
+			// height: 90vh;
 			overflow-y: auto;
 			padding: 0 15px 0 0;
+
 
 			.chatWord {
 				margin: 20px 0;
@@ -252,68 +220,115 @@
 					color: #fff;
 				}
 			}
-		}
 
-		.chatBox::-webkit-scrollbar {
-			width: 6px;
-			border-radius: 6px;
-		}
+			.helloTitle {
+				font-weight: bold;
 
-		.chatBox::-webkit-scrollbar-thumb {
-			background: #e1e1e1;
-		}
+				.hello {
+					font-size: 34px;
+					color: #142d88;
+				}
 
-		.chatBox::-webkit-scrollbar-track {
-			background: none;
-		}
-
-		//输入框
-		.chatLine {
-			// margin-top: 10px;
-			border: 3px solid #142d88;
-			border-radius: 8px;
-			display: flex;
-			align-items: center;
-
-			input {
-				flex: 1;
-				height: 100%;
-				padding: 0 15px;
-				border-radius: 8px;
-				font-size: 16px;
-				color: #666;
-				caret-color: #000;
+				.word {
+					font-size: 20px;
+					margin-top: 5px;
+				}
 			}
 
-			.searchBtn {
-				// width: 80px;
-				height: 100%;
-				background-position: center;
-				background-repeat: no-repeat;
-				border-left: 2px solid #eee;
-				cursor: pointer;
+			.hot {
+				margin-top: 15px;
+				margin-left: 10px;
 
-				.img {
-					width: 40px;
-					height: 40px;
+				.title {
+					font-weight: bold;
+					color: #142d88;
+				}
+
+				.hotBox {
+					margin-top: 10px;
+					display: flex;
+					flex-wrap: wrap;
+
+					.item {
+						padding: 10px;
+						background-color: #f8f5f8;
+						color: #666;
+						font-size: 14px;
+						margin-right: 5px;
+						margin-bottom: 8px;
+						border-radius: 20px;
+						cursor: pointer;
+					}
 				}
 			}
 		}
+
+		// .chatBox::-webkit-scrollbar {
+		// 	width: 6px;
+		// 	border-radius: 6px;
+		// }
+
+		// .chatBox::-webkit-scrollbar-thumb {
+		// 	background: #e1e1e1;
+		// }
+
+		// .chatBox::-webkit-scrollbar-track {
+		// 	background: none;
+		// }
+
+
 	}
 
 	// }
 
-	.consultAni-enter-active,
-	.consultAni-leave {
-		right: 130px;
-		opacity: 1;
-		transition: 0.5s ease-in-out;
+	//输入框
+	.chatLine {
+		width: 99vw;
+		margin-top: 10px;
+		border: 3px solid #142d88;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		position: fixed;
+		bottom: 0;
+		background-color: #fff;
+
+		input {
+			flex: 1;
+			height: 100%;
+			padding: 0 15px;
+			border-radius: 8px;
+			font-size: 16px;
+			color: #666;
+			caret-color: #000;
+		}
+
+		.searchBtn {
+			// width: 80px;
+			height: 100%;
+			background-position: center;
+			background-repeat: no-repeat;
+			border-left: 2px solid #eee;
+			cursor: pointer;
+
+			.img {
+				width: 40px;
+				height: 40px;
+			}
+		}
 	}
 
-	.consultAni-enter,
-	.consultAni-leave-active {
-		opacity: 0;
-		right: -200px;
-		transition: 0.5s ease-in-out;
-	}
+	// .consultAni-enter-active,
+	// .consultAni-leave {
+	// 	right: 130px;
+	// 	opacity: 1;
+	// 	transition: 0.5s ease-in-out;
+	// }
+
+	// .consultAni-enter,
+	// .consultAni-leave-active {
+	// 	opacity: 0;
+	// 	right: -200px;
+	// 	transition: 0.5s ease-in-out;
+	// }
 </style>
