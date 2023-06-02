@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "反馈",
-  "usingComponents": {
-    "uni-rate": "../uni_modules/uni-rate/components/uni-rate/uni-rate",
-    "uni-card": "../uni_modules/uni-card/components/uni-card/uni-card"
-  }
-}
