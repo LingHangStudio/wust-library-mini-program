@@ -28,6 +28,7 @@
 				</uni-card>
 			</view>
 		</view>
+
 		<view v-if="current === 1">
 			<view v-html="lectureArticle.content"></view>
 		</view>
@@ -38,9 +39,14 @@
 			</view>
 		</view>
 	</view>
+	<view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view>
+	<view @tap="toTop" v-show="toBottom" class="top">
+		<uni-icons type="top" size="30px"></uni-icons>
+	</view>
 </template>
 
 <script setup lang="ts">
+	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref } from "vue"
 	import { getArticleList, getArticleContent } from "@/api/api.js"
 	const items = ref(["全部", "讲座", "培训", "阅读活动"])
@@ -52,6 +58,7 @@
 	const current = ref(0)
 	const all = ref([])
 	const showList = ref([])
+	const toBottom = ref(false)
 	const onClickItem = (e) => {
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
@@ -61,8 +68,6 @@
 				showList.value = trainList.value
 			}
 		}
-
-
 	}
 
 
@@ -111,6 +116,23 @@
 		showList.value = all.value
 	}
 	getArticle()
+
+
+	onReachBottom(() => {
+		toBottom.value = true
+	})
+	onPageScroll((e) => {
+		console.log();
+	})
+
+	const toTop = () => {
+		uni.pageScrollTo({
+			scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0 
+			duration: 300  // 滚动动画的时长
+		})
+		toBottom.value = false
+
+	}
 </script>
 
 <style scoped lang="scss">
@@ -135,5 +157,15 @@
 			font-size: 1rem;
 			line-height: 1rem;
 		}
+	}
+
+	.top {
+		position: fixed;
+		bottom: 40px;
+		right: 15px;
+		border-radius: 50%;
+		border: 1px solid gray;
+		padding: 3px;
+		background-color: #fff;
 	}
 </style>

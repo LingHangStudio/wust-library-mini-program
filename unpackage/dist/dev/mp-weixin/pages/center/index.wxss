@@ -55,6 +55,11 @@
   background-color: forestgreen;
   margin: 0 3px 0 1px;
 }
+.cu-btn {
+  display: inline-block;
+  width: 50vw;
+  margin: 0 auto;
+}
 .copyright {
   text-align: center;
 }

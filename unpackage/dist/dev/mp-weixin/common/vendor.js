@@ -7123,6 +7123,8 @@ const onShow = /* @__PURE__ */ createHook(ON_SHOW);
 const onHide = /* @__PURE__ */ createHook(ON_HIDE);
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+const onPageScroll = /* @__PURE__ */ createHook(ON_PAGE_SCROLL);
+const onReachBottom = /* @__PURE__ */ createHook(ON_REACH_BOTTOM);
 var isVue2 = false;
 function set(target, key, val) {
   if (Array.isArray(target)) {
@@ -7935,12 +7937,14 @@ const pages = [
   {
     path: "pages/activity/index",
     style: {
+      onReachBottomDistance: 100,
       navigationBarTitleText: "活动"
     }
   },
   {
     path: "pages/resources/index",
     style: {
+      onReachBottomDistance: 100,
       navigationBarTitleText: "消息资源"
     }
   },
@@ -10580,6 +10584,8 @@ exports.onHide = onHide;
 exports.onLaunch = onLaunch;
 exports.onLoad = onLoad;
 exports.onMounted = onMounted;
+exports.onPageScroll = onPageScroll;
+exports.onReachBottom = onReachBottom;
 exports.onShow = onShow;
 exports.p = p$1;
 exports.reactive = reactive;

@@ -6,15 +6,17 @@ if (!Array) {
   const _easycom_uni_segmented_control2 = common_vendor.resolveComponent("uni-segmented-control");
   const _easycom_uni_tag2 = common_vendor.resolveComponent("uni-tag");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
-  (_easycom_uni_segmented_control2 + _easycom_uni_tag2 + _easycom_uni_card2)();
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
+  (_easycom_uni_segmented_control2 + _easycom_uni_tag2 + _easycom_uni_card2 + _easycom_uni_icons2)();
 }
 const _easycom_uni_segmented_control = () => "../../uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.js";
 const _easycom_uni_tag = () => "../../uni_modules/uni-tag/components/uni-tag/uni-tag.js";
 const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 if (!Math) {
-  (_easycom_uni_segmented_control + _easycom_uni_tag + _easycom_uni_card)();
+  (_easycom_uni_segmented_control + _easycom_uni_tag + _easycom_uni_card + _easycom_uni_icons)();
 }
-const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+const _sfc_defineComponent = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
     const items = common_vendor.ref(["全部", "讲座", "培训", "阅读活动"]);
@@ -26,6 +28,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const current = common_vendor.ref(0);
     const all = common_vendor.ref([]);
     const showList = common_vendor.ref([]);
+    const toBottom = common_vendor.ref(false);
     const onClickItem = (e) => {
       if (current.value != e.currentIndex) {
         current.value = e.currentIndex;
@@ -62,6 +65,21 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       showList.value = all.value;
     }
     getArticle();
+    common_vendor.onReachBottom(() => {
+      toBottom.value = true;
+    });
+    common_vendor.onPageScroll((e) => {
+      console.log();
+    });
+    const toTop = () => {
+      common_vendor.index.pageScrollTo({
+        scrollTop: 0,
+        // 滚动到页面的目标位置  这个是滚动到顶部, 0 
+        duration: 300
+        // 滚动动画的时长
+      });
+      toBottom.value = false;
+    };
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.o(onClickItem),
@@ -103,9 +121,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             a: common_vendor.t(item.title)
           };
         })
-      } : {});
+      } : {}, {
+        k: current.value === 0 || current.value === 2
+      }, current.value === 0 || current.value === 2 ? {} : {}, {
+        l: common_vendor.p({
+          type: "top",
+          size: "30px"
+        }),
+        m: common_vendor.o(toTop),
+        n: toBottom.value
+      });
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-2c61ebca"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/activity/index.vue"]]);
+_sfc_defineComponent.__runtimeHooks = 1;
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_defineComponent, [["__scopeId", "data-v-2c61ebca"], ["__file", "C:/Users/31986/wust-library-miniprogram/pages/activity/index.vue"]]);
 wx.createPage(MiniProgramPage);

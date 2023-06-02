@@ -1,4 +1,5 @@
 {
+  "onReachBottomDistance": 100,
   "navigationBarTitleText": "消息资源",
   "usingComponents": {
     "uni-notice-bar": "../../uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar",

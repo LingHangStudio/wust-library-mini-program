@@ -1,5 +1,5 @@
 <template>
-	<uni-notice-bar show-icon text="最新消息!" />
+	<uni-notice-bar show-icon text="最新消息: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
@@ -27,18 +27,23 @@
 		</view>
 
 	</view>
+	<view style="text-align: center;padding: 3px;">到底啦！</view>
+	<view @tap="toTop" v-show="toBottom" class="top">
+		<uni-icons type="top" size="30px"></uni-icons>
+	</view>
 </template>
 
 <script setup lang="ts">
+	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref, reactive, onMounted } from "vue"
 	import { getArticleList, getArticleContent } from "@/api/api.js"
-	import { closeDialog } from "vant";
 	const items = ref(['最新资源', "最新消息"])
 	const current = ref(0)
 	const noticeList = ref([])
 	const showList = ref([])
 	const reourseList = ref([])
 	const year = ref(0)
+	const toBottom = ref(false)
 
 	// const showHead = (createdAt) => {
 	// 	let time = createdAt.split('T')[0].split('-')[0]
@@ -90,8 +95,24 @@
 	}
 	onMounted(() => {
 		getArticle()
-
 	})
+
+
+	onReachBottom(() => {
+		toBottom.value = true
+	})
+	onPageScroll((e) => {
+		console.log();
+	})
+
+	const toTop = () => {
+		uni.pageScrollTo({
+			scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0 
+			duration: 300  // 滚动动画的时长
+		})
+		toBottom.value = false
+
+	}
 </script>
 
 <style scoped lang="scss">
@@ -142,5 +163,15 @@
 			font-size: 1rem;
 			line-height: 1rem;
 		}
+	}
+
+	.top {
+		position: fixed;
+		bottom: 40px;
+		right: 15px;
+		border-radius: 50%;
+		border: 1px solid gray;
+		padding: 3px;
+		background-color: #fff;
 	}
 </style>

@@ -30,6 +30,9 @@
 			</view>
 		</view>
 	</uni-card>
+	<button class="cu-btn" open-type="share">
+		<text class="text-black">分享小程序</text>
+	</button>
 	<view class="copyright">
 		<p>Copyright © 2023</p>
 		<p>Version v1.0.0 test</p>
@@ -152,6 +155,14 @@
 		}
 
 	}
+
+	.cu-btn {
+		display: inline-block;
+		width: 50vw;
+		margin: 0 auto;
+		
+	}
+
 
 	.copyright {
 		text-align: center

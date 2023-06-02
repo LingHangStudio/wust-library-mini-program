@@ -37,12 +37,14 @@
 		{
 			"path": "pages/activity/index",
 			"style": {
+				"onReachBottomDistance": 100,
 				"navigationBarTitleText": "活动"
 			}
 		},
 		{
 			"path": "pages/resources/index",
 			"style": {
+				"onReachBottomDistance": 100,
 				"navigationBarTitleText": "消息资源"
 			}
 		},
