@@ -1,11 +1,9 @@
 <template>
 	<view class="search">
 		<view class="select">
-			<uni-data-select @change="isShowNext" :clear="false" v-model="choiceType1"
-				:localdata="searchType"></uni-data-select>
-		</view>
-		<view v-if="isShow" class="select">
-			<uni-data-select :clear="false" v-model="choiceType2" :localdata="searchType[0].array"></uni-data-select>
+			<uni-data-picker placeholder="请选择检索范围" popup-title="请选择检索范围" :localdata="searchType" v-model="choiceType"
+				@change="selectOneType" :clear-icon="false">
+			</uni-data-picker>
 		</view>
 		<view class="value">
 			<uni-search-bar @confirm="search" v-model="searchValue" placeholder="搜索书名,作者,分类,ISBN" :radius="100"
@@ -13,7 +11,6 @@
 		</view>
 	</view>
 	<view v-if="searchHistory.length!=0" class="historyBox">
-		<!-- <uni-card title="检索历史" margin="0px"> -->
 		<view class="head">
 			<view class="">
 				检索历史
@@ -25,12 +22,11 @@
 		</view>
 
 		<view class="history">
-			<view @tap="selectOne(item)" class="item" v-for="(item, index) in searchHistory" :key="index">
+			<view @tap="selectHistoryOne(item)" class="item" v-for="(item, index) in searchHistory" :key="index">
 				{{ item }}
 			</view>
 
 		</view>
-		<!-- </uni-card> -->
 	</view>
 	<uni-card class="recommend" title="热门检索" margin="2px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
@@ -44,12 +40,13 @@
 	<uni-card title="大家都在看" class="hot" margin="2px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
 		<view v-for="(item,index) in recommendList" :key="index" class="hotBox">
+			{{}}
 		</view>
 	</uni-card>
 </template>
 
 <script setup lang="ts">
-	import { reactive, ref } from "vue"
+	import { ref } from "vue"
 	import { getDisciplineCate } from "@/api/api.js"
 	// import { onShow } from "@dcloudio/uni-app"
 	const searchValue = ref("")
@@ -57,36 +54,36 @@
 	//馆藏目录：热门检索
 	const collectionHotWord = ref([])
 	const recommendList = ref([])
-	let searchType = reactive([
+	const searchType = ref([
 		{
-			value: 0,
+			value: "0",
 			text: "馆藏目录",
-			array: [
+			children: [
 				{
-					value: 0,
+					value: "0-0",
 					text: "题名",
 				}, {
-					value: 1,
+					value: "0-1",
 					text: "作者",
 				}, {
-					value: 2,
+					value: "0-2",
 					text: "主题",
 				}, {
-					value: 3,
+					value: "0-3",
 					text: "刊名",
 				},
 			]
 		}, {
-			value: 1,
+			value: "1",
 			text: "数据库"
 		}, {
-			value: 2,
+			value: "2",
 			text: "站内检索"
 		},
 	])
-	const choiceType1 = ref(0)
-	const choiceType2 = ref(0)
-	const isShow = ref(true)
+	const choiceType = ref("0-0")
+	const choiceType1 = ref("0")
+	const choiceType2 = ref("0")
 	const search = () => {
 		let value = searchValue.value
 		searchValue.value = ""
@@ -95,7 +92,7 @@
 			searchHistory.value.pop()
 		}
 		uni.setStorageSync("searchHistory", searchHistory.value)
-		if (choiceType1.value == searchType[2].value) {
+		if (choiceType1.value == searchType.value[2].value) {
 			//站内检索
 			uni.navigateTo({
 				url: "/page-service/list?keyword=" + value
@@ -106,17 +103,6 @@
 				url: "/page-service/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
 			})
 		}
-	}
-
-	const isShowNext = (e) => {
-		//如果是馆藏目录，就显示二级分类
-		console.log(e);
-		if (e == 0) {
-			isShow.value = true
-		} else {
-			isShow.value = false
-		}
-		console.log(isShow);
 	}
 	let list = [
 		{
@@ -159,13 +145,16 @@
 		console.log(res);
 	}
 
-	const selectOne = (item) => {
+	const selectHistoryOne = (item) => {
 		searchValue.value = item
 		search()
 	}
-	// onShow(() => {
-	// 	searchHistory.value = uni.getStorageSync("searchHistory")
-	// })
+	const selectOneType = () => {
+		let temp = choiceType.value.split("-")
+		choiceType1.value = temp[0]
+		choiceType2.value = temp[1]
+	}
+
 	getRecomend()
 </script>
 
