@@ -68,23 +68,43 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}]
-	}, {
-		"root": "page-service",
-		"pages": [{
+		}, {
+			"path": "search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		}, {
 			"path": "search-webview",
 			"style": {
 				"navigationBarTitleText": ""
 			}
 		}, {
+			"path": "reserves",
+			"style": {
+				"navigationBarTitleText": "预约服务"
+			}
+		}, {
+			"path": "subscribe",
+			"style": {
+				"navigationBarTitleText": "借阅服务"
+			}
+		}, {
+			"path": "research",
+			"style": {
+				"navigationBarTitleText": "科研服务"
+			}
+		}, {
+			"path": "aboutMe",
+			"style": {
+				"navigationBarTitleText": "关于本馆"
+			}
+		}]
+	}, {
+		"root": "page-service",
+		"pages": [{
 			"path": "foreign-webview",
 			"style": {
 				"navigationBarTitleText": ""
-			}
-		}, {
-			"path": "search",
-			"style": {
-				"navigationBarTitleText": "搜索"
 			}
 		}, {
 			"path": "inner",
@@ -93,11 +113,6 @@
 			}
 		}, {
 			"path": "list",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		}, {
-			"path": "test",
 			"style": {
 				"navigationBarTitleText": ""
 			}
@@ -115,7 +130,7 @@
 				"navigationBarTitleText": "关于"
 			}
 		}, {
-			"path": "subscribe",
+			"path": "mySubscribe",
 			"style": {
 				"navigationBarTitleText": "我的"
 			}

@@ -1,4 +1,5 @@
 <template>
+	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
@@ -7,12 +8,14 @@
 			<view v-for="(item,index) in showList" :key="index" class="">
 				<uni-card margin="3px" padding="3px" :is-full="true">
 					<view class="box">
-						<view style="border: 1px solid red;margin: 3px;" class="">
-							<img style=" display: block;border: 1px solid blue;width: 40px;height: 40px;"
+						<view style="margin: 3px;" class="">
+							<img v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
+								src="@/static/resource.png" alt="">
+							<img v-else-if="item.tag" style=" display: block;width: 40px;height: 40px;"
 								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+							<img v-else style=" display: block;width: 40px;height: 40px;" src="@/static/logo.png"
+								alt="Error">
 						</view>
-						<!-- <view class="line">
-					</view> -->
 						<view class="font">
 							<view class="">
 								{{item.title}}
@@ -21,7 +24,7 @@
 								{{item.createdAt}}
 							</view>
 						</view>
-						<view class="">
+						<view class="tag">
 							<uni-tag :text="item.tag" type="primary" circle></uni-tag>
 						</view>
 					</view>
@@ -82,7 +85,6 @@
 		const res2 = await getArticleContent({
 			id: "52"
 		})
-		// console.log("阅读活动文章", res);
 		lectureArticle.value = res2.data
 
 		//培训活动列表
@@ -91,7 +93,6 @@
 		});
 		console.log("培训列表", res3);
 		trainList.value = res3.data;
-		// all.value.push.apply(res3.data)
 		Array.prototype.push.apply(all.value, res3.data);
 
 		//阅读活动:文章
@@ -106,13 +107,18 @@
 		})
 		// console.log("阅读活动文章", res);
 		readArticle.value = res4.data
-
+		// Array.prototype.push.apply(all.value, res4.data);
 
 		const test = await getArticleList({
 			categoryId: 40
 		})
 		// all.value.push.apply(test.data)
 		Array.prototype.push.apply(all.value, test.data);
+
+		for (let i : number = 0; i < all.value.length; i++) {
+			all.value[i].createdAt = all.value[i].createdAt.split('T')[0]
+		}
+		console.log(all.value);
 		showList.value = all.value
 	}
 	getArticle()

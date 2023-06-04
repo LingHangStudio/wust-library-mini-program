@@ -22,42 +22,13 @@
 		// })
 		console.log('App Launch')
 		if (uni.getStorageSync("WechatToken")) {
-			console.log("微信以授权");
+			console.log("微信已授权");
 		} else {
-
+			uni.navigateTo({
+				url: "/page-home/hello"
+			})
 		}
-		uni.getSetting({
-			success(res) {
-				console.log(res)
-				if (res.authSetting['scope.userInfo']) {
-					// 用户信息已授权，获取用户信息
-					uni.getUserInfo({
-						success(res) {
-							console.log(res.userInfo);
-							setTimeout(() => {
-								uni.setStorageSync("WechatToken", res.encryptedData)
-							}, 1000)
-							setTimeout(() => {
-								uni.setStorageSync("WechatInfo", res.userInfo)
-							}, 1000)
-							// _this.isdisplay = false
-							console.log('获取信息成功')
-						},
-						fail() {
-							console.log("获取用户信息失败")
-						}
-					})
-				} else if (!res.authSetting['scope.userInfo']) {
-					uni.navigateTo({
-						url: "/page-home/hello"
-					})
-					console.log("需要点击按钮手动授权")
-				}
-			},
-			fail() {
-				console.log("获取已授权选项失败")
-			}
-		})
+
 	})
 	onShow(() => {
 		console.log('App Show')

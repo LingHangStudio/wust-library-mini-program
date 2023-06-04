@@ -1,5 +1,4 @@
 <template>
-	<uni-notice-bar show-icon text="最新消息: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
@@ -8,8 +7,8 @@
 			<view @tap="goTo(item.id)" v-for="(item,index) in showList" class="item" :key="index">
 				<uni-card margin="3px" padding="3px" :is-full="true">
 					<view class="box">
-						<view style="border: 1px solid red;margin: 3px;" class="">
-							<img style=" display: block;border: 1px solid blue;width: 40px;height: 40px;"
+						<view style="margin: 3px;" class="">
+							<img style=" display: block;width: 40px;height: 40px;"
 								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
 						</view>
 						<view class="font">
@@ -60,6 +59,7 @@
 	// 	}
 	// }
 	const onClickItem = (e) => {
+		toBottom.value = false
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
 			showList.value = e.currentIndex == 0 ? reourseList.value : noticeList.value
@@ -111,7 +111,6 @@
 			duration: 300  // 滚动动画的时长
 		})
 		toBottom.value = false
-
 	}
 </script>
 

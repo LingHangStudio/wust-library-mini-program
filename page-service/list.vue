@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 	//list页面 可能是 文章列表，也有可能是 搜索的结果列表
+	//list页面可能是主页跳过来的预约服务，借阅服务
 	import { ref, onMounted, reactive } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { getArticleList, searchArticle } from "@/api/api.js"

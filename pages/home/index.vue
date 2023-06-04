@@ -29,7 +29,7 @@
 		</swiper-item>
 	</swiper>
 	<!-- </uni-card> -->
-	<uni-card margin="30px 1px 30px 1px" padding="1px" spacing="1px">
+	<uni-card margin="20px 1px 20px 1px" padding="1px" spacing="1px">
 		<view class="homeMenu">
 			<!--左边虚化-->
 			<view class="hide-content-box hide-content-box-left"></view>
@@ -39,7 +39,7 @@
 				<view @tap="goTo(item.url)" @click="goTo(item.url)" v-for="(item, index) in menu" :index="index"
 					class="item" :class="'nav-li bg-index' + (index + 1)">
 					<view class="icon">
-						<uni-icons :type="item.icon" size="60"></uni-icons>
+						<uni-icons :type="item.icon" size="50"></uni-icons>
 					</view>
 					<view class="text">{{item.name}}</view>
 				</view>
@@ -84,36 +84,31 @@
 			icon: "calendar"
 		}, {
 			id: "",
-			name: "我的预约",
-			url: "",
-			icon: "star-filled"
-		}, {
-			id: "",
 			name: "智能答疑",
 			url: "/page-home/consult",
 			icon: "chatboxes-filled"
 		}, {
 			id: "",
-			name: "预约服务",
-			url: "",
+			name: "互动交流",
+			url: "/page-home/reserves",
 			icon: "paperplane"
 		}, {
 			id: "",
-			name: "馆藏分布",
-			url: "/page-service/inner?id=40",
-			icon: "location-filled"
+			name: "借阅服务",
+			url: "/page-home/subscribe",
+			icon: "star-filled"
 		}, {
 			id: "",
-			name: "标签",
-			url: "",
-			icon: "flag"
-		}, {
-			id: "",
-			name: "关于",
-			url: "",
-			icon: "flag"
+			name: "科研服务",
+			url: "/page-home/research",
+			icon: "paperplane"
 		},
-
+		{
+			id: "",
+			name: "关于本馆",
+			url: "/page-home/aboutMe",
+			icon: "flag"
+		}
 	]
 	const bannerList = ref([])
 	const recommendList = ref([
@@ -302,16 +297,17 @@
 			// width: 50rpx;
 
 			display: inline-block;
-			height: 50rem;
-			width: 6rem;
-			height: 5rem;
+			// height: 50rem;
+			width: 5rem;
+			height: 4rem;
 			// background-color: gray;
 			// line-height: 2rem;
 			// transform: translateX(-2rem);
 
 			.text {
-				font-size: 1.4rem;
+				font-size: 1.2rem;
 				text-align: center;
+				padding: auto;
 			}
 
 			.icon {
@@ -319,7 +315,7 @@
 				padding: 0 auto;
 				// border: 2px solid red;
 				text-align: center;
-				line-height: 100rpx;
+				line-height: 60rpx;
 
 				.uni-icons {
 					// line-height: 4px;

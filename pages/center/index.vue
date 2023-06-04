@@ -1,12 +1,12 @@
 <template>
 	<uni-card margin="10px 0px 5px 0px" padding="0px" spacing="0px">
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-			<img class="header-image" :src="wechatUser.avatarUrl" alt="">
+			<img class="header-image" :src="WechatInfo.avatarUrl" alt="">
 			<view v-if="user.username" class="info">
 				{{user.username}}
 			</view>
 			<view v-else class="">
-				{{wechatUser.nickName}}
+				{{WechatInfo.nickName}}
 			</view>
 			<!-- <view class="background">
 				<img src="" alt="">
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 	const user = uni.getStorageSync("user")
-	const wechatUser = uni.getStorageSync("WechatUser")
+	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
 		{
 			id: "",

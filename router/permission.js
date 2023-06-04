@@ -7,6 +7,7 @@ const whiteList = [
 	'/',
 	"/pages/home/index",
 	'/page-center/login',
+	"/page-home/hello"
 ]
 
 export default async function() {

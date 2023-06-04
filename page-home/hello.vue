@@ -2,90 +2,81 @@
 	<view class="hello-container">
 		<view class="content">
 			<view class="info">
-				<view v-if="!showLoginBtn" class="logo">
-					<image class="logo-img" src="../../static/logo.png" mode=""></image>
-				</view>
-				<view v-if="!showLoginBtn" class="title">
-					武科大助手
-				</view>
-				<view v-if="!showLoginBtn" class="eng-title">
-					WUST HELPER
-				</view>
-				<view v-if="showLoginBtn" class="detail">
-
+				<view class="detail" @tap="getUserProfile">
 					点击授权<br />以体验助手全部功能
 				</view>
-				<!-- <view v-else class="detail">
-					随|时|随|地|开|启|校|园|之|旅
-				</view> -->
 			</view>
-			<view v-if="showLoginBtn" class="btn icon-shanshuo">
+			<view class="btn icon-shanshuo">
 				<button class="submit-btn shadow shadow-blur" hover-class="tapbtn" @tap="getUserProfile">点击授权</button>
 			</view>
-			<view v-if="showLoginBtn" class="usage">
+			<view class="usage">
 				<view class="header">
 					武科大学子授权后可以体验
 				</view>
-				<view class="usage-content">
-					<view class="row1">
-						<view class="col1">
-							好用的课程表
-						</view>
-						<view class="col2">
-							简单的成绩查询
-						</view>
-					</view>
 
-					<!-- <view class="row3 tip">
-						*仅支持武科大本科教务系统*
-					</view> -->
-				</view>
 			</view>
-			<view v-if="!showLoginBtn" class="other">
-				<view class="name">
-					<!--  -->
-				</view>
-				<view class="name">
-					LingHang Studio.武科大领航工作室
-				</view>
-				<view class="url">
-					All rights reserved.
-				</view>
-			</view>
+
 		</view>
 
 	</view>
 </template>
 
-<script lang="ts">
-	export default {
-		props: ['showLoginBtn'],
-		data() {
-			return {
+<script setup lang="ts">
+	// props: ['showLoginBtn'],
 
-			};
-		},
-		methods: {
-			getUserProfile(e) {
-				uni.getUserProfile({
-					desc: "用于完善用户信息",
-					success: res => {
-						let userInfo = res.userInfo
-						console.log(userInfo)
-						this.userInfo = userInfo
-						this.notlogin = false
-						this.$api.postUserInfo(userInfo)
-						this.$store.dispatch('setUserInfo', userInfo)
-						uni.setStorageSync('userInfo', userInfo)
-						this.$emit('hideHello')
-					},
-					fail: res => {
-						this.$emit('hideHello')
-						console.log("用户信息获取失败")
-					}
-				})
+	const getUserProfile = () => {
+		uni.navigateTo({
+			url: "/page-center/login"
+		})
+		// uni.getUserProfile({
+		// 	desc: "用于完善用户信息",
+		// 	success: res => {
+		// 		let userInfo = res.userInfo
+		// 		console.log(userInfo)
+		// 		// this.userInfo = userInfo
+		// 		// this.notlogin = false
+		// 		uni.setStorageSync('userInfo', userInfo)
+		// 		// this.$emit('hideHello')
+		// 	},
+		// 	fail: res => {
+		// 		// this.$emit('hideHello')
+		// 		console.log("用户信息获取失败")
+		// 	}
+		// })
+
+		uni.getSetting({
+			success(res) {
+				console.log(res)
+				if (res.authSetting['scope.userInfo']) {
+					// 用户信息已授权，获取用户信息
+					uni.getUserInfo({
+						success(res) {
+							console.log(res.userInfo);
+							setTimeout(() => {
+								uni.setStorageSync("WechatToken", res.encryptedData)
+							}, 1000)
+							setTimeout(() => {
+								uni.setStorageSync("WechatInfo", res.userInfo)
+							}, 1000)
+							// _this.isdisplay = false
+							console.log('获取信息成功')
+						},
+						fail() {
+							console.log("获取用户信息失败")
+						}
+					})
+				} else if (!res.authSetting['scope.userInfo']) {
+					uni.navigateTo({
+						url: "/page-home/hello"
+					})
+					console.log("需要点击按钮手动授权")
+				}
 			},
-		}
+			fail() {
+				console.log("获取已授权选项失败")
+			}
+		})
+
 	}
 </script>
 
