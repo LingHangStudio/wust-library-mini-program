@@ -100,7 +100,7 @@
 		} else {
 			//馆藏目录,数据库
 			uni.navigateTo({
-				url: "/page-service/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
+				url: "/page-home/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
 			})
 		}
 	}

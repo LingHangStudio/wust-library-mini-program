@@ -30,9 +30,12 @@
 			</view>
 		</view>
 	</uni-card>
-	<button class="cu-btn" open-type="share">
-		<text class="text-black">分享小程序</text>
-	</button>
+	<view class="" style="width: 40vw;margin: 3px auto;">
+		<button class="" open-type="share">
+			<text class="">分享小程序</text>
+		</button>
+	</view>
+
 	<view class="copyright">
 		<p>Copyright © 2023</p>
 		<p>Version v1.0.0 test</p>
@@ -82,14 +85,7 @@
 			icon: "staff",
 			inner: true,
 			complete: "1",
-		}, {
-			id: "",
-			name: "test",
-			url: "/page-service/test",
-			icon: "",
-			inner: true,
-			complete: "1"
-		},
+		}
 	]
 	const goTo = (item) => {
 		if (item.inner) {
@@ -160,7 +156,7 @@
 		display: inline-block;
 		width: 50vw;
 		margin: 0 auto;
-		
+
 	}
 
 

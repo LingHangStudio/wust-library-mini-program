@@ -1,5 +1,16 @@
 <template>
-	<view class="about">
+	<view class="background">
+		<image style="width: 100vw"
+			src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" mode="scaleToFill">
+		</image>
+	</view>
+
+	<uni-card :title="aboutMeContent.title">
+		<view v-html="aboutMeContent.content" class="">
+		</view>
+	</uni-card>
+
+	<!-- <view class="about">
 		<view class="titleZ text-center align-center margin-top-xl">
 			<text class="text-bold">想学习？有需求？有项目？</text>
 			<view class="contentZ margin-top-lg">
@@ -7,10 +18,21 @@
 				<text class="text-xl">：软件技术开发培训（实战项目），1至4个月课程可随意选择，课程包含：UI设计、Web前端、Java后台等，挑战万元月薪，快来宅家学吧～</text>
 			</view>
 		</view>
-	</view>
+	</view> -->
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+	import { onLoad } from "@dcloudio/uni-app"
+	import { ref } from "vue"
+	import { getArticleContent } from "@/api/api.js"
+	const aboutMeContent = ref()
+	async function getContent() {
+		let res = await getArticleContent({ id: 56 });
+		aboutMeContent.value = res.data
+	}
+	onLoad(() => {
+		getContent()
+	})
 </script>
 
 <style scoped lang="scss">

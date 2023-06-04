@@ -17,7 +17,7 @@
 		</view>
 	</view>
 	<view class="search">
-		<uni-search-bar @tap.stop="goTo('/page-service/search')" cancelButton="none" @confirm="search"
+		<uni-search-bar @tap.stop="goTo('/page-home/search')" cancelButton="none" @confirm="search"
 			placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
@@ -80,7 +80,7 @@
 		{
 			id: "",
 			name: "我的借阅",
-			url: "/page-center/subscribe",
+			url: "/page-center/mySubscribe",
 			icon: "calendar"
 		}, {
 			id: "",
