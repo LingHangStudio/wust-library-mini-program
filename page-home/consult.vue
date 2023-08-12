@@ -38,25 +38,28 @@
 	<view class="chatLine">
 		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
 		<view class="searchBtn" @click="searchQuestions()">
-			<img class="img" src="../static/face1.png" alt="">
+			<img class="img" src="@/static/face1.png" alt="">
 		</view>
 	</view>
-
-
 </template>
 
 <script setup lang="ts">
-	import { searchQuestion } from "@/api/consult.js"
+	// import { searchQuestion } from "@/api/consult.js"
 	import { ref, reactive } from "vue"
 	//常见问题列表
-	const hotList = reactive([
+	interface responceType {
+		id : number;
+		content : string;
+		questionList : []
+	}
+	const hotList = [
 		"图书馆什么时候开放？",
 		"如何找到我想借的书",
 		"图书馆咨询电话是多少？",
 		"为什么要求读者登记Email或手机号码？",
-	])
+	]
 	//聊天列表
-	const chatList = reactive([
+	const chatList = ref([
 		{
 			id: 0,
 			content:
@@ -66,7 +69,7 @@
 	//搜索内容
 	const questionInput = ref("")
 	// 结果列表
-	let questionList = reactive([])
+	let questionList = ref([])
 
 	//方法
 	// 常见问题搜索
@@ -76,7 +79,15 @@
 	}
 	//搜索问题
 	async function searchQuestions() {
-		chatList.push({
+		if (questionInput.value == '') {
+			uni.showToast({
+				title: "输入不能为空！",
+				duration: 2000,
+				icon: "fail"
+			})
+			return
+		}
+		chatList.value.push({
 			id: 1,
 			content: questionInput.value,
 		});
@@ -84,33 +95,40 @@
 			msg: questionInput.value,
 			userId: "",
 		};
-		const res = await searchQuestion(data);
-		console.log(res);
-		if (res) {
-			questionList = res.data;
+
+
+		uni.request({
+			url: "http://www.lib.wust.edu.cn/advisory/web/msg/question",
+			method: "POST",
+			data: data
+		}).then(res => {
+			// const res = await searchQuestion(data);
+			console.log(res);
+			questionList.value = res.data;
 			questionInput.value = "";
-		} else {
-			questionInput.value = "";
-			chatList.push({
-				id: 2,
-				content: "您的问题超出了小图的理解能力喔 ~ ",
-			});
-		}
+			// chatList.value.push(questionList)
+			if (questionList.value.length === 0) {
+				questionInput.value = "";
+				chatList.value.push({
+					id: 2,
+					content: "您的问题超出了小图的理解能力喔 ~ ",
+				});
+			} else {
+				chatList.value.push({
+					id: 2,
+					content:"",
+					questionList: questionList.value,
+				});
+			}
+			scrollBottom();
+		})
 
 
-		if (questionList.length == 0) {
 
-		} else {
-			// chatList.push({
-			// 	id: 2,
-			// 	// questionList: questionList,
-			// });
-		}
-		scrollBottom();
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {
-		chatList.push({
+		chatList.value.push({
 			id: 2,
 			content: ele.answer,
 		});

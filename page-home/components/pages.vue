@@ -28,10 +28,10 @@
 			contentList.value.push(res.data)
 		}
 	}
-	onLoad(() => {
-		getContent()
-	})
-
+	// onLoad(() => {
+	// 	getContent()
+	// })
+	getContent()
 	const changePage = (e) => {
 		console.log(e);
 		currentPage.value = e.current - 1

@@ -24,7 +24,7 @@
 								{{item.createdAt}}
 							</view>
 						</view>
-						<view class="tag">
+						<view style="min-width: 3rem;" class="tag">
 							<uni-tag :text="item.tag" type="primary" circle></uni-tag>
 						</view>
 					</view>

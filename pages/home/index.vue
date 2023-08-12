@@ -1,7 +1,7 @@
 <template>
 	<view class="head">
 		<view class="logo">
-			<img class="logoImg" src="../../static/logo.png" alt="">
+			<img class="logoImg" src="@/static/logo.png" alt="">
 		</view>
 		<view class="font">
 			<p class="chinese">
@@ -16,15 +16,14 @@
 				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt="">
 		</view>
 	</view>
-	<view class="search">
-		<uni-search-bar @tap.stop="goTo('/page-home/search')" cancelButton="none" @confirm="search"
-			placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
+	<view @tap.stop="goTo('/page-home/search')" class="search">
+		<uni-search-bar cancelButton="none" placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
 		<swiper-item v-for="(item,index) in bannerList" :key="index">
 			<view class="swiper-item uni-bg-red">
-				<img :src="item.url" alt="error">
+				<image :src="item.url" alt="error"></image>
 			</view>
 		</swiper-item>
 	</swiper>
@@ -72,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-	import { reactive, ref, onMounted } from "vue"
+	import { ref, onMounted } from "vue"
 	import { banner, getDisciplineCate } from "@/api/api.js"
 	// import { fileToBase64 } from "@/utils/toBase64.js"
 	// const searchValue = ref("")
@@ -167,16 +166,13 @@
 		bannerList.value = res.data
 	}
 
-
 	const search = () => { }
-
 
 	async function recommend() {
 		const res = await getDisciplineCate()
 		console.log("推荐");
 		console.log(res);
 	}
-
 
 	const goTo = (url) => {
 		console.log(url);
@@ -269,40 +265,27 @@
 	}
 
 	.search {
-		// border: 1px solid red;
 	}
 
 	swiper {
-		// width: 750rpx;
 		height: 400rpx;
 
 		image {
 			width: 100vw;
-			// height: 100%;
 		}
 	}
 
 
 	.homeMenu {
-		// margin: 30px .3rem;
-		// border: 1px solid red;
-		// display: flex;
 		flex-wrap: nowrap;
 		overflow: hidden;
-		// border: 1px solid red;
 		white-space: nowrap;
 
 		.item {
-			// border: 1px solid blue;
-			// width: 50rpx;
 
 			display: inline-block;
-			// height: 50rem;
 			width: 5rem;
 			height: 4rem;
-			// background-color: gray;
-			// line-height: 2rem;
-			// transform: translateX(-2rem);
 
 			.text {
 				font-size: 1.2rem;

@@ -29,12 +29,21 @@
 				<uni-icons type="forward"></uni-icons>
 			</view>
 		</view>
+		<view class="" style="display: flex;justify-content: center; ">
+			<!-- #ifdef MP-WEIXIN-->
+			<button class="" open-type="share">
+				分享小程序
+			</button>
+			<button open-type="feedback">反馈意见</button>
+			<!-- #endif -->
+			<!-- #ifdef APP -->
+			<button class="" @tap="share">
+				<text class="">分享应用</text>
+			</button>
+			<!-- #endif -->
+		</view>
 	</uni-card>
-	<view class="" style="width: 40vw;margin: 3px auto;">
-		<button class="" open-type="share">
-			<text class="">分享小程序</text>
-		</button>
-	</view>
+	
 
 	<view class="copyright">
 		<p>Copyright © 2023</p>
@@ -78,15 +87,45 @@
 			icon: "info",
 			inner: true,
 			complete: "1"
-		}, {
-			id: "",
-			name: "反馈意见",
-			url: "/page-center/feedback",
-			icon: "staff",
-			inner: true,
-			complete: "1",
-		}
+		}, 
+		// {
+		// 	id: "",
+		// 	name: "反馈意见",
+		// 	url: "/page-center/feedback",
+		// 	icon: "staff",
+		// 	inner: true,
+		// 	complete: "1",
+		// }
 	]
+
+	const share = () => {
+		uni.share({
+			provider: 'weixin',
+			type: 0,//图文
+			scene: 'WXSceneSession',//provider 为 weixin 时必选 WXSceneSession分享到聊天界面，WXSceneTimeline分享到朋友圈，WXSceneFavorite分享到微信收藏
+			title: 'littlespring网页',
+			summary: '',//分享内容的摘要
+			href: 'http://www.lib.wust.edu.cn/',//跳转链接，type 为 0 时必选
+			// imageUrl: 'http://116.62.61.65:8080/static/logo.png',//图片地址，type 为 0、2、5 时必选
+			success(res) {
+				//成功返回的参数
+				console.log(res);
+				uni.showToast({
+					title: "分享成功",
+					duration: 2000
+				})
+			},
+			fail(err) {
+				//失败返回的参数
+				console.log(err);
+				uni.showToast({
+					title: "分享失败",
+					duration: 2000
+				})
+			}
+		})
+	}
+
 	const goTo = (item) => {
 		if (item.inner) {
 			uni.navigateTo({
