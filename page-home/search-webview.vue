@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+	// 微信小程序跳不出去
 	import { ref, onMounted } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	const goToLink = ref("")

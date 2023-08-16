@@ -73,6 +73,11 @@
 			"style": {
 				"navigationBarTitleText": "搜索"
 			}
+		},{
+			"path": "search-list",
+			"style": {
+				"navigationBarTitleText": "搜索结果"
+			}
 		}, {
 			"path": "search-webview",
 			"style": {

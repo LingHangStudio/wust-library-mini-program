@@ -71,22 +71,17 @@
 		const res1 = await getArticleList({
 			categoryId: 30
 		})
-
 		noticeList.value = res1.data
-
 		//获取最新资源列表
 		const res2 = await getArticleList({
 			categoryId: 46,
 		});
-		console.log(res2)
 		reourseList.value = res2.data
 		showList.value = res2.data
 	}
 
 	async function getDetials(id) {
-
 		const res = await getArticleContent({ id: id })
-
 	}
 	const goTo = (id) => {
 		uni.navigateTo({
@@ -96,7 +91,6 @@
 	onMounted(() => {
 		getArticle()
 	})
-
 
 	onReachBottom(() => {
 		toBottom.value = true

@@ -29,21 +29,37 @@
 				<uni-icons type="forward"></uni-icons>
 			</view>
 		</view>
-		<view class="" style="display: flex;justify-content: center; ">
-			<!-- #ifdef MP-WEIXIN-->
-			<button class="" open-type="share">
-				分享小程序
-			</button>
-			<button open-type="feedback">反馈意见</button>
-			<!-- #endif -->
-			<!-- #ifdef APP -->
-			<button class="" @tap="share">
-				<text class="">分享应用</text>
-			</button>
-			<!-- #endif -->
+		<view class="item">
+			<uni-icons type="eye" size="40"></uni-icons>
+			<view class="font">
+				<!-- #ifdef MP-WEIXIN-->
+				<button class="button" open-type="share">
+					分享小程序
+				</button>
+
+				<!-- #endif -->
+				<!-- #ifdef APP -->
+				<button class="button" @tap="share">
+					<text class="">分享应用</text>
+				</button>
+				<!-- #endif -->
+			</view>
+			<view style="position:absolute;right:10px;" class="">
+				<uni-icons type="forward"></uni-icons>
+			</view>
+		</view>
+
+		<view class="item">
+			<uni-icons type="eye" size="40"></uni-icons>
+			<view class="font">
+				<button class="button" open-type="feedback">反馈意见</button>
+			</view>
+			<view style="position:absolute;right:10px;" class="">
+				<uni-icons type="forward"></uni-icons>
+			</view>
 		</view>
 	</uni-card>
-	
+
 
 	<view class="copyright">
 		<p>Copyright © 2023</p>
@@ -87,7 +103,7 @@
 			icon: "info",
 			inner: true,
 			complete: "1"
-		}, 
+		},
 		// {
 		// 	id: "",
 		// 	name: "反馈意见",
@@ -201,5 +217,27 @@
 
 	.copyright {
 		text-align: center
+	}
+
+
+
+	.button {
+		width: 100%;
+		background: white;
+		border: none;
+		text-align: left;
+		padding: 0px;
+		margin: 0px;
+		line-height: 1;
+		border-radius: 0;
+	}
+
+	.button::after {
+		border: none;
+		border-radius: 0;
+	}
+
+	.button_title {
+		// font-size: 1rem;
 	}
 </style>

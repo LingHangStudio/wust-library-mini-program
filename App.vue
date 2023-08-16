@@ -20,14 +20,15 @@
 		// 		console.log("over");
 		// 	}
 		// })
+		// 登录逻辑
 		console.log('App Launch')
-		if (uni.getStorageSync("WechatToken")) {
-			console.log("微信已授权");
-		} else {
-			uni.navigateTo({
-				url: "/page-home/hello"
-			})
-		}
+		// if (uni.getStorageSync("WechatToken")) {
+		// 	console.log("微信已授权");
+		// } else {
+		// 	uni.navigateTo({
+		// 		url: "/page-home/hello"
+		// 	})
+		// }
 
 	})
 	onShow(() => {
