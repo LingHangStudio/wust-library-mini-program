@@ -16,7 +16,7 @@
 				检索历史
 			</view>
 
-			<view @tap="clear" class="">
+			<view @tap="clearHot" class="">
 				清空
 			</view>
 		</view>
@@ -25,35 +25,31 @@
 			<view @tap="selectHistoryOne(item)" class="item" v-for="(item, index) in searchHistory" :key="index">
 				{{ item }}
 			</view>
-
 		</view>
 	</view>
-	<uni-card class="recommend" title="热门检索" margin="2px"
+	<uni-card class="topSearch" title="热门检索词" margin="2px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
-		<view class="">
-			<view v-for="(item, index) in collectionHotWord" :key="index" @click="searchHot(item)">
+			<view v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item.title)">
 				{{ item.title }}
 			</view>
-		</view>
-
 	</uni-card>
-	<!-- <uni-card title="大家都在看" class="hot" margin="2px"
+	<uni-card title="大家都在看" class="recommend" margin="2px"
 		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
-		<view v-for="(item,index) in recommendList" :key="index" class="hotBox">
-			{{}}
+		<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="hotBox">
+			{{item.title}}
 		</view>
-	</uni-card> -->
+	</uni-card>
 </template>
 
 <script setup lang="ts">
 	import { ref } from "vue"
-	import {  hotApi } from "@/api/huiwen/home.js"
+	import {  hotApi,topSearchApi } from "@/api/huiwen/home.js"
 	const searchValue = ref("")
 	
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
 	//馆藏目录：热门检索
 	const collectionHotWord = ref([])
-	// const recommendList = ref([])
+	const recommendList = ref([])
 	const searchType = ref([
 		{
 			value: "all",
@@ -123,30 +119,37 @@
 
 	}
 
-	const clear = () => {
+	const clearHot = () => {
 		searchHistory.value = []
 		uni.removeStorageSync("searchHistory")
 	}
 	const getHot = async () => {
 		const res = await hotApi(8)
 		if (res) {
-			collectionHotWord.value = res.data
-			// console.log('hot', collectionHotWord.value);
+			recommendList.value = res.data
 		}
 
 	}
-
+	const getTopSearch = async () => {
+		const res = await topSearchApi(8)
+		if (res) {
+			collectionHotWord.value = res.data
+		}
+	
+	}
+	// 点击历史搜索
 	const selectHistoryOne = (item) => {
 		searchValue.value = item
 		search()
 	}
-	const selectOneType = () => {
-		// let temp = choiceType.value.split("-")
-		// choiceType1.value = temp[0]
-		// choiceType2.value = temp[1]
+	const getBookDetail=(bibId)=>{
+		uni.navigateTo({
+			url:"/page-home/detail?bibId="+bibId
+		})
 	}
 
 	getHot()
+	getTopSearch()
 </script>
 
 <style scoped lang="scss">

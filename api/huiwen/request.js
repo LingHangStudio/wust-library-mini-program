@@ -1,5 +1,5 @@
 //服务器
-const BASE_URL = "https://libsys.wust.edu.cn/"
+const BASE_URL = "https://libsys.wust.edu.cn"
 // 向外暴露一个方法 request
 export default function request(options) {
 	//加载loading

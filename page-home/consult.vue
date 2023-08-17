@@ -12,7 +12,7 @@
 			<view class="hot">
 				<view class="title">常见问题</view>
 				<view class="hotBox">
-					<view class="item" v-for="(item, index) in hotList" :key="index" @click="commonSearch(item)">
+					<view class="item" v-for="(item, index) in hotList" :key="index" @tap="commonSearch(item)">
 						{{ item }}
 					</view>
 				</view>
@@ -27,7 +27,7 @@
 				<view class="questionList" v-if="item.questionList">
 					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
 					<view class="questionItem" v-for="ele in item.questionList" :key="ele.id"
-						@click="seeQuestionDetail(ele)">
+						@tap="seeQuestionDetail(ele)">
 						{{ ele.question }}
 					</view>
 				</view>
@@ -37,7 +37,7 @@
 	</view>
 	<view class="chatLine">
 		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
-		<view class="searchBtn" @click="searchQuestions()">
+		<view class="searchBtn" @tap="searchQuestions()">
 			<img class="img" src="@/static/face1.png" alt="">
 		</view>
 	</view>
@@ -47,11 +47,11 @@
 	// import { searchQuestion } from "@/api/consult.js"
 	import { ref, reactive } from "vue"
 	//常见问题列表
-	interface responceType {
-		id : number;
-		content : string;
-		questionList : []
-	}
+	// interface responceType {
+	// 	id : number;
+	// 	content : string;
+	// 	questionList : []
+	// }
 	const hotList = [
 		"图书馆什么时候开放？",
 		"如何找到我想借的书",
@@ -122,9 +122,6 @@
 			}
 			scrollBottom();
 		})
-
-
-
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {

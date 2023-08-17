@@ -78,12 +78,12 @@
 			"style": {
 				"navigationBarTitleText": "搜索结果"
 			}
-		}, {
-			"path": "search-webview",
+		},{
+			"path": "detail",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "书籍详情"
 			}
-		}, {
+		},  {
 			"path": "reserves",
 			"style": {
 				"navigationBarTitleText": "预约服务"

@@ -1,7 +1,8 @@
 <template>
 	<uni-card margin="10px 0px 5px 0px" padding="0px" spacing="0px">
+		<!-- 当前没有登录功能 -->
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-			<img class="header-image" :src="WechatInfo.avatarUrl" alt="">
+			<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
 			<view v-if="user.username" class="info">
 				{{user.username}}
 			</view>
@@ -12,10 +13,15 @@
 				<img src="" alt="">
 			</view> -->
 		</view>
-		<view v-else class="">
-
+		<view v-else class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
+			<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
+			<view  class="info">
+				微信用户
+			</view>
+			<!-- <view  class="info">
+				{{WechatInfo.nickName}}
+			</view> -->
 		</view>
-
 	</uni-card>
 
 	<uni-card title="">
@@ -44,20 +50,21 @@
 				</button>
 				<!-- #endif -->
 			</view>
-			<view style="position:absolute;right:10px;" class="">
+			<!-- <view style="position:absolute;right:10px;" class="">
 				<uni-icons type="forward"></uni-icons>
-			</view>
+			</view> -->
 		</view>
-
+		<!-- #ifdef MP-WEIXIN-->
 		<view class="item">
 			<uni-icons type="eye" size="40"></uni-icons>
 			<view class="font">
 				<button class="button" open-type="feedback">反馈意见</button>
 			</view>
-			<view style="position:absolute;right:10px;" class="">
+			<!-- <view style="position:absolute;right:10px;" class="">
 				<uni-icons type="forward"></uni-icons>
-			</view>
+			</view> -->
 		</view>
+		<!-- #endif -->
 	</uni-card>
 
 
@@ -71,32 +78,36 @@
 	const user = uni.getStorageSync("user")
 	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
+		// {
+		// 	id: "",
+		// 	name: "绑定用户",
+		// 	url: "/page-center/login",
+		// 	icon: "locked",
+		// 	inner: true,
+		// 	complete: "1"
+		// }, 
+		// {
+		// 	id: "",
+		// 	name: "我的借阅",
+		// 	url: "/page-service/foreign-webview",
+		// 	inner: false,
+		// 	icon: "eye", complete: "1"
+		// }, 
+		// {
+		// 	id: "",
+		// 	name: "我的预约",
+		// 	url: "",
+		// 	inner: false,
+		// 	icon: "tune", complete: ""
+		// }, 
+		// {
+		// 	id: "",
+		// 	name: "我的收藏",
+		// 	url: "",
+		// 	inner: false,
+		// 	icon: "folder-add", complete: ""
+		// }, 
 		{
-			id: "",
-			name: "绑定用户",
-			url: "/page-center/login",
-			icon: "locked",
-			inner: true,
-			complete: "1"
-		}, {
-			id: "",
-			name: "我的借阅",
-			url: "/page-service/foreign-webview",
-			inner: false,
-			icon: "eye", complete: "1"
-		}, {
-			id: "",
-			name: "我的预约",
-			url: "",
-			inner: false,
-			icon: "tune", complete: ""
-		}, {
-			id: "",
-			name: "我的收藏",
-			url: "",
-			inner: false,
-			icon: "folder-add", complete: ""
-		}, {
 			id: "",
 			name: "关于我们",
 			url: "/page-center/aboutMe",
