@@ -136,7 +136,9 @@
 				padding: 2px 1px;
 			}
 
-			.tag {}
+			.tag {
+				padding: 1px;
+			}
 
 			.publish {}
 

@@ -32,7 +32,7 @@
 			</view>
 		</view>
 
-		<view v-if="current === 1">
+		<!-- <view v-if="current === 1">
 			<view v-html="lectureArticle.content"></view>
 		</view>
 		<view v-if="current === 3">
@@ -40,7 +40,7 @@
 			<view v-for="(item,index) in readList" class="">
 				{{item.title}}
 			</view>
-		</view>
+		</view> -->
 	</view>
 	<view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view>
 	<view @tap="toTop" v-show="toBottom" class="top">
@@ -51,17 +51,25 @@
 <script setup lang="ts">
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref } from "vue"
-	import { getArticleList, getArticleContent } from "@/api/api.js"
+	import { articleListApi } from "@/api/end/index.js"
+	// import { getArticleList, getArticleContent } from "@/api/api.js"
 	const items = ref(["全部", "讲座", "培训", "阅读活动"])
-	const readList = ref([])
-	const readArticle = ref("")
-	const lectureList = ref([])
-	const lectureArticle = ref("")
+	// const readList = ref([])
+	// const readArticle = ref("")
+	// const lectureList = ref([])
+	// const lectureArticle = ref("")
 	const trainList = ref([])
-	const current = ref(0)
 	const all = ref([])
 	const showList = ref([])
 	const toBottom = ref(false)
+	// 分页信息
+	const paginations = ref({
+		currentPage: 1,
+		pageNum: 10,
+		total: 0
+	})
+	// 选择分栏
+	const current = ref(0)
 	const onClickItem = (e) => {
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
@@ -73,27 +81,33 @@
 		}
 	}
 
+	const getArticle = async () => {
+		// 新接口
+		const res = await articleListApi({category:2,type:2,...paginations.value})
+		if(res){
+			console.log("resActivity",res)
+			all.value=res.data
+		}
 
-	async function getArticle() {
 		//讲座活动列表
-		const res1 = await getArticleList({
-			categoryId: 39
-		})
+		// const res1 = await getArticleList({
+		// 	categoryId: 39
+		// })
 
-		lectureList.value = res1.data;
+		// lectureList.value = res1.data;
 
-		const res2 = await getArticleContent({
-			id: "52"
-		})
-		lectureArticle.value = res2.data
+		// const res2 = await getArticleContent({
+		// 	id: "52"
+		// })
+		// lectureArticle.value = res2.data
 
-		//培训活动列表
-		const res3 = await getArticleList({
-			categoryId: 37,
-		});
-		console.log("培训列表", res3);
-		trainList.value = res3.data;
-		Array.prototype.push.apply(all.value, res3.data);
+		// //培训活动列表
+		// const res3 = await getArticleList({
+		// 	categoryId: 37,
+		// });
+		// console.log("培训列表", res3);
+		// trainList.value = res3.data;
+		// Array.prototype.push.apply(all.value, res3.data);
 
 		//阅读活动:文章
 		// const res3 = await getArticleList({
@@ -102,27 +116,26 @@
 		// console.log("阅读活动", res3);
 		// readList.value = res3.data;
 
-		const res4 = await getArticleContent({
-			id: "22"
-		})
-		// console.log("阅读活动文章", res);
-		readArticle.value = res4.data
-		// Array.prototype.push.apply(all.value, res4.data);
+		// const res4 = await getArticleContent({
+		// 	id: "22"
+		// })
+		// // console.log("阅读活动文章", res);
+		// readArticle.value = res4.data
+		// // Array.prototype.push.apply(all.value, res4.data);
 
-		const test = await getArticleList({
-			categoryId: 40
-		})
-		// all.value.push.apply(test.data)
-		Array.prototype.push.apply(all.value, test.data);
+		// const test = await getArticleList({
+		// 	categoryId: 40
+		// })
+		// // all.value.push.apply(test.data)
+		// Array.prototype.push.apply(all.value, test.data);
 
-		for (let i : number = 0; i < all.value.length; i++) {
-			all.value[i].createdAt = all.value[i].createdAt.split('T')[0]
-		}
-		console.log(all.value);
-		showList.value = all.value
+		// for (let i : number = 0; i < all.value.length; i++) {
+		// 	all.value[i].createdAt = all.value[i].createdAt.split('T')[0]
+		// }
+		// console.log(all.value);
+		// showList.value = all.value
 	}
 	getArticle()
-
 
 	onReachBottom(() => {
 		toBottom.value = true

@@ -4,7 +4,7 @@
 	</view>
 	<view class="content">
 		<view class="list">
-			<view @tap="goTo(item.id)" v-for="(item,index) in showList" class="item" :key="index">
+			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
 				<uni-card margin="3px" padding="3px" :is-full="true">
 					<view class="box">
 						<view style="margin: 3px;" class="">
@@ -16,15 +16,13 @@
 								{{item.title}}
 							</view>
 							<view class="">
-								<uni-icons type="eye"></uni-icons>{{item.browse}}
+								<uni-icons type="eye"></uni-icons>{{item.date}}
 							</view>
 						</view>
 					</view>
 				</uni-card>
-
 			</view>
 		</view>
-
 	</view>
 	<view style="text-align: center;padding: 3px;">到底啦！</view>
 	<view @tap="toTop" v-show="toBottom" class="top">
@@ -34,62 +32,55 @@
 
 <script setup lang="ts">
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
-	import { ref, reactive, onMounted } from "vue"
-	import { getArticleList, getArticleContent } from "@/api/api.js"
+	import { ref, onMounted } from "vue"
+	import { articleListApi } from "@/api/end/index.js"
+	// import { getArticleList, getArticleContent } from "@/api/api.js"
 	const items = ref(['最新资源', "最新消息"])
 	const current = ref(0)
+	// 通知公告列表
 	const noticeList = ref([])
-	const showList = ref([])
+	// 最新资源
 	const reourseList = ref([])
-	const year = ref(0)
+	const showList = ref([])
 	const toBottom = ref(false)
+	// 分页信息
+	const paginations = ref({
+		currentPage: 1,
+		pageNum: 10,
+		total: 0
+	})
 
-	// const showHead = (createdAt) => {
-	// 	let time = createdAt.split('T')[0].split('-')[0]
-	// 	console.log("------");
-	// 	console.log(time);
-	// 	console.log(year.value);
-	// 	if (year.value != time) {
-	// 		year.value = time
-	// 		console.log('!=');
-	// 		return true
-	// 	} else {
-	// 		console.log("==");
-	// 		return false
-	// 	}
-	// }
+	// 选择分栏
 	const onClickItem = (e) => {
 		toBottom.value = false
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
 			showList.value = e.currentIndex == 0 ? reourseList.value : noticeList.value
 		}
-
 	}
-	async function getArticle() {
-		//获取新闻，公告列表
-		const res1 = await getArticleList({
-			categoryId: 30
-		})
-		noticeList.value = res1.data
-		//获取最新资源列表
-		const res2 = await getArticleList({
-			categoryId: 46,
-		});
-		reourseList.value = res2.data
-		showList.value = res2.data
+	const getArticleList = async () => {
+		// 新接口
+		const resResource = await articleListApi({category:3,type:3,...paginations.value})
+		if(resResource){
+			console.log("resResource",resResource)
+			reourseList.value=resResource.data
+		}
+		const resNotice = await articleListApi({category:1,type:1,...paginations.value})
+		if(resNotice){
+			console.log("resNotice",resNotice)
+			noticeList.value=resNotice.data
+		}
 	}
-
-	async function getDetials(id) {
-		const res = await getArticleContent({ id: id })
-	}
-	const goTo = (id) => {
+	// async function getDetials(id) {
+	// 	const res = await getArticleContent({ id: id })
+	// }
+	const goTo = (url) => {
 		uni.navigateTo({
-			url: "/page-service/inner?id=" + id
+			url: "/page-service/inner?url=" + url
 		})
 	}
 	onMounted(() => {
-		getArticle()
+		getArticleList()
 	})
 
 	onReachBottom(() => {

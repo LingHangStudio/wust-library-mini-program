@@ -69,9 +69,22 @@ export function deatileExtApi(isbn) {
 }
 
 // 书籍详情的阅读趋势
-export function deatileTrend(bidId) {
+export function deatileTrendApi(bidId) {
 	return request({
 		url:"/meta-local/opac/bibs/"+bidId+"/trend",
+		method: "GET",
+	}).then(res => {
+		console.log("res",res)
+		return res.data
+	}).catch(err=>{
+		console.log("err",err)
+	})
+}
+
+// 书籍详情：馆藏分布
+export function deatileHoldingApi(bidId) {
+	return request({
+		url:"/meta-local/opac/bibs/"+bidId+"/holdings",
 		method: "GET",
 	}).then(res => {
 		console.log("res",res)

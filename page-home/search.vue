@@ -27,25 +27,30 @@
 			</view>
 		</view>
 	</view>
-	<uni-card class="topSearch" title="热门检索词" margin="2px"
-		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
-			<view v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item.title)">
-				{{ item.title }}
+	<uni-card title="热门检索词" margin="2px" thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
+		is-shadow>
+		<view class="topSearch">
+			<view class="item" v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item._1)">
+				<uni-tag type="warning" circle inverted :text="item._1"></uni-tag>
 			</view>
-	</uni-card>
-	<uni-card title="大家都在看" class="recommend" margin="2px"
-		thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
-		<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="hotBox">
-			{{item.title}}
 		</view>
+	</uni-card>
+	<uni-card title="大家都在看" margin="2px" thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
+		is-shadow>
+		<view class="recommend">
+			<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="item">
+				<uni-tag type="warning" circle inverted :text="item.title"></uni-tag>
+			</view>
+		</view>
+
 	</uni-card>
 </template>
 
 <script setup lang="ts">
 	import { ref } from "vue"
-	import {  hotApi,topSearchApi } from "@/api/huiwen/home.js"
+	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
 	const searchValue = ref("")
-	
+
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
 	//馆藏目录：热门检索
 	const collectionHotWord = ref([])
@@ -94,6 +99,7 @@
 		let value = searchValue.value
 		searchValue.value = ""
 		searchHistory.value.unshift(value)
+		searchHistory.value = Array.from(new Set(searchHistory.value))
 		if (searchHistory.value.length > 7) {
 			searchHistory.value.pop()
 		}
@@ -135,16 +141,17 @@
 		if (res) {
 			collectionHotWord.value = res.data
 		}
-	
+
 	}
 	// 点击历史搜索
 	const selectHistoryOne = (item) => {
 		searchValue.value = item
 		search()
 	}
-	const getBookDetail=(bibId)=>{
+	// 点击
+	const getBookDetail = (bibId) => {
 		uni.navigateTo({
-			url:"/page-home/detail?bibId="+bibId
+			url: "/page-home/detail?bibId=" + bibId
 		})
 	}
 
@@ -193,6 +200,26 @@
 				padding: 8px 8px;
 			}
 
+		}
+	}
+
+	.topSearch {
+		display: flex;
+		flex-wrap: wrap;
+
+		.item {
+			padding: 1px;
+			margin: 3px;
+		}
+	}
+
+	.recommend {
+		display: flex;
+		flex-wrap: wrap;
+
+		.item {
+			padding: 1px;
+			margin: 3px;
 		}
 	}
 </style>

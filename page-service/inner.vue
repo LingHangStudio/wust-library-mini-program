@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-	import { getArticleContent } from "@/api/api.js"
+	// import { getArticleContent } from "@/api/api.js"
+	import { articleDetailApi } from "@/api/end/index.js"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { ref, onMounted } from "vue";
-	const id = ref()
+	const url = ref()
 	const article = ref({
 		address: "",
 		browse: "",
@@ -29,13 +30,16 @@
 		publisher: ""
 	})
 	onLoad((e) => {
-		id.value = e
-		getArticle(e)
+		
+		url.value = e.url
+		getArticle(e.url)
 	})
-	async function getArticle(id) {
-		const res = await getArticleContent(id)
-		console.log(res);
-		article.value = res.data
+	const getArticle = async (url) => {
+		const res = await articleDetailApi(url)
+		if (res) {
+			console.log("detail", res);
+			article.value = res.data
+		}
 	}
 	// onMounted(() => {
 	// 	getArticle()
