@@ -1,36 +1,28 @@
 <template>
-	<uni-card :title="article.title" margin="6px" :extra="article.createdAt.slice(0, 10)">
-		<!-- <view class="title" v-if="article.showTitle">
-			{{ article.title }}
-		</view> -->
+	<view v-if="article" class="">
+		<view v-html="article" class="">
+		</view>
+	</view>
+
+
+	<!-- <uni-card :title="article.title" margin="6px" :extra="article.createdAt.slice(0, 10)">
 		<view class="details" v-if="article.showTitle">
-			<!-- <view class="time">
-				<span>发布时间: </span>{{ article.createdAt.slice(0, 10) }}
-			</view> -->
+
 			<view class="author"><span>作者: </span>{{ article.publisher }}</view>
 			<view class="seeNum"><span>浏览次数: </span>{{ article.browse }}</view>
 		</view>
 		<view class="content" v-html="article.content"></view>
-	</uni-card>
+	</uni-card> -->
 </template>
 
 <script setup lang="ts">
 	// import { getArticleContent } from "@/api/api.js"
 	import { articleDetailApi } from "@/api/end/index.js"
 	import { onLoad } from "@dcloudio/uni-app"
-	import { ref, onMounted } from "vue";
+	import { ref,  } from "vue";
 	const url = ref()
-	const article = ref({
-		address: "",
-		browse: "",
-		categoryId: "",
-		content: "",
-		title: "",
-		createdAt: [],
-		publisher: ""
-	})
-	onLoad((e) => {
-		
+	const article = ref("")
+	onLoad((e : any) => {
 		url.value = e.url
 		getArticle(e.url)
 	})
@@ -38,7 +30,7 @@
 		const res = await articleDetailApi(url)
 		if (res) {
 			console.log("detail", res);
-			article.value = res.data
+			article.value = res.data.content.replaceAll("form","div")
 		}
 	}
 	// onMounted(() => {

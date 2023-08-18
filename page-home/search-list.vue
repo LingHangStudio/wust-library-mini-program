@@ -1,9 +1,8 @@
 <template>
 	<view v-if="searchList.length===0" class="">
-		<image src="@/static/urban-no-data-found-2.png"></image>
-		<div>这里什么都没有..试试其他关键词</div>
+		<Empty></Empty>
 	</view>
-	<scroll-view :lower-threshold="100" scroll-y
+	<scroll-view  lower-threshold="100" scroll-y
 		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" v-else>
 		<view class="item" @click="getDetails(item.bibId)" v-for="(item,index) in searchList" :key="index">
 			<view class="photo">
@@ -37,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+	import Empty from "@/components/Empty.vue"
 	//search-list页面是搜索的结果列表
 	import { ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"

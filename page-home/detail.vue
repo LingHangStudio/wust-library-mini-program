@@ -9,14 +9,25 @@
 			</view>
 		</view>
 	</uni-card>
-	
-	<uni-table>
-		
-		
-		
-	</uni-table>
-	
-	
+
+	<!-- <uni-table>
+		<uni-tr>
+			<uni-th align="center">索书号</uni-th>
+			<uni-th align="center">年卷期</uni-th>
+			<uni-th align="center">所属馆藏</uni-th>
+			<uni-th align="center">书刊状态</uni-th>
+		</uni-tr>
+		<uni-tr>
+			<uni-td>2020-10-20</uni-td>
+			<uni-td>2020-10-20</uni-td>
+			<uni-td>Jeson</uni-td>
+			<uni-td>北京市海淀区</uni-td>
+		</uni-tr>
+
+
+	</uni-table> -->
+
+
 	<uni-card title="书目简介" v-if="otherInfo.content" is-shadow>
 		<!-- <template v-slot:title>
 			<view class="" style="display: flex;justify-content: space-between;">
@@ -58,7 +69,7 @@
 	// info接口下的内容
 	const otherInfo = ref({}) //
 	// 馆藏分布内容
-	const holdingInfo=ref([])
+	const holdingInfo = ref([])
 	// trend 接口，趋势图
 	const trendChart = ref([])
 	const getDetails = async (bibId) => {
@@ -70,21 +81,28 @@
 			extraInfo.value = info.extraInfo.map
 			// info.value=res.
 		}
-		
+
 		// 获取馆藏分布
-		const resHold= await deatileHoldingApi(bibId);
-		console.log("hold",resHold)
-		holdingInfo.value=resHold.holdings
-		
+		const resHold = await deatileHoldingApi(bibId);
+		if (resHold) {
+			console.log("hold", resHold)
+			console.log("hold" )
+			holdingInfo.value = resHold.holdings
+		}
+
+
 		// 通过baseInfo里的isbn，获取其他信息
 		const resExt = await deatileExtApi(baseInfo.value.isbn)
-		otherInfo.value = resExt.data
+		if (resExt) {
+			otherInfo.value = resExt.data
+		}
+
 
 		// 获取趋势图
 		// const trendArr=await deatileTrend(bibId)
 		// trendChart.value=trendArr.data
-		
-		
+
+
 	}
 	onLoad((e) => {
 		console.log(e)

@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from "vue"
-	import { banner, getDisciplineCate } from "@/api/api.js"
+	import { getDisciplineCate } from "@/api/api.js"
 	// import { fileToBase64 } from "@/utils/toBase64.js"
 	// const searchValue = ref("")
 	const menu = [
@@ -109,7 +109,13 @@
 			icon: "flag"
 		}
 	]
-	const bannerList = ref([])
+	const bannerList = ref([
+		{
+			url: "http://localhost:3000/images/background-img1.jpg"
+		}, {
+			url: "http://localhost:3000/images/background-img1.jpg"
+		},
+	])
 	const recommendList = ref([
 		{
 			address: null,
@@ -161,17 +167,17 @@
 			title: "IGI Global e-Book Collection试用通知"
 		},
 	])
-	async function getBanner() {
-		const res = await banner();
-		bannerList.value = res.data
-	}
+
 
 	const search = () => { }
 
-	async function recommend() {
-		const res = await getDisciplineCate()
-		console.log("推荐");
-		console.log(res);
+	const recommend = async () => {
+		const res = ""
+		if (res) {
+			console.log("推荐");
+			console.log(res);
+		}
+
 	}
 
 	const goTo = (url) => {
@@ -191,7 +197,7 @@
 
 	onMounted(() => {
 		// fileToBase64("@/static/luxun.otf")
-		getBanner()
+		// getBanner()
 		recommend()
 	})
 </script>
@@ -264,8 +270,7 @@
 		}
 	}
 
-	.search {
-	}
+	.search {}
 
 	swiper {
 		height: 400rpx;

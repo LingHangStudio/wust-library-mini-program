@@ -1,8 +1,7 @@
 <template>
 	<view v-if="!err" class="">
 		<view v-if="!searchList" class="">
-			<image src="../../static/urban-no-data-found-2.png"></image>
-			<div>这里什么都没有..试试其他关键词</div>
+			<Empty></Empty>
 		</view>
 		<view v-else v-for="(item,index) in searchList" :key="index" class="">
 			{{item.title}}
@@ -15,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+	import Empty from "@/components/Empty.vue"
 	//list页面 可能是 文章列表，也有可能是 搜索的结果列表
 	import { ref, onMounted, reactive } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"

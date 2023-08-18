@@ -1,4 +1,4 @@
-import request from "@/api/huiwen/request.js"
+import request from "@/api/end/request.js"
 
 
 //文章列表
@@ -6,7 +6,6 @@ import request from "@/api/huiwen/request.js"
 export function  articleListApi(data) {
 	return request({
 		url: '/api/getArticleList',
-		method: "POST",
 		data
 	}).then(res => {
 		return res.data
@@ -18,7 +17,10 @@ export function  articleListApi(data) {
 export function articleDetailApi(data) {
 	return request({
 		url: '/api/getDetailContent',
-		data,
+		method: "GET",
+		data:{
+			url:data
+		}
 	}).then(res => {
 		console.log("res",res)
 		return res.data

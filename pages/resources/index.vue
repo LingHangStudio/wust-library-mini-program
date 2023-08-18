@@ -3,7 +3,7 @@
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
 	<view class="content">
-		<view class="list">
+		<view v-if="showList.length!==0" class="list">
 			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
 				<uni-card margin="3px" padding="3px" :is-full="true">
 					<view class="box">
@@ -22,15 +22,21 @@
 					</view>
 				</uni-card>
 			</view>
+			<view style="text-align: center;padding: 3px;">到底啦！</view>
+		</view>
+		
+		<view v-else class="">
+			<Empty></Empty>
 		</view>
 	</view>
-	<view style="text-align: center;padding: 3px;">到底啦！</view>
+
 	<view @tap="toTop" v-show="toBottom" class="top">
 		<uni-icons type="top" size="30px"></uni-icons>
 	</view>
 </template>
 
 <script setup lang="ts">
+	import Empty from "@/components/Empty.vue"
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref, onMounted } from "vue"
 	import { articleListApi } from "@/api/end/index.js"
@@ -46,7 +52,7 @@
 	// 分页信息
 	const paginations = ref({
 		currentPage: 1,
-		pageNum: 10,
+		pageSize: 10,
 		total: 0
 	})
 
@@ -60,15 +66,16 @@
 	}
 	const getArticleList = async () => {
 		// 新接口
-		const resResource = await articleListApi({category:3,type:3,...paginations.value})
-		if(resResource){
-			console.log("resResource",resResource)
-			reourseList.value=resResource.data
+		const resResource = await articleListApi({ category: 3, type: 3, ...paginations.value })
+		if (resResource) {
+			console.log("resResource", resResource)
+			reourseList.value = resResource.data
+			showList.value = reourseList.value
 		}
-		const resNotice = await articleListApi({category:1,type:1,...paginations.value})
-		if(resNotice){
-			console.log("resNotice",resNotice)
-			noticeList.value=resNotice.data
+		const resNotice = await articleListApi({ category: 1, type: 1, ...paginations.value })
+		if (resNotice) {
+			console.log("resNotice", resNotice)
+			noticeList.value = resNotice.data
 		}
 	}
 	// async function getDetials(id) {

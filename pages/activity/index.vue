@@ -1,11 +1,15 @@
 <template>
 	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view>
-		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
+		<!-- <uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" /> -->
 	</view>
 	<view class="content">
-		<view v-if="current === 0||current===2">
-			<view v-for="(item,index) in showList" :key="index" class="">
+		<view v-if="all.length===0" class="">
+			<Empty></Empty>
+		</view>
+		<view v-else>
+			<!-- <view v-if="current === 0||current===2"> -->
+			<view v-for="(item,index) in all" :key="index" class="">
 				<uni-card margin="3px" padding="3px" :is-full="true">
 					<view class="box">
 						<view style="margin: 3px;" class="">
@@ -30,6 +34,7 @@
 					</view>
 				</uni-card>
 			</view>
+
 		</view>
 
 		<!-- <view v-if="current === 1">
@@ -42,51 +47,52 @@
 			</view>
 		</view> -->
 	</view>
-	<view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view>
+	<!-- <view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view> -->
 	<view @tap="toTop" v-show="toBottom" class="top">
 		<uni-icons type="top" size="30px"></uni-icons>
 	</view>
 </template>
 
 <script setup lang="ts">
+	import Empty from "@/components/Empty.vue"
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref } from "vue"
 	import { articleListApi } from "@/api/end/index.js"
 	// import { getArticleList, getArticleContent } from "@/api/api.js"
-	const items = ref(["全部", "讲座", "培训", "阅读活动"])
+	// const items = ref(["全部", "讲座", "培训", "阅读活动"])
 	// const readList = ref([])
 	// const readArticle = ref("")
 	// const lectureList = ref([])
 	// const lectureArticle = ref("")
-	const trainList = ref([])
+	// const trainList = ref([])
 	const all = ref([])
-	const showList = ref([])
+	// const showList = ref([])
 	const toBottom = ref(false)
 	// 分页信息
 	const paginations = ref({
 		currentPage: 1,
-		pageNum: 10,
+		pageSize: 10,
 		total: 0
 	})
 	// 选择分栏
-	const current = ref(0)
-	const onClickItem = (e) => {
-		if (current.value != e.currentIndex) {
-			current.value = e.currentIndex
-			if (e.currentIndex == 0) {
-				showList.value = all.value
-			} else if (e.currentIndex == 2) {
-				showList.value = trainList.value
-			}
-		}
-	}
+	// const current = ref(0)
+	// const onClickItem = (e) => {
+	// 	if (current.value != e.currentIndex) {
+	// 		current.value = e.currentIndex
+	// 		if (e.currentIndex == 0) {
+	// 			showList.value = all.value
+	// 		} else if (e.currentIndex == 2) {
+	// 			showList.value = trainList.value
+	// 		}
+	// 	}
+	// }
 
 	const getArticle = async () => {
 		// 新接口
-		const res = await articleListApi({category:2,type:2,...paginations.value})
-		if(res){
-			console.log("resActivity",res)
-			all.value=res.data
+		const res = await articleListApi({ category: 2, type: 2, ...paginations.value })
+		if (res) {
+			console.log("resActivity", res)
+			all.value = res.data
 		}
 
 		//讲座活动列表

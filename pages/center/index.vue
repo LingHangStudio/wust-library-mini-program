@@ -6,7 +6,7 @@
 			<view v-if="user.username" class="info">
 				{{user.username}}
 			</view>
-			<view v-else class="">
+			<view v-else class="info">
 				{{WechatInfo.nickName}}
 			</view>
 			<!-- <view class="background">
@@ -14,8 +14,8 @@
 			</view> -->
 		</view>
 		<view v-else class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
-			<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
-			<view  class="info">
+			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
+			<view class="info">
 				微信用户
 			</view>
 			<!-- <view  class="info">
@@ -26,47 +26,51 @@
 
 	<uni-card title="">
 		<view @click="goTo(item)" class="item" v-for="(item,index) in menu" :key="index">
-			<!-- <p class="line"></p> -->
-			<uni-icons :type="item.icon" size="40"></uni-icons>
 			<view class="font">
-				{{item.name}}
+				<uni-icons :type="item.icon" size="30"></uni-icons>
+				<view class="">
+					{{item.name}}
+				</view>
 			</view>
-			<view style="position:absolute;right:10px;" v-if="item.complete" class="">
+			<view class="">
 				<uni-icons type="forward"></uni-icons>
 			</view>
-		</view>
-		<view class="item">
-			<uni-icons type="eye" size="40"></uni-icons>
-			<view class="font">
-				<!-- #ifdef MP-WEIXIN-->
-				<button class="button" open-type="share">
-					分享小程序
-				</button>
-
-				<!-- #endif -->
-				<!-- #ifdef APP -->
-				<button class="button" @tap="share">
-					<text class="">分享应用</text>
-				</button>
-				<!-- #endif -->
-			</view>
-			<!-- <view style="position:absolute;right:10px;" class="">
-				<uni-icons type="forward"></uni-icons>
-			</view> -->
 		</view>
 		<!-- #ifdef MP-WEIXIN-->
-		<view class="item">
-			<uni-icons type="eye" size="40"></uni-icons>
+		<button class="item" open-type="share">
 			<view class="font">
-				<button class="button" open-type="feedback">反馈意见</button>
+				<uni-icons type="compose" size="30"></uni-icons>
+				<view class="">
+					分享小程序
+				</view>
 			</view>
-			<!-- <view style="position:absolute;right:10px;" class="">
+
+			<view class="">
 				<uni-icons type="forward"></uni-icons>
-			</view> -->
-		</view>
+			</view>
+		</button>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<!-- <button class="button" @tap="share">
+			<text class="">分享应用</text>
+		</button> -->
+		<!-- #endif -->
+
+		<!-- #ifdef MP-WEIXIN-->
+		<button class="item" open-type="feedback">
+			<view class="font">
+				<uni-icons type="chatboxes" size="30"></uni-icons>
+				<view class="">
+					反馈意见
+				</view>
+			</view>
+			<view class="">
+				<uni-icons type="forward"></uni-icons>
+			</view>
+		</button>
+
 		<!-- #endif -->
 	</uni-card>
-
 
 	<view class="copyright">
 		<p>Copyright © 2023</p>
@@ -178,77 +182,48 @@
 
 
 		.header-image {
-			border-radius: 50%;
-			display: block;
-			width: 5rem;
-			height: 5rem;
+			 border-radius: 50%;
+			 display: block;
+			 width: 4rem;
+			 height: 4rem;
 			// border: 1px solid green;
-			margin: 5px auto;
+			 margin: 5px auto;
 		}
 
 
 
 		.info {
 			color: white;
-			font-size: 2rem;
+			font-size: 1.5rem;
 			margin: 0 auto;
-			padding: 3px 0;
+			padding: 10px 0;
 		}
 
 		// .background {}
 	}
 
 	.item {
-		font-size: 1.2rem;
-		line-height: 1.2rem;
+		width: 100%;
 		display: flex;
-		margin: .8rem 0;
-
-		.line {
-			border: 1px solid green;
-			width: 3px;
-			height: 1.2rem;
-			background-color: forestgreen;
-			margin: 0 3px 0 1px;
+		justify-content: space-between;
+		background: white;
+		// border: none;
+		text-align: left;
+		padding: 0px;
+		margin: 2px 0px;
+		line-height: 1;
+		border-radius: 0;
+		// border: 1px solid red;
+		color: #000;
+		font-size: 1.2rem;
+		height: 2rem;
+		line-height: 2rem;
+		.font{
+			display: flex;
 		}
-
-		.font {
-			// border: 1px solid red;
-		}
-
 	}
-
-	.cu-btn {
-		display: inline-block;
-		width: 50vw;
-		margin: 0 auto;
-
-	}
-
 
 	.copyright {
 		text-align: center
-	}
-
-
-
-	.button {
-		width: 100%;
-		background: white;
-		border: none;
-		text-align: left;
-		padding: 0px;
-		margin: 0px;
-		line-height: 1;
-		border-radius: 0;
-	}
-
-	.button::after {
-		border: none;
-		border-radius: 0;
-	}
-
-	.button_title {
-		// font-size: 1rem;
 	}
 </style>
