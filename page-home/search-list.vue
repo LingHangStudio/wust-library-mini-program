@@ -2,45 +2,64 @@
 	<view v-if="searchList.length===0" class="">
 		<Empty></Empty>
 	</view>
-	<scroll-view  lower-threshold="100" scroll-y
-		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" v-else>
-		<view class="item" @click="getDetails(item.bibId)" v-for="(item,index) in searchList" :key="index">
-			<view class="photo">
-				<view v-if="item.icon" class="">
-					<img :src="item.icon" alt="">
+	<scroll-view 
+		:scroll-top="myScroll" 
+		scroll-with-animation 
+		style="height: 100vh" 
+		scroll-y 
+		:upper-threshold="30"
+		:lower-threshold="30" 
+		enable-back-to-top
+		@scroll="isShowArrow"
+		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" 
+		v-else>
+		<view class="">
+			<view class="item" @click="getDetails(item.bibId)" v-for="(item,index) in searchList" :key="index">
+				<!-- <view class="photo">
+					<view v-if="item.icon" class="">
+						<img :src="item.icon" alt="">
+					</view>
+					<view v-else class="">
+						<img class="img" src="http://116.62.61.65:8080/static/logo.png" alt="">
+					</view>
+				</view> -->
+				<view class="main">
+					<view class="name">
+						{{item.title}}
+					</view>
+					<view class="tag">
+						<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
+						{{item.callno[0]}}
+					</view>
+					<view class="publish">
+						{{item.author}}/{{item.publisher}}/{{item.pub_year}}
+					</view>
+					<view v-show="item.abstract!=[]" class="info">
+						{{item.abstract}}
+					</view>
 				</view>
-				<view v-else class="">
-					<img class="img" src="http://116.62.61.65:8080/static/logo.png" alt="">
+				<view class="right">
+					可借{{item.itemCount}}
 				</view>
-			</view>
-			<view class="main">
-				<view class="name">
-					{{item.title}}
-				</view>
-				<view class="tag">
-					<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
-					{{item.callno[0]}}
-				</view>
-				<view class="publish">
-					{{item.author}}/{{item.publisher}}/{{item.pub_year}}
-				</view>
-				<view v-show="item.abstract!=[]" class="info">
-					{{item.abstract}}
-				</view>
-			</view>
-			<view class="right">
-				可借{{item.itemCount}}
 			</view>
 		</view>
+		<view style="text-align: center;padding: 3px;">到底啦！</view>
 	</scroll-view>
+
+	<view @tap="toTop" v-show="topArrow" class="top">
+		<uni-icons color="#142d88" type="top" size="30px"></uni-icons>
+	</view>
 </template>
 
 <script setup lang="ts">
-	import Empty from "@/components/Empty.vue"
 	//search-list页面是搜索的结果列表
-	import { ref } from "vue"
-	import { onLoad } from "@dcloudio/uni-app"
+	import Empty from "@/components/Empty.vue"
+	import { ref, nextTick } from "vue"
 	import { searchApi } from "@/api/huiwen/home.js"
+	import { onLoad } from "@dcloudio/uni-app"
+	// 滚动条位置
+	const myScroll = ref(0)
+	const oldScrollTop=ref(0)
 	//从搜索页传参
 	const searchInput = ref("")
 	const choiceType = ref("all")
@@ -48,11 +67,12 @@
 	const searchList = ref([])
 	const paginations = ref({
 		currentPage: 1,
-		pageNum: 10,
+		pageNum: 15,
 		total: 0
 	})
-
+	const topArrow = ref(false)
 	const search = async (pagination) => {
+		console.log("search api")
 		let value = searchInput.value
 		searchInput.value = ""
 		let data = {
@@ -82,10 +102,13 @@
 					pageNum: resData.limit,
 					total: resData.actualTotal
 				}
-				searchList.value = resData.dataList
+				if (resData.dataList.length === 0) {
+
+				} else {
+					searchList.value = searchList.value.concat(resData.dataList)
+				}
 			}
 		} catch (err) {
-
 		}
 	}
 
@@ -93,6 +116,20 @@
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})
+	}
+
+	const isShowArrow = (e) => {
+		oldScrollTop.value=e.detail.scrollTop
+		if(e.detail.scrollTop!=0) topArrow.value=true
+		else topArrow.value=false
+	}
+
+	const toTop = () => {
+		myScroll.value = oldScrollTop.value
+		nextTick(()=>{
+			myScroll.value=0
+		})
+		topArrow.value = false
 	}
 
 	onLoad((e) => {
@@ -110,6 +147,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		margin: 1px;
+		margin-top: 5px;
 		border-bottom: 1px solid lightgray;
 
 		.photo {
@@ -154,5 +192,15 @@
 			justify-content: center;
 			text-align: center;
 		}
+	}
+
+	.top {
+		position: fixed;
+		bottom: 40px;
+		right: 15px;
+		border-radius: 50%;
+		border: 1px solid $theme-color;
+		padding: 3px;
+		background-color: #fff;
 	}
 </style>

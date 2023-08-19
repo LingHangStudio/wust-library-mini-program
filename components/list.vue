@@ -7,10 +7,6 @@
 			{{item.title}}
 		</view>
 	</view>
-	<view v-else class="err">
-		<image src="../../static/urban-no-data-found-2.png"></image>
-		<div>出错啦..</div>
-	</view>
 </template>
 
 <script setup lang="ts">

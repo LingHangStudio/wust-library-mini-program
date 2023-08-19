@@ -9,70 +9,30 @@
 		<view v-html="aboutMeContent.content" class="">
 		</view>
 	</uni-card>
-
-	<!-- <view class="about">
-		<view class="titleZ text-center align-center margin-top-xl">
-			<text class="text-bold">想学习？有需求？有项目？</text>
-			<view class="contentZ margin-top-lg">
-				<text class="text-xl text-bold">「宅家学」</text>
-				<text class="text-xl">：软件技术开发培训（实战项目），1至4个月课程可随意选择，课程包含：UI设计、Web前端、Java后台等，挑战万元月薪，快来宅家学吧～</text>
-			</view>
-		</view>
-	</view> -->
 </template>
 
 <script setup lang="ts">
-	import { onLoad } from "@dcloudio/uni-app"
-	import { ref } from "vue"
-	import { getArticleContent } from "@/api/api.js"
-	const aboutMeContent = ref()
-	async function getContent() {
-		let res = await getArticleContent({ id: 56 });
-		aboutMeContent.value = res.data
-	}
-	onLoad(() => {
-		getContent()
-	})
+	const aboutMeContent = {
+		title: "关于本馆",
+		content: `
+	<p style="line-height:2;">
+	    武汉科技大学图书馆始建于1958年，是湖北省高校大型图书馆之一。现有校本部图书馆，黄家湖新校区图书馆两座馆舍，校本部图书馆面积11000平方米，黄家湖新校区图书馆面积44000平方米，另有16个学院分馆，馆舍总面积达6万余平方米。
+	  </p>
+	  <p style="line-height:2;">
+	    武汉科技大学是一所以工科为主，理学、经济学、管理学、法学、文学、医学等多学科协调发展的综合性大学。图书馆作为学校的文献信息中心，根据学校发展和专业设置，进行馆藏资源建设。我馆通过多途径有计划、有重点的采集国内外书刊资料，重点收藏材料、冶金、化工、机械、电子与信息、建筑、环境、医学、管理等科学文献，其馆藏文献类型包括图书、期刊、学位论文、会议录、标准、专利、产品目录及各种工具书；截至2017年底，全馆馆藏纸质文献总量259.83万册，购买中外文数据库76个，电子图书350.64万册，音频2,451小时。
+	  </p>
+	  <p style="line-height:2;">近年来，图书馆重视发展电子资源，根据学校教学、科研工作需要，有计划、多渠道的重点引进各种中文光盘、网络数据库、多媒体教学课件、VCD影视资料等。</p>
+	  <p style="line-height:2;">
+	    图书馆坚持"读者第一，服务育人"的宗旨，实行全年、全开架式开放，提高了图书文献资源的利用率。在为读者提供信息咨询、文献检索、新书推荐等传统服务的同时，自建了5个专题数据库，建立了我馆外文原版期刊目次库和重点学科网络资源导航系统，开通了网络即时咨询系统，实现了印刷型文献借阅、电子阅览、信息检索、文献传递、用户培训、解答咨询等工作的网络化服务。
+	  </p>
+	  <p style="line-height:2;">
+	    图书馆自动化工作从90年代初起步至今，在硬件环境和软件使用上都打下坚实基础。组建了主干速率为100M带宽的馆内局域网络，并实现与校园网的千兆带宽连接，已建成的基于Oracle和NT技术的DataBase
+	    Server、Windows2000 advance server、Web server、FTP Server等平台，实现了图书馆业务管理的自动化与办公自动化以及Internet上的电子资源共享。</p>
+	  <p style="line-height:2;">
+	    我馆于1994年开始实现计算机管理，引进的国内领先水平的文献信息管理系统Libsys（南京汇文）覆盖图书馆主要业务工作。中外文图书采访、编目、典藏、流通、阅览等业务工作已实现网络化管理，借书、还书、借阅证管理等已采用计算机管理，"图书馆信息查询系统"可供读者从网上迅速、准确、方便的检索到馆藏书目信息及读者借阅情况动态信息，还提供有"网上预约"、"网上续借"、"网上征订与荐购"等新的服务。随着计算机网络与信息技术的发展和学校对图书馆各项经费投入的逐年增加，图书馆正逐步向电子化、网络化和数字化方向发展，服务方式与文献信息管理正在由传统的、被动的，手工的转向现代的、主动的、自动化、网络化方式，读者文献信息服务水平不断提升，文献信息中心的作用日益加强。我馆已建成图书馆主页，将图书馆各项服务内容中丰富的文献信息借助校园网传递给学校每个角落，开展全天候24小时服务。另外，图书馆建成的电子阅览室，其先进的光盘网络系统可支持校园网上多用户同时访问；为读者提供国内外重要光盘数据库，网络数据库检索；学习和利用各种多媒体课件等。为了提高光盘数据库利用率和为读者提供更多方便，我馆已将部分使用频率高的中、英文光盘数据库、随书光盘上载到图书馆主页，师生们通过校园网可在办公室、实验室、宿舍、家中随时查询、利用。
+	  </p>
+	`}
 </script>
 
 <style scoped lang="scss">
-	.about {
-		margin: 0;
-		width: 100%;
-		border: 1px solid red;
-		height: 100vh;
-		// padding-top: 20%;
-		color: #fff;
-		background: linear-gradient(-120deg, #F15BB5, #9A5CE5, #01BEFF, #00F5D4);
-		/* background: linear-gradient(-120deg, #0976ea, #c471f5, #f956b6, #ea7e0a); */
-		background-size: 500% 500%;
-		animation: gradientBG 15s ease infinite;
-	}
-
-	.titleZ {
-		width: 750rpx;
-		font-size: 52rpx;
-		// margin-top: 60rpx;
-	}
-
-	.contentZ {
-		width: 650rpx;
-		margin: 10rpx auto 0;
-		text-align: left;
-	}
-
-
-	@keyframes gradientBG {
-		0% {
-			background-position: 0% 50%;
-		}
-
-		50% {
-			background-position: 100% 50%;
-		}
-
-		100% {
-			background-position: 0% 50%;
-		}
-	}
 </style>

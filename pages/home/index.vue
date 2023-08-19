@@ -72,16 +72,14 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from "vue"
-	import { getDisciplineCate } from "@/api/api.js"
-	// import { fileToBase64 } from "@/utils/toBase64.js"
-	// const searchValue = ref("")
 	const menu = [
+		// {
+		// 	id: "",
+		// 	name: "我的借阅",
+		// 	url: "/page-center/mySubscribe",
+		// 	icon: "calendar"
+		// }, 
 		{
-			id: "",
-			name: "我的借阅",
-			url: "/page-center/mySubscribe",
-			icon: "calendar"
-		}, {
 			id: "",
 			name: "智能答疑",
 			url: "/page-home/consult",
@@ -168,10 +166,7 @@
 		},
 	])
 
-
-	const search = () => { }
-
-	const recommend = async () => {
+	const getRecommend = async () => {
 		const res = ""
 		if (res) {
 			console.log("推荐");
@@ -191,14 +186,9 @@
 			url: "/page-service/inner?id=" + id
 		})
 	}
-	const isWechatLogin = () => {
-
-	}
 
 	onMounted(() => {
-		// fileToBase64("@/static/luxun.otf")
-		// getBanner()
-		recommend()
+		getRecommend()
 	})
 </script>
 

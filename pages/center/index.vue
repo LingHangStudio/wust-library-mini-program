@@ -9,9 +9,6 @@
 			<view v-else class="info">
 				{{WechatInfo.nickName}}
 			</view>
-			<!-- <view class="background">
-				<img src="" alt="">
-			</view> -->
 		</view>
 		<view v-else class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
@@ -74,12 +71,14 @@
 
 	<view class="copyright">
 		<p>Copyright © 2023</p>
-		<p>Version v1.0.0 test</p>
+		<p>Version v{{systemInfo.appVersion}}</p>
 	</view>
 </template>
 
 <script setup lang="ts">
+	import { ref } from "vue"
 	const user = uni.getStorageSync("user")
+	const systemInfo = ref({})
 	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
 		// {
@@ -129,33 +128,18 @@
 		// }
 	]
 
-	const share = () => {
-		uni.share({
-			provider: 'weixin',
-			type: 0,//图文
-			scene: 'WXSceneSession',//provider 为 weixin 时必选 WXSceneSession分享到聊天界面，WXSceneTimeline分享到朋友圈，WXSceneFavorite分享到微信收藏
-			title: 'littlespring网页',
-			summary: '',//分享内容的摘要
-			href: 'http://www.lib.wust.edu.cn/',//跳转链接，type 为 0 时必选
-			// imageUrl: 'http://116.62.61.65:8080/static/logo.png',//图片地址，type 为 0、2、5 时必选
-			success(res) {
-				//成功返回的参数
-				console.log(res);
-				uni.showToast({
-					title: "分享成功",
-					duration: 2000
-				})
-			},
-			fail(err) {
-				//失败返回的参数
-				console.log(err);
-				uni.showToast({
-					title: "分享失败",
-					duration: 2000
-				})
+	uni.getSystemInfo({
+		success: function (res) {
+			systemInfo.value = {
+				"appName": res.appName,
+				"appVersion": res.appVersion,
+				"osName": res.osName,
+				"uniPlatform": res.uniPlatform,
+				"width": res.screenWidth,
+				"height": res.screenHeight
 			}
-		})
-	}
+		},
+	})
 
 	const goTo = (item) => {
 		if (item.inner) {
@@ -182,12 +166,12 @@
 
 
 		.header-image {
-			 border-radius: 50%;
-			 display: block;
-			 width: 4rem;
-			 height: 4rem;
+			border-radius: 50%;
+			display: block;
+			width: 4rem;
+			height: 4rem;
 			// border: 1px solid green;
-			 margin: 5px auto;
+			margin: 5px auto;
 		}
 
 
@@ -218,7 +202,8 @@
 		font-size: 1.2rem;
 		height: 2rem;
 		line-height: 2rem;
-		.font{
+
+		.font {
 			display: flex;
 		}
 	}

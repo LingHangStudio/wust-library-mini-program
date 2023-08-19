@@ -7,37 +7,39 @@
 		<view v-if="all.length===0" class="">
 			<Empty></Empty>
 		</view>
-		<view v-else>
-			<!-- <view v-if="current === 0||current===2"> -->
-			<view v-for="(item,index) in all" :key="index" class="">
-				<uni-card margin="3px" padding="3px" :is-full="true">
-					<view class="box">
-						<view style="margin: 3px;" class="">
-							<img v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
-								src="@/static/resource.png" alt="">
-							<img v-else-if="item.tag" style=" display: block;width: 40px;height: 40px;"
-								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
-							<img v-else style=" display: block;width: 40px;height: 40px;" src="@/static/logo.png"
-								alt="Error">
-						</view>
-						<view class="font">
-							<view class="">
-								{{item.title}}
+		<scroll-view scroll-y
+			@scrolltolower="getArticle({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})"
+			:lower-threshold="30" style="height: 100vh" v-else>
+			<view class="list">
+				<view v-for="(item,index) in all" :key="index" class="item">
+					<uni-card margin="3px" padding="3px" :is-full="true">
+						<view class="box">
+							<view style="margin: 3px;" class="">
+								<img v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
+									src="@/static/resource.png" alt="">
+								<img v-else-if="item.tag" style=" display: block;width: 40px;height: 40px;"
+									src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+								<img v-else style=" display: block;width: 40px;height: 40px;" src="@/static/logo.png"
+									alt="Error">
 							</view>
-							<view class="">
-								{{item.createdAt}}
+							<view class="font">
+								<view class="">
+									{{item.title}}
+								</view>
+								<view class="">
+									{{item.createdAt}}
+								</view>
+							</view>
+							<view style="min-width: 3rem;" class="tag">
+								<uni-tag :text="item.tag" type="primary" circle></uni-tag>
 							</view>
 						</view>
-						<view style="min-width: 3rem;" class="tag">
-							<uni-tag :text="item.tag" type="primary" circle></uni-tag>
-						</view>
-					</view>
-				</uni-card>
+					</uni-card>
+				</view>
+				<view style="text-align: center;padding: 3px;">到底啦！</view>
 			</view>
 
-		</view>
-
-		<!-- <view v-if="current === 1">
+			<!-- <view v-if="current === 1">
 			<view v-html="lectureArticle.content"></view>
 		</view>
 		<view v-if="current === 3">
@@ -46,11 +48,12 @@
 				{{item.title}}
 			</view>
 		</view> -->
+		</scroll-view>
 	</view>
 	<!-- <view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view> -->
-	<view @tap="toTop" v-show="toBottom" class="top">
+	<!-- <view @tap="toTop" v-show="toBottom" class="top">
 		<uni-icons type="top" size="30px"></uni-icons>
-	</view>
+	</view> -->
 </template>
 
 <script setup lang="ts">
@@ -71,7 +74,7 @@
 	// 分页信息
 	const paginations = ref({
 		currentPage: 1,
-		pageSize: 10,
+		pageNum: 10,
 		total: 0
 	})
 	// 选择分栏
@@ -92,7 +95,7 @@
 		const res = await articleListApi({ category: 2, type: 2, ...paginations.value })
 		if (res) {
 			console.log("resActivity", res)
-			all.value = res.data
+			all.value = all.value.concat(res.data)
 		}
 
 		//讲座活动列表
@@ -150,14 +153,13 @@
 		console.log();
 	})
 
-	const toTop = () => {
-		uni.pageScrollTo({
-			scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0 
-			duration: 300  // 滚动动画的时长
-		})
-		toBottom.value = false
-
-	}
+	// const toTop = () => {
+	// 	uni.pageScrollTo({
+	// 		scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0
+	// 		duration: 300  // 滚动动画的时长
+	// 	})
+	// 	toBottom.value = false
+	// }
 </script>
 
 <style scoped lang="scss">
@@ -184,13 +186,13 @@
 		}
 	}
 
-	.top {
-		position: fixed;
-		bottom: 40px;
-		right: 15px;
-		border-radius: 50%;
-		border: 1px solid gray;
-		padding: 3px;
-		background-color: #fff;
-	}
+	// .top {
+	// 	position: fixed;
+	// 	bottom: 40px;
+	// 	right: 15px;
+	// 	border-radius: 50%;
+	// 	border: 1px solid gray;
+	// 	padding: 3px;
+	// 	background-color: #fff;
+	// }
 </style>
