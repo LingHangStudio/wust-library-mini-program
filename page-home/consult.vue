@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-	// import { searchQuestion } from "@/api/consult.js"
-	import { ref, reactive } from "vue"
+	import { consultApi } from "@/api/consult/index.js"
+	import { ref } from "vue"
 	//常见问题列表
 	// interface responceType {
 	// 	id : number;
@@ -78,7 +78,7 @@
 		searchQuestions();
 	}
 	//搜索问题
-	async function searchQuestions() {
+	const searchQuestions = async () => {
 		if (questionInput.value == '') {
 			uni.showToast({
 				title: "输入不能为空！",
@@ -95,33 +95,26 @@
 			msg: questionInput.value,
 			userId: "",
 		};
-
-
-		uni.request({
-			url: "http://www.lib.wust.edu.cn/advisory/web/msg/question",
-			method: "POST",
-			data: data
-		}).then(res => {
-			// const res = await searchQuestion(data);
+		const res = await consultApi(data);
+		if (res) {
 			console.log(res);
-			questionList.value = res.data;
+			questionList.value = res.data.matched;
 			questionInput.value = "";
 			// chatList.value.push(questionList)
-			if (questionList.value.length === 0) {
-				questionInput.value = "";
+			if (questionList.value.length !== 0) {
 				chatList.value.push({
 					id: 2,
-					content: "您的问题超出了小图的理解能力喔 ~ ",
+					content: "",
+					questionList: questionList.value,
 				});
 			} else {
 				chatList.value.push({
 					id: 2,
-					content:"",
-					questionList: questionList.value,
+					content: "您的问题超出了小图的理解能力喔 ~ ",
 				});
 			}
 			scrollBottom();
-		})
+		}
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {
@@ -220,7 +213,9 @@
 					}
 				}
 			}
-
+			
+			
+			
 			.chatQuestion {
 				flex-direction: row-reverse;
 
@@ -277,7 +272,10 @@
 				}
 			}
 		}
-
+		
+		.chatBox:last-child{
+			margin: 20px 0 40px 0;
+		}
 		// .chatBox::-webkit-scrollbar {
 		// 	width: 6px;
 		// 	border-radius: 6px;

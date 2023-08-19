@@ -1,5 +1,5 @@
 //服务器
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = "https://424neko.top:3001"
 // 向外暴露一个方法 request
 export default function request(options) {
 	//加载loading

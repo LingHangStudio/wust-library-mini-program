@@ -5,7 +5,11 @@
 				{{baseInfo?.title}}
 			</view>
 			<view v-for="(val,key,index) in detailInfo" :key="index" class="info">
-				{{key}}:<span v-html="val" class=""></span>
+				<div class="tr">
+					<div class="left-style">{{key}}</div>:
+					<div class="right-style"><span v-html="val" class=""></span></div>
+				</div>
+
 			</view>
 		</view>
 	</uni-card>
@@ -46,11 +50,15 @@
 		<view v-html="otherInfo.authorInfo" class="box-author">
 		</view>
 	</uni-card>
+
+	<canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"></canvas>
+
 	<uni-card title="目录" v-if="otherInfo.catalog" class="目录" is-shadow>
 		<view v-html="otherInfo.catalog" class="box-catalog">
 		</view>
 	</uni-card>
 </template>
+
 
 <script setup lang="ts">
 	// 书籍详情的接口：
@@ -58,10 +66,10 @@
 	// info 获取详细信息，放在下面：章节信息，作者简介，书目简介，封面
 	// trend 获取图表
 	// holdings 获取馆藏信息
-
 	import { ref } from "vue"
-	import { deatileApi, deatileExtApi, deatileTrend, deatileHoldingApi } from "@/api/huiwen/home.js"
+	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home.js"
 	import { onLoad } from "@dcloudio/uni-app"
+	// import wxCharts from "./components/wxcharts-min.js"
 	// infos接口的内容
 	const baseInfo = ref({})
 	const detailInfo = ref({})
@@ -86,7 +94,7 @@
 		const resHold = await deatileHoldingApi(bibId);
 		if (resHold) {
 			console.log("hold", resHold)
-			console.log("hold" )
+			console.log("hold")
 			holdingInfo.value = resHold.holdings
 		}
 
@@ -99,8 +107,38 @@
 
 
 		// 获取趋势图
-		// const trendArr=await deatileTrend(bibId)
-		// trendChart.value=trendArr.data
+		const trendArr = await deatileTrendApi(bibId)
+		if (trendArr) {
+			trendChart.value = trendArr.data
+			console.log("key", trendChart.value.keys())
+			console.log("value", trendChart.value.values())
+			//lineCanvas
+			new wxCharts({
+				canvasId: 'lineCanvas',
+				type: 'line',
+				categories: trendChart.value.keys(),
+				animation: true,
+				background: '#f5f5f5',
+				series: [{
+					name: '借阅量',
+					data: trendChart.value.values(),
+				}],
+				xAxis: {
+					disableGrid: true
+				},
+				yAxis: {
+					title: '借阅量',
+					min: 0
+				},
+				// width: (375),
+				// height: (200 * windowW),
+				dataLabel: false,
+				dataPointShape: true,
+				extra: {
+					lineStyle: 'curve'
+				}
+			});
+		}
 
 
 	}
@@ -114,5 +152,24 @@
 </script>
 
 <style scoped lang="scss">
+	.tr {
+		display: flex;
+	}
 
+	.left-style {
+		width: 30%;
+		/* justify-content: flex-end; */
+		/* float: right; */
+		text-align: right;
+	}
+
+	.right-style {
+		text-align: left;
+		width: 70%;
+	}
+
+	.canvas {
+		width: 750rpx;
+		height: 500rpx;
+	}
 </style>

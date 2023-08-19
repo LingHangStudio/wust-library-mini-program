@@ -22,9 +22,9 @@ export function articleDetailApi(data) {
 			url:data
 		}
 	}).then(res => {
-		console.log("res",res)
 		return res.data
 	}).catch(err=>{
 		console.log("err",err)
 	})
 }
+

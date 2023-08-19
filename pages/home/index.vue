@@ -56,15 +56,18 @@
 			</uni-grid> -->
 		</view>
 	</uni-card>
-	<uni-card margin="10px 8px 5px 8px" padding="0px">
+	<uni-card margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<uni-section title="为您推荐" type="line">
-			<uni-group>
-				<view @tap="goToInner(item.id)" v-for="(item,index) in recommendList" :key="index">
+			<!-- <uni-group> -->
+			<view class="list">
+				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
 					<uni-card :is-full="true">
-						{{item.title}}
+						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
+						<span>{{item.title}}</span>
 					</uni-card>
 				</view>
-			</uni-group>
+			</view>
+			<!-- </uni-group> -->
 		</uni-section>
 	</uni-card>
 
@@ -72,6 +75,7 @@
 
 <script setup lang="ts">
 	import { ref, onMounted } from "vue"
+	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
 	const menu = [
 		// {
 		// 	id: "",
@@ -109,9 +113,9 @@
 	]
 	const bannerList = ref([
 		{
-			url: "http://localhost:3000/images/background-img1.jpg"
+			url: "http://424neko.top:3000/images/background-img1.jpg"
 		}, {
-			url: "http://localhost:3000/images/background-img1.jpg"
+			url: "http://424neko.top:3000/images/background-img1.jpg"
 		},
 	])
 	const recommendList = ref([
@@ -167,12 +171,24 @@
 	])
 
 	const getRecommend = async () => {
-		const res = ""
+		const res = await hotApi(8)
 		if (res) {
-			console.log("推荐");
 			console.log(res);
+			recommendList.value = res.data
 		}
 
+	}
+
+	const setColor = (order) => {
+		if (order === 1) {
+			return "#ffbb3b"
+		} else if (order === 2) {
+			return "#d9dae3"
+		} else if (order === 3) {
+			return "#ff9d6a"
+		} else {
+			return ""
+		}
 	}
 
 	const goTo = (url) => {
@@ -181,9 +197,9 @@
 			url: url
 		})
 	}
-	const goToInner = (id) => {
+	const goToInner = (bibId) => {
 		uni.navigateTo({
-			url: "/page-service/inner?id=" + id
+			url: "/page-home/detail?bibId=" + bibId
 		})
 	}
 
@@ -448,5 +464,24 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
 		overflow: hidden;
+	}
+
+	.list {
+		display: flex;
+		flex-wrap: wrap;
+
+		.item {
+			border: none;
+			width: 49%;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			word-break: break-all;
+		}
+	}
+
+	.order {
+		border-radius: 50%;
+		padding: 2px 5px;
 	}
 </style>
