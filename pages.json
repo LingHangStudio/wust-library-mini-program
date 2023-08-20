@@ -92,17 +92,7 @@
 	}, {
 		"root": "page-service",
 		"pages": [{
-			"path": "foreign-webview",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		}, {
 			"path": "inner",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		}, {
-			"path": "list",
 			"style": {
 				"navigationBarTitleText": ""
 			}
@@ -123,11 +113,6 @@
 			"path": "mySubscribe",
 			"style": {
 				"navigationBarTitleText": "我的"
-			}
-		}, {
-			"path": "feedback",
-			"style": {
-				"navigationBarTitleText": "反馈"
 			}
 		}]
 	}],
