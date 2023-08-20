@@ -73,35 +73,20 @@
 			"style": {
 				"navigationBarTitleText": "搜索"
 			}
-		},{
+		}, {
 			"path": "search-list",
 			"style": {
 				"navigationBarTitleText": "搜索结果"
 			}
-		},{
+		}, {
 			"path": "detail",
 			"style": {
 				"navigationBarTitleText": "书籍详情"
 			}
-		},  {
-			"path": "reserves",
-			"style": {
-				"navigationBarTitleText": "预约服务"
-			}
 		}, {
-			"path": "subscribe",
+			"path": "tsgview",
 			"style": {
-				"navigationBarTitleText": "借阅服务"
-			}
-		}, {
-			"path": "research",
-			"style": {
-				"navigationBarTitleText": "科研服务"
-			}
-		}, {
-			"path": "aboutMe",
-			"style": {
-				"navigationBarTitleText": "关于本馆"
+				"navigationBarTitleText": "图书馆"
 			}
 		}]
 	}, {

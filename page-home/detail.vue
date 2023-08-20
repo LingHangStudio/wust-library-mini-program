@@ -107,40 +107,38 @@
 
 
 		// 获取趋势图
-		const trendArr = await deatileTrendApi(bibId)
-		if (trendArr) {
-			trendChart.value = trendArr.data
-			console.log("key", trendChart.value.keys())
-			console.log("value", trendChart.value.values())
-			//lineCanvas
-			new wxCharts({
-				canvasId: 'lineCanvas',
-				type: 'line',
-				categories: trendChart.value.keys(),
-				animation: true,
-				background: '#f5f5f5',
-				series: [{
-					name: '借阅量',
-					data: trendChart.value.values(),
-				}],
-				xAxis: {
-					disableGrid: true
-				},
-				yAxis: {
-					title: '借阅量',
-					min: 0
-				},
-				// width: (375),
-				// height: (200 * windowW),
-				dataLabel: false,
-				dataPointShape: true,
-				extra: {
-					lineStyle: 'curve'
-				}
-			});
-		}
-
-
+		// const trendArr = await deatileTrendApi(bibId)
+		// if (trendArr) {
+		// 	trendChart.value = trendArr.data
+		// 	console.log("key", trendChart.value.keys())
+		// 	console.log("value", trendChart.value.values())
+		// 	//lineCanvas
+		// 	new wxCharts({
+		// 		canvasId: 'lineCanvas',
+		// 		type: 'line',
+		// 		categories: trendChart.value.keys(),
+		// 		animation: true,
+		// 		background: '#f5f5f5',
+		// 		series: [{
+		// 			name: '借阅量',
+		// 			data: trendChart.value.values(),
+		// 		}],
+		// 		xAxis: {
+		// 			disableGrid: true
+		// 		},
+		// 		yAxis: {
+		// 			title: '借阅量',
+		// 			min: 0
+		// 		},
+		// 		// width: (375),
+		// 		// height: (200 * windowW),
+		// 		dataLabel: false,
+		// 		dataPointShape: true,
+		// 		extra: {
+		// 			lineStyle: 'curve'
+		// 		}
+		// 	});
+		// }
 	}
 	onLoad((e) => {
 		console.log(e)

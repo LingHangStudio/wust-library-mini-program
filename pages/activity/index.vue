@@ -1,8 +1,8 @@
 <template>
 	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
-	<view>
+	<!-- <view> -->
 		<!-- <uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" /> -->
-	</view>
+	<!-- </view> -->
 	<view class="content">
 		<view v-if="all.length===0" class="">
 			<Empty></Empty>
@@ -61,7 +61,6 @@
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref } from "vue"
 	import { articleListApi } from "@/api/end/index.js"
-	// import { getArticleList, getArticleContent } from "@/api/api.js"
 	// const items = ref(["全部", "讲座", "培训", "阅读活动"])
 	// const readList = ref([])
 	// const readArticle = ref("")

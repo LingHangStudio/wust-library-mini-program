@@ -19,7 +19,9 @@
 			</view>
 			<view class="chatWord" v-for="(item, index) in chatList" :key="index"
 				:class="item.id == 1 ? 'chatQuestion' : ''">
-				<view class="icon"></view>
+				<view class="icon">
+					<image class="image" src="@/static/face1.png" mode=""></image>
+				</view>
 				<view class="wordBox" v-if="!item.questionList">
 					{{ item.content }}
 				</view>
@@ -38,7 +40,7 @@
 	<view class="chatLine">
 		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
 		<view class="searchBtn" @tap="searchQuestions()">
-			<img class="img" src="@/static/face1.png" alt="">
+			<image class="img" src="@/static/face1.png" alt=""></image>
 		</view>
 	</view>
 </template>
@@ -113,8 +115,15 @@
 					content: "您的问题超出了小图的理解能力喔 ~ ",
 				});
 			}
-			scrollBottom();
+		} else {
+			chatList.value.push({
+				id: 2,
+				content: "您的问题超出了小图的理解能力喔 ~ ",
+			});
 		}
+
+		scrollBottom();
+
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {
@@ -175,8 +184,13 @@
 					height: 40px;
 					background-color: pink;
 					border-radius: 25px;
-					background-image: url("@/static/face1.png");
+					// background-image: url("@/static/face1.png");
 					background-position: center;
+
+					.image {
+						width: 40px;
+						height: 40px;
+					}
 				}
 
 				.wordBox {
@@ -213,9 +227,9 @@
 					}
 				}
 			}
-			
-			
-			
+
+
+
 			.chatQuestion {
 				flex-direction: row-reverse;
 
@@ -272,10 +286,11 @@
 				}
 			}
 		}
-		
-		.chatBox:last-child{
+
+		.chatBox:last-child {
 			margin: 20px 0 40px 0;
 		}
+
 		// .chatBox::-webkit-scrollbar {
 		// 	width: 6px;
 		// 	border-radius: 6px;

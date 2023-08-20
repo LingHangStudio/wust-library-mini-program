@@ -22,7 +22,7 @@
 	</uni-card>
 
 	<uni-card title="">
-		<view @click="goTo(item)" class="item" v-for="(item,index) in menu" :key="index">
+		<button @click="goTo(item)" class="item" v-for="(item,index) in menu" :key="index">
 			<view class="font">
 				<uni-icons :type="item.icon" size="30"></uni-icons>
 				<view class="">
@@ -32,7 +32,7 @@
 			<view class="">
 				<uni-icons type="forward"></uni-icons>
 			</view>
-		</view>
+		</button>
 		<!-- #ifdef MP-WEIXIN-->
 		<button class="item" open-type="share">
 			<view class="font">

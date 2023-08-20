@@ -1,14 +1,20 @@
 <template>
-	<uni-pagination :total="contentList.length" page-size="1" @change="changePage" :current="currentPage+1"
-		prev-text="前一页" next-text="后一页" />
+	<view v-if="contentList.length===0" class="">
+		<Empty></Empty>
+	</view>
+	<view v-else class="">
+		<uni-pagination :total="contentList.length" page-size="1" @change="changePage" :current="currentPage+1"
+			prev-text="前一页" next-text="后一页" />
 
-	<uni-section :padding="true" titleFontSize="20px" :title="contentList[currentPage].title" type="line">
-		<view class="" v-html="contentList[currentPage].content">
-		</view>
-	</uni-section>
+		<uni-section :padding="true" titleFontSize="20px" :title="contentList[currentPage].title" type="line">
+			<view class="" v-html="contentList[currentPage].content">
+			</view>
+		</uni-section>
+	</view>
 </template>
 
 <script setup lang="ts">
+	import Empty from "@/components/Empty.vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { ref } from "vue"
 	import { getArticleContent } from "@/api/api.js"
@@ -17,7 +23,6 @@
 			type: Array
 		}
 	})
-	console.log(props.idArray);
 	const contentList = ref([])
 	const currentPage = ref(0)
 
@@ -25,7 +30,10 @@
 		let temp = props.idArray
 		for (let i = 0; i < temp.length; i++) {
 			let res = await getArticleContent({ id: temp[i] });
-			contentList.value.push(res.data)
+			console.log(res)
+			if (res) {
+				contentList.value.push(res.data)
+			}
 		}
 	}
 	// onLoad(() => {

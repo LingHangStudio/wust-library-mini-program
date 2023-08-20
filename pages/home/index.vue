@@ -16,7 +16,7 @@
 				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt="">
 		</view>
 	</view>
-	<view @tap.stop="goTo('/page-home/search')" class="search">
+	<view @tap.stop="goTo('/page-home/search','inner')" class="search">
 		<uni-search-bar readonly cancelButton="none" placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
@@ -35,8 +35,8 @@
 			<!--右边虚化-->
 			<view class="hide-content-box hide-content-box-right"></view>
 			<scroll-view scroll-x="true">
-				<view @tap="goTo(item.url)" @click="goTo(item.url)" v-for="(item, index) in menu" :index="index"
-					class="item" :class="'nav-li bg-index' + (index + 1)">
+				<view @tap="goTo(item.url,item.type)" v-for="(item, index) in menu" :index="index" class="item"
+					:class="'nav-li bg-index' + (index + 1)">
 					<view class="icon">
 						<uni-icons :type="item.icon" size="50"></uni-icons>
 					</view>
@@ -61,7 +61,7 @@
 			<!-- <uni-group> -->
 			<view class="list">
 				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
-					<uni-card :is-full="true">
+					<uni-card padding="0px" margin="0px" :is-full="true">
 						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
 						<span>{{item.title}}</span>
 					</uni-card>
@@ -87,28 +87,44 @@
 			id: "",
 			name: "智能答疑",
 			url: "/page-home/consult",
-			icon: "chatboxes-filled"
+			icon: "chatboxes-filled",
+			type: "inner"// 跳小程序页面
 		}, {
 			id: "",
-			name: "互动交流",
-			url: "/page-home/reserves",
-			icon: "paperplane"
+			name: "文献资源",
+			url: "https://tsg.wust.edu.cn/wxzy.htm",
+			icon: "chatboxes-filled",
+			type: "tsg",
 		}, {
 			id: "",
 			name: "借阅服务",
-			url: "/page-home/subscribe",
-			icon: "star-filled"
+			url: "https://tsg.wust.edu.cn/jyfw.htm",
+			icon: "star-filled",
+			type: "tsg",
 		}, {
 			id: "",
 			name: "科研服务",
-			url: "/page-home/research",
-			icon: "paperplane"
-		},
-		{
+			url: "https://tsg.wust.edu.cn/listimg.jsp?urltype=tree.TreeTempUrl&wbtreeid=1031",
+			icon: "paperplane",
+			type: "tsg",
+		}, {
 			id: "",
-			name: "关于本馆",
-			url: "/page-home/aboutMe",
-			icon: "flag"
+			name: "互动交流",
+			url: "https://tsg.wust.edu.cn/hdjl.htm",
+			icon: "paperplane",
+			type: "tsg",
+		}, {
+			id: "",
+			name: "读者指南",
+			url: "https://tsg.wust.edu.cn/listimg.jsp?urltype=tree.TreeTempUrl&wbtreeid=1051",
+			icon: "paperplane",
+			type: "tsg",
+		}, {
+			id: "",
+			name: "关于",
+			url: "https://tsg.wust.edu.cn/gy.htm",
+			icon: "flag",
+			type: "tsg",
 		}
 	]
 	const bannerList = ref([
@@ -118,57 +134,7 @@
 			url: "http://424neko.top:3000/images/background-img1.jpg"
 		},
 	])
-	const recommendList = ref([
-		{
-			address: null,
-			browse: 83,
-			categoryId: 50,
-			createdAt: "2023-02-22T08:59:45.000Z",
-			description: null,
-			endTime: null,
-			followCateName: "试用资源",
-			href: "",
-			id: 51730,
-			publisher: "admin",
-			showTitle: 1,
-			speaker: null,
-			startTime: null,
-			tag: "",
-			title: "IGI Global e-Book Collection试用通知"
-		}, {
-			address: null,
-			browse: 83,
-			categoryId: 50,
-			createdAt: "2023-02-22T08:59:45.000Z",
-			description: null,
-			endTime: null,
-			followCateName: "试用资源",
-			href: "",
-			id: 51730,
-			publisher: "admin",
-			showTitle: 1,
-			speaker: null,
-			startTime: null,
-			tag: "",
-			title: "IGI Global e-Book Collection试用通知"
-		}, {
-			address: null,
-			browse: 83,
-			categoryId: 50,
-			createdAt: "2023-02-22T08:59:45.000Z",
-			description: null,
-			endTime: null,
-			followCateName: "试用资源",
-			href: "",
-			id: 51730,
-			publisher: "admin",
-			showTitle: 1,
-			speaker: null,
-			startTime: null,
-			tag: "",
-			title: "IGI Global e-Book Collection试用通知"
-		},
-	])
+	const recommendList = ref([])
 
 	const getRecommend = async () => {
 		const res = await hotApi(8)
@@ -176,7 +142,6 @@
 			console.log(res);
 			recommendList.value = res.data
 		}
-
 	}
 
 	const setColor = (order) => {
@@ -190,13 +155,20 @@
 			return ""
 		}
 	}
-
-	const goTo = (url) => {
-		console.log(url);
-		uni.navigateTo({
-			url: url
-		})
+	//
+	const goTo = (url : string, type : string) => {
+		console.log(url, type);
+		if (type == "tsg") {
+			uni.navigateTo({
+				url: "/page-home/tsgview?url=" + url
+			})
+		} else {
+			uni.navigateTo({
+				url: url
+			})
+		}
 	}
+	// 推荐的书目，进入书籍详情
 	const goToInner = (bibId) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
@@ -481,7 +453,7 @@
 	}
 
 	.order {
-		border-radius: 50%;
+		border-radius: 25px;
 		padding: 2px 5px;
 	}
 </style>
