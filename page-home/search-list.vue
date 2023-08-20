@@ -2,31 +2,13 @@
 	<view v-if="searchList.length===0" class="">
 		<Empty></Empty>
 	</view>
-	<scroll-view 
-		:scroll-top="myScroll" 
-		scroll-with-animation 
-		style="height: 100vh" 
-		scroll-y 
-		:upper-threshold="30"
-		:lower-threshold="30" 
-		enable-back-to-top
-		@scroll="isShowArrow"
-		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" 
-		v-else>
+	<scroll-view :scroll-top="myScroll" scroll-with-animation style="height: 100vh" scroll-y :upper-threshold="30"
+		:lower-threshold="30" enable-back-to-top @scroll="isShowArrow"
+		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" v-else>
 		<view class="">
-			<view class="item" @click="getDetails(item.bibId)" v-for="(item,index) in searchList" :key="index">
-				<!-- <view class="photo">
-					<view v-if="item.icon" class="">
-						<img :src="item.icon" alt="">
-					</view>
-					<view v-else class="">
-						<img class="img" src="http://116.62.61.65:8080/static/logo.png" alt="">
-					</view>
-				</view> -->
+			<uni-card margin="5px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
+				v-for="(item,index) in searchList" :key="index">
 				<view class="main">
-					<view class="name">
-						{{item.title}}
-					</view>
 					<view class="tag">
 						<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
 						{{item.callno[0]}}
@@ -38,10 +20,7 @@
 						{{item.abstract}}
 					</view>
 				</view>
-				<view class="right">
-					可借{{item.itemCount}}
-				</view>
-			</view>
+			</uni-card>
 		</view>
 		<view style="text-align: center;padding: 3px;">到底啦！</view>
 	</scroll-view>
@@ -59,7 +38,7 @@
 	import { onLoad } from "@dcloudio/uni-app"
 	// 滚动条位置
 	const myScroll = ref(0)
-	const oldScrollTop=ref(0)
+	const oldScrollTop = ref(0)
 	//从搜索页传参
 	const searchInput = ref("")
 	const choiceType = ref("all")
@@ -119,15 +98,15 @@
 	}
 
 	const isShowArrow = (e) => {
-		oldScrollTop.value=e.detail.scrollTop
-		if(e.detail.scrollTop!=0) topArrow.value=true
-		else topArrow.value=false
+		oldScrollTop.value = e.detail.scrollTop
+		if (e.detail.scrollTop != 0) topArrow.value = true
+		else topArrow.value = false
 	}
 
 	const toTop = () => {
 		myScroll.value = oldScrollTop.value
-		nextTick(()=>{
-			myScroll.value=0
+		nextTick(() => {
+			myScroll.value = 0
 		})
 		topArrow.value = false
 	}
@@ -142,57 +121,40 @@
 </script>
 
 <style lang="scss" scoped>
-	.item {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		margin: 1px;
-		margin-top: 5px;
-		border-bottom: 1px solid lightgray;
+	// .item {
+	// 	display: flex;
+	// 	flex-direction: row;
+	// 	justify-content: space-between;
+	// 	margin: 1px;
+	// 	margin-top: 5px;
 
-		.photo {
-			margin: 5px;
+	// 	.main {
+	// 		width: 80vw;
+	// 		margin: 2px;
+	// 		display: flex;
+	// 		flex-direction: column;
+	// 		justify-content: center;
 
-			.img {
-				border-radius: 50%;
-				width: 50px;
-				height: 50px;
-			}
-		}
+	// 		.name {
+	// 			font-size: 1.2rem;
+	// 			font-weight: bold;
+	// 			line-height: 1.2rem;
+	// 			padding: 2px 1px;
+	// 		}
 
-		.main {
-			width: 80vw;
-			margin: 2px;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
+	// 		.tag {
+	// 			padding: 1px;
+	// 		}
 
-			.name {
-				font-size: 1.2rem;
-				font-weight: bold;
-				line-height: 1.2rem;
-				padding: 2px 1px;
-			}
+	// 	}
 
-			.tag {
-				padding: 1px;
-			}
-
-			.publish {}
-
-			.info {
-				color: grey;
-				font-size: .8rem;
-			}
-		}
-
-		.right {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			text-align: center;
-		}
-	}
+	// 	.right {
+	// 		display: flex;
+	// 		align-items: center;
+	// 		justify-content: center;
+	// 		text-align: center;
+	// 	}
+	// }
 
 	.top {
 		position: fixed;
@@ -202,5 +164,22 @@
 		border: 1px solid $theme-color;
 		padding: 3px;
 		background-color: #fff;
+	}
+
+	.info {
+		color: grey;
+		font-size: .8rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		/*行数*/
+		-webkit-box-orient: vertical;
+		display: -moz-box;
+		-moz-line-clamp: 2;
+		-moz-box-orient: vertical;
+		word-wrap: break-word;
+		word-break: break-all;
+		white-space: normal;
 	}
 </style>

@@ -27,16 +27,14 @@
 			</view>
 		</view>
 	</view>
-	<uni-card title="热门检索词" margin="2px" thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
-		is-shadow>
+	<uni-card title="热门检索词" margin="5px" is-shadow>
 		<view class="topSearch">
 			<view class="item" v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item._1)">
 				<uni-tag type="warning" circle inverted :text="item._1"></uni-tag>
 			</view>
 		</view>
 	</uni-card>
-	<uni-card title="大家都在看" margin="2px" thumbnail="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
-		is-shadow>
+	<uni-card title="大家都在看" margin="5px" is-shadow>
 		<view class="recommend">
 			<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="item">
 				<uni-tag type="warning" circle inverted :text="item.title"></uni-tag>
@@ -67,32 +65,6 @@
 			value: "callno",
 			text: "索书号",
 		}
-		// {
-		// 	value: "0",
-		// 	text: "馆藏目录",
-		// 	children: [
-		// 		{
-		// 			value: "0-0",
-		// 			text: "题名",
-		// 		}, {
-		// 			value: "0-1",
-		// 			text: "作者",
-		// 		}, {
-		// 			value: "0-2",
-		// 			text: "主题",
-		// 		}, {
-		// 			value: "0-3",
-		// 			text: "刊名",
-		// 		},
-		// 	]
-		// }, 
-		// {
-		// 	value: "1",
-		// 	text: "数据库"
-		// }, {
-		// 	value: "2",
-		// 	text: "站内检索"
-		// },
 	])
 	const choiceType = ref("all")
 	const search = async () => {
@@ -109,17 +81,6 @@
 				url: "/page-home/search-list?keyword=" + value + "&choiceType=" + choiceType.value
 			})
 		}
-		// if (choiceType1.value == searchType.value[2].value) {
-		// 	//站内检索
-		// 	uni.navigateTo({
-		// 		url: "/page-service/list?keyword=" + value
-		// 	})
-		// } else {
-		// 	//馆藏目录,数据库
-		// 	uni.navigateTo({
-		// 		url: "/page-home/search-webview?keyword=" + value + "&strSearchType1=" + choiceType1.value + "&strSearchType2=" + choiceType2.value
-		// 	})
-		// }
 	}
 	const searchHot = (item) => {
 

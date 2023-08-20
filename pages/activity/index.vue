@@ -8,7 +8,7 @@
 			@scrolltolower="getArticle({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})"
 			:lower-threshold="30" style="height: 100vh" v-else>
 			<view class="list">
-				<view v-for="(item,index) in all" :key="index" class="item">
+				<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
 					<uni-card margin="3px" padding="3px" :is-full="true">
 						<view class="box">
 							<view style="margin: 3px;" class="">
@@ -24,7 +24,7 @@
 									{{item.title}}
 								</view>
 								<view class="">
-									{{item.createdAt}}
+									{{item.date}}
 								</view>
 							</view>
 							<view style="min-width: 3rem;" class="tag">
@@ -66,21 +66,7 @@
 		pageNum: 10,
 		total: 0
 	})
-	// 选择分栏
-	// const current = ref(0)
-	// const onClickItem = (e) => {
-	// 	if (current.value != e.currentIndex) {
-	// 		current.value = e.currentIndex
-	// 		if (e.currentIndex == 0) {
-	// 			showList.value = all.value
-	// 		} else if (e.currentIndex == 2) {
-	// 			showList.value = trainList.value
-	// 		}
-	// 	}
-	// }
-
 	const getArticle = async () => {
-		// 新接口
 		const res = await articleListApi({ category: 2, type: 2, ...paginations.value })
 		if (res) {
 			console.log("resActivity", res)
@@ -95,6 +81,12 @@
 	onPageScroll((e) => {
 		console.log();
 	})
+
+	const goTo = (url) => {
+		uni.navigateTo({
+			url: "/page-service/inner?url=" + url
+		})
+	}
 
 	// const toTop = () => {
 	// 	uni.pageScrollTo({

@@ -1,9 +1,6 @@
 <template>
-	<uni-card :title="baseInfo?.title" is-shadow>
+	<uni-card :title="baseInfo?.title" margin="5px" is-shadow>
 		<view class="box-head">
-			<view class="title">
-				{{baseInfo?.title}}
-			</view>
 			<view v-for="(val,key,index) in detailInfo" :key="index" class="info">
 				<div class="tr">
 					<div class="left-style">{{key}}</div>:
@@ -51,7 +48,7 @@
 		</view>
 	</uni-card>
 
-	<canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"></canvas>
+	<qiun-data-charts :ontouch="true" type="line" :chartData="trendChart" />
 
 	<uni-card title="目录" v-if="otherInfo.catalog" class="目录" is-shadow>
 		<view v-html="otherInfo.catalog" class="box-catalog">
@@ -69,7 +66,6 @@
 	import { ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home.js"
 	import { onLoad } from "@dcloudio/uni-app"
-	// import wxCharts from "./components/wxcharts-min.js"
 	// infos接口的内容
 	const baseInfo = ref({})
 	const detailInfo = ref({})
@@ -79,7 +75,7 @@
 	// 馆藏分布内容
 	const holdingInfo = ref([])
 	// trend 接口，趋势图
-	const trendChart = ref([])
+	const trendChart = ref({})
 	const getDetails = async (bibId) => {
 		const res = await deatileApi(bibId)
 		if (res) {
@@ -104,41 +100,43 @@
 		if (resExt) {
 			otherInfo.value = resExt.data
 		}
-
-
 		// 获取趋势图
-		// const trendArr = await deatileTrendApi(bibId)
-		// if (trendArr) {
-		// 	trendChart.value = trendArr.data
-		// 	console.log("key", trendChart.value.keys())
-		// 	console.log("value", trendChart.value.values())
-		// 	//lineCanvas
-		// 	new wxCharts({
-		// 		canvasId: 'lineCanvas',
-		// 		type: 'line',
-		// 		categories: trendChart.value.keys(),
-		// 		animation: true,
-		// 		background: '#f5f5f5',
-		// 		series: [{
-		// 			name: '借阅量',
-		// 			data: trendChart.value.values(),
-		// 		}],
-		// 		xAxis: {
-		// 			disableGrid: true
-		// 		},
-		// 		yAxis: {
-		// 			title: '借阅量',
-		// 			min: 0
-		// 		},
-		// 		// width: (375),
-		// 		// height: (200 * windowW),
-		// 		dataLabel: false,
-		// 		dataPointShape: true,
-		// 		extra: {
-		// 			lineStyle: 'curve'
-		// 		}
-		// 	});
-		// }
+		const trendArr = await deatileTrendApi(bibId)
+		console.log("trend", trendArr)
+		if (trendArr) {
+			//lineCanvas
+			trendChart.value = {
+				canvas2d: true,
+				categories: Object.keys(trendArr.data).splice(-6),
+				enableScroll: true,
+				animation: false,
+				background: '#f5f5f5',
+				series: [{
+					name: '借阅量',
+					data: Object.values(trendArr.data).splice(-6),
+				}],
+				xAxis: {
+					type: 'grid',
+					gridType: 'dash',
+					itemCount: 4,//x轴单屏显示数据的数量，默认为5个
+					scrollShow: true,//新增是否显示滚动条，默认false
+					scrollAlign: 'left',//滚动条初始位置
+					scrollBackgroundColor: '#F7F7FF',//默认为 #EFEBEF
+					scrollColor: '#DEE7F7',//默认为 #A6A6A6
+				},
+				yAxis: {
+					title: '借阅量',
+					min: 0
+				},
+				// width: (375),
+				// height: (200 * windowW),
+				dataLabel: false,
+				// dataPointShape: true,
+				extra: {
+					lineStyle: 'curve'
+				}
+			}
+		}
 	}
 	onLoad((e) => {
 		console.log(e)

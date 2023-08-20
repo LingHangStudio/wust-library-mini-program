@@ -22,7 +22,7 @@
 									{{item.title}}
 								</view>
 								<view class="">
-									<uni-icons type="eye"></uni-icons>{{item.date}}
+									{{item.date}}
 								</view>
 							</view>
 						</view>

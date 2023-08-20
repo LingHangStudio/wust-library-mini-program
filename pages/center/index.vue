@@ -116,7 +116,6 @@
 			url: "/page-center/aboutMe",
 			icon: "info",
 			inner: true,
-			complete: "1"
 		},
 		// {
 		// 	id: "",
@@ -191,12 +190,13 @@
 		display: flex;
 		justify-content: space-between;
 		background: white;
-		// border: none;
+		border: none;
 		text-align: left;
 		padding: 0px;
 		margin: 2px 0px;
-		line-height: 1;
 		border-radius: 0;
+		outline: none;
+
 		// border: 1px solid red;
 		color: #000;
 		font-size: 1.2rem;

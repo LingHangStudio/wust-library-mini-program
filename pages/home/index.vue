@@ -87,7 +87,7 @@
 			id: "",
 			name: "智能答疑",
 			url: "/page-home/consult",
-			icon: "chatboxes-filled",
+			icon: "chatboxes",
 			type: "inner"// 跳小程序页面
 		}, {
 			id: "",
@@ -99,25 +99,25 @@
 			id: "",
 			name: "借阅服务",
 			url: "https://tsg.wust.edu.cn/jyfw.htm",
-			icon: "star-filled",
+			icon: "star",
 			type: "tsg",
 		}, {
 			id: "",
 			name: "科研服务",
-			url: "https://tsg.wust.edu.cn/listimg.jsp?urltype=tree.TreeTempUrl&wbtreeid=1031",
+			url: "https://tsg.wust.edu.cn/kyfw/xkfw.htm",
 			icon: "paperplane",
 			type: "tsg",
 		}, {
 			id: "",
 			name: "互动交流",
 			url: "https://tsg.wust.edu.cn/hdjl.htm",
-			icon: "paperplane",
+			icon: "chat",
 			type: "tsg",
 		}, {
 			id: "",
 			name: "读者指南",
-			url: "https://tsg.wust.edu.cn/listimg.jsp?urltype=tree.TreeTempUrl&wbtreeid=1051",
-			icon: "paperplane",
+			url: "https://tsg.wust.edu.cn/dzzn/gzzd.htm",
+			icon: "map",
 			type: "tsg",
 		}, {
 			id: "",
@@ -427,6 +427,11 @@
 
 	.bg-index6 {
 		background-color: #7fd02b;
+		color: #fff;
+	}
+
+	.bg-index7 {
+		background-color: #19cf8a;
 		color: #fff;
 	}
 
