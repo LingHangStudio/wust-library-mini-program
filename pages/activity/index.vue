@@ -35,22 +35,8 @@
 				</view>
 				<view style="text-align: center;padding: 3px;">到底啦！</view>
 			</view>
-
-			<!-- <view v-if="current === 1">
-			<view v-html="lectureArticle.content"></view>
-		</view>
-		<view v-if="current === 3">
-			<view v-html="readArticle.content"></view>
-			<view v-for="(item,index) in readList" class="">
-				{{item.title}}
-			</view>
-		</view> -->
 		</scroll-view>
 	</view>
-	<!-- <view v-if="current === 0||current===2" style="text-align: center;padding: 5px;">到底啦！</view> -->
-	<!-- <view @tap="toTop" v-show="toBottom" class="top">
-		<uni-icons type="top" size="30px"></uni-icons>
-	</view> -->
 </template>
 
 <script setup lang="ts">
@@ -74,7 +60,6 @@
 		}
 	}
 	getArticle()
-
 	onReachBottom(() => {
 		toBottom.value = true
 	})
@@ -82,19 +67,11 @@
 		console.log();
 	})
 
-	const goTo = (url) => {
+	const goTo = (url : string) => {
 		uni.navigateTo({
 			url: "/page-service/inner?url=" + url
 		})
 	}
-
-	// const toTop = () => {
-	// 	uni.pageScrollTo({
-	// 		scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0
-	// 		duration: 300  // 滚动动画的时长
-	// 	})
-	// 	toBottom.value = false
-	// }
 </script>
 
 <style scoped lang="scss">
@@ -102,7 +79,6 @@
 		display: flex;
 
 		.line {
-			// display: inline-block;
 			width: 3px;
 			height: 1rem;
 			margin: 0 3px;
@@ -110,24 +86,9 @@
 		}
 
 		.font {
-			// overflow: hidden;
-			// flex-wrap: nowrap;
-			// display: inline-block;
-			// word-break: keep-all;
-			// white-space: nowrap;
 			margin: auto 0;
 			font-size: 1rem;
 			line-height: 1rem;
 		}
 	}
-
-	// .top {
-	// 	position: fixed;
-	// 	bottom: 40px;
-	// 	right: 15px;
-	// 	border-radius: 50%;
-	// 	border: 1px solid gray;
-	// 	padding: 3px;
-	// 	background-color: #fff;
-	// }
 </style>

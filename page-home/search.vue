@@ -15,7 +15,6 @@
 			<view class="">
 				检索历史
 			</view>
-
 			<view @tap="clearHot" class="">
 				清空
 			</view>
@@ -48,7 +47,7 @@
 	import { ref } from "vue"
 	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
 	const searchValue = ref("")
-
+	// localStorage可以存储数组和对象
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
 	//馆藏目录：热门检索
 	const collectionHotWord = ref([])
@@ -69,9 +68,10 @@
 	const choiceType = ref("all")
 	const search = async () => {
 		let value = searchValue.value
+		// 清空输入内容
 		searchValue.value = ""
 		searchHistory.value.unshift(value)
-		searchHistory.value = Array.from(new Set(searchHistory.value))
+		searchHistory.value = Array.from(new Set(searchHistory.value))// 清除重复的检索项
 		if (searchHistory.value.length > 7) {
 			searchHistory.value.pop()
 		}
@@ -81,9 +81,6 @@
 				url: "/page-home/search-list?keyword=" + value + "&choiceType=" + choiceType.value
 			})
 		}
-	}
-	const searchHot = (item) => {
-
 	}
 
 	const clearHot = () => {
@@ -95,14 +92,12 @@
 		if (res) {
 			recommendList.value = res.data
 		}
-
 	}
 	const getTopSearch = async () => {
 		const res = await topSearchApi(8)
 		if (res) {
 			collectionHotWord.value = res.data
 		}
-
 	}
 	// 点击历史搜索
 	const selectHistoryOne = (item) => {
@@ -110,7 +105,7 @@
 		search()
 	}
 	// 点击
-	const getBookDetail = (bibId) => {
+	const getBookDetail = (bibId : string | number) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})
@@ -127,24 +122,18 @@
 
 		.select {
 			display: inline-block;
-			// border: 1px solid red;
 			margin: 8px 4px 1px 4px;
 		}
 
 		.value {}
-
 	}
 
 	.historyBox {
 		.head {
-			// display: inline-block;
 			display: flex;
 			justify-content: space-between;
-			// border: 1px solid red;
 			margin: 2px 5px 3px 20px;
 			color: #181963;
-
-			view {}
 		}
 
 		.history {
@@ -155,12 +144,10 @@
 			.item {
 				background-color: #f6f7f8;
 				color: #181963;
-				// border: 1px solid red;
 				margin: 0 5px;
 				border-radius: 3px;
 				padding: 8px 8px;
 			}
-
 		}
 	}
 

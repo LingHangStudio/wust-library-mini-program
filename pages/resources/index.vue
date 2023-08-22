@@ -32,19 +32,16 @@
 			</view>
 		</scroll-view>
 	</view>
-
-	<!-- <view @tap="toTop" v-show="toBottom" class="top">
-		<uni-icons type="top" size="30px"></uni-icons>
-	</view> -->
 </template>
 
 <script setup lang="ts">
 	import Empty from "@/components/Empty.vue"
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
-	import { ref, onMounted } from "vue"
+	import { ref, onMounted, Ref } from "vue"
+	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index.js"
 	const items = ref(['最新资源', "最新消息"])
-	
+
 	// 通知公告列表
 	const noticeList = ref([])
 	// 最新资源
@@ -52,7 +49,7 @@
 	const showList = ref([])
 	const toBottom = ref(false)
 	// 分页信息
-	const paginations = ref({
+	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
 		total: 0
@@ -60,15 +57,15 @@
 
 	// 选择分栏
 	const current = ref(0)
-	const onClickItem = (e:any) => {
+	const onClickItem = (e : any) => {
 		toBottom.value = false
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
 			showList.value = e.currentIndex == 0 ? reourseList.value : noticeList.value
 		}
 	}
-	const getArticleList = async (pagination) => {
-		// 新接口
+	const getArticleList = async (pagination : paginationType) => {
+		// 新接口:获取资源和公告
 		const resResource = await articleListApi({ category: 3, type: 3, ...pagination.value })
 		if (resResource) {
 			reourseList.value = reourseList.value.concat(resResource.data)
@@ -79,7 +76,7 @@
 			noticeList.value = noticeList.value.concat(resNotice.data)
 		}
 	}
-	const goTo = (url) => {
+	const goTo = (url : string) => {
 		uni.navigateTo({
 			url: "/page-service/inner?url=" + url
 		})
@@ -91,28 +88,15 @@
 	onReachBottom(() => {
 		toBottom.value = true
 	})
-	onPageScroll((e) => {
-		console.log();
-	})
-
-	// const toTop = () => {
-	// 	uni.pageScrollTo({
-	// 		scrollTop: 0,   // 滚动到页面的目标位置  这个是滚动到顶部, 0 
-	// 		duration: 300  // 滚动动画的时长
-	// 	})
-	// 	toBottom.value = false
-	// }
 </script>
 
 <style scoped lang="scss">
 	.content {
 		.list {
 			.item {
-
 				.head {
 					font-size: 1.5rem;
 					margin: 3px;
-
 				}
 
 				.body {
@@ -135,7 +119,6 @@
 		display: flex;
 
 		.line {
-			// display: inline-block;
 			width: 3px;
 			height: 1rem;
 			margin: 0 3px;
@@ -143,24 +126,9 @@
 		}
 
 		.font {
-			// overflow: hidden;
-			// flex-wrap: nowrap;
-			// display: inline-block;
-			// word-break: keep-all;
-			// white-space: nowrap;
 			margin: auto 0;
 			font-size: 1rem;
 			line-height: 1rem;
 		}
-	}
-
-	.top {
-		position: fixed;
-		bottom: 40px;
-		right: 15px;
-		border-radius: 50%;
-		border: 1px solid gray;
-		padding: 3px;
-		background-color: #fff;
 	}
 </style>

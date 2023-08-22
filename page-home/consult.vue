@@ -1,5 +1,4 @@
 <template>
-
 	<!-- 聊天框 -->
 	<view class="chat">
 		<scroll-view class="chatBox" id="chatBody">
@@ -26,16 +25,15 @@
 					{{ item.content }}
 				</view>
 				<view class="judge" v-if="item.id == 2"></view>
-				<view class="questionList" v-if="item.questionList">
+				<view class="questionList" v-if="item?.questionList">
 					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
-					<view class="questionItem" v-for="ele in item.questionList" :key="ele.id"
+					<view class="questionItem" v-for="ele in item?.questionList" :key="ele.id"
 						@tap="seeQuestionDetail(ele)">
 						{{ ele.question }}
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-
 	</view>
 	<view class="chatLine">
 		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
@@ -47,13 +45,9 @@
 
 <script setup lang="ts">
 	import { consultApi } from "@/api/consult/index.js"
-	import { ref } from "vue"
+	import { Ref, ref } from "vue"
+	import type { responceType } from "@/utils/types/home"
 	//常见问题列表
-	// interface responceType {
-	// 	id : number;
-	// 	content : string;
-	// 	questionList : []
-	// }
 	const hotList = [
 		"图书馆什么时候开放？",
 		"如何找到我想借的书",
@@ -61,7 +55,7 @@
 		"为什么要求读者登记Email或手机号码？",
 	]
 	//聊天列表
-	const chatList = ref([
+	const chatList : Ref<responceType[]> = ref([
 		{
 			id: 0,
 			content:
@@ -102,7 +96,6 @@
 			console.log(res);
 			questionList.value = res.data.matched;
 			questionInput.value = "";
-			// chatList.value.push(questionList)
 			if (questionList.value.length !== 0) {
 				chatList.value.push({
 					id: 2,
@@ -121,9 +114,7 @@
 				content: "您的问题超出了小图的理解能力喔 ~ ",
 			});
 		}
-
 		scrollBottom();
-
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele) => {
@@ -149,17 +140,6 @@
 </script>
 
 <style scoped lang="scss">
-	// .consultBox {
-	// 	background-color: #fff;
-	// 	position: fixed;
-	// 	// border-radius: 20px;
-	// 	box-shadow: 0 0 10px #00000050;
-	// 	display: flex;
-	// 	flex-direction: column;
-
-	//
-
-
 	.chat {
 		flex: 1;
 		margin-bottom: 10px;
@@ -169,10 +149,8 @@
 		user-select: text;
 
 		.chatBox {
-			// height: 90vh;
 			overflow-y: auto;
 			padding: 0 15px 0 0;
-
 
 			.chatWord {
 				margin: 20px 0;
@@ -184,7 +162,6 @@
 					height: 40px;
 					background-color: pink;
 					border-radius: 25px;
-					// background-image: url("@/static/face1.png");
 					background-position: center;
 
 					.image {
@@ -227,8 +204,6 @@
 					}
 				}
 			}
-
-
 
 			.chatQuestion {
 				flex-direction: row-reverse;

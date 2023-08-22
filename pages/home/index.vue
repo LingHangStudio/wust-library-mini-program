@@ -74,8 +74,8 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted } from "vue"
-	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
+	import { ref, onMounted,Ref } from "vue"
+	import { hotApi } from "@/api/huiwen/home.js"
 	const menu = [
 		// {
 		// 	id: "",
@@ -134,7 +134,7 @@
 			url: "http://424neko.top:3000/images/background-img1.jpg"
 		},
 	])
-	const recommendList = ref([])
+	const recommendList:Ref<any[]> = ref([])
 
 	const getRecommend = async () => {
 		const res = await hotApi(8)
@@ -155,7 +155,7 @@
 			return ""
 		}
 	}
-	//
+	
 	const goTo = (url : string, type : string) => {
 		console.log(url, type);
 		if (type == "tsg") {
@@ -175,27 +175,19 @@
 		})
 	}
 
-	onMounted(() => {
-		getRecommend()
-	})
+	getRecommend()
 </script>
 
 <style lang="scss" scoped>
 	.head {
-		// border: 1px solid red;
-		// top: 3px;
 		display: flex;
 		justify-content: space-around;
 		position: relative;
-		// border: 1px solid red;
-		// background: url("../../static/library.png") repeat fixed center;
 		margin: 0 0 3rpx 0;
 		overflow: hidden;
 
 		.logo {
-			// margin: auto;
 			margin: auto 0;
-
 
 			.logoImg {
 				width: 5rem;
@@ -205,27 +197,19 @@
 			}
 		}
 
-
 		.font {
-
-			// border: 1px solid red;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
 
 			.chinese {
-				// border: 1px solid red;
-
-				// margin: auto 0;
 				font-family: Comic Sans MS;
 				font-size: 1.8rem;
 				line-height: 1.8rem;
 			}
 
 			.english {
-				// margin: auto 0;
-				// border: 1px solid red;
 				font-family: Comic Sans MS;
 				font-size: .6rem;
 				line-height: .6rem;
@@ -235,15 +219,12 @@
 		.background {
 			position: absolute;
 			z-index: -1;
-			// border: 1px solid red;
 			width: 100vw;
 			max-height: 10rem;
 			overflow: hidden;
 
 			.background-img {
 				width: 100vw;
-				// max-height: 10rem;
-				// overflow: hidden;
 			}
 		}
 	}
@@ -258,14 +239,12 @@
 		}
 	}
 
-
 	.homeMenu {
 		flex-wrap: nowrap;
 		overflow: hidden;
 		white-space: nowrap;
 
 		.item {
-
 			display: inline-block;
 			width: 5rem;
 			height: 4rem;
@@ -277,22 +256,16 @@
 			}
 
 			.icon {
-				// height: 5rem;
 				padding: 0 auto;
-				// border: 2px solid red;
 				text-align: center;
 				line-height: 60rpx;
 
 				.uni-icons {
-					// line-height: 4px;
 				}
 			}
 
 		}
 	}
-
-
-	// test
 
 	/*scroll-view外层*/
 	.skill-sequence-panel-content-wrapper {
@@ -322,7 +295,6 @@
 	}
 
 	.kite-classify-scroll {
-		// display: inline-block;
 		width: 100%;
 		height: 200rpx;
 		overflow: hidden;

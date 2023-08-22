@@ -41,7 +41,6 @@
 					分享小程序
 				</view>
 			</view>
-
 			<view class="">
 				<uni-icons type="forward"></uni-icons>
 			</view>
@@ -65,7 +64,6 @@
 				<uni-icons type="forward"></uni-icons>
 			</view>
 		</button>
-
 		<!-- #endif -->
 	</uni-card>
 
@@ -76,9 +74,10 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue"
+	import { ref,Ref } from "vue"
+	import type {systemInfoType} from "@/utils/types/center"
 	const user = uni.getStorageSync("user")
-	const systemInfo = ref({})
+	const systemInfo: Ref<systemInfoType> = ref({})
 	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
 		// {
@@ -150,7 +149,6 @@
 				url: item.url
 			})
 		}
-
 	}
 </script>
 
@@ -160,20 +158,14 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		// height: auto;
-		// border: 1px solid green;
-
 
 		.header-image {
 			border-radius: 50%;
 			display: block;
 			width: 4rem;
 			height: 4rem;
-			// border: 1px solid green;
 			margin: 5px auto;
 		}
-
-
 
 		.info {
 			color: white;
@@ -181,8 +173,6 @@
 			margin: 0 auto;
 			padding: 10px 0;
 		}
-
-		// .background {}
 	}
 
 	.item {
@@ -196,8 +186,6 @@
 		margin: 2px 0px;
 		border-radius: 0;
 		outline: none;
-
-		// border: 1px solid red;
 		color: #000;
 		font-size: 1.2rem;
 		height: 2rem;

@@ -1,5 +1,6 @@
 <template>
 	<view class="hello-container">
+		<!-- 没有登录，暂时不用 -->
 		<!-- <view class="content">
 			<view class="info">
 				<view class="detail" @tap="getUserProfile">
@@ -19,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-	// props: ['showLoginBtn'],
-
 	const getUserProfile = () => {
 		uni.navigateTo({
 			url: "/page-center/login"
@@ -96,7 +95,6 @@
 				width: 68%;
 				margin: 40rpx auto 0;
 
-
 				.logo {
 					margin: 120rpx auto 30rpx;
 					width: 160rpx;
@@ -107,7 +105,6 @@
 					.logo-img {
 						width: 160rpx;
 						height: 160rpx;
-
 					}
 				}
 
@@ -126,7 +123,6 @@
 					text-align: center;
 					letter-spacing: .28rem;
 					font-size: 26rpx;
-					// font-weight: bold;
 				}
 
 				.detail {
@@ -169,7 +165,6 @@
 
 				.header {
 					font-weight: bold;
-					// color: $green;
 					margin: 20rpx 0;
 					font-size: 38rpx;
 					text-align: center;
@@ -178,11 +173,9 @@
 				.usage-content {
 					width: 88%;
 					margin: 0 auto;
-					// color: $myGrey;
 					text-align: center;
 					font-size: 34rpx;
 
-					// font-weight: bold;
 					.row1 {
 						margin: 24rpx 0;
 						display: flex;
@@ -228,8 +221,6 @@
 				width: 86%;
 				margin: 0 auto;
 				text-align: center;
-
-				// color: $myGrey;
 
 				.name {
 					margin: 10rpx;
