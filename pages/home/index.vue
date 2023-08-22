@@ -58,8 +58,10 @@
 	</uni-card>
 	<uni-card margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<uni-section title="为您推荐" type="line">
-			<!-- <uni-group> -->
-			<view class="list">
+			<view v-if="recommendList.length===0" class="">
+				<Empty width="160px" height="120px"></Empty>
+			</view>
+			<view v-else class="list">
 				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
 					<uni-card padding="0px" margin="0px" :is-full="true">
 						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
@@ -67,14 +69,14 @@
 					</uni-card>
 				</view>
 			</view>
-			<!-- </uni-group> -->
 		</uni-section>
 	</uni-card>
 
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted,Ref } from "vue"
+	import Empty from "@/components/Empty.vue"
+	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home.js"
 	const menu = [
 		// {
@@ -134,13 +136,13 @@
 			url: "http://424neko.top:3000/images/background-img1.jpg"
 		},
 	])
-	const recommendList:Ref<any[]> = ref([])
+	const recommendList : Ref<any[]> = ref([])
 
 	const getRecommend = async () => {
 		const res = await hotApi(8)
 		if (res) {
 			console.log(res);
-			recommendList.value = res.data
+			recommendList.value = res.data as []
 		}
 	}
 
@@ -155,7 +157,7 @@
 			return ""
 		}
 	}
-	
+
 	const goTo = (url : string, type : string) => {
 		console.log(url, type);
 		if (type == "tsg") {
@@ -260,8 +262,7 @@
 				text-align: center;
 				line-height: 60rpx;
 
-				.uni-icons {
-				}
+				.uni-icons {}
 			}
 
 		}

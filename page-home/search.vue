@@ -27,24 +27,30 @@
 		</view>
 	</view>
 	<uni-card title="热门检索词" margin="5px" is-shadow>
-		<view class="topSearch">
+		<view v-if="collectionHotWord.length===0">
+			<Empty description="暂无检索词" width="160px" height="120px"></Empty>
+		</view>
+		<view v-else class="topSearch">
 			<view class="item" v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item._1)">
 				<uni-tag type="warning" circle inverted :text="item._1"></uni-tag>
 			</view>
 		</view>
 	</uni-card>
 	<uni-card title="大家都在看" margin="5px" is-shadow>
-		<view class="recommend">
+		<view v-if="recommendList.length===0">
+			<Empty width="160px" height="120px"></Empty>
+		</view>
+		<view v-else class="recommend">
 			<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="item">
 				<uni-tag type="warning" circle inverted :text="item.title"></uni-tag>
 			</view>
 		</view>
-
 	</uni-card>
 </template>
 
 <script setup lang="ts">
 	import { ref } from "vue"
+	import Empty from "@/components/Empty.vue"
 	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
 	const searchValue = ref("")
 	// localStorage可以存储数组和对象

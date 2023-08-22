@@ -1,7 +1,7 @@
 <template>
 	<div class="m-empty">
-		<view v-if="image=='empty'" class="">
-		<image src="@/static/empty.png" alt="empty"></image>
+		<view v-if="image=='empty'" class="image">
+			<image src="@/static/empty.svg" :style="{width:width,height:height}" mode="scaleToFill" alt="empty"></image>
 		</view>
 		<slot v-else>
 			<img class="u-empty" :src="image" :style="imageStyle" alt="image" />
@@ -17,12 +17,20 @@
 			type: String,
 			default: "暂无数据"
 		},
-		image:{
-			type:String,
-			default:"empty"
+		width: {
+			type: String,
+			default: "320px"
 		},
-		imageStyle:{
-			type:()=>{},
+		height: {
+			type: String,
+			default: "240px"
+		},
+		image: {
+			type: String,
+			default: "empty"
+		},
+		imageStyle: {
+			type: () => { },
 		}
 	})
 </script>

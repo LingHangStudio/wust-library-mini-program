@@ -2,7 +2,7 @@
 	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view class="content">
 		<view v-if="all.length===0" class="">
-			<Empty></Empty>
+			<Empty description="暂无活动"></Empty>
 		</view>
 		<scroll-view scroll-y
 			@scrolltolower="getArticle({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})"
