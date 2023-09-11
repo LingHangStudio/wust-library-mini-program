@@ -22,10 +22,10 @@
 	import { loginAPI, login1API } from "@/api/user"
 	import { loginFinalApi } from "@/api/huiwen/home"
 	import { ref } from "vue"
+	import { useStore } from "@/store"
 	import RSA from "@/utils/rsa.js"
-	// 创建 RSA 密钥对象，并提供模数（modulus）和指数（exponent）
+	const store = useStore()
 
-	//
 	const userForm = ref({
 		username: "202113407294",
 		password: "www.29900",
@@ -34,24 +34,35 @@
 	const login = async () => {
 		const rsaTokenPublicModulus = 'b5eeb166e069920e80bebd1fea4829d3d1f3216f2aabe79b6c47a3c18dcee5fd22c2e7ac519cab59198ece036dcf289ea8201e2a0b9ded307f8fb704136eaeb670286f5ad44e691005ba9ea5af04ada5367cd724b5a26fdb5120cc95b6431604bd219c6b7d83a6f8f24b43918ea988a76f93c333aa5a20991493d4eb1117e7b1'
 		const rsaTokenPublicExponent = '10001'
-		// console.log('加密后的数据 ');
 		const password = RSA.encryptedString(RSA.getKeyPair(rsaTokenPublicExponent, '', rsaTokenPublicModulus), userForm.value.password)
 		console.log('password', password)
 		try {
-			const res = await loginAPI({ ...userForm.value, password })
-			console.log('res', res)
-			if (res) {
-				const res1 = await login1API(res.data)
-				console.log('res1', res1)
-				if (res1) {
-					console.log('info', await loginFinalApi(res1.data))
-				}
-			}
+			// const res1 = await loginAPI({ ...userForm.value, password })
+			// console.log('res', res1)
+			// if (res1) {
+			// 	const res2 = await login1API(res1.data)
+			// 	console.log('res2', res2)
+			// 	// 第三个接口，请求自己的后台，获取到Cookie
+			// 	if (res2) {
+			// 		console.log('info', await loginFinalApi(res2.data))
+			// 	}
+			// 	// 获取到cookie后，
+			// 	// 请求https://libsys.wust.edu.cn/meta-local/opac/users/info?isPlaintext=true
+			// 	// 对cookie进行验证
+			// 	// 请求.....
+			// }
+			
+			//test 登录成功后的处理
+			uni.setStorageSync("Cookie", "test");
+			store.setloginState(true)
+			uni.navigateBack()
 		} catch (e) {
 			console.log(e)
-			//TODO handle the exception
+			uni.showToast({
+				title: "登录失败",
+				duration: 2000
+			})
 		}
-
 	}
 </script>
 

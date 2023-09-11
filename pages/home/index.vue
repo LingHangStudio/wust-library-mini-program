@@ -71,7 +71,6 @@
 			</view>
 		</uni-section>
 	</uni-card>
-
 </template>
 
 <script setup lang="ts">
@@ -79,12 +78,12 @@
 	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home"
 	const menu = [
-		// {
-		// 	id: "",
-		// 	name: "我的借阅",
-		// 	url: "/page-center/mySubscribe",
-		// 	icon: "calendar"
-		// }, 
+		{
+			id: "",
+			name: "我的借阅",
+			url: "/page-center/mySubscribe",
+			icon: "calendar"
+		}, 
 		{
 			id: "",
 			name: "智能答疑",
@@ -146,7 +145,7 @@
 		}
 	}
 
-	const setColor = (order) => {
+	const setColor = (order:number) => {
 		if (order === 1) {
 			return "#ffbb3b"
 		} else if (order === 2) {

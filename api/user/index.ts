@@ -8,7 +8,7 @@ const API = "https://auth.wust.edu.cn"
 * 
 * @prarm username 学号
 * @prarm password rsa加密后的密码
-* @prarm service 浏览器跳转的去向，在小程序中无意义
+* @prarm service 浏览器跳转的去向
 * @prarm loginType ''
 * return 一段字符串
 */

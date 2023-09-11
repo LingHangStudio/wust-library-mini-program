@@ -1,6 +1,5 @@
 <template>
 	<uni-card margin="10px 0px 5px 0px" padding="0px" spacing="0px">
-		<!-- 当前没有登录功能 -->
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
 			<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
 			<view v-if="user.username" class="info">
@@ -22,17 +21,19 @@
 	</uni-card>
 
 	<uni-card title="">
-		<button @click="goTo(item)" class="item" v-for="(item,index) in menu" :key="index">
-			<view class="font">
-				<uni-icons :type="item.icon" size="30"></uni-icons>
-				<view class="">
-					{{item.name}}
+		<template v-for="item in menu" :key="item.id">
+			<button v-if="!item.meta.user ||(item.meta.user&&store.loginState)" @tap="goTo(item)" class="item">
+				<view class="font">
+					<uni-icons :type="item.icon" size="30"></uni-icons>
+					<view class="">
+						{{item.name}}
+					</view>
 				</view>
-			</view>
-			<view class="">
-				<uni-icons type="forward"></uni-icons>
-			</view>
-		</button>
+				<view class="">
+					<uni-icons type="forward"></uni-icons>
+				</view>
+			</button>
+		</template>
 		<!-- #ifdef MP-WEIXIN-->
 		<button class="item" open-type="share">
 			<view class="font">
@@ -46,12 +47,6 @@
 			</view>
 		</button>
 		<!-- #endif -->
-		<!-- #ifdef APP -->
-		<!-- <button class="button" @tap="share">
-			<text class="">分享应用</text>
-		</button> -->
-		<!-- #endif -->
-
 		<!-- #ifdef MP-WEIXIN-->
 		<button class="item" open-type="feedback">
 			<view class="font">
@@ -76,6 +71,8 @@
 <script setup lang="ts">
 	import { ref, Ref } from "vue"
 	import type { systemInfoType } from "@/utils/types/center"
+	import { useStore } from "@/store"
+	const store = useStore()
 	const user = uni.getStorageSync("user")
 	const systemInfo : Ref<systemInfoType> = ref({})
 	const WechatInfo = uni.getStorageSync("WechatInfo")
@@ -85,15 +82,19 @@
 			name: "绑定用户",
 			url: "/page-center/login",
 			icon: "locked",
-			// inner: true,
+			meta: {
+				user: false
+			}
 		},
-		// {
-		// 	id: "",
-		// 	name: "我的借阅",
-		// 	url: "",
-		// 	inner: false,
-		// 	icon: "eye", complete: "1"
-		// }, 
+		{
+			id: "",
+			name: "我的借阅",
+			url: "/page-center/mySubscribe",
+			icon: "eye",
+			meta: {
+				user: true
+			}
+		},
 		// {
 		// 	id: "",
 		// 	name: "我的预约",
@@ -113,16 +114,10 @@
 			name: "关于我们",
 			url: "/page-center/aboutMe",
 			icon: "info",
-			// inner: true,
+			meta: {
+				user: false
+			}
 		},
-		// {
-		// 	id: "",
-		// 	name: "反馈意见",
-		// 	url: "/page-center/feedback",
-		// 	icon: "staff",
-		// 	inner: true,
-		// 	complete: "1",
-		// }
 	]
 
 	uni.getSystemInfo({

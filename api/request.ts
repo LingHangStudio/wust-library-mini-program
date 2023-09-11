@@ -1,5 +1,6 @@
-//
-//
+import { useStore } from "@/store"
+const store = useStore()
+
 //服务器
 // 向外暴露一个方法 request
 export default function request(options) {
@@ -17,14 +18,24 @@ export default function request(options) {
 			// 请求参数（若不传，则默认为 {} ）
 			data: options.data || {},
 			header: options.header,
-			getResponse:true,
-			withCredentials:true,
+			getResponse: true,
+			withCredentials: true,
 			// 请求成功
 			success: (res) => {
 				console.log("总res", res);
-				console.log("cookie",res.header['Set-Cookie'])
-				// 此判断可根据自己需要更改
+				console.log("cookie", res.header['Set-Cookie'])
+				// 此判断可根据自己需要更改 汇文的code为0
 				if (!options.noValidate && (res.data.status !== 200 && res.data.code !== 0)) {
+					if (res.data.code === 401) {
+						// 未登录，或者登录过期
+						uni.removeStorageSync("Cookie")
+						store.setloginState(false)
+						uni.showToast({
+							title: "未登录或者登录过期",
+							icon:"error"
+						})
+						reject()
+					}
 					uni.showToast({
 						title: '获取数据失败！',
 						icon: "error"

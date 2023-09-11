@@ -44,7 +44,6 @@ export async function topSearchApi(count) {
 				count
 			}
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
@@ -61,7 +60,6 @@ export async function hotApi(count) {
 				count
 			}
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
@@ -75,7 +73,6 @@ export async function deatileApi(bidId) {
 			url: `${API}/meta-local/opac/bibs/${bidId}/infos`,
 			method: "GET",
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
@@ -88,7 +85,6 @@ export async function deatileExtApi(isbn) {
 			url: `${API}/meta-local/opac/third_api/douban/${isbn}/info`,
 			method: "GET",
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
@@ -102,7 +98,6 @@ export async function deatileTrendApi(bidId) {
 			url: `${API}/meta-local/opac/bibs/${bidId}/trend`,
 			method: "GET",
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
@@ -116,7 +111,6 @@ export async function deatileHoldingApi(bidId) {
 			url: `${API}/meta-local/opac/bibs/${bidId}/holdings`,
 			method: "GET",
 		})
-		console.log("res", res)
 		return res.data
 	} catch (err) {
 		console.log("err", err)
