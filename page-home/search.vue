@@ -51,7 +51,7 @@
 <script setup lang="ts">
 	import { ref } from "vue"
 	import Empty from "@/components/Empty.vue"
-	import { hotApi, topSearchApi } from "@/api/huiwen/home.js"
+	import { hotApi, topSearchApi } from "@/api/huiwen/home"
 	const searchValue = ref("")
 	// localStorage可以存储数组和对象
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
@@ -95,6 +95,7 @@
 	}
 	const getHot = async () => {
 		const res = await hotApi(8)
+		console.log("hot",res)
 		if (res) {
 			recommendList.value = res.data
 		}

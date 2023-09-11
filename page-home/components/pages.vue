@@ -15,9 +15,8 @@
 
 <script setup lang="ts">
 	import Empty from "@/components/Empty.vue"
-	import { onLoad } from "@dcloudio/uni-app"
 	import { ref } from "vue"
-	import { getArticleContent } from "@/api/api.js"
+	import { getArticleContent } from "@/api/api"
 	const props = defineProps({
 		idArray: {
 			type: Array

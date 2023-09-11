@@ -19,18 +19,39 @@
 </template>
 
 <script setup lang="ts">
+	import { loginAPI, login1API } from "@/api/user"
+	import { loginFinalApi } from "@/api/huiwen/home"
 	import { ref } from "vue"
+	import RSA from "@/utils/rsa.js"
+	// 创建 RSA 密钥对象，并提供模数（modulus）和指数（exponent）
+
+	//
 	const userForm = ref({
 		username: "202113407294",
-		password: "dasd"
+		password: "www.29900",
+		service: "https://libsys.wust.edu.cn:443/meta-local/opac/cas/rosetta",
 	})
-	function login() {
-		const res = 0;
-		uni.setStorageSync("user", userForm.value)
-		
-		uni.switchTab({
-			url: '/pages/home/index'
-		});
+	const login = async () => {
+		const rsaTokenPublicModulus = 'b5eeb166e069920e80bebd1fea4829d3d1f3216f2aabe79b6c47a3c18dcee5fd22c2e7ac519cab59198ece036dcf289ea8201e2a0b9ded307f8fb704136eaeb670286f5ad44e691005ba9ea5af04ada5367cd724b5a26fdb5120cc95b6431604bd219c6b7d83a6f8f24b43918ea988a76f93c333aa5a20991493d4eb1117e7b1'
+		const rsaTokenPublicExponent = '10001'
+		// console.log('加密后的数据 ');
+		const password = RSA.encryptedString(RSA.getKeyPair(rsaTokenPublicExponent, '', rsaTokenPublicModulus), userForm.value.password)
+		console.log('password', password)
+		try {
+			const res = await loginAPI({ ...userForm.value, password })
+			console.log('res', res)
+			if (res) {
+				const res1 = await login1API(res.data)
+				console.log('res1', res1)
+				if (res1) {
+					console.log('info', await loginFinalApi(res1.data))
+				}
+			}
+		} catch (e) {
+			console.log(e)
+			//TODO handle the exception
+		}
+
 	}
 </script>
 

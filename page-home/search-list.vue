@@ -34,7 +34,7 @@
 	//search-list页面是搜索的结果列表
 	import Empty from "@/components/Empty.vue"
 	import { ref, nextTick } from "vue"
-	import { searchApi } from "@/api/huiwen/home.js"
+	import { searchApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
 	// 滚动条位置
 	const myScroll = ref(0)

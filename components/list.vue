@@ -14,7 +14,7 @@
 	//list页面 可能是 文章列表，也有可能是 搜索的结果列表
 	import { ref, onMounted, reactive } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
-	import { searchApi, hotApi } from "@/api/huiwen/home.js"
+	import { searchApi, hotApi } from "@/api/huiwen/home"
 	const searchInput = ref("") //从搜索页传参
 	const choiceType = ref("all")
 	let searchList = reactive([])

@@ -74,20 +74,19 @@
 </template>
 
 <script setup lang="ts">
-	import { ref,Ref } from "vue"
-	import type {systemInfoType} from "@/utils/types/center"
+	import { ref, Ref } from "vue"
+	import type { systemInfoType } from "@/utils/types/center"
 	const user = uni.getStorageSync("user")
-	const systemInfo: Ref<systemInfoType> = ref({})
+	const systemInfo : Ref<systemInfoType> = ref({})
 	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
-		// {
-		// 	id: "",
-		// 	name: "绑定用户",
-		// 	url: "/page-center/login",
-		// 	icon: "locked",
-		// 	inner: true,
-		// 	complete: "1"
-		// }, 
+		{
+			id: "",
+			name: "绑定用户",
+			url: "/page-center/login",
+			icon: "locked",
+			// inner: true,
+		},
 		// {
 		// 	id: "",
 		// 	name: "我的借阅",
@@ -114,7 +113,7 @@
 			name: "关于我们",
 			url: "/page-center/aboutMe",
 			icon: "info",
-			inner: true,
+			// inner: true,
 		},
 		// {
 		// 	id: "",
@@ -140,15 +139,15 @@
 	})
 
 	const goTo = (item) => {
-		if (item.inner) {
-			uni.navigateTo({
-				url: item.url
-			})
-		} else {
-			uni.navigateTo({
-				url: item.url
-			})
-		}
+		// if (item.inner) {
+		// 	uni.navigateTo({
+		// 		url: item.url
+		// 	})
+		// } else {
+		uni.navigateTo({
+			url: item.url
+		})
+		// }
 	}
 </script>
 

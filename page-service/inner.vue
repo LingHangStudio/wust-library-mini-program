@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-	import { articleDetailApi } from "@/api/end/index.js"
+	import { articleDetailApi } from "@/api/end"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { ref, } from "vue";
 	const url = ref()

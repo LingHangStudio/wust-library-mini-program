@@ -58,7 +58,7 @@
 	// trend 获取图表
 	// holdings 获取馆藏信息
 	import { ref, Ref } from "vue"
-	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home.js"
+	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/utils/types/book"
 	// infos接口的内容

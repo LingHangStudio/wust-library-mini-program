@@ -39,7 +39,7 @@
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
 	import { ref, onMounted, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
-	import { articleListApi } from "@/api/end/index.js"
+	import { articleListApi } from "@/api/end/index"
 	const items = ref(['最新资源', "最新消息"])
 
 	// 通知公告列表
@@ -66,12 +66,12 @@
 	}
 	const getArticleList = async (pagination : paginationType) => {
 		// 新接口:获取资源和公告
-		const resResource = await articleListApi({ category: 3, type: 3, ...pagination.value })
+		const resResource = await articleListApi({ ...pagination, category: 3, type: 3 })
 		if (resResource) {
 			reourseList.value = reourseList.value.concat(resResource.data)
 			showList.value = reourseList.value
 		}
-		const resNotice = await articleListApi({ category: 1, type: 1, ...pagination.value })
+		const resNotice = await articleListApi({ ...pagination, category: 1, type: 1, })
 		if (resNotice) {
 			noticeList.value = noticeList.value.concat(resNotice.data)
 		}

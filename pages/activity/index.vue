@@ -42,24 +42,25 @@
 <script setup lang="ts">
 	import Empty from "@/components/Empty.vue"
 	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
-	import { ref } from "vue"
-	import { articleListApi } from "@/api/end/index.js"
+	import { ref,Ref } from "vue"
+	import type { paginationType } from "@/utils/types/list"
+	import { articleListApi } from "@/api/end/index"
 	const all = ref([])
 	const toBottom = ref(false)
 	// 分页信息
-	const paginations = ref({
+	const paginations:Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
 		total: 0
 	})
-	const getArticle = async () => {
-		const res = await articleListApi({ category: 2, type: 2, ...paginations.value })
+	const getArticle = async (pagination) => {
+		const res = await articleListApi({ category: 2, type: 2, ...pagination })
 		if (res) {
 			console.log("resActivity", res)
 			all.value = all.value.concat(res.data)
 		}
 	}
-	getArticle()
+	getArticle(paginations.value)
 	onReachBottom(() => {
 		toBottom.value = true
 	})

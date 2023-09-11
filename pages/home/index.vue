@@ -77,7 +77,7 @@
 <script setup lang="ts">
 	import Empty from "@/components/Empty.vue"
 	import { ref, onMounted, Ref } from "vue"
-	import { hotApi } from "@/api/huiwen/home.js"
+	import { hotApi } from "@/api/huiwen/home"
 	const menu = [
 		// {
 		// 	id: "",

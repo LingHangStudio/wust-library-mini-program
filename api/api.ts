@@ -1,5 +1,5 @@
-import request from "@/api/request.js"
-
+import request from "@/api/request.ts"
+// 以前的api
 
 //轮播图
 export function banner() {

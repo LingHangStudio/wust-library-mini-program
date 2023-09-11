@@ -1,11 +1,11 @@
-import request from "@/api/end/request.js"
-
+import request from "@/api/request"
+const API = "https://424neko.top:3001/api"
 
 //文章列表
 // @params category=1&type=1&currentPage=1&pageSize=5
-export function  articleListApi(data) {
+export function articleListApi(data) {
 	return request({
-		url: '/api/getArticleList',
+		url: `${API}/getArticleList`,
 		data
 	}).then(res => {
 		return res.data
@@ -16,15 +16,14 @@ export function  articleListApi(data) {
 // https://mp.weixin.qq.com/s/jIBt3ZtsHLN-XK9nLfyOKA
 export function articleDetailApi(data) {
 	return request({
-		url: '/api/getDetailContent',
+		url: `${API}/getDetailContent`,
 		method: "GET",
-		data:{
-			url:data
+		data: {
+			url: data
 		}
 	}).then(res => {
 		return res.data
-	}).catch(err=>{
-		console.log("err",err)
+	}).catch(err => {
+		console.log("err", err)
 	})
 }
-

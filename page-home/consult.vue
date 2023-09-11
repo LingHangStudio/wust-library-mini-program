@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-	import { consultApi } from "@/api/consult/index.js"
+	import { consultApi } from "@/api/consult"
 	import { Ref, ref } from "vue"
 	import type { responceType } from "@/utils/types/home"
 	//常见问题列表
