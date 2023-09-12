@@ -4,32 +4,17 @@
 		onHide,
 		onLaunch
 	} from "@dcloudio/uni-app"
+	import { getAuthorization } from "@/router/auth"
 	import routingIntercept from "@/router/permission.js"
+	import { useStore } from "@/store"
+	const store = useStore()
 	onLaunch(() => {
 		routingIntercept()
-		// console.log("加载字体");
-		// uni.loadFontFace({
-		// 	family: 'luxun',
-		// 	source: 'url("./static/luxun.otf")',
-		// 	success() {
-		// 		console.log("success");
-		// 	}, fail() {
-		// 		console.log("err");
-		// 	},
-		// 	complete() {
-		// 		console.log("over");
-		// 	}
-		// })
 		// 登录逻辑
+		if (getAuthorization()) {
+			store.setloginState(true)
+		}
 		console.log('App Launch')
-		// if (uni.getStorageSync("WechatToken")) {
-		// 	console.log("微信已授权");
-		// } else {
-		// 	uni.navigateTo({
-		// 		url: "/page-home/hello"
-		// 	})
-		// }
-
 	})
 	onShow(() => {
 		console.log('App Show')

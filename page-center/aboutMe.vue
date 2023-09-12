@@ -4,7 +4,6 @@
 			src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" mode="scaleToFill">
 		</image>
 	</view>
-
 	<uni-card :title="aboutMeContent.title">
 		<view v-html="aboutMeContent.content" class="">
 		</view>

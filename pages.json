@@ -114,6 +114,11 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		},{
+			"path": "userInfo",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
 		}]
 	}],
 	"globalStyle": {

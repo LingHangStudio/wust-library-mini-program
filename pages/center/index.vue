@@ -78,16 +78,24 @@
 	const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
 		{
-			id: "",
+			id: "login",
 			name: "绑定用户",
 			url: "/page-center/login",
 			icon: "locked",
 			meta: {
 				user: false
 			}
+		}, {
+			id: "me",
+			name: "我的",
+			url: "/page-center/userInfo",
+			icon: "locked",
+			meta: {
+				user: true
+			}
 		},
 		{
-			id: "",
+			id: "subscribe",
 			name: "我的借阅",
 			url: "/page-center/mySubscribe",
 			icon: "eye",
@@ -134,15 +142,9 @@
 	})
 
 	const goTo = (item) => {
-		// if (item.inner) {
-		// 	uni.navigateTo({
-		// 		url: item.url
-		// 	})
-		// } else {
 		uni.navigateTo({
 			url: item.url
 		})
-		// }
 	}
 </script>
 

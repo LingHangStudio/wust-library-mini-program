@@ -4,18 +4,33 @@
 			src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" mode="scaleToFill">
 		</image>
 	</view>
-	<view class="form">
+	<view v-if="store.loginState" class="">
+		<view class="">
+			用户已经登录
+		</view>
+		<button @tap="logoutTip.open">退出登录</button>
+	</view>
+	<view v-else class="form">
 		<uni-easyinput class="input" v-model="userForm.username" :inputBorder="false" maxlength="13"
 			prefixIcon="person-filled" type="number" placeholder="请输入学号/工号" />
 		<uni-easyinput class="input" v-model="userForm.password" :inputBorder="false" prefixIcon="locked"
 			type="password" placeholder="请输入密码" />
-		<view @tap="" class="forget">
+		<view @tap="showToolTip.open()" class="forget">
 			忘记密码?
 		</view>
 		<view class="button">
 			<button @tap="login">提交</button>
 		</view>
 	</view>
+
+	<uni-popup ref="logoutTip" type="dialog" background-color="#fff">
+		<uni-popup-dialog type="warn" cancelText="关闭" confirmText="退出" title="通知" content="是否退出登录？" @confirm="logout"
+			@close="logoutTip.close()"></uni-popup-dialog>
+	</uni-popup>
+
+	<uni-popup ref="showToolTip" type="center" background-color="#fff">
+		<view class="popup-content" v-html="toolTipContent"></view>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -25,7 +40,16 @@
 	import { useStore } from "@/store"
 	import RSA from "@/utils/rsa.js"
 	const store = useStore()
+	const showToolTip = ref(null)
+	const logoutTip = ref(null)
 
+	const toolTipContent = `<h3>账号说明</h3>
+<p>1.教职工的账号为工号，学生的账号为学号。</p>
+<p>2.初始密码默认为姓名中姓的首字母大写+账号，如您修改过密码，则以修改后的密码为准。</p>
+<h3>忘记密码</h3>
+<p>用户忘记密码可通过两种方式进行密码重置：</p>
+<p>1. 用户可在登录页面点击“忘记密码”，输入正确信息找回密码。</p>
+<P>2. 用户可持有效证件（身份证、校园卡）至图书馆二楼服务台重置密码。</P>`
 	const userForm = ref({
 		username: "202113407294",
 		password: "www.29900",
@@ -51,7 +75,7 @@
 			// 	// 对cookie进行验证
 			// 	// 请求.....
 			// }
-			
+
 			//test 登录成功后的处理
 			uni.setStorageSync("Cookie", "test");
 			store.setloginState(true)
@@ -63,6 +87,11 @@
 				duration: 2000
 			})
 		}
+	}
+
+	const logout = () => {
+		store.setloginState(false)
+		uni.removeStorageSync('Cookie')
 	}
 </script>
 
@@ -135,5 +164,12 @@
 		font-size: 20px;
 		color: #b5b4b2;
 
+	}
+
+	.popup-content {
+		max-width: 80vw;
+		margin: 2vw;
+		// border: 1px solid red;
+		padding: 2vw;
 	}
 </style>
