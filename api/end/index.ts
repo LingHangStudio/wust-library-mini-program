@@ -14,16 +14,16 @@ export function articleListApi(data) {
 // 文章详情
 // @params url 
 // https://mp.weixin.qq.com/s/jIBt3ZtsHLN-XK9nLfyOKA
-export function articleDetailApi(data) {
-	return request({
-		url: `${API}/getDetailContent`,
-		method: "GET",
-		data: {
-			url: data
-		}
-	}).then(res => {
+export async function articleDetailApi(data) {
+	try {
+		const res = await request({
+			url: `${API}/getDetailContent`,
+			data: {
+				url: data
+			}
+		})
 		return res.data
-	}).catch(err => {
+	} catch (err) {
 		console.log("err", err)
-	})
+	}
 }

@@ -1,96 +1,65 @@
 <template>
-	<view v-if="!err" class="">
-		<view v-if="!searchList" class="">
-			<Empty></Empty>
+	<view class="">
+		<view v-if="listLength===0" class="">
+			<Empty description="暂无活动"></Empty>
 		</view>
-		<view v-else v-for="(item,index) in searchList" :key="index" class="">
-			{{item.title}}
-		</view>
+		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"
+			@scrolltolower="getMoreFunc" enable-back-to-top v-else>
+			<slot></slot>
+			<view style="text-align: center;padding: 3px;">--到底啦！--</view>
+		</scroll-view>
 	</view>
+	<uni-fab horizontal="right" vertical="bottom" v-show="topArrow" buttonColor="" backgroundColor=""
+		:pattern="{type:'top'}" @fabClick="toTop" :popMenu="false" />
 </template>
 
 <script setup lang="ts">
+	// @scrolltolower="getMyList({page:paginations.currentPage+1,pageSize:paginations.pageNum})"
+	// 封装这个lits,目的是：简化置顶按钮的配置,简化scroll-view的配置
 	import Empty from "@/components/Empty.vue"
-	//list页面 可能是 文章列表，也有可能是 搜索的结果列表
-	import { ref, onMounted, reactive } from "vue"
-	import { onLoad } from "@dcloudio/uni-app"
-	import { searchApi, hotApi } from "@/api/huiwen/home"
-	const searchInput = ref("") //从搜索页传参
-	const choiceType = ref("all")
-	let searchList = reactive([])
-	// 当前页 
-	const currentPage = ref(1)
-	// 页数
-	const pageNum = ref(10)
-	const err = ref(false)
-	onLoad((e) => {
-		console.log(e);
-		if (e) {
-			searchInput.value = e.keyword
-			choiceType.value=e.choiceType
-		}
-		const search = async () => {
-			let value = searchInput.value
-			searchInput.value = ""
-			let data = {
-				queryFieldList: [
-					{
-						logic: 0,
-						field: choiceType.value,
-						operator: "*",
-						values: [value]
-					}
-				],
-				sortType: "desc",
-				sortField: "relevance",
-				indexName: "idx.opac",
-				collapseField: "groupId",
-				filterFieldList: [],
-				page: 1,
-				pageSize: 20
-			}
-			const res = await searchApi(data);
-			console.log("search", res)
+	import { ref, nextTick } from "vue"
+	// 子传父方法
+	const emit = defineEmits(['getMore'])
+
+	// 父传子变量
+	const props = defineProps({
+		listLength: {
+			type: Number,
+			default: 0
+		},
+		page: {
+			type: Number,
+			default: 1,
+		},
+		pageSize: {
+			type: Number,
+			default: 20,
 		}
 	})
-	//获取检索列表:站内
-	// async function getSearch() {
-	// 	const res = await searchArticle({
-	// 		keyword: searchInput.value,
-	// 		currentPage: currentPage,
-	// 		pageNum: pageNum
-	// 	})
-	// 	if (res) {
-	// 		searchList = res.data
-	// 	} else {
-	// 		err.value = true
-	// 	}
-	// }
 
-	//获取文章列表
-	// async function getArticle() {
-	// 	const res = await getArticleList()
-	// 	console.log(res);
-	// }
+	// 置顶按钮
+	const myScroll = ref(0)
+	const oldScrollTop = ref(0)
+	const topArrow = ref(false)
+	const toTop = () => {
+		console.log("出发了",myScroll.value)
+		myScroll.value = oldScrollTop.value
+		nextTick(() => {
+			myScroll.value = -20
+		})
+		topArrow.value = false
+	}
 
-	onMounted(() => {
-		// console.log(searchInput);
-		// if (searchInput.value) {
-		// 	//站内检索
-		// 	console.log("我是搜索");
-		// 	getSearch()
-		// } else {
-		// 	console.log("我是文章列表");
-		// 	getArticle()
-		// }
-	})
+	const isShowArrow = (e : any) => {
+		oldScrollTop.value = e.detail.scrollTop
+		if (e.detail.scrollTop > 0) topArrow.value = true
+		else topArrow.value = false
+	}
+
+	const getMoreFunc = () => {
+		emit('getMore', { page: props.page + 1, pageSize: props.pageSize })
+	}
 </script>
 
 <style lang="scss" scoped>
-	.err {
-		uni-image {
-			display: block;
-			margin: 3px auto;
-		}
-	}
 </style>

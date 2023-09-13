@@ -1,11 +1,7 @@
 <template>
-	<view v-if="searchList.length===0" class="">
-		<Empty></Empty>
-	</view>
-	<scroll-view :scroll-top="myScroll" scroll-with-animation style="height: 100vh" scroll-y :upper-threshold="30"
-		:lower-threshold="30" enable-back-to-top @scroll="isShowArrow"
-		@scrolltolower="search({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})" v-else>
-		<view class="">
+	<List @getMore="search" :listLength="searchList.length" :page="paginations.currentPage"
+		:pageSize="paginations.pageNum">
+		<template>
 			<uni-card margin="5px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
 				v-for="(item,index) in searchList" :key="index">
 				<view class="main">
@@ -21,18 +17,13 @@
 					</view>
 				</view>
 			</uni-card>
-		</view>
-		<view style="text-align: center;padding: 3px;">到底啦！</view>
-	</scroll-view>
-
-	<view @tap="toTop" v-show="topArrow" class="top">
-		<uni-icons color="#142d88" type="top" size="30px"></uni-icons>
-	</view>
+		</template>
+	</List>
 </template>
 
 <script setup lang="ts">
 	//search-list页面是搜索的结果列表
-	import Empty from "@/components/Empty.vue"
+	import List from "@/components/list.vue"
 	import { ref, nextTick } from "vue"
 	import { searchApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
@@ -95,20 +86,6 @@
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})
-	}
-
-	const isShowArrow = (e) => {
-		oldScrollTop.value = e.detail.scrollTop
-		if (e.detail.scrollTop != 0) topArrow.value = true
-		else topArrow.value = false
-	}
-
-	const toTop = () => {
-		myScroll.value = oldScrollTop.value
-		nextTick(() => {
-			myScroll.value = 0
-		})
-		topArrow.value = false
 	}
 
 	onLoad((e) => {

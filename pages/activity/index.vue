@@ -1,13 +1,9 @@
 <template>
 	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
 	<view class="content">
-		<view v-if="all.length===0" class="">
-			<Empty description="暂无活动"></Empty>
-		</view>
-		<scroll-view scroll-y
-			@scrolltolower="getArticle({currentPage:paginations.currentPage+1,pageNum:paginations.pageNum})"
-			:lower-threshold="30" style="height: 100vh" v-else>
-			<view class="list">
+		<List @getMore="getArticle" :listLength="all.length" :page="paginations.currentPage"
+			:pageSize="paginations.pageNum">
+			<template>
 				<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
 					<uni-card margin="3px" padding="3px" :is-full="true">
 						<view class="box">
@@ -33,40 +29,30 @@
 						</view>
 					</uni-card>
 				</view>
-				<view style="text-align: center;padding: 3px;">到底啦！</view>
-			</view>
-		</scroll-view>
+			</template>
+		</List>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import Empty from "@/components/Empty.vue"
-	import { onReachBottom, onPageScroll } from "@dcloudio/uni-app"
-	import { ref,Ref } from "vue"
+	import List from "@/components/list.vue"
+	import { ref, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
 	const all = ref([])
-	const toBottom = ref(false)
 	// 分页信息
-	const paginations:Ref<paginationType> = ref({
+	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
 		total: 0
 	})
-	const getArticle = async (pagination) => {
-		const res = await articleListApi({ category: 2, type: 2, ...pagination })
+	const getArticle = async (page : number, pageSize : number) => {
+		const res = await articleListApi({ category: 2, type: 2, page, pageSize })
 		if (res) {
-			console.log("resActivity", res)
 			all.value = all.value.concat(res.data)
 		}
 	}
-	getArticle(paginations.value)
-	onReachBottom(() => {
-		toBottom.value = true
-	})
-	onPageScroll((e) => {
-		console.log();
-	})
+	getArticle(paginations.value.currentPage, paginations.value.pageNum)
 
 	const goTo = (url : string) => {
 		uni.navigateTo({

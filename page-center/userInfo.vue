@@ -53,6 +53,7 @@
 <script setup lang="ts">
 	import { ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
+	// import { typeListApi, trendListApi } from "@/api/huiwen/center.ts"
 	// 画图的
 	const trendChart : Ref<any> = ref({})
 	const trendOpts = {
@@ -93,7 +94,6 @@
 			}
 		}
 	}
-
 
 	const info = ref({
 		uid: 169272,
@@ -200,53 +200,59 @@
 	// 借阅时间分布
 	const loan_range = ref()
 	const getTrendChart = () => {
-		loan_range.value = {
-			"2022-10": 1,
-			"2022-11": 2,
-			"2022-12": 0,
-			"2023-01": 0,
-			"2023-02": 10,
-			"2023-03": 0,
-			"2023-04": 11,
-			"2023-05": 0,
-			"2023-06": 5,
-			"2023-07": 9,
-			"2023-08": 0,
-			"2023-09": 8
+		const res = true //await trendListApi()
+		if (res) {
+			loan_range.value = {
+				"2022-10": 1,
+				"2022-11": 2,
+				"2022-12": 0,
+				"2023-01": 0,
+				"2023-02": 10,
+				"2023-03": 0,
+				"2023-04": 11,
+				"2023-05": 0,
+				"2023-06": 5,
+				"2023-07": 9,
+				"2023-08": 0,
+				"2023-09": 8
+			}
+			trendChart.value = {
+				// categories: Object.keys(trendArr.data).splice(-6),
+				categories: Object.keys(loan_range.value).splice(-6),
+				series: [{
+					name: '借阅量',
+					// data: Object.values(trendArr.data).splice(-6),
+					data: Object.values(loan_range.value).splice(-6),
+				}],
+			}
 		}
-		trendChart.value = {
-			// categories: Object.keys(trendArr.data).splice(-6),
-			categories: Object.keys(loan_range.value).splice(-6),
-			series: [{
-				name: '借阅量',
-				// data: Object.values(trendArr.data).splice(-6),
-				data: Object.values(loan_range.value).splice(-6),
-			}],
-		}
+
 	}
 
 	// 借阅类型
 	const loan_type = ref()
 	const getTypeChart = () => {
-		loan_type.value = [
-			{
-				"count": 2,
-				"class": "数理科学与化学"
-			},
-			{
-				"count": 1,
-				"class": "工业技术"
+		const res = true //await typeListApi()
+		if (res) {
+			loan_type.value = [
+				{
+					"count": 2,
+					"class": "数理科学与化学"
+				},
+				{
+					"count": 1,
+					"class": "工业技术"
+				}
+			]
+
+			// 需要 更换字段	
+			pieChart.value = {
+				series: [{
+					data: loan_type.value.map(item => {
+						return { name: item.class, value: item.count }
+					})
+				}],
 			}
-		]
-
-		// 更换字段
-
-		pieChart.value = {
-			series: [{
-				data: loan_type.value.map(item => {
-					return { name: item.class, value: item.count }
-				})
-			}],
 		}
 	}
 
