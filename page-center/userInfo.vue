@@ -48,12 +48,21 @@
 
 	<qiun-data-charts type="pie" :opts="pieOpts" :chartData="pieChart" />
 
+	<button class="button" type="warn" @tap="logoutTip.open">退出登录</button>
+	<uni-popup ref="logoutTip" type="dialog" background-color="#fff">
+		<uni-popup-dialog type="warn" cancelText="关闭" confirmText="退出" title="通知" content="是否退出登录？" @confirm="logout"
+			@close="logoutTip.close()"></uni-popup-dialog>
+	</uni-popup>
+
 </template>
 
 <script setup lang="ts">
 	import { ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
+	import { useStore } from "@/store"
 	// import { typeListApi, trendListApi } from "@/api/huiwen/center.ts"
+	const logoutTip = ref(null)
+	const store = useStore()
 	// 画图的
 	const trendChart : Ref<any> = ref({})
 	const trendOpts = {
@@ -260,6 +269,11 @@
 		getTrendChart()
 		getTypeChart()
 	})
+
+	const logout = () => {
+		store.setloginState(false)
+		uni.removeStorageSync('Cookie')
+	}
 </script>
 
 <style scoped lang="scss">
@@ -293,5 +307,12 @@
 		.countItem:last-child {
 			border-right: 0px;
 		}
+	}
+
+	.button {
+		width: 90%;
+		border-radius: 5px;
+		text-align: center;
+		margin: 30px auto 30px auto;
 	}
 </style>

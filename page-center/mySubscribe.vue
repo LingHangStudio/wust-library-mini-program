@@ -5,15 +5,42 @@
 	<List @getMore="getMyList" :listLength="lists.length" :page="paginations.currentPage"
 		:pageSize="paginations.pageNum">
 		<template>
-			<uni-card margin="8px" :title="item.title" v-for="item in lists" :key="item.bibId" class="item">
-				<div>
-					索书号：{{item.search}}</div>
-				<div>ISBN:{{item.ISBN}}</div>
-				<div>出版年:{{item.pubilsh}}</div>
-				<div>借阅时间:{{item.loanDate}}</div>
+			<uni-card @tap="getInfo(index)" margin="8px" :title="item.title" v-for="(item,index) in lists"
+				:key="item.bibId" class="item">
+				<view>
+					索书号：{{item.barCode}}</view>
+				<view>借阅时间:{{item.loanDate}}</view>
+				<view class="">
+					归还时间:{{item.returnDate}}
+				</view>
+				<view class="">
+					借阅地点:{{item.location}}
+				</view>
 			</uni-card>
 		</template>
 	</List>
+
+	<uni-popup @change="hidePop" ref="popBook" background-color="#fff" type="bottom">
+		<uni-card is-full :border="false" :title="currentBookInfo?.title">
+			<view>索书号：{{currentBookInfo?.barCode}}</view>
+			<view v-if="currentBookInfo?.bibAttrs">ISBN:{{currentBookInfo?.bibAttrs.isbn}}</view>
+			<view>出版年:{{currentBookInfo?.bibAttrs.pub_year}}</view>
+			<view class="">
+				作者：{{currentBookInfo?.author}}
+			</view>
+			<view v-if="currentBookInfo?.bibAttrs" class="">
+				出版社：{{currentBookInfo?.bibAttrs.publisher}}
+			</view>
+			<hr>
+			<view>借阅时间:{{currentBookInfo?.loanDate}}</view>
+			<view class="">
+				归还时间:{{currentBookInfo?.returnDate}}
+			</view>
+			<view class="">
+				借阅地点:{{currentBookInfo?.location}}
+			</view>
+		</uni-card>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -37,6 +64,60 @@
 			getMyList(1, 10)
 		}
 	}
+	// 弹窗
+	const popBook = ref(null)
+	const currentBookInfo : Ref<any> = ref({
+		"bibId": "",
+		"bibAttrs": {
+			"pub_year": "",
+			"author": "",
+			"callno": "",
+			"isbn": "",
+			"classno": "",
+			"publisher": "",
+			"eisbn": "",
+			"title": ""
+		},
+		"returnDate": "",
+		"attachment": null,
+		author: "",
+		"loanDate": "",
+		"location": "",
+		"title": "",
+		barCode: ""
+	})
+	const getInfo = (i : number) => {
+		currentBookInfo.value = lists.value[i]
+		popBook.value.open()
+	}
+	const hidePop = (e) => {
+		console.log(e)
+		if (e.show) {
+
+		} else {
+			currentBookInfo.value = {
+				"bibId": "",
+				"bibAttrs": {
+					"pub_year": "",
+					"author": "",
+					"callno": "",
+					"isbn": "",
+					"classno": "",
+					"publisher": "",
+					"eisbn": "",
+					"title": ""
+				},
+				"returnDate": "",
+				"attachment": null,
+				author: "",
+				"loanDate": "",
+				"location": "",
+				"title": "",
+				barCode: ""
+
+			}
+		}
+	}
 
 	const user = uni.getStorageSync("user")
 	const paginations : Ref<paginationType> = ref({
@@ -44,7 +125,6 @@
 		pageNum: 10,
 		total: 0
 	})
-	console.log(paginations)
 	const lists = ref([])
 	const getMyList = (page : number, pageSize : number) => {
 		console.log("调用了，", page, pageSize)
