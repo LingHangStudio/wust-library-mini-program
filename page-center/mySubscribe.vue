@@ -46,7 +46,7 @@
 <script setup lang="ts">
 	import List from "@/components/list.vue"
 	import { ref, Ref } from "vue"
-	// import { readListApi } from "@/api/huiwen/center.ts"
+	import { readListApi, histsListApi } from "@/api/huiwen/center.ts"
 	import { paginationType } from "@/utils/types/list"
 	// 分栏信息
 	const current = ref(0)
@@ -83,7 +83,7 @@
 		author: "",
 		"loanDate": "",
 		"location": "",
-		"title": "",
+		title: "",
 		barCode: ""
 	})
 	const getInfo = (i : number) => {
@@ -110,31 +110,185 @@
 				"returnDate": "",
 				"attachment": null,
 				author: "",
-				"loanDate": "",
-				"location": "",
-				"title": "",
+				loanDate: "",
+				location: "",
+				title: "",
 				barCode: ""
 
 			}
 		}
 	}
 
-	const user = uni.getStorageSync("user")
+	// const user = uni.getStorageSync("user")
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
 		total: 0
 	})
 	const lists = ref([])
-	const getMyList = (page : number, pageSize : number) => {
-		console.log("调用了，", page, pageSize)
+	const getMyList = async (page : number, pageSize : number) => {
+
+		console.log("调用了，", page, pageSize, current.value)
 
 		if (current.value === 0) {
 			// 当前借阅
-			const res = true //await readListApi(page,pageSize)
+			const res = await readListApi(page, pageSize)
+			console.log('list', res)
 			if (res) {
 				lists.value = lists.value.concat([
 					{
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
+						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
+						"bibAttrs": {
+							"pub_year": "2015",
+							"author": "主编王莉",
+							"callno": "O13-44/618",
+							"isbn": "978-7-04-042592-5",
+							"classno": "O13-44",
+							"publisher": "高等教育出版社",
+							"eisbn": "",
+							"title": "考研数学基础过关500题:高教版"
+						},
+						"returnDate": "2023-02-25 18:35",
+						"attachment": null,
+						"author": "主编王莉",
+						"loanDate": "2022-11-07 21:39",
+						"location": "总馆-黄家湖借还处",
+						"title": "考研数学基础过关500题:高教版",
+						"barCode": "A1507454"
+					}, {
 						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
 						"bibAttrs": {
 							"pub_year": "2015",
@@ -158,7 +312,8 @@
 			}
 		} else {
 			// 历史借阅
-			const res = true //await 
+			const res = await histsListApi(page, pageSize)
+			console.log("hist", res)
 			if (res) {
 				lists.value = lists.value.concat([
 					{

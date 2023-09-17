@@ -6,7 +6,8 @@
 				<view class="" style="">
 					<span style="font-size: 1.2rem;padding: 3px; font-weight: bold;">{{info.displayName}}</span>
 					证件状态
-					<uni-tag :text="info.idStatusDesc" circle></uni-tag>
+					<uni-tag :type="info.idStatusDesc==='有效'?'success': 'warning'  " :text="info.idStatusDesc"
+						circle></uni-tag>
 				</view>
 				<view>{{info.dept}}</view>
 				<view><uni-icons type="phone"></uni-icons>{{info.mobile}}</view>
@@ -60,7 +61,7 @@
 	import { ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { useStore } from "@/store"
-	// import { typeListApi, trendListApi } from "@/api/huiwen/center.ts"
+	import { userInfoApi, typeListApi, trendListApi } from "@/api/huiwen/center"
 	const logoutTip = ref(null)
 	const store = useStore()
 	// 画图的
@@ -90,69 +91,57 @@
 		color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
 		padding: [5, 5, 5, 5],
 		enableScroll: false,
-
-		extra: {
-			pie: {
-				// activeOpacity: 0.5,
-				// activeRadius: 10,
-				// offsetAngle: 0,
-				// labelWidth: 15,
-				// border: false,
-				// borderWidth: 3,
-				// borderColor: "#FFFFFF"
-			}
-		}
 	}
 
 	const info = ref({
-		uid: 169272,
+		uid: 0,
 		instId: 1,
-		userId: "202113407294",
+		userId: "",
 		password: "",
 		salt: "",
 		idCard: null,
-		"idCode": "202113407294",
-		"idActivationDate": "2021-09-20",
-		"idExpireDate": "2025-07-01",
+		"idCode": "",
+		"idActivationDate": "",
+		"idExpireDate": "",
 		"idStatus": 0,
-		"idStatusDesc": "有效",
+		"idStatusDesc": "",
 		"idUpdatedBy": null,
 		"idUpdatedDate": null,
 		"firstName": null,
 		"middleName": null,
 		"lastName": null,
-		"displayName": "唐*泉",
+		"displayName": "",
 		"preferredLanguage": null,
 		"preferredLanguageDesc": null,
 		"gender": 0,
-		"genderDesc": "男",
-		"birthday": "2001-12-22",
+		"genderDesc": "",
+		"birthday": "",
 		"nation": null,
-		"dept": "计算机科学与技术学院",
-		"occupation": "计算机科学与技术",
+		"dept": "",
+		"occupation": "",
 		"duty": null,
 		"jobPost": null,
-		"education": "本科",
-		"address": "计算机科学与技术2021级5班",
+		"education": "",
+		"address": "",
 		"phone": null,
 		"email": null,
-		"mobile": "183****3606",
-		"userType": "user.patron",
-		"userGroup": "user.grp.00",
-		"userGroupDesc": "本科生",
+		"mobile": "",
+		"userType": "",
+		"userGroup": "",
+		"userGroupDesc": "",
 		"jobCatalogDesc": null,
 		"jobCatalog": null,
 		"jobGroupDesc": null,
 		"jobGroup": null,
-		"department": "计算机科学与技术学院",
-		"grade": "2021",
+		"department": "",
+		"grade": "",
 		"isRoot": 0,
 		"isCheckedEmail": 0,
 		"isLoginRestrict": 0,
 		"isLoginRestrictDesc": null,
-		"regDate": "2021-09-13 00:00:00",
+		"regDate": "",
 		"logoutDate": null,
-		"expireDate": "2025-07-01",
+		"expireDate": "",
 		"isNeedEditpwd": 0,
 		"isNeedEditpwdDesc": null,
 		"isLoginLimit": 0,
@@ -162,24 +151,24 @@
 		"deposit": 0,
 		"serviceCharge": 0,
 		"voucher": 0,
-		"credit": 59,
+		"credit": 0,
 		"userStatus": 0,
-		"userClass": "计算机科学与技术2021级5班",
+		"userClass": "",
 		"userCountry": null,
-		"userStatusDesc": "有效",
+		"userStatusDesc": "",
 		"catalogLevel": 0,
 		"loginLimitTime": null,
-		"libCode": "00000",
-		"libPath": "000/00000/",
+		"libCode": "",
+		"libPath": "",
 		"loginNum": 0,
 		"note": null,
 		"lastLoginTime": null,
 		"statusUpdatedBy": null,
 		"statusUpdatedDate": null,
 		"createdBy": null,
-		"createdDate": "2021-09-13 00:00:00",
-		"updatedBy": "shuzihua",
-		"updatedDate": "2023-08-06 00:12:07",
+		"createdDate": "",
+		"updatedBy": "",
+		"updatedDate": "",
 		"userRoles": null,
 		"userIdentifiers": null,
 		"userExinfos": null,
@@ -188,7 +177,7 @@
 		"maxLoanCount": 0,
 		"userTypeDesc": null,
 		"catalogLevelDesc": null,
-		"libCodeDesc": "总馆",
+		"libCodeDesc": "",
 		"userOperations": null,
 		"userTypes": null,
 		"userTypesDesc": null,
@@ -265,14 +254,29 @@
 		}
 	}
 
+
+	// 获取用户信息
+	const getUserInfo = async () => {
+		const res = await userInfoApi()
+		console.log('info', res)
+		if (res) {
+			info.value = res.data
+		}
+	}
+
 	onLoad(() => {
+		getUserInfo()
 		getTrendChart()
 		getTypeChart()
 	})
 
 	const logout = () => {
+		console.log("logout")
+		uni.removeStorageSync("Cookie")
 		store.setloginState(false)
-		uni.removeStorageSync('Cookie')
+		uni.removeStorageSync("loginState")
+		uni.removeStorageSync("loginInfo")
+		uni.navigateBack()
 	}
 </script>
 

@@ -18,21 +18,21 @@ export default function request(options) {
 			// 请求参数（若不传，则默认为 {} ）
 			data: options.data || {},
 			header: options.header,
-			getResponse: true,
+			// getResponse: true,
 			withCredentials: true,
 			// 请求成功
 			success: (res) => {
 				console.log("总res", res);
-				console.log("cookie", res.header['Set-Cookie'])
 				// 此判断可根据自己需要更改 汇文的code为0
-				if (!options.noValidate && (res.data.status !== 200 && res.data.code !== 0)) {
-					if (res.data.code === 401) {
+				if (!options?.noValidate && (res.data?.status !== 200 && res.data?.code !== 0)) {
+					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
-						uni.removeStorageSync("Cookie")
-						store.setloginState(false)
+						// uni.removeStorageSync("Cookie")
+						// store.setloginState(false)
+						// uni.removeStorageSync("loginInfo")
 						uni.showToast({
 							title: "未登录或者登录过期",
-							icon:"error"
+							icon: "error"
 						})
 						reject()
 					}
@@ -40,6 +40,7 @@ export default function request(options) {
 						title: '获取数据失败！',
 						icon: "error"
 					})
+					uni.hideLoading()
 					reject(res.data.message)
 				}
 				// 响应成功执行

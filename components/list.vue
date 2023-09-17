@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<view v-if="listLength===0" class="">
-			<Empty description="暂无活动"></Empty>
+			<Empty></Empty>
 		</view>
 		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"
 			@scrolltolower="getMoreFunc" enable-back-to-top v-else>
@@ -52,7 +52,7 @@
 
 	const isShowArrow = (e : any) => {
 		oldScrollTop.value = e.detail.scrollTop
-		if (e.detail.scrollTop > 0) topArrow.value = true
+		if (e.detail.scrollTop > 10) topArrow.value = true
 		else topArrow.value = false
 	}
 

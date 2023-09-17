@@ -1,30 +1,8 @@
+// 此页接口不用Cookie
+
 import request from "@/api/request"
 const API = "https://libsys.wust.edu.cn"
 
-
-/*
-* 登录的第三个接口 从汇文获取cookie
-* 参数拼接到url后面 
-* /meta-local/opac/cas/rosetta?ticket=
-*/
-export async function loginFinalApi(data) {
-	const res = await request({
-		// url: 'http://localhost/library/meta-local/opac/cas/rosetta?ticket=' + data,
-		url: `${API}/meta-local/opac/cas/rosetta?ticket=` + data,
-		method: "GET",
-		header:{
-			// "Referer":"https://auth.wust.edu.cn/",
-			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-		},
-		// noValidate:true
-	})
-	
-	
-	console.log("登录的最后一个接口，获取cookie")
-	console.log(res)
-	// uni.setStorageSync("cookie",res.headers.)
-	return res
-}
 
 //搜索 - 主页
 export async function searchApi(data) {

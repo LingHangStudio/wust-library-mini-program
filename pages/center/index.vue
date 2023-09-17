@@ -22,7 +22,7 @@
 
 	<uni-card title="">
 		<template v-for="item in menu" :key="item.id">
-			<button v-if="!item.meta.user ||(item.meta.user&&store.loginState)" @tap="goTo(item)" class="item">
+			<button v-if="judgeAuth(item.meta)" @tap="goTo(item)" class="item">
 				<view class="font">
 					<uni-icons :type="item.icon" size="30"></uni-icons>
 					<view class="">
@@ -83,7 +83,7 @@
 			url: "/page-center/login",
 			icon: "locked",
 			meta: {
-				user: false
+				auth: "visitor",// 必须是未登录状态
 			}
 		}, {
 			id: "me",
@@ -91,7 +91,7 @@
 			url: "/page-center/userInfo",
 			icon: "locked",
 			meta: {
-				user: true
+				auth: "user"
 			}
 		},
 		{
@@ -100,7 +100,7 @@
 			url: "/page-center/mySubscribe",
 			icon: "eye",
 			meta: {
-				user: true
+				auth: "user"
 			}
 		},
 		// {
@@ -123,10 +123,14 @@
 			url: "/page-center/aboutMe",
 			icon: "info",
 			meta: {
-				user: false
+				auth: "no"
 			}
 		},
 	]
+
+	const judgeAuth = (meta) => {
+		return meta.auth === 'no' || (meta.auth === 'user' && store.loginState) || (meta.auth === 'visitor' && !store.loginState)
+	}
 
 	uni.getSystemInfo({
 		success: function (res) {
