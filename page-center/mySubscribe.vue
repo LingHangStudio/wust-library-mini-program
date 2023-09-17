@@ -2,8 +2,8 @@
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
-	<List @getMore="getMyList" :listLength="lists.length" :page="paginations.currentPage"
-		:pageSize="paginations.pageNum">
+	<List @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
+		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<uni-card @tap="getInfo(index)" margin="8px" :title="item.title" v-for="(item,index) in lists"
 				:key="item.bibId" class="item">
@@ -46,7 +46,7 @@
 <script setup lang="ts">
 	import List from "@/components/list.vue"
 	import { ref, Ref } from "vue"
-	import { readListApi, histsListApi } from "@/api/huiwen/center.ts"
+	import { readListApi, histsListApi } from "@/api/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
 	// 分栏信息
 	const current = ref(0)
@@ -127,216 +127,32 @@
 	})
 	const lists = ref([])
 	const getMyList = async (page : number, pageSize : number) => {
-
 		console.log("调用了，", page, pageSize, current.value)
-
 		if (current.value === 0) {
 			// 当前借阅
 			const res = await readListApi(page, pageSize)
 			console.log('list', res)
 			if (res) {
-				lists.value = lists.value.concat([
-					{
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					}, {
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					},
-				])
+				let temp = res.data
+				lists.value = lists.value.concat(temp.items)
+				paginations.value = {
+					currentPage: temp.currentPage,
+					pageNum: temp.pageSize,
+					total: temp.total
+				}
 			}
 		} else {
 			// 历史借阅
 			const res = await histsListApi(page, pageSize)
 			console.log("hist", res)
 			if (res) {
-				lists.value = lists.value.concat([
-					{
-						"bibId": "mbd9d59c362259b18142035f7e9e3e458",
-						"bibAttrs": {
-							"pub_year": "2015",
-							"author": "主编王莉",
-							"callno": "O13-44/618",
-							"isbn": "978-7-04-042592-5",
-							"classno": "O13-44",
-							"publisher": "高等教育出版社",
-							"eisbn": "",
-							"title": "考研数学基础过关500题:高教版"
-						},
-						"returnDate": "2023-02-25 18:35",
-						"attachment": null,
-						"author": "主编王莉",
-						"loanDate": "2022-11-07 21:39",
-						"location": "总馆-黄家湖借还处",
-						"title": "考研数学基础过关500题:高教版",
-						"barCode": "A1507454"
-					},
-				])
+				let temp = res.data
+				lists.value = lists.value.concat(temp.items)
+				paginations.value = {
+					currentPage: temp.currentPage,
+					pageNum: temp.pageSize,
+					total: temp.total
+				}
 			}
 		}
 	}

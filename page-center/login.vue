@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 	import { loginAPI, login1API } from "@/api/user"
-	import { activeCookie } from "@/api/huiwen/center"
+	// import { activeCookie } from "@/api/huiwen/center"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { useStore } from "@/store"
@@ -121,7 +121,6 @@
 			if (res1?.data.data) {
 				if (res1?.data.data.code === 'NOUSER') {
 					errorMsgContent.value = "账号不存在。"
-
 				} else if (res1?.data.data.code === 'PASSERROR') {
 					errorMsgContent.value = `密码错误。一共${res1?.data.data.data[0]} 已经错误${res1?.data.data.data[2]},`
 				} else {
@@ -135,18 +134,9 @@
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2.data)
 			console.log('Cookie', myCookie)
-
-			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
-			// 获取到cookie后，
-			// 请求https://libsys.wust.edu.cn/meta-local/opac/users/info?isPlaintext=true
-			// 对cookie进行验证
-			const station = await activeCookie()
-			console.log('station', station)
-			// 请求.....
-
 			// 登录成功后的处理
 			uni.setStorageSync("loginState", true);
-
+			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
 			uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
 			store.setloginState(true)
 			uni.navigateBack()

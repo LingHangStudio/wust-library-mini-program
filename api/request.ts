@@ -27,9 +27,9 @@ export default function request(options) {
 				if (!options?.noValidate && (res.data?.status !== 200 && res.data?.code !== 0)) {
 					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
-						// uni.removeStorageSync("Cookie")
-						// store.setloginState(false)
-						// uni.removeStorageSync("loginInfo")
+						uni.removeStorageSync("Cookie")
+						store.setloginState(false)
+						uni.removeStorageSync("loginInfo")
 						uni.showToast({
 							title: "未登录或者登录过期",
 							icon: "error"

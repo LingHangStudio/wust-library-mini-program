@@ -52,7 +52,7 @@
 
 	const isShowArrow = (e : any) => {
 		oldScrollTop.value = e.detail.scrollTop
-		if (e.detail.scrollTop > 10) topArrow.value = true
+		if (e.detail.scrollTop > 50) topArrow.value = true
 		else topArrow.value = false
 	}
 

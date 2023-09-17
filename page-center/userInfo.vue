@@ -20,6 +20,14 @@
 		<view class="overview">
 			<view class="countItem">
 				<view class="">
+					{{info.credit}}
+				</view>
+				<view class="">
+					我的积分
+				</view>
+			</view>
+			<view class="countItem">
+				<view class="">
 					{{stats.loanCount}}
 				</view>
 				<view class="">
@@ -61,7 +69,7 @@
 	import { ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { useStore } from "@/store"
-	import { userInfoApi, typeListApi, trendListApi } from "@/api/huiwen/center"
+	import { userInfoApi, typeListApi, trendListApi, statsApi } from "@/api/huiwen/center"
 	const logoutTip = ref(null)
 	const store = useStore()
 	// 画图的
@@ -100,17 +108,17 @@
 		password: "",
 		salt: "",
 		idCard: null,
-		"idCode": "",
-		"idActivationDate": "",
-		"idExpireDate": "",
-		"idStatus": 0,
+		idCode: "",
+		idActivationDate: "",
+		idExpireDate: "",
+		idStatus: 0,
 		"idStatusDesc": "",
 		"idUpdatedBy": null,
 		"idUpdatedDate": null,
-		"firstName": null,
-		"middleName": null,
-		"lastName": null,
-		"displayName": "",
+		firstName: null,
+		middleName: null,
+		lastName: null,
+		displayName: "",
 		"preferredLanguage": null,
 		"preferredLanguageDesc": null,
 		"gender": 0,
@@ -129,10 +137,6 @@
 		"userType": "",
 		"userGroup": "",
 		"userGroupDesc": "",
-		"jobCatalogDesc": null,
-		"jobCatalog": null,
-		"jobGroupDesc": null,
-		"jobGroup": null,
 		"department": "",
 		"grade": "",
 		"isRoot": 0,
@@ -145,7 +149,6 @@
 		"isNeedEditpwd": 0,
 		"isNeedEditpwdDesc": null,
 		"isLoginLimit": 0,
-		"isLoginLimitDesc": null,
 		"isIpopen": 0,
 		"obligate": 0,
 		"deposit": 0,
@@ -165,7 +168,6 @@
 		"lastLoginTime": null,
 		"statusUpdatedBy": null,
 		"statusUpdatedDate": null,
-		"createdBy": null,
 		"createdDate": "",
 		"updatedBy": "",
 		"updatedDate": "",
@@ -176,12 +178,6 @@
 		"loanedCount": 0,
 		"maxLoanCount": 0,
 		"userTypeDesc": null,
-		"catalogLevelDesc": null,
-		"libCodeDesc": "",
-		"userOperations": null,
-		"userTypes": null,
-		"userTypesDesc": null,
-		"userLocations": null
 	})
 
 	// 借阅概览
@@ -190,30 +186,24 @@
 		requestCount: 0,//我的请求
 		fineSum: 0,// 我的欠款
 		expireCount: 0,// 即将到期
-		deptRange: 100, //×
+		deptRange: 0, //×
 		loanCount: 0,// 当前借阅
-		range: 1000 // ×
+		range: 0 // ×
 	})
+	const getStats = async () => {
+		const res = await statsApi()
+		if (res) {
+			stats.value = res.data
+		}
+	}
 
 	// 借阅时间分布
 	const loan_range = ref()
-	const getTrendChart = () => {
-		const res = true //await trendListApi()
+	const getTrendChart = async () => {
+		const res = await trendListApi()
+		console.log("time", res)
 		if (res) {
-			loan_range.value = {
-				"2022-10": 1,
-				"2022-11": 2,
-				"2022-12": 0,
-				"2023-01": 0,
-				"2023-02": 10,
-				"2023-03": 0,
-				"2023-04": 11,
-				"2023-05": 0,
-				"2023-06": 5,
-				"2023-07": 9,
-				"2023-08": 0,
-				"2023-09": 8
-			}
+			loan_range.value = res.data
 			trendChart.value = {
 				// categories: Object.keys(trendArr.data).splice(-6),
 				categories: Object.keys(loan_range.value).splice(-6),
@@ -229,20 +219,11 @@
 
 	// 借阅类型
 	const loan_type = ref()
-	const getTypeChart = () => {
-		const res = true //await typeListApi()
+	const getTypeChart = async () => {
+		const res = await typeListApi()
+		console.log("type", res)
 		if (res) {
-			loan_type.value = [
-				{
-					"count": 2,
-					"class": "数理科学与化学"
-				},
-				{
-					"count": 1,
-					"class": "工业技术"
-				}
-			]
-
+			loan_type.value = res.data
 			// 需要 更换字段	
 			pieChart.value = {
 				series: [{
@@ -253,7 +234,6 @@
 			}
 		}
 	}
-
 
 	// 获取用户信息
 	const getUserInfo = async () => {
@@ -266,6 +246,7 @@
 
 	onLoad(() => {
 		getUserInfo()
+		getStats()
 		getTrendChart()
 		getTypeChart()
 	})
@@ -298,7 +279,7 @@
 	.overview {
 		display: flex;
 		justify-content: center;
-		margin: 10px;
+		margin: 6px;
 
 		.countItem {
 			border-right: 1px solid $theme-color;
