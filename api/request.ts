@@ -23,8 +23,9 @@ export default function request(options) {
 			// 请求成功
 			success: (res) => {
 				console.log("总res", res);
+				// debugger
 				// 此判断可根据自己需要更改 汇文的code为0
-				if (!options?.noValidate && (res.data?.status !== 200 && res.data?.code !== 0)) {
+				if (!options?.noValidate && (res.data?.status !== 200&&res.data?.code!==200 && res.data?.code !== 0)) {
 					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
 						uni.removeStorageSync("Cookie")

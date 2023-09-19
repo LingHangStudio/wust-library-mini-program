@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-	import { consultApi } from "@/api/consult"
+	import { consultApi } from "@/page-home/utils/consult"
 	import { Ref, ref } from "vue"
 	import type { responceType } from "@/utils/types/home"
 	//常见问题列表
@@ -92,6 +92,7 @@
 			userId: "",
 		};
 		const res = await consultApi(data);
+		
 		if (res) {
 			console.log(res);
 			questionList.value = res.data.matched;

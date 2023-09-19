@@ -27,7 +27,8 @@
 		</view>
 	</view>
 	<uni-card title="热门检索词" margin="5px" is-shadow>
-		<view v-if="collectionHotWord.length===0">
+		<ListSkeleton :rows="12" display="flex" width="90%" v-if="loading"></ListSkeleton>
+		<view v-else-if="!loading&&collectionHotWord.length===0">
 			<Empty description="暂无检索词" width="160px" height="120px"></Empty>
 		</view>
 		<view v-else class="topSearch">
@@ -37,7 +38,8 @@
 		</view>
 	</uni-card>
 	<uni-card title="大家都在看" margin="5px" is-shadow>
-		<view v-if="recommendList.length===0">
+		<ListSkeleton :rows="12" display="flex" width="90%" v-if="loading"></ListSkeleton>
+		<view v-else-if="!loading&&recommendList.length===0">
 			<Empty width="160px" height="120px"></Empty>
 		</view>
 		<view v-else class="recommend">
@@ -50,8 +52,8 @@
 
 <script setup lang="ts">
 	import { ref } from "vue"
-	import Empty from "@/components/Empty.vue"
 	import { hotApi, topSearchApi } from "@/api/huiwen/home"
+	const loading = ref(true)
 	const searchValue = ref("")
 	// localStorage可以存储数组和对象
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
@@ -95,7 +97,7 @@
 	}
 	const getHot = async () => {
 		const res = await hotApi(8)
-		console.log("hot",res)
+		console.log("hot", res)
 		if (res) {
 			recommendList.value = res.data
 		}
@@ -105,6 +107,7 @@
 		if (res) {
 			collectionHotWord.value = res.data
 		}
+		loading.value = false
 	}
 	// 点击历史搜索
 	const selectHistoryOne = (item) => {
@@ -123,7 +126,7 @@
 </script>
 
 <style scoped lang="scss">
-	.search {
+	.search {	
 		display: flex;
 		flex-direction: row;
 

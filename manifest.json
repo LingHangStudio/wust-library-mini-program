@@ -56,12 +56,15 @@
     "mp-weixin" : {
         "appid" : "wx10a1836791a682d0",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true
         },
         "usingComponents" : true,
         "optimization" : {
             "subPackages" : true
-        }
+        },
+		"lazyCodeLoading": "requiredComponents",
+		"subPackageBuildType": "shared"
     },
     "mp-alipay" : {
         "usingComponents" : true

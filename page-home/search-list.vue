@@ -1,6 +1,7 @@
 <template>
-	<List @getMore="search" :listLength="searchList.length" :page="paginations.currentPage"
-		:pageSize="paginations.pageNum">
+	<ListSkeleton :rows="4" :loop="6" v-if="loading"></ListSkeleton>
+	<List v-else @getMore="search(paginations.currentPage+1,paginations.pageNum)" :listLength="searchList.length"
+		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<uni-card margin="5px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
 				v-for="(item,index) in searchList" :key="index">
@@ -23,13 +24,10 @@
 
 <script setup lang="ts">
 	//search-list页面是搜索的结果列表
-	import List from "@/components/list.vue"
-	import { ref, nextTick } from "vue"
+	import { ref } from "vue"
 	import { searchApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
-	// 滚动条位置
-	const myScroll = ref(0)
-	const oldScrollTop = ref(0)
+	const loading = ref(true)
 	//从搜索页传参
 	const searchInput = ref("")
 	const choiceType = ref("all")
@@ -40,8 +38,7 @@
 		pageNum: 15,
 		total: 0
 	})
-	const topArrow = ref(false)
-	const search = async (pagination) => {
+	const search = async (currentPage, pageNum) => {
 		console.log("search api")
 		let value = searchInput.value
 		searchInput.value = ""
@@ -59,8 +56,8 @@
 			indexName: "idx.opac",
 			collapseField: "groupId",
 			filterFieldList: [],
-			page: pagination.currentPage,
-			pageSize: pagination.pageNum
+			page: currentPage,
+			pageSize: pageNum
 		}
 		const res = await searchApi(data);
 		try {
@@ -80,6 +77,7 @@
 			}
 		} catch (err) {
 		}
+		loading.value = false
 	}
 
 	const getDetails = (bibId) => {
@@ -92,47 +90,12 @@
 		if (e) {
 			searchInput.value = e.keyword
 			choiceType.value = e.choiceType
-			search(paginations.value)
+			search(paginations.value.currentPage, paginations.value.pageNum)
 		}
 	})
 </script>
 
 <style lang="scss" scoped>
-	// .item {
-	// 	display: flex;
-	// 	flex-direction: row;
-	// 	justify-content: space-between;
-	// 	margin: 1px;
-	// 	margin-top: 5px;
-
-	// 	.main {
-	// 		width: 80vw;
-	// 		margin: 2px;
-	// 		display: flex;
-	// 		flex-direction: column;
-	// 		justify-content: center;
-
-	// 		.name {
-	// 			font-size: 1.2rem;
-	// 			font-weight: bold;
-	// 			line-height: 1.2rem;
-	// 			padding: 2px 1px;
-	// 		}
-
-	// 		.tag {
-	// 			padding: 1px;
-	// 		}
-
-	// 	}
-
-	// 	.right {
-	// 		display: flex;
-	// 		align-items: center;
-	// 		justify-content: center;
-	// 		text-align: center;
-	// 	}
-	// }
-
 	.top {
 		position: fixed;
 		bottom: 40px;

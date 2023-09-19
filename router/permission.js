@@ -5,8 +5,18 @@ import {
 // 白名单
 const whiteList = [
 	'/',
+	'/pages/activity/index',
+	'/pages/resources/index',
+	'/pages/center/index',
 	"/pages/home/index",
+	'/page-home/consult',
+	'/page-home/search',
+	'/page-home/search-list',
+	'/page-home/detail',
+	'/page-home/tsgview',
+	'/page-service/inner',
 	'/page-center/login',
+	'/page-center/aboutMe',
 	"/page-home/hello",
 ]
 

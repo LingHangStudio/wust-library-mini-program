@@ -2,8 +2,10 @@
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
-	<List @getMore="getArticleList" :listLength="showList.length" :page="paginations.currentPage"
-		:pageSize="paginations.pageNum">
+
+	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
+	<List v-else @getMore="getArticleList(paginations.currentPage+1,paginations.pageNum)" :listLength="showList.length"
+		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
 				<uni-card margin="3px" padding="3px" :is-full="true">
@@ -28,10 +30,10 @@
 </template>
 
 <script setup lang="ts">
-	import List from "@/components/list.vue"
 	import { ref, onMounted, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
+	const loading = ref(true)
 	const items = ref(['最新资源', "最新消息"])
 
 	const showList = ref([])
@@ -52,6 +54,7 @@
 				pageNum: 10,
 				total: 0
 			}
+			loading.value=true
 			showList.value = []
 			getArticleList(1, 10)
 		}
@@ -69,6 +72,7 @@
 				showList.value = showList.value.concat(resNotice.data)
 			}
 		}
+		loading.value = false
 	}
 	const goTo = (url : string) => {
 		uni.navigateTo({

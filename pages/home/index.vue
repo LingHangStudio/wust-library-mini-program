@@ -56,16 +56,18 @@
 			</uni-grid> -->
 		</view>
 	</uni-card>
-	<uni-card margin="10px 8px 5px 8px" spacing="0px" padding="0px">
+	<ListSkeleton :rows="4" v-if="loadingSkeleton">
+	</ListSkeleton>
+	<uni-card v-else margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<uni-section title="为您推荐" type="line">
 			<view v-if="recommendList.length===0" class="">
 				<Empty width="160px" height="120px"></Empty>
 			</view>
 			<view v-else class="list">
 				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
-					<uni-card padding="0px" margin="0px" :is-full="true">
+					<uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px" margin="0px" :is-full="true">
 						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
-						<span>{{item.title}}</span>
+						<span class="title">{{item.title}}</span>
 					</uni-card>
 				</view>
 			</view>
@@ -74,16 +76,16 @@
 </template>
 
 <script setup lang="ts">
-	import Empty from "@/components/Empty.vue"
 	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home"
+	const loadingSkeleton = ref(true)
 	const menu = [
 		{
 			id: "",
 			name: "我的借阅",
 			url: "/page-center/mySubscribe",
 			icon: "calendar"
-		}, 
+		},
 		{
 			id: "",
 			name: "智能答疑",
@@ -143,9 +145,11 @@
 			console.log(res);
 			recommendList.value = res.data as []
 		}
+		// 无论请求成功与否，都关闭骨架屏
+		loadingSkeleton.value=false
 	}
 
-	const setColor = (order:number) => {
+	const setColor = (order : number) => {
 		if (order === 1) {
 			return "#ffbb3b"
 		} else if (order === 2) {
@@ -170,7 +174,7 @@
 		}
 	}
 	// 推荐的书目，进入书籍详情
-	const goToInner = (bibId) => {
+	const goToInner = (bibId : string) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})
@@ -420,6 +424,7 @@
 		flex-wrap: wrap;
 
 		.item {
+			height: 35px;
 			border: none;
 			width: 49%;
 			white-space: nowrap;
@@ -428,9 +433,18 @@
 			word-break: break-all;
 		}
 	}
-
+	
+	.title{
+		font-size: 1rem;
+		// margin: 2px;
+	}
 	.order {
-		border-radius: 25px;
-		padding: 2px 5px;
+		display: inline-block;
+		border-radius: 50%;
+		// padding: 10px;
+		width:25px;
+		text-align: center;
+		height: 25px;
+		// line-height: 12.5px;
 	}
 </style>

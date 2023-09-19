@@ -9,14 +9,14 @@
 			<view style="text-align: center;padding: 3px;">--到底啦！--</view>
 		</scroll-view>
 	</view>
-	<uni-fab horizontal="right" vertical="bottom" v-show="topArrow" buttonColor="" backgroundColor=""
-		:pattern="{type:'top'}" @fabClick="toTop" :popMenu="false" />
+	<uni-fab icon="top" horizontal="right" vertical="bottom" v-show="topArrow" buttonColor="" backgroundColor=""
+		@fabClick="toTop" :popMenu="false" />
 </template>
 
 <script setup lang="ts">
+	import Empty from '@/components/Empty/Empty.vue'
 	// @scrolltolower="getMyList({page:paginations.currentPage+1,pageSize:paginations.pageNum})"
 	// 封装这个lits,目的是：简化置顶按钮的配置,简化scroll-view的配置
-	import Empty from "@/components/Empty.vue"
 	import { ref, nextTick } from "vue"
 	// 子传父方法
 	const emit = defineEmits(['getMore'])
@@ -42,7 +42,7 @@
 	const oldScrollTop = ref(0)
 	const topArrow = ref(false)
 	const toTop = () => {
-		console.log("出发了",myScroll.value)
+		console.log("出发了", myScroll.value)
 		myScroll.value = oldScrollTop.value
 		nextTick(() => {
 			myScroll.value = -20

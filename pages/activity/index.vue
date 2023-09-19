@@ -1,8 +1,9 @@
 <template>
 	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
-	<view class="content">
-		<List @getMore="getArticle" :listLength="all.length" :page="paginations.currentPage"
-			:pageSize="paginations.pageNum">
+	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
+	<view v-else class="content">
+		<List @getMore="getArticle(paginations.currentPage+1,paginations.pageNum)" :listLength="all.length"
+			:page="paginations.currentPage" :pageSize="paginations.pageNum">
 			<template>
 				<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
 					<uni-card margin="3px" padding="3px" :is-full="true">
@@ -35,10 +36,10 @@
 </template>
 
 <script setup lang="ts">
-	import List from "@/components/list.vue"
 	import { ref, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
+	const loading = ref(true)
 	const all = ref([])
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
@@ -51,6 +52,7 @@
 		if (res) {
 			all.value = all.value.concat(res.data)
 		}
+		loading.value = false
 	}
 	getArticle(paginations.value.currentPage, paginations.value.pageNum)
 

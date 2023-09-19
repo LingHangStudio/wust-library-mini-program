@@ -2,7 +2,8 @@
 	<view>
 		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
 	</view>
-	<List @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
+	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
+	<List v-else @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<uni-card @tap="getInfo(index)" margin="8px" :title="item.title" v-for="(item,index) in lists"
@@ -44,18 +45,18 @@
 </template>
 
 <script setup lang="ts">
-	import List from "@/components/list.vue"
 	import { ref, Ref } from "vue"
-	import { readListApi, histsListApi } from "@/api/huiwen/center"
+	import { readListApi, histsListApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
+	const loading = ref(true)
 	// 分栏信息
 	const current = ref(0)
 	const items = ref(['当前借阅', "借阅历史"])
 	const onClickItem = (e : any) => {
 		if (current.value != e.currentIndex) {
 			current.value = e.currentIndex
-			// lists.value = e.currentIndex == 0 ? loanList.value : histList.value
 			lists.value = []
+			loading.value = true
 			paginations.value = {
 				currentPage: 1,
 				pageNum: 10,
@@ -73,16 +74,16 @@
 			"author": "",
 			"callno": "",
 			"isbn": "",
-			"classno": "",
-			"publisher": "",
-			"eisbn": "",
-			"title": ""
+			classno: "",
+			publisher: "",
+			eisbn: "",
+			title: ""
 		},
-		"returnDate": "",
-		"attachment": null,
+		returnDate: "",
+		attachment: null,
 		author: "",
-		"loanDate": "",
-		"location": "",
+		loanDate: "",
+		location: "",
 		title: "",
 		barCode: ""
 	})
@@ -96,8 +97,8 @@
 
 		} else {
 			currentBookInfo.value = {
-				"bibId": "",
-				"bibAttrs": {
+				bibId: "",
+				bibAttrs: {
 					"pub_year": "",
 					"author": "",
 					"callno": "",
@@ -107,8 +108,8 @@
 					"eisbn": "",
 					"title": ""
 				},
-				"returnDate": "",
-				"attachment": null,
+				returnDate: "",
+				attachment: null,
 				author: "",
 				loanDate: "",
 				location: "",

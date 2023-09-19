@@ -119,3 +119,24 @@ export async function histsListApi(page : number, pageSize : number) {
 	})
 	return res?.data
 }
+
+/*
+* 超期记录
+* 借阅历史 GET /meta-local/opac/users/fines
+* @prarm page
+* @prarm pagesize
+*/
+export async function fineListApi(page : number, pageSize : number) {
+	const res = await request({
+		url: `${API}/fines`,
+		header: {
+			Cookie: uni.getStorageSync("Cookie")
+		},
+		data: {
+			page,
+			pageSize
+		}
+	})
+	return res?.data
+}
+

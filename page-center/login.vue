@@ -1,9 +1,4 @@
 <template>
-	<!-- <view class="background">
-		<image style="width: 100vw"
-			src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" mode="scaleToFill">
-		</image>
-	</view> -->
 	<view class="root">
 		<view class="form-wrapper animate__animated animate__slideInRight">
 			<view class="form">
@@ -18,7 +13,6 @@
 					<uni-forms-item name="password">
 						<uni-easyinput type="password" :maxlength="32" prefixIcon="locked" v-model="userForm.password"
 							placeholder="请输入密码" />
-						<!-- <input class="ipt" type="password" v-model="userForm.password" placeholder="请输入密码" /> -->
 					</uni-forms-item>
 					<uni-forms-item name="code">
 						<uni-easyinput :maxlength="4" confirmType="send" class="ipt" type="text" prefixIcon="flag"
@@ -49,13 +43,13 @@
 </template>
 
 <script setup lang="ts">
-	import { loginAPI, login1API } from "@/api/user"
+	import { loginAPI, login1API } from "@/page-center/utils/user"
 	// import { activeCookie } from "@/api/huiwen/center"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { useStore } from "@/store"
-	import RSA from "@/utils/rsa.js"
-	import { weBtoa } from '@/utils/weapp-jwt'
+	import RSA from "@/page-center/utils/rsa.js"
+	import { weBtoa } from '@/page-center/utils/weapp-jwt'
 	const store = useStore()
 	const showToolTip = ref(null)
 	const codeImg = ref('')
@@ -85,7 +79,7 @@
 				errorMessage: '请输入学号/工号',
 			},
 			{
-				minLength: 8,
+				minLength: 6,
 				maxLength: 18,
 				errorMessage: '长度在 {minLength} 到 {maxLength} 个字符',
 			}
@@ -97,7 +91,7 @@
 				errorMessage: '请输入密码'
 			}]
 		},
-		code: {
+		code: {// 防止没获取到验证码
 			rules: [{
 				required: true,
 				errorMessage: '请输入验证码'

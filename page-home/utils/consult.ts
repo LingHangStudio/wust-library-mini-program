@@ -1,4 +1,4 @@
-import request from "@/api/request.ts"
+import request from "@/api/request"
 const API = "https://424neko.top:8182/api"
 // 咨询
 export function consultApi(data) {
