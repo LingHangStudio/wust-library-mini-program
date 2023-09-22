@@ -2,9 +2,8 @@
 	<view class="root">
 		<view class="form-wrapper animate__animated animate__slideInRight">
 			<view class="form">
-				<h1
-					style="color:#142d88; text-align: center; font-size: 55px;margin-bottom: 20px;font-family: cursive;">
-					Login</h1>
+				<div :class="loading?'h1flash':'h1'">
+					Login</div>
 				<uni-forms ref="myForm" :modelValue="userForm" :rules="rules">
 					<uni-forms-item name="username">
 						<uni-easyinput :maxlength="18" confirmType="next" type="text" prefixIcon="person-filled"
@@ -14,13 +13,15 @@
 						<uni-easyinput type="password" :maxlength="32" prefixIcon="locked" v-model="userForm.password"
 							placeholder="请输入密码" />
 					</uni-forms-item>
-					<uni-forms-item name="code">
-						<uni-easyinput :maxlength="4" confirmType="send" class="ipt" type="text" prefixIcon="flag"
-							v-model="userForm.code" placeholder="请输入验证码" />
-						<view @tap="getCode" class="code">
+					<view class="" style="display: flex;width: 100%;">
+						<uni-forms-item name="code">
+							<uni-easyinput :maxlength="4" confirmType="send" class="ipt" type="text" prefixIcon="flag"
+								v-model="userForm.code" placeholder="请输入验证码" />
+						</uni-forms-item>
+						<view @tap="getCode" class="code" hover-class="codeActive">
 							<image :src="codeImg" mode="" style="width: 100px;height: 30px;"></image>
 						</view>
-					</uni-forms-item>
+					</view>
 					<view class="foot">
 						<view class="forget" @tap="showToolTip.open()">
 							忘记密码?
@@ -44,23 +45,28 @@
 
 <script setup lang="ts">
 	import { loginAPI, login1API } from "@/page-center/utils/user"
-	// import { activeCookie } from "@/api/huiwen/center"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { useStore } from "@/store"
 	import RSA from "@/page-center/utils/rsa.js"
 	import { weBtoa } from '@/page-center/utils/weapp-jwt'
 	const store = useStore()
+	// 忘记密码的提醒
 	const showToolTip = ref(null)
+	// 存图片
 	const codeImg = ref('')
 	const code = ref('')
+	// 错误提醒的节点
 	const errorMsg = ref(null)
 	const errorMsgContent = ref("")
-
-	const toolTipContent = `<h3>账号说明</h3>
+	// 
+	const loading = ref(true)
+	
+	const toolTipContent = 
+		`<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 账号说明</h3>
 		<p>1.教职工的账号为工号，学生的账号为学号。</p>
 		<p>2.初始密码默认为姓名中姓的首字母大写+账号，如您修改过密码，则以修改后的密码为准。</p>
-		<h3>忘记密码</h3>
+		<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 忘记密码</h3>
 		<p>用户忘记密码可通过两种方式进行密码重置：</p>
 		<p>1. 用户可在登录页面点击“忘记密码”，输入正确信息找回密码。</p>
 		<P>2. 用户可持有效证件（身份证、校园卡）至图书馆二楼服务台重置密码。</P>`
@@ -105,7 +111,6 @@
 		return RSA.encryptedString(RSA.getKeyPair(rsaTokenPublicExponent, '', rsaTokenPublicModulus), password)
 	}
 
-
 	const login = async () => {
 		let password = encrypt(userForm.value.password)
 		try {
@@ -145,11 +150,13 @@
 	}
 
 	const getCode = async () => {
+		loading.value = true
 		const res = await getCodeApi()
 		if (res) {
 			codeImg.value = 'data:image/svg+xml;base64,' + weBtoa(res?.data.codeSvg);
 			code.value = res.data.text
 		}
+		loading.value = false
 	}
 
 	onMounted(() => {
@@ -185,6 +192,8 @@
 	// 	// border-radius:0 0 30px 0;
 	// }
 	.root {
+		margin: 0;
+		padding: 0;
 		width: 100vw;
 		height: 100vh;
 		overflow: hidden;
@@ -210,8 +219,39 @@
 		padding: 10px;
 		border-radius: 10px;
 		box-shadow: 1px 1px 1px 1px #888888;
-		// color: #fff;
 		width: 80vw;
+
+		.h1 {
+			position: relative;
+			color: #142d88;
+			text-align: center;
+			font-size: 55px;
+			margin-bottom: 20px;
+			font-family: cursive;
+		}
+
+		.h1flash {
+			position: relative;
+			color: #142d88;
+			text-align: center;
+			font-size: 55px;
+			margin-bottom: 20px;
+			font-family: cursive;
+		}
+
+		// 闪光效果
+		.h1::before {
+			content: "";
+			position: absolute;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			background-image:
+				linear-gradient(135deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .7) 50%, rgba(255, 255, 255, 0) 70%);
+			background-size: 200%;
+			animation: wipes 2s 1 reverse;
+		}
+
 
 		.input {
 			margin: 10px 0;
@@ -235,21 +275,38 @@
 
 
 		.button {
-
 			// background-color: #142d88;
-			color: #142d88;
+			// color: #142d88;
+			color: #fff;
 			width: 90%;
-			// height: 50px;
 			border: 0;
-
-			// background-color: #fff;
+			background-color: #142d88;
 			border-radius: 5px;
-			// color: #000;
 			text-align: center;
 			margin: 10px auto;
-			// font-size: 20px;
-			// cursor: pointer;
+		}
 
+		// 闪光效果
+		.button::before {
+			content: "";
+			position: absolute;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			background-image:
+				linear-gradient(135deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 70%);
+			background-size: 200%;
+			animation: wipes 3s infinite;
+		}
+
+		@keyframes wipes {
+			0% {
+				background-position: 0 0;
+			}
+
+			100% {
+				background-position: 100% 0;
+			}
 		}
 	}
 
@@ -285,12 +342,40 @@
 	}
 
 	.code {
-		width: 100px;
-		height: auto;
-		// border:1px solid red;
-		margin: 2px 2px auto auto;
-		// filter: drop-shadow(10px 10px 10px rgba(0,0,0,.5));
+		// width: 100px;
+		height: 30px;
+		padding: auto 0;
+		// border: 1px solid red;
 		box-shadow: 1px 2px 2px 1px #888888;
 		// background-image:v-bind(codeImg)
+	}
+
+	.codeActive {
+		transition-duration: 0;
+		// animation: getCode 1.5s 1 ease-out;
+		animation: getCode 0.75s 1 linear;
+		// box-shadow: 0 0 0 2px #cff09e, 0 0 0 4px #3ac7bd;
+	}
+
+	@keyframes getCode {
+		from {
+			transform: scale(1, 1);
+		}
+
+		25% {
+			transform: scale(0.7, 0.7);
+		}
+
+		50% {
+			transform: scale(.4, 0.3);
+		}
+
+		75% {
+			transform: scale(0.7, 0.7);
+		}
+
+		to {
+			transform: scale(1, 1);
+		}
 	}
 </style>

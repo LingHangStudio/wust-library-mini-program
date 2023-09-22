@@ -20,7 +20,7 @@
 			</view>
 
 			<view class="overview">
-				<view class="countItem">
+				<view  class="countItem">
 					<view class="">
 						{{info.credit}}
 					</view>
@@ -28,7 +28,9 @@
 						我的积分
 					</view>
 				</view>
-				<view class="countItem">
+				<view @tap="uni.navigateTo({
+					url:'/page-center/mySubscribe?current=0'
+				})" class="countItem">
 					<view class="">
 						{{stats.loanCount}}
 					</view>
@@ -36,7 +38,7 @@
 						当前借阅
 					</view>
 				</view>
-				<view class="countItem">
+				<view @tap="" class="countItem">
 					<view>
 						{{stats.expireCount}}
 					</view>
@@ -44,12 +46,12 @@
 						即将到期
 					</view>
 				</view>
-				<view class="countItem">
+				<view class="countItem" style="color: orangered;">
 					<view class="">
-						{{stats.booklistCount}}
+						{{stats.fineSum}}
 					</view>
 					<view class="">
-						我的书单
+						我的欠款
 					</view>
 				</view>
 			</view>

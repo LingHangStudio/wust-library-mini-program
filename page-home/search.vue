@@ -33,7 +33,7 @@
 		</view>
 		<view v-else class="topSearch">
 			<view class="item" v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item._1)">
-				<uni-tag type="warning" circle inverted :text="item._1"></uni-tag>
+				<uni-tag type="theme" circle inverted :text="item._1"></uni-tag>
 			</view>
 		</view>
 	</uni-card>
@@ -44,7 +44,7 @@
 		</view>
 		<view v-else class="recommend">
 			<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="item">
-				<uni-tag type="warning" circle inverted :text="item.title"></uni-tag>
+				<uni-tag type="theme" circle inverted :text="item.title"></uni-tag>
 			</view>
 		</view>
 	</uni-card>

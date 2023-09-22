@@ -144,7 +144,7 @@
 	.chat {
 		flex: 1;
 		margin-bottom: 10px;
-		padding: 20px;
+		padding: 15px;
 		display: flex;
 		flex-direction: column;
 		user-select: text;

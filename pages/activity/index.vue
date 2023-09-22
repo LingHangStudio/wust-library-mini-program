@@ -44,7 +44,7 @@
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
-		pageNum: 10,
+		pageNum: 15,
 		total: 0
 	})
 	const getArticle = async (page : number, pageSize : number) => {

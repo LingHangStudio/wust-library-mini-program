@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-segmented-control :current="current" :values="items" @clickItem="onClickItem" />
+		<uni-segmented-control :current="current" activeColor="#142d88" :values="items" @clickItem="onClickItem" />
 	</view>
 
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
@@ -40,7 +40,7 @@
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
-		pageNum: 10,
+		pageNum: 15,
 		total: 0
 	})
 

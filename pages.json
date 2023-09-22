@@ -122,9 +122,9 @@
 		}]
 	}],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "武科大图书馆",
+		"navigationBarBackgroundColor": "#142d88",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {}

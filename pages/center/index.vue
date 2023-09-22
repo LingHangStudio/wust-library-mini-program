@@ -1,7 +1,9 @@
 <template>
-	<uni-card margin="10px 0px 5px 0px" padding="0px" spacing="0px">
+	<uni-card margin="0px 0px 5px 0px" padding="0px" spacing="0px">
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-			<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
+			<view class="">
+				<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
+			</view>
 			<view v-if="user.username" class="info">
 				{{user.username}}
 			</view>
@@ -10,7 +12,9 @@
 			</view>
 		</view>
 		<view v-else class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
-			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
+			<view class="header-image" hover-class="back">
+				<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
+			</view>
 			<view class="info">
 				微信用户
 			</view>
@@ -165,6 +169,10 @@
 			width: 4rem;
 			height: 4rem;
 			margin: 5px auto;
+
+			position: relative;
+			transform-style: preserve-3d;
+			transition: 1s;
 		}
 
 		.info {
@@ -173,6 +181,10 @@
 			margin: 0 auto;
 			padding: 10px 0;
 		}
+	}
+
+	.back {
+		transform: rotateY(180deg);
 	}
 
 	.item {

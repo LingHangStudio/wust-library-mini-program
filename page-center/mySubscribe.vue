@@ -45,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+	import { onLoad } from "@dcloudio/uni-app"
 	import { ref, Ref } from "vue"
 	import { readListApi, histsListApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
@@ -91,6 +92,7 @@
 		currentBookInfo.value = lists.value[i]
 		popBook.value.open()
 	}
+	// 展示数据的弹窗
 	const hidePop = (e) => {
 		console.log(e)
 		if (e.show) {
@@ -157,6 +159,12 @@
 			}
 		}
 	}
+	onLoad((e) => {
+		if (e?.current) {
+			current.value = e.current
+		}
+	})
+
 	getMyList(paginations.value.currentPage, paginations.value.pageNum)
 </script>
 
