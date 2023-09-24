@@ -1,5 +1,5 @@
 <template>
-	<uni-notice-bar show-icon text="最新活动: 暑假活动 | 共读打卡活动，等你来参加！" />
+	<uni-notice-bar v-if="all[0]" show-icon :text="all[0].title" />
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<view v-else class="content">
 		<List @getMore="getArticle(paginations.currentPage+1,paginations.pageNum)" :listLength="all.length"
@@ -51,6 +51,10 @@
 		const res = await articleListApi({ category: 2, type: 2, page, pageSize })
 		if (res) {
 			all.value = all.value.concat(res.data)
+			paginations.value = {
+				currentPage: page,
+				pageNum: pageSize,
+			}
 		}
 		loading.value = false
 	}

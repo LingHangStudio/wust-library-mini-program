@@ -34,6 +34,7 @@
 					</view>
 				</view>
 				<view class="">
+					<uni-tag type="error" size="small" circle :text="item.meta.fineNum"></uni-tag>
 					<uni-icons type="forward"></uni-icons>
 				</view>
 			</button>
@@ -74,6 +75,7 @@
 
 <script setup lang="ts">
 	import { ref, Ref } from "vue"
+	import { onShow } from "@dcloudio/uni-app"
 	import type { systemInfoType } from "@/utils/types/center"
 	import { useStore } from "@/store"
 	const store = useStore()
@@ -95,7 +97,8 @@
 			url: "/page-center/userInfo",
 			icon: "locked",
 			meta: {
-				auth: "user"
+				auth: "user",
+				fineNum: uni.getStorageSync("fineSum")
 			}
 		},
 		{
@@ -154,6 +157,19 @@
 			url: item.url
 		})
 	}
+	onShow(() => {
+		let fineSum = uni.getStorageSync("fineSum")
+		if (fineSum) {
+			uni.setTabBarBadge({
+				index: 3,
+				text: fineSum,
+				fail: (result : any) => {
+					console.log(result)
+				}
+			})
+		}
+
+	})
 </script>
 
 <style lang="scss">

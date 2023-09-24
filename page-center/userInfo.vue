@@ -20,7 +20,7 @@
 			</view>
 
 			<view class="overview">
-				<view  class="countItem">
+				<view class="countItem">
 					<view class="">
 						{{info.credit}}
 					</view>
@@ -75,6 +75,7 @@
 	import { onMounted, ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { useStore } from "@/store"
+	import { logoutFunc } from "@/router/auth"
 	import { userInfoApi, typeListApi, trendListApi, statsApi } from "@/page-center/utils/huiwen/center"
 	const loading = ref(true)
 	const logoutTip = ref(null)
@@ -186,9 +187,9 @@
 	})
 
 	// 借阅概览
-	const stats = ref({
-		booklistCount: 0,// 我的书单
-		requestCount: 0,//我的请求
+	const stats : Ref<any> = ref({
+		booklistCount: 0,// ×我的书单
+		requestCount: 0,//×我的请求
 		fineSum: 0,// 我的欠款
 		expireCount: 0,// 即将到期
 		deptRange: 0, //×
@@ -257,15 +258,15 @@
 		loading.value = false
 	})
 	onMounted(() => {
+		if (stats.value.fineSum !== 0) {
+			uni.setStorageSync("fineSum", stats.value.fineSum.toString())
+		}
 	})
 
 	const logout = () => {
 		console.log("logout")
-		uni.removeStorageSync("Cookie")
 		store.setloginState(false)
-		uni.removeStorageSync("loginState")
-		uni.removeStorageSync("loginInfo")
-		uni.navigateBack()
+		logoutFunc()
 	}
 </script>
 

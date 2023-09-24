@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-segmented-control :current="current" activeColor="#142d88" :values="items" @clickItem="onClickItem" />
+		<uni-segmented-control :current="current" styleType="text" activeColor="#142d88" :values="items" @clickItem="onClickItem" />
 	</view>
 
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
@@ -51,12 +51,12 @@
 			current.value = e.currentIndex
 			paginations.value = {
 				currentPage: 1,
-				pageNum: 10,
+				pageNum: 15,
 				total: 0
 			}
-			loading.value=true
+			loading.value = true
 			showList.value = []
-			getArticleList(1, 10)
+			getArticleList(1, 15)
 		}
 	}
 	const getArticleList = async (page : number, pageSize : number) => {
@@ -65,11 +65,19 @@
 			const resResource = await articleListApi({ page, pageSize, category: 3, type: 3 })
 			if (resResource) {
 				showList.value = showList.value.concat(resResource.data)
+				paginations.value = {
+					currentPage: page,
+					pageNum: pageSize,
+				}
 			}
 		} else {
 			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1, })
 			if (resNotice) {
 				showList.value = showList.value.concat(resNotice.data)
+				paginations.value = {
+					currentPage: page,
+					pageNum: pageSize,
+				}
 			}
 		}
 		loading.value = false
@@ -80,7 +88,7 @@
 		})
 	}
 	onMounted(() => {
-		getArticleList(1, 10)
+		getArticleList(paginations.value.currentPage, paginations.value.pageNum)
 	})
 </script>
 

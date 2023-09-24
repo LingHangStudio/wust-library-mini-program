@@ -65,7 +65,8 @@
 			</view>
 			<view v-else class="list">
 				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
-					<uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px" margin="0px" :is-full="true">
+					<uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px"
+						margin="0px" :is-full="true">
 						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
 						<span class="title">{{item.title}}</span>
 					</uni-card>
@@ -76,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+	import { onShow } from "@dcloudio/uni-app"
 	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home"
 	const loadingSkeleton = ref(true)
@@ -132,7 +134,7 @@
 	]
 	const bannerList = ref([
 		{
-			url: "http://424neko.top:3000/images/background-img1.jpg"
+			url: "https://424neko.top:3000/images/background-img1.jpg"
 		}, {
 			url: "http://424neko.top:3000/images/background-img1.jpg"
 		},
@@ -146,7 +148,7 @@
 			recommendList.value = res.data as []
 		}
 		// 无论请求成功与否，都关闭骨架屏
-		loadingSkeleton.value=false
+		loadingSkeleton.value = false
 	}
 
 	const setColor = (order : number) => {
@@ -179,6 +181,20 @@
 			url: "/page-home/detail?bibId=" + bibId
 		})
 	}
+
+	onShow(() => {
+		let fineSum = uni.getStorageSync("fineSum")
+		if (fineSum) {
+			uni.setTabBarBadge({
+				index: 3,
+				text: fineSum,
+				fail: (result : any) => {
+					console.log(result)
+				}
+			})
+		}
+
+	})
 
 	getRecommend()
 </script>
@@ -433,16 +449,17 @@
 			word-break: break-all;
 		}
 	}
-	
-	.title{
+
+	.title {
 		font-size: 1rem;
 		// margin: 2px;
 	}
+
 	.order {
 		display: inline-block;
 		border-radius: 50%;
 		// padding: 10px;
-		width:25px;
+		width: 25px;
 		text-align: center;
 		height: 25px;
 		// line-height: 12.5px;

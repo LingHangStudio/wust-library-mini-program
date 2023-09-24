@@ -6,7 +6,7 @@
 		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"
 			@scrolltolower="getMoreFunc" enable-back-to-top v-else>
 			<slot></slot>
-			<view style="text-align: center;padding: 3px;">--到底啦！--</view>
+			<view style="text-align: center;padding: 3px;">--到底啦！共{{listLength}}条--</view>
 		</scroll-view>
 	</view>
 	<uni-fab icon="top" horizontal="right" vertical="bottom" v-show="topArrow" buttonColor="" backgroundColor=""
