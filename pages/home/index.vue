@@ -80,6 +80,10 @@
 	import { onShow } from "@dcloudio/uni-app"
 	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home"
+	import { loginAPI, login1API } from "@/api/user/user"
+	import { loginFinalApi } from "@/api/end"
+	import { statsApi } from "@/api/huiwen/center"
+
 	const loadingSkeleton = ref(true)
 	const menu = [
 		{
@@ -93,7 +97,7 @@
 			name: "智能答疑",
 			url: "/page-home/consult",
 			icon: "chatboxes",
-			type: "inner"// 跳小程序页面
+			type: "inner"
 		}, {
 			id: "",
 			name: "文献资源",
@@ -134,9 +138,9 @@
 	]
 	const bannerList = ref([
 		{
-			url: "https://424neko.top:3000/images/background-img1.jpg"
+			url: "https://424neko.top:3001/images/background-img1.jpg"
 		}, {
-			url: "http://424neko.top:3000/images/background-img1.jpg"
+			url: "https://424neko.top:3001/images/background-img2.jpg"
 		},
 	])
 	const recommendList : Ref<any[]> = ref([])
@@ -193,10 +197,63 @@
 				}
 			})
 		}
-
 	})
 
-	getRecommend()
+	const login = async (loginInfo : any) => {
+		console.log(typeof loginInfo)
+		try {
+			console.log(loginInfo.password)
+			const res1 = await loginAPI(loginInfo)
+			console.log('res', res1)
+			const res2 = await login1API(res1.data)
+			console.log('res2', res2)
+			// 第三个接口，请求自己的后台，获取到Cookie
+			let myCookie = await loginFinalApi(res2.data)
+			console.log('Cookie', myCookie)
+			// 登录成功后的处理
+			uni.setStorageSync("loginState", true);
+			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
+			uni.navigateBack()
+		} catch (e) {
+			// 任何异常，只捕获，不提示
+			console.log(e)
+		}
+	}
+
+	// 借阅概览
+	const stats : Ref<any> = ref({
+		fineSum: 0,// 我的欠款
+	})
+	const getStats = async () => {
+		console.log("stats")
+		const res : any = await statsApi()//取消api拦截器拦截
+		if (res.statusCode === 401) {
+			// 登录过期，需要重新登录
+			login(uni.getStorageSync("loginInfo"))
+		} else {
+			// 没过期，获取信息后，设置超期提醒
+			stats.value = res.data
+			if (stats.value.fineSum !== 0) {
+				uni.setStorageSync("fineSum", stats.value.fineSum.toString())
+				uni.setTabBarBadge({
+					index: 3,
+					text: stats.value.fineSum.toStirng(),
+					fail: (result : any) => {
+						console.log(result)
+					}
+				})
+			}
+		}
+	}
+
+	onMounted(() => {
+		getRecommend()
+		// 登录验证逻辑
+		console.log("loginState", uni.getStorageSync('loginState'))
+		if (uni.getStorageSync('loginState')) {
+			getStats()
+		}
+	})
 </script>
 
 <style lang="scss" scoped>

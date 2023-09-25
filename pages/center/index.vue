@@ -159,7 +159,7 @@
 	}
 	onShow(() => {
 		let fineSum = uni.getStorageSync("fineSum")
-		if (fineSum) {
+		if (fineSum !== 0) {
 			uni.setTabBarBadge({
 				index: 3,
 				text: fineSum,
@@ -168,7 +168,6 @@
 				}
 			})
 		}
-
 	})
 </script>
 

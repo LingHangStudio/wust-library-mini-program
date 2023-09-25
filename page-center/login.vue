@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-	import { loginAPI, login1API } from "@/page-center/utils/user"
+	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { useStore } from "@/store"

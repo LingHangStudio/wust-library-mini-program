@@ -198,6 +198,8 @@
 	})
 	const getStats = async () => {
 		const res = await statsApi()
+		console.log(typeof res.data.fineSum)
+		console.log("fineSum", res.data.fineSum)
 		if (res) {
 			stats.value = res.data
 		}

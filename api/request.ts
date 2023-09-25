@@ -18,7 +18,6 @@ export default function request(options) {
 			// 请求参数（若不传，则默认为 {} ）
 			data: options.data || {},
 			header: options.header,
-			// getResponse: true,
 			withCredentials: true,
 			// 请求成功
 			success: (res) => {

@@ -1,13 +1,14 @@
 <template>
 	<view>
-		<uni-segmented-control styleType="text" :current="current" activeColor="#142d88" :values="items" @clickItem="onClickItem" />
+		<uni-segmented-control styleType="text" :current="current" activeColor="#142d88" :values="items"
+			@clickItem="onClickItem" />
 	</view>
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<List v-else @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<view class="tag">
-				<uni-tag type="theme" circle inverted  text="导出记录"></uni-tag>
+				<uni-tag @tap="exportLog" type="theme" circle inverted text="导出记录"></uni-tag>
 			</view>
 			<uni-card @tap="getInfo(index)" margin="8px" :title="item.title" v-for="(item,index) in lists"
 				:key="item.bibId" class="item">
@@ -98,9 +99,7 @@
 	// 展示数据的弹窗
 	const hidePop = (e) => {
 		console.log(e)
-		if (e.show) {
-
-		} else {
+		if (e.show) { } else {
 			currentBookInfo.value = {
 				bibId: "",
 				bibAttrs: {
@@ -120,7 +119,6 @@
 				location: "",
 				title: "",
 				barCode: ""
-
 			}
 		}
 	}
@@ -161,13 +159,17 @@
 				}
 			}
 		}
-		loading.value=false
+		loading.value = false
 	}
 	onLoad((e) => {
 		if (e?.current) {
 			current.value = e.current
 		}
 	})
+
+	const exportLog = () => {
+
+	}
 
 	getMyList(paginations.value.currentPage, paginations.value.pageNum)
 </script>
@@ -177,8 +179,8 @@
 	// 	margin: 3px 1px;
 	// 	border-bottom: 1px solid black;
 	// }
-	
-	.tag{
-		margin: 10px;
+
+	.tag {
+		margin: 15px 10px;
 	}
 </style>

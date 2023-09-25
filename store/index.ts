@@ -9,7 +9,7 @@ export const useStore = defineStore('main', {
 		pages: {
 			searchValue: "",
 			choiceType: ""
-		}
+		},
 	}),
 	actions: {
 		setloginState(state: Boolean) {
