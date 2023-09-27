@@ -188,15 +188,16 @@
 
 	onShow(() => {
 		let fineSum = uni.getStorageSync("fineSum")
-		if (fineSum) {
-			uni.setTabBarBadge({
-				index: 3,
-				text: fineSum,
-				fail: (result : any) => {
-					console.log(result)
-				}
-			})
-		}
+		console.log(typeof fineSum)
+		// if (fineSum) {
+		// 	uni.setTabBarBadge({
+		// 		index: 3,
+		// 		text: fineSum,
+		// 		fail: (result : any) => {
+		// 			console.log(result)
+		// 		}
+		// 	})
+		// }
 	})
 
 	const login = async (loginInfo : any) => {
@@ -213,7 +214,7 @@
 			// 登录成功后的处理
 			uni.setStorageSync("loginState", true);
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
-			uni.navigateBack()
+			// uni.navigateBack()
 		} catch (e) {
 			// 任何异常，只捕获，不提示
 			console.log(e)
@@ -232,12 +233,12 @@
 			login(uni.getStorageSync("loginInfo"))
 		} else {
 			// 没过期，获取信息后，设置超期提醒
-			stats.value = res.data
-			if (stats.value.fineSum !== 0) {
-				uni.setStorageSync("fineSum", stats.value.fineSum.toString())
+			let fineSum = res.data.data.fineSum
+			if (fineSum !== 0) {
+				uni.setStorageSync("fineSum", fineSum.toString())
 				uni.setTabBarBadge({
 					index: 3,
-					text: stats.value.fineSum.toStirng(),
+					text: fineSum.toStirng(),
 					fail: (result : any) => {
 						console.log(result)
 					}
