@@ -25,6 +25,11 @@
 		</template>
 	</List>
 
+	<!-- <view class="canvas-share" v-show="showShare">
+		<canvas width="100" height="100"
+			:canvas-id="config.id?config.id:'myCanvas'" :id="config.id?config.id:'myCanvas'"></canvas>
+	</view> -->
+
 	<uni-popup @change="hidePop" ref="popBook" background-color="#fff" type="bottom">
 		<uni-card is-full :border="false" :title="currentBookInfo?.title">
 			<view>索书号：{{currentBookInfo?.barCode}}</view>
@@ -54,6 +59,7 @@
 	import { readListApi, histsListApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
 	const loading = ref(true)
+	const showShare=ref(false)
 	// 分栏信息
 	const current = ref(0)
 	const items = ref(['当前借阅', "借阅历史"])

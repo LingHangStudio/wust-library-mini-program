@@ -136,7 +136,9 @@
 	]
 
 	const judgeAuth = (meta) => {
-		return meta.auth === 'no' || (meta.auth === 'user' && store.loginState) || (meta.auth === 'visitor' && !store.loginState)
+		return meta.auth === 'no'
+			|| (meta.auth === 'user' && uni.getStorageSync('loginState'))
+			|| (meta.auth === 'visitor' && !uni.getStorageSync('loginState'))
 	}
 
 	uni.getSystemInfo({

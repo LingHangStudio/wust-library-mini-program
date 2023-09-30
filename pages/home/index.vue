@@ -65,11 +65,11 @@
 			</view>
 			<view v-else class="list">
 				<view class="item" @tap="goToInner(item.bibId)" v-for="(item,index) in recommendList" :key="index">
-					<uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px"
-						margin="0px" :is-full="true">
-						<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
-						<span class="title">{{item.title}}</span>
-					</uni-card>
+					<!-- <uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px"
+						margin="0px" :is-full="true"> -->
+					<span class="order" :style="{backgroundColor:setColor(index+1)}">{{index+1}}</span>
+					<span class="title">{{item.title}}</span>
+					<!-- </uni-card> -->
 				</view>
 			</view>
 		</uni-section>
@@ -80,6 +80,7 @@
 	import { onShow } from "@dcloudio/uni-app"
 	import { ref, onMounted, Ref } from "vue"
 	import { hotApi } from "@/api/huiwen/home"
+	import { removeAuthorization } from "@/router/auth"
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi } from "@/api/end"
 	import { statsApi } from "@/api/huiwen/center"
@@ -203,6 +204,7 @@
 	const login = async (loginInfo : any) => {
 		console.log(typeof loginInfo)
 		try {
+			// 进入登录流程
 			console.log(loginInfo.password)
 			const res1 = await loginAPI(loginInfo)
 			console.log('res', res1)
@@ -218,6 +220,8 @@
 		} catch (e) {
 			// 任何异常，只捕获，不提示
 			console.log(e)
+			// 登录失败，把登录信息删除
+			removeAuthorization()
 		}
 	}
 
@@ -249,7 +253,10 @@
 
 	onMounted(() => {
 		getRecommend()
-		// 登录验证逻辑
+		// 登录验证逻辑:
+		// 用户没登录过：就跳过
+		// 用户曾经登录过：请求看有没有401
+		// 没有 跳出；有401重新登录
 		console.log("loginState", uni.getStorageSync('loginState'))
 		if (uni.getStorageSync('loginState')) {
 			getStats()
@@ -484,6 +491,11 @@
 		background-color: #19cf8a;
 		color: #fff;
 	}
+	
+	.bg-index8 {
+		background-color: #954ff6;
+		color: #fff;
+	}
 
 	.item-name {
 		margin-bottom: 15rpx;
@@ -495,12 +507,15 @@
 
 	.list {
 		display: flex;
+		justify-content: space-around;
 		flex-wrap: wrap;
 
 		.item {
+			// padding-left: 10px;
 			height: 35px;
 			border: none;
-			width: 49%;
+			width: 45%;
+			align-items: center;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
@@ -509,8 +524,13 @@
 	}
 
 	.title {
+		width: 100%;
 		font-size: 1rem;
 		// margin: 2px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		word-break: break-all;
+		white-space: nowrap;
 	}
 
 	.order {
@@ -518,6 +538,7 @@
 		border-radius: 50%;
 		// padding: 10px;
 		width: 25px;
+		align-items: center;
 		text-align: center;
 		height: 25px;
 		// line-height: 12.5px;
