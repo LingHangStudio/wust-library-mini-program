@@ -35,7 +35,10 @@ export async function articleListApi(data) {
 	try {
 		const res = await request({
 			url: `${API}/getArticleList`,
-			data
+			data: {
+				currentPage: data.page,
+				...data
+			}
 		})
 		return res.data
 	} catch (err) {

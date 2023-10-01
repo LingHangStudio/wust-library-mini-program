@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<uni-segmented-control :current="current" styleType="text" activeColor="#142d88" :values="items" @clickItem="onClickItem" />
+		<uni-segmented-control :current="current" styleType="text" activeColor="#142d88" :values="items"
+			@clickItem="onClickItem" />
 	</view>
 
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
@@ -69,6 +70,11 @@
 					currentPage: page,
 					pageNum: pageSize,
 				}
+				showList.value.sort((a, b) => {
+					const dateA : any = new Date(a.date);
+					const dateB : any = new Date(b.date);
+					return dateA - dateB;
+				});
 			}
 		} else {
 			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1, })
@@ -78,6 +84,11 @@
 					currentPage: page,
 					pageNum: pageSize,
 				}
+				showList.value.sort((a, b) => {
+					const dateA : any = new Date(a.date);
+					const dateB : any = new Date(b.date);
+					return dateA - dateB;
+				});
 			}
 		}
 		loading.value = false
