@@ -102,13 +102,13 @@
 		}, {
 			id: "",
 			name: "文献资源",
-			url: "https://tsg.wust.edu.cn/wxzy.htm",
+			url: "https://tsg.wust.edu.cn/info/1691/4471.htm",
 			icon: "chatboxes-filled",
 			type: "tsg",
 		}, {
 			id: "",
 			name: "借阅服务",
-			url: "https://tsg.wust.edu.cn/jyfw.htm",
+			url: "https://tsg.wust.edu.cn/jyfw/gzjsysy.htm",
 			icon: "star",
 			type: "tsg",
 		}, {
@@ -120,7 +120,7 @@
 		}, {
 			id: "",
 			name: "互动交流",
-			url: "https://tsg.wust.edu.cn/hdjl.htm",
+			url: "https://tsg.wust.edu.cn/hdjl/xwgg.htm",
 			icon: "chat",
 			type: "tsg",
 		}, {
@@ -491,7 +491,7 @@
 		background-color: #19cf8a;
 		color: #fff;
 	}
-	
+
 	.bg-index8 {
 		background-color: #954ff6;
 		color: #fff;

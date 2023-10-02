@@ -1,5 +1,5 @@
 <template>
-	<uni-card margin="0px 0px 5px 0px" padding="0px" spacing="0px">
+	<uni-card margin="0px 0px 5px 0px" border="0" padding="0px" spacing="0px">
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
 			<view class="">
 				<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">

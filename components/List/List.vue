@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view :class="listLength<6?'':'root'">
 		<view v-if="listLength===0" class="">
 			<Empty></Empty>
 		</view>
@@ -8,6 +8,8 @@
 			<slot></slot>
 			<view style="text-align: center;padding: 3px;">--到底啦！共{{listLength}}条--</view>
 		</scroll-view>
+	</view>
+	<view class="bgc">
 	</view>
 	<uni-fab icon="top" horizontal="right" vertical="bottom" v-show="topArrow" buttonColor="" backgroundColor=""
 		@fabClick="toTop" :popMenu="false" />
@@ -62,4 +64,17 @@
 </script>
 
 <style lang="scss" scoped>
+	// 给列表设计样式
+	.root {
+		// height: 100%;
+		// background-color: #F5F7F9;
+		background: linear-gradient(to bottom, rgb(20, 45, 136), #F5F7F9);
+	}
+
+	.bgc {
+		// position: relative;
+		// width: 100vw;
+		// height: 200px;
+		// background: linear-gradient(to bottom right, rgb(20,45,136), rgb(149, 214, 240));
+	}
 </style>

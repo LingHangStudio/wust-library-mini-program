@@ -6,7 +6,7 @@
 			:page="paginations.currentPage" :pageSize="paginations.pageNum">
 			<template>
 				<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
-					<uni-card margin="3px" padding="3px" :is-full="true">
+					<uni-card margin="3px" padding="3px">
 						<view class="box">
 							<view style="margin: 3px;" class="">
 								<img v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
@@ -72,8 +72,15 @@
 </script>
 
 <style scoped lang="scss">
+	.content {
+		background-color: #F5F7F9;
+		// height: 100vh;
+	}
+
 	.box {
 		display: flex;
+		align-items: center;
+		justify-content: space-between;
 
 		.line {
 			width: 3px;

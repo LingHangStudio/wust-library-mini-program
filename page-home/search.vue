@@ -126,7 +126,7 @@
 </script>
 
 <style scoped lang="scss">
-	.search {	
+	.search {
 		display: flex;
 		flex-direction: row;
 
@@ -152,11 +152,12 @@
 			margin-left: 3px;
 
 			.item {
-				background-color: #f6f7f8;
+				// background-color: #181963;
 				color: #181963;
-				margin: 0 5px;
-				border-radius: 3px;
-				padding: 8px 8px;
+				margin: 1px 5px;
+				border: 1px solid #181963;
+				border-radius: 15px;
+				padding: 7px 7px;
 			}
 		}
 	}

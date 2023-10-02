@@ -9,7 +9,7 @@
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
-				<uni-card margin="3px" padding="3px" :is-full="true">
+				<uni-card margin="3px" padding="3px">
 					<view class="box">
 						<view style="margin: 3px;" class="">
 							<img style=" display: block;width: 40px;height: 40px;"
@@ -87,8 +87,9 @@
 				showList.value.sort((a, b) => {
 					const dateA : any = new Date(a.date);
 					const dateB : any = new Date(b.date);
-					return dateA - dateB;
+					return dateB - dateA;
 				});
+				console.log("showlist", showList.value)
 			}
 		}
 		loading.value = false
