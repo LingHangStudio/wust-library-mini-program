@@ -16,7 +16,7 @@
 					<view class="" style="display: flex;width: 100%;">
 						<uni-forms-item name="code">
 							<uni-easyinput :maxlength="4" confirmType="send" class="ipt" type="text" prefixIcon="flag"
-								v-model="userForm.code" placeholder="请输入验证码" />
+								v-model="userForm.code" placeholder="请输入验证码" :clearable="false" />
 						</uni-forms-item>
 						<view @tap="getCode" class="code" hover-class="codeActive">
 							<image :src="codeImg" mode="" style="width: 100px;height: 30px;"></image>
