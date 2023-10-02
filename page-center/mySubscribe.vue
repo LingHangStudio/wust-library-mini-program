@@ -7,8 +7,8 @@
 	<List v-else @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
-			<view class="tag">
-				<uni-tag @tap="exportLog" type="theme" circle inverted text="导出记录"></uni-tag>
+			<view class="tag" v-show="false">
+				<uni-tag @tap="showShare=true" type="theme" circle inverted text="导出海报"></uni-tag>
 			</view>
 			<uni-card @tap="getInfo(index)" margin="8px" :title="item.title" v-for="(item,index) in lists"
 				:key="item.bibId" class="item">
@@ -24,12 +24,6 @@
 			</uni-card>
 		</template>
 	</List>
-
-	<!-- <view class="canvas-share" v-show="showShare">
-		<canvas width="100" height="100"
-			:canvas-id="config.id?config.id:'myCanvas'" :id="config.id?config.id:'myCanvas'"></canvas>
-	</view> -->
-
 	<uni-popup @change="hidePop" ref="popBook" background-color="#fff" type="bottom">
 		<uni-card is-full :border="false" :title="currentBookInfo?.title">
 			<view>索书号：{{currentBookInfo?.barCode}}</view>
@@ -59,7 +53,7 @@
 	import { readListApi, histsListApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
 	const loading = ref(true)
-	const showShare=ref(false)
+	const showShare = ref(false)
 	// 分栏信息
 	const current = ref(0)
 	const items = ref(['当前借阅', "借阅历史"])
@@ -172,10 +166,6 @@
 			current.value = e.current
 		}
 	})
-
-	const exportLog = () => {
-
-	}
 
 	getMyList(paginations.value.currentPage, paginations.value.pageNum)
 </script>
