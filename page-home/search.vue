@@ -152,12 +152,13 @@
 			margin-left: 3px;
 
 			.item {
+				font-size: 12px;
 				// background-color: #181963;
-				color: #181963;
+				color: #142d88;
 				margin: 1px 5px;
-				border: 1px solid #181963;
+				border: 1px solid #142d88;
 				border-radius: 15px;
-				padding: 7px 7px;
+				padding: 4px 7px;
 			}
 		}
 	}

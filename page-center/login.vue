@@ -68,7 +68,7 @@
 		<p>2.初始密码默认为姓名中姓的首字母大写+账号，如您修改过密码，则以修改后的密码为准。</p>
 		<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 忘记密码</h3>
 		<p>用户忘记密码可通过两种方式进行密码重置：</p>
-		<p>1. 用户可在登录页面点击“忘记密码”，输入正确信息找回密码。</p>
+		<p>1. 用户可在图书馆官网登录页面点击“忘记密码”，输入正确信息找回密码。</p>
 		<P>2. 用户可持有效证件（身份证、校园卡）至图书馆二楼服务台重置密码。</P>`
 	const myForm = ref(null)
 	const userForm = ref({
@@ -343,17 +343,18 @@
 
 	.code {
 		// width: 100px;
-		height: 30px;
+		height: 35px;
 		padding: auto 0;
-		// border: 1px solid red;
-		box-shadow: 1px 2px 2px 1px #888888;
+		box-sizing: border-box;
+		border: 1px solid #e5e5e5;
+		// box-shadow: 1px 2px 2px 1px #888888;
 		// background-image:v-bind(codeImg)
 	}
 
 	.codeActive {
 		transition-duration: 0;
 		// animation: getCode 1.5s 1 ease-out;
-		animation: getCode 0.75s 1 linear;
+		animation: getCode 0.75s 1;
 		// box-shadow: 0 0 0 2px #cff09e, 0 0 0 4px #3ac7bd;
 	}
 

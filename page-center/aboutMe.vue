@@ -87,28 +87,33 @@
 	}
 
 	const startX = ref(0)
-	const moveRight = ref(true)
+	// const startY = ref(0)
+	const moveRight = ref(false)
 	// 左右滑动监听
 	const onTouchStart = (e) => {
 		startX.value = e.changedTouches[0].clientX; // 获取触摸开始时的x坐标
 	}
+
 	const onTouchMove = (e) => {
 		const moveX = e.changedTouches[0].clientX; // 获取触摸移动时的x坐标
+		// const moveY = e.changedTouches[0].clientY; // 获取触摸移动时的y坐标
 		const diffX = moveX - startX.value; // 计算触摸移动距离
+		// const diffY = moveY - startY.value
 		if (diffX > 30) {
 			// 向右滑动事件
 		} else if (diffX < -30) {
 			moveRight.value = false
 		}
 	}
+
 	const onTouchEnd = (e) => {
 		if (moveRight.value) {
-			if (activeIndex.value < 7)
-				activeIndex.value++
-		} else {
-			moveRight.value = true
+			moveRight.value = false
 			if (activeIndex.value > 0)
 				activeIndex.value--
+		} else {
+			if (activeIndex.value < 7)
+				activeIndex.value++
 		}
 		// 清除起始坐标
 		startX.value = 0;

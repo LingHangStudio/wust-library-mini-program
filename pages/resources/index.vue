@@ -9,17 +9,17 @@
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
 			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
-				<uni-card margin="3px" padding="3px">
+				<uni-card margin="5px" padding="3px">
 					<view class="box">
 						<view style="margin: 3px;" class="">
 							<img style=" display: block;width: 40px;height: 40px;"
 								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
 						</view>
 						<view class="font">
-							<view class="">
+							<view class="title">
 								{{item.title}}
 							</view>
-							<view class="">
+							<view class="date">
 								{{item.date}}
 							</view>
 						</view>
@@ -131,6 +131,8 @@
 
 	.box {
 		display: flex;
+		align-items: center;
+		min-height: 55px;
 
 		.line {
 			width: 3px;
@@ -140,9 +142,21 @@
 		}
 
 		.font {
-			margin: auto 0;
-			font-size: 1rem;
-			line-height: 1rem;
+			align-items: center;
+			// margin: auto 0;
+			// line-height: 1rem;
+			margin-left: 2px;
+			padding: 3px 0;
+
+			.title {
+				font-size: 18px;
+				color: #1C1C1C;
+			}
+
+			.date {
+				font-size: 14px;
+				color: #9a9999;
+			}
 		}
 	}
 </style>

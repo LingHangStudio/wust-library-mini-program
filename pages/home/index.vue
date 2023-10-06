@@ -38,7 +38,7 @@
 				<view @tap="goTo(item.url,item.type)" v-for="(item, index) in menu" :index="index" class="item"
 					:class="'nav-li bg-index' + (index + 1)">
 					<view class="icon">
-						<uni-icons :type="item.icon" size="50"></uni-icons>
+						<uni-icons :type="item.icon" color="#F0E7FE" size="50"></uni-icons>
 					</view>
 					<view class="text">{{item.name}}</view>
 				</view>
@@ -103,7 +103,7 @@
 			id: "",
 			name: "文献资源",
 			url: "https://tsg.wust.edu.cn/info/1691/4471.htm",
-			icon: "chatboxes-filled",
+			icon: "list",
 			type: "tsg",
 		}, {
 			id: "",

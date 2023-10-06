@@ -1,5 +1,5 @@
 <template>
-	<uni-card margin="0px 0px 5px 0px" border="0" padding="0px" spacing="0px">
+	<uni-card margin="0px 0px 5px 0px" :border="false" padding="0px" spacing="0px">
 		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
 			<view class="">
 				<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
@@ -28,7 +28,7 @@
 		<template v-for="item in menu" :key="item.id">
 			<button v-if="judgeAuth(item.meta)" @tap="goTo(item)" class="item">
 				<view class="font">
-					<uni-icons :type="item.icon" size="30"></uni-icons>
+					<uni-icons :type="item.icon" size="24"></uni-icons>
 					<view class="">
 						{{item.name}}
 					</view>
@@ -42,7 +42,7 @@
 		<!-- #ifdef MP-WEIXIN-->
 		<button class="item" open-type="share">
 			<view class="font">
-				<uni-icons type="compose" size="30"></uni-icons>
+				<uni-icons type="compose" size="24"></uni-icons>
 				<view class="">
 					分享小程序
 				</view>
@@ -55,7 +55,7 @@
 		<!-- #ifdef MP-WEIXIN-->
 		<button class="item" open-type="feedback">
 			<view class="font">
-				<uni-icons type="chatboxes" size="30"></uni-icons>
+				<uni-icons type="chatboxes" size="24"></uni-icons>
 				<view class="">
 					反馈意见
 				</view>
@@ -209,19 +209,24 @@
 		display: flex;
 		justify-content: space-between;
 		background: white;
+		align-items: center;
 		border: none;
 		text-align: left;
 		padding: 0px;
-		margin: 2px 0px;
+		margin: 6px 0px;
 		border-radius: 0;
 		outline: none;
 		color: #000;
 		font-size: 1.2rem;
-		height: 2rem;
-		line-height: 2rem;
+		height: 2.3rem;
+		line-height: 2.3rem;
 
 		.font {
 			display: flex;
+			// font-size: 1.2rem;
+			height: 2.3rem;
+			line-height: 2.3rem;
+			align-items: center;
 		}
 	}
 

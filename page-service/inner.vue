@@ -1,5 +1,5 @@
 <template>
-	<view v-if="article" class="">
+	<view v-if="article" class="root">
 		<view v-html="article" class="">
 		</view>
 	</view>
@@ -26,4 +26,8 @@
 </script>
 
 <style scoped lang='scss'>
+	.root {
+		margin: 1px 6px;
+		padding: 4px;
+	}
 </style>

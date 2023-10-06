@@ -1,10 +1,10 @@
 <template>
-	<view :class="listLength<6?'':'root'">
-		<view v-if="listLength===0" class="">
-			<Empty></Empty>
-		</view>
+	<view v-if="listLength===0" class="">
+		<Empty></Empty>
+	</view>
+	<view v-else class="root">
 		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"
-			@scrolltolower="getMoreFunc" enable-back-to-top v-else>
+			@scrolltolower="getMoreFunc" enable-back-to-top>
 			<slot></slot>
 			<view style="text-align: center;padding: 3px;">--到底啦！共{{listLength}}条--</view>
 		</scroll-view>
@@ -36,6 +36,10 @@
 		pageSize: {
 			type: Number,
 			default: 20,
+		},
+		emptyInfo: {
+			type: String,
+			default: "暂无数据",
 		}
 	})
 
@@ -68,7 +72,9 @@
 	.root {
 		// height: 100%;
 		// background-color: #F5F7F9;
-		background: linear-gradient(to bottom, rgb(20, 45, 136), #F5F7F9);
+		// background: linear-gradient(to bottom, rgb(20, 45, 136), #F5F7F9);
+		background: linear-gradient(to bottom, #142D87 0%, #F5F7F9 60%, #F5F7F9 100%);
+
 	}
 
 	.bgc {
