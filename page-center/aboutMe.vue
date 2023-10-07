@@ -101,6 +101,7 @@
 		// const diffY = moveY - startY.value
 		if (diffX > 30) {
 			// 向右滑动事件
+			moveRight.value = true
 		} else if (diffX < -30) {
 			moveRight.value = false
 		}
@@ -109,11 +110,14 @@
 	const onTouchEnd = (e) => {
 		if (moveRight.value) {
 			moveRight.value = false
+			// activeIndex.value = (activeIndex.value - 1) % 8
 			if (activeIndex.value > 0)
 				activeIndex.value--
+			else{
+				activeIndex.value=7
+			}
 		} else {
-			if (activeIndex.value < 7)
-				activeIndex.value++
+			activeIndex.value = (activeIndex.value + 1) % 8
 		}
 		// 清除起始坐标
 		startX.value = 0;

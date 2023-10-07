@@ -16,12 +16,13 @@ const removeAuthorization = () => {
 	uni.removeStorageSync("fineSum")
 	uni.removeStorageSync("loginState")
 	uni.removeStorageSync('loginInfo')
+	uni.removeStorageSync('userInfo')
 	return true
 }
 
 // 退出登录:
 // 删除Cookie,loginState,loginInfo,
-// 删除 超期信息fineSum
+// 删除 超期信息fineSum，用户信息
 const logoutFunc = () => {
 	uni.removeStorageSync("Cookie")
 	removeAuthorization()

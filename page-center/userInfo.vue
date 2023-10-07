@@ -222,7 +222,6 @@
 				}],
 			}
 		}
-
 	}
 
 	// 借阅类型
@@ -249,6 +248,7 @@
 		console.log('info', res)
 		if (res) {
 			info.value = res.data
+			uni.setStorageSync("userInfo", res.data)
 		}
 	}
 

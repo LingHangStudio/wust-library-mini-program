@@ -6,8 +6,8 @@
 			</uni-data-picker>
 		</view>
 		<view class="value">
-			<uni-search-bar @confirm="search" v-model="searchValue" placeholder="搜索书名,分类,ISBN" :radius="100"
-				:clearButton="false" :cancelButton="false"></uni-search-bar>
+			<uni-search-bar bgColor="#EBEDF0" @confirm="search" v-model="searchValue" placeholder="搜索书名,分类,ISBN"
+				:radius="100" clearButton="none" cancelButton="none"></uni-search-bar>
 		</view>
 	</view>
 	<view v-if="searchHistory.length!=0" class="historyBox">
@@ -15,7 +15,7 @@
 			<view class="">
 				检索历史
 			</view>
-			<view @tap="clearHot" class="">
+			<view @tap="clearHis" class="">
 				清空
 			</view>
 		</view>
@@ -26,24 +26,47 @@
 			</view>
 		</view>
 	</view>
-	<uni-card title="热门检索词" margin="5px" is-shadow>
+	<uni-card margin="7px" is-shadow>
+		<template #title>
+			<view class="card-header">
+				<view class="card-header-content">
+					<text class="card-header-content-title">热门检索词</text>
+				</view>
+				<view @click="changeBatch('hot')" class="card-header-extra">
+					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
+				</view>
+			</view>
+		</template>
 		<ListSkeleton :rows="12" display="flex" width="90%" v-if="loading"></ListSkeleton>
 		<view v-else-if="!loading&&collectionHotWord.length===0">
 			<Empty description="暂无检索词" width="160px" height="120px"></Empty>
 		</view>
 		<view v-else class="topSearch">
-			<view class="item" v-for="(item, index) in collectionHotWord" :key="index" @tap="selectHistoryOne(item._1)">
+			<view class="item" v-for="(item, index) in collectionHotWord.slice(8*HotWordIndex,8+8*HotWordIndex)"
+				:key="index" @tap="selectHistoryOne(item._1)">
 				<uni-tag type="theme" circle inverted :text="item._1"></uni-tag>
 			</view>
 		</view>
 	</uni-card>
-	<uni-card title="大家都在看" margin="5px" is-shadow>
+	<uni-card margin="7px" is-shadow>
+		<template #title>
+			<view class="card-header">
+				<view class="card-header-content">
+					<text class="card-header-content-title">大家都在看</text>
+				</view>
+				<view @click="changeBatch('recommend')" class="card-header-extra">
+					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
+				</view>
+			</view>
+		</template>
 		<ListSkeleton :rows="12" display="flex" width="90%" v-if="loading"></ListSkeleton>
 		<view v-else-if="!loading&&recommendList.length===0">
 			<Empty width="160px" height="120px"></Empty>
 		</view>
 		<view v-else class="recommend">
-			<view @tap="getBookDetail(item.bibId)" v-for="(item,index) in recommendList" :key="index" class="item">
+			<view @tap="getBookDetail(item.bibId)"
+				v-for="(item,index) in recommendList.slice(8*recommendIndex,8+8*recommendIndex)" :key="index"
+				class="item">
 				<uni-tag type="theme" circle inverted :text="item.title"></uni-tag>
 			</view>
 		</view>
@@ -55,11 +78,15 @@
 	import { hotApi, topSearchApi } from "@/api/huiwen/home"
 	const loading = ref(true)
 	const searchValue = ref("")
-	// localStorage可以存储数组和对象
+	// Storage可以存储:数组和对象,不用序列化
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
-	//馆藏目录：热门检索
+
+	// 检索词列表，index用于换一换
 	const collectionHotWord = ref([])
+	const HotWordIndex = ref(0)
 	const recommendList = ref([])
+	const recommendIndex = ref(0)
+
 	const searchType = ref([
 		{
 			value: "all",
@@ -91,26 +118,28 @@
 		}
 	}
 
-	const clearHot = () => {
+	const clearHis = () => {
 		searchHistory.value = []
 		uni.removeStorageSync("searchHistory")
 	}
 	const getHot = async () => {
-		const res = await hotApi(8)
-		console.log("hot", res)
+		const res = await hotApi(15)// 获取15条，分两页
 		if (res) {
 			recommendList.value = res.data
 		}
 	}
+
+	// 大家都在搜
 	const getTopSearch = async () => {
-		const res = await topSearchApi(8)
+		const res = await topSearchApi(15)// 获取15条，分两页
 		if (res) {
 			collectionHotWord.value = res.data
 		}
 		loading.value = false
 	}
+
 	// 点击历史搜索
-	const selectHistoryOne = (item) => {
+	const selectHistoryOne = (item : any) => {
 		searchValue.value = item
 		search()
 	}
@@ -123,6 +152,16 @@
 
 	getHot()
 	getTopSearch()
+
+	// 换一换：改变展示的列表
+	const changeBatch = (key : string) => {
+		if (key === 'hot') {
+			HotWordIndex.value = (HotWordIndex.value + 1) % 2
+		}
+		else {
+			recommendIndex.value = (recommendIndex.value + 1) % 2
+		}
+	}
 </script>
 
 <style scoped lang="scss">
@@ -135,7 +174,9 @@
 			margin: 8px 4px 1px 4px;
 		}
 
-		.value {}
+		.value {
+			width: 100%;
+		}
 	}
 
 	.historyBox {
@@ -180,6 +221,41 @@
 		.item {
 			padding: 1px;
 			margin: 3px;
+		}
+	}
+
+
+	.card-header {
+		display: flex;
+		border-bottom: 1px $uni-border-color solid;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+		overflow: hidden;
+
+		.card-header-box {
+			flex: 1;
+			flex-direction: row;
+			align-items: center;
+			overflow: hidden;
+		}
+
+		.card-header-content {
+			flex-direction: column;
+			justify-content: center;
+			flex: 1;
+			// height: 40px;
+			overflow: hidden;
+
+			.card-header-content-title {
+				font-size: 15px;
+				color: #3a3a3a;
+			}
+		}
+
+		.card-header-extra {
+			align-items: center;
+			line-height: 12px;
 		}
 	}
 </style>

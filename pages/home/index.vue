@@ -17,7 +17,8 @@
 		</view>
 	</view>
 	<view @tap.stop="goTo('/page-home/search','inner')" class="search">
-		<uni-search-bar readonly cancelButton="none" placeholder="搜索书名,作者,分类,IBSN" :radius="100"></uni-search-bar>
+		<uni-search-bar bgColor="#EBEDF0" readonly cancelButton="none" placeholder="搜索书名,作者,分类,IBSN"
+			:radius="100"></uni-search-bar>
 	</view>
 	<!-- <uni-card margin="20px 10px 10px 10px"> -->
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">

@@ -267,7 +267,6 @@
 			justify-content: space-between;
 
 			.forget {
-				// margin: auto auto 0 auto;
 				text-decoration: underline;
 				color: #142d88;
 			}
@@ -275,8 +274,6 @@
 
 
 		.button {
-			// background-color: #142d88;
-			// color: #142d88;
 			color: #fff;
 			width: 90%;
 			border: 0;
@@ -312,13 +309,11 @@
 
 	.button {
 		border-radius: 3px;
-
 	}
 
 	.popup-content {
 		max-width: 80vw;
 		margin: 2vw;
-		// border: 1px solid red;
 		padding: 2vw;
 	}
 
@@ -338,7 +333,6 @@
 		&:focus {
 			border: 1px solid #142d88;
 		}
-
 	}
 
 	.code {

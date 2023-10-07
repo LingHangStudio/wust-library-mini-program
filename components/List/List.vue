@@ -1,6 +1,6 @@
 <template>
 	<view v-if="listLength===0" class="">
-		<Empty></Empty>
+		<Empty :description="emptyInfo"></Empty>
 	</view>
 	<view v-else class="root">
 		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"

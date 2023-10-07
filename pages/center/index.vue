@@ -1,28 +1,29 @@
 <template>
-	<uni-card margin="0px 0px 5px 0px" :border="false" padding="0px" spacing="0px">
-		<view v-if="user" class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-			<view class="">
-				<img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar">
-			</view>
-			<view v-if="user.username" class="info">
-				{{user.username}}
-			</view>
-			<view v-else class="info">
+	<!-- <uni-card margin="0px 0px 5px 0px" :border="false" padding="0px" spacing="0px"> -->
+	<view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
+		<view class="header-image" hover-class="back">
+			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
+			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
+		</view>
+		<view v-if="user.displayName" class="info">
+			{{user.displayName}}
+		</view>
+		<view v-else class="info">
+			微信用户
+		</view>
+	</view>
+	<!-- <view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
+		<view class="header-image" hover-class="back">
+			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
+		</view>
+		<view class="info">
+			微信用户
+		</view>
+		<view  class="info">
 				{{WechatInfo.nickName}}
 			</view>
-		</view>
-		<view v-else class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
-			<view class="header-image" hover-class="back">
-				<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
-			</view>
-			<view class="info">
-				微信用户
-			</view>
-			<!-- <view  class="info">
-				{{WechatInfo.nickName}}
-			</view> -->
-		</view>
-	</uni-card>
+	</view> -->
+	<!-- </uni-card> -->
 
 	<uni-card title="">
 		<template v-for="item in menu" :key="item.id">
@@ -79,9 +80,9 @@
 	import type { systemInfoType } from "@/utils/types/center"
 	import { useStore } from "@/store"
 	const store = useStore()
-	const user = uni.getStorageSync("user")
+	const user = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
-	const WechatInfo = uni.getStorageSync("WechatInfo")
+	// const WechatInfo = uni.getStorageSync("WechatInfo")
 	const menu = [
 		{
 			id: "login",
@@ -213,7 +214,7 @@
 		border: none;
 		text-align: left;
 		padding: 0px;
-		margin: 6px 0px;
+		margin: 10px 0px;
 		border-radius: 0;
 		outline: none;
 		color: #000;
