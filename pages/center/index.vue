@@ -69,8 +69,9 @@
 	</uni-card>
 
 	<view class="copyright">
-		<p>Copyright © 2023</p>
-		<p>Version v{{systemInfo.appVersion}}</p>
+		<!-- <p>Copyright © 2023</p> -->
+		<p>v{{systemInfo.appVersion}}</p>
+		<p>公众号：武汉科技大学图书馆</p>
 	</view>
 </template>
 
@@ -211,16 +212,18 @@
 		justify-content: space-between;
 		background: white;
 		align-items: center;
-		border: none;
 		text-align: left;
 		padding: 0px;
 		margin: 10px 0px;
+		border-bottom: 1px solid #E6E6E6;
 		border-radius: 0;
 		outline: none;
 		color: #000;
+		background-color: transparent;
 		font-size: 1.2rem;
 		height: 2.3rem;
 		line-height: 2.3rem;
+
 
 		.font {
 			display: flex;
@@ -231,7 +234,20 @@
 		}
 	}
 
+	.item::after {
+		display: none;
+	}
+
+	.item:last-child {
+		border: 0;
+	}
+
 	.copyright {
-		text-align: center
+		// text-align: center
+		position: absolute;
+		width: 750rpx;
+		text-align: center;
+		color: #666777;
+		bottom: 20px;
 	}
 </style>

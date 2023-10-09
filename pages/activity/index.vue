@@ -44,7 +44,7 @@
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
-		pageNum: 15,
+		pageNum: 10,
 		total: 0
 	})
 	const getArticle = async (page : number, pageSize : number) => {
@@ -81,7 +81,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		min-height: 55px;
+		min-height: 57px;
 
 		.line {
 			width: 3px;

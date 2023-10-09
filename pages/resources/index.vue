@@ -41,7 +41,7 @@
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
-		pageNum: 15,
+		pageNum: 10,
 		total: 0
 	})
 
@@ -52,12 +52,12 @@
 			current.value = e.currentIndex
 			paginations.value = {
 				currentPage: 1,
-				pageNum: 15,
+				pageNum: 10,
 				total: 0
 			}
 			loading.value = true
 			showList.value = []
-			getArticleList(1, 15)
+			getArticleList(1, 10)
 		}
 	}
 	const getArticleList = async (page : number, pageSize : number) => {
@@ -124,7 +124,6 @@
 						background-color: firebrick;
 					}
 				}
-
 			}
 		}
 	}
@@ -132,7 +131,7 @@
 	.box {
 		display: flex;
 		align-items: center;
-		min-height: 55px;
+		min-height: 57px;
 
 		.line {
 			width: 3px;

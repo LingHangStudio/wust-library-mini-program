@@ -1,39 +1,37 @@
 <template>
 	<!-- 聊天框 -->
-	<view class="chat">
-		<scroll-view class="chatBox" id="chatBody">
-			<!-- 咨询页 -->
-			<view class="helloTitle">
-				<view class="hello">Hi,你好</view>
-				<view class="word">有问题咨询小图？</view>
-			</view>
-			<!-- 常见问题 -->
-			<view class="hot">
-				<view class="title">常见问题</view>
-				<view class="hotBox">
-					<view class="item" v-for="(item, index) in hotList" :key="index" @tap="commonSearch(item)">
-						{{ item }}
-					</view>
+	<view class="chatBox" id="chatBody">
+		<!-- 咨询页 -->
+		<view class="helloTitle">
+			<view class="hello">Hi,你好</view>
+			<view class="word">有问题咨询小图？</view>
+		</view>
+		<!-- 常见问题 -->
+		<view class="hot">
+			<view class="title">常见问题</view>
+			<view class="hotBox">
+				<view class="item" v-for="(item, index) in hotList" :key="index" @tap="commonSearch(item)">
+					{{ item }}
 				</view>
 			</view>
-			<view class="chatWord" v-for="(item, index) in chatList" :key="index"
-				:class="item.id == 1 ? 'chatQuestion' : ''">
-				<view class="icon">
-					<image class="image" src="@/static/face1.png" mode=""></image>
-				</view>
-				<view class="wordBox" v-if="!item.questionList">
-					{{ item.content }}
-				</view>
-				<view class="judge" v-if="item.id == 2"></view>
-				<view class="questionList" v-if="item?.questionList">
-					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
-					<view class="questionItem" v-for="ele in item?.questionList" :key="ele.id"
-						@tap="seeQuestionDetail(ele)">
-						{{ ele.question }}
-					</view>
+		</view>
+		<view class="chatWord" v-for="(item, index) in chatList" :key="index"
+			:class="item.id == 1 ? 'chatQuestion' : ''">
+			<view class="icon">
+				<image class="image" src="@/static/face1.png" mode=""></image>
+			</view>
+			<view class="wordBox" v-if="!item.questionList">
+				{{ item.content }}
+			</view>
+			<view class="judge" v-if="item.id == 2"></view>
+			<view class="questionList" v-if="item?.questionList">
+				<view class="tips">小图为您找到了以下问题~点击查看详情</view>
+				<view class="questionItem" v-for="ele in item?.questionList" :key="ele.id"
+					@tap="seeQuestionDetail(ele)">
+					{{ ele.question }}
 				</view>
 			</view>
-		</scroll-view>
+		</view>
 	</view>
 	<view class="chatLine">
 		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
@@ -41,18 +39,19 @@
 			<image class="img" src="@/static/face1.png" alt=""></image>
 		</view>
 	</view>
+	<view class="bgc"></view>
 </template>
 
 <script setup lang="ts">
 	import { consultApi } from "@/page-home/utils/consult"
 	import { Ref, ref } from "vue"
 	import type { responceType } from "@/utils/types/home"
+
 	//常见问题列表
 	const hotList = [
 		"图书馆什么时候开放？",
 		"如何找到我想借的书",
 		"图书馆咨询电话是多少？",
-		"为什么要求读者登记Email或手机号码？",
 	]
 	//聊天列表
 	const chatList : Ref<responceType[]> = ref([
@@ -67,7 +66,6 @@
 	// 结果列表
 	let questionList = ref([])
 
-	//方法
 	// 常见问题搜索
 	const commonSearch = (item) => {
 		questionInput.value = item;
@@ -92,7 +90,7 @@
 			userId: "",
 		};
 		const res = await consultApi(data);
-		
+
 		if (res) {
 			console.log(res);
 			questionList.value = res.data.matched;
@@ -125,168 +123,152 @@
 		});
 		scrollBottom();
 	}
+	const scrollTop = ref(0) // 内容底部与顶部的距离
 	//滚动到底部
 	const scrollBottom = () => {
-		uni.createSelectorQuery().select("#chatBody").boundingClientRect(function (rect) {
+		uni.createSelectorQuery().select("#chatBody").boundingClientRect((rect : any) => {
 			console.log(rect);
 			var timer = setTimeout(() => {
 				uni.pageScrollTo({
-					scrollTop: 9999,
-					duration: 0,// 滑动速度
+					scrollTop: rect.height,
+					duration: 300,// 滑动速度
 				})
+				scrollTop.value = rect.height - scrollTop.value
 				clearTimeout(timer)
-			}, 100)
+			}, 0)
 		}).exec()
 	}
 </script>
 
 <style scoped lang="scss">
-	.chat {
+	.chatBox {
 		flex: 1;
 		margin-bottom: 10px;
-		padding: 15px;
+		padding: 15px 15px 40px 15px;
 		display: flex;
 		flex-direction: column;
 		user-select: text;
+		z-index: 10;
+		overflow-y: auto;
 
-		.chatBox {
-			overflow-y: auto;
-			padding: 0 15px 0 0;
+		.chatWord {
+			z-index: 10;
+			margin: 20px 0;
+			display: flex;
+			align-items: flex-start;
 
-			.chatWord {
-				margin: 20px 0;
-				display: flex;
-				align-items: flex-start;
+			.icon {
+				width: 40px;
+				height: 40px;
+				background-color: pink;
+				border-radius: 25px;
+				background-position: center;
 
-				.icon {
+				.image {
 					width: 40px;
 					height: 40px;
-					background-color: pink;
-					border-radius: 25px;
-					background-position: center;
-
-					.image {
-						width: 40px;
-						height: 40px;
-					}
-				}
-
-				.wordBox {
-					max-width: 70%;
-					margin-left: 15px;
-					padding: 15px;
-					background-color: #f8f5f8;
-					color: #666;
-					font-size: 14px;
-					letter-spacing: 1px;
-					border-radius: 10px;
-					word-wrap: break-word;
-				}
-
-				.questionList {
-					max-width: 70%;
-					margin-left: 15px;
-					padding: 15px;
-					background-color: #f8f5f8;
-					color: #666;
-					font-size: 14px;
-					letter-spacing: 1px;
-					border-radius: 10px;
-					word-wrap: break-word;
-
-					.tips {
-						color: #151515;
-						font-weight: bold;
-					}
-
-					.questionItem {
-						color: #142d88;
-						cursor: pointer;
-					}
 				}
 			}
 
-			.chatQuestion {
-				flex-direction: row-reverse;
-
-				.icon {
-					background-image: url("@/static/face2.png");
-				}
-
-				.wordBox {
-					margin-left: 0;
-					margin-right: 15px;
-					background-color: #142d88;
-					color: #fff;
-				}
+			.wordBox {
+				max-width: 70%;
+				margin-left: 15px;
+				padding: 15px;
+				background-color: #f8f5f8;
+				color: #666;
+				font-size: 14px;
+				letter-spacing: 1px;
+				border-radius: 10px;
+				word-wrap: break-word;
 			}
 
-			.helloTitle {
-				font-weight: bold;
+			.questionList {
+				max-width: 70%;
+				margin-left: 15px;
+				padding: 15px;
+				background-color: #f8f5f8;
+				color: #666;
+				font-size: 14px;
+				letter-spacing: 1px;
+				border-radius: 10px;
+				word-wrap: break-word;
 
-				.hello {
-					font-size: 34px;
-					color: #142d88;
-				}
-
-				.word {
-					font-size: 20px;
-					margin-top: 5px;
-				}
-			}
-
-			.hot {
-				margin-top: 15px;
-				margin-left: 10px;
-
-				.title {
+				.tips {
+					color: #151515;
 					font-weight: bold;
-					color: #142d88;
 				}
 
-				.hotBox {
-					margin-top: 10px;
-					display: flex;
-					flex-wrap: wrap;
-
-					.item {
-						padding: 10px;
-						background-color: #f8f5f8;
-						color: #666;
-						font-size: 14px;
-						margin-right: 5px;
-						margin-bottom: 8px;
-						border-radius: 20px;
-						cursor: pointer;
-					}
+				.questionItem {
+					color: #142d88;
+					cursor: pointer;
 				}
 			}
 		}
 
-		.chatBox:last-child {
-			margin: 20px 0 40px 0;
+		.chatQuestion {
+			z-index: 10;
+			flex-direction: row-reverse;
+
+			.wordBox {
+				margin-left: 0;
+				margin-right: 15px;
+				background-color: #142d88;
+				color: #fff;
+			}
 		}
 
-		// .chatBox::-webkit-scrollbar {
-		// 	width: 6px;
-		// 	border-radius: 6px;
-		// }
+		.helloTitle {
+			z-index: 10;
+			font-weight: bold;
 
-		// .chatBox::-webkit-scrollbar-thumb {
-		// 	background: #e1e1e1;
-		// }
+			.hello {
+				font-size: 34px;
+				color: #142d88;
+			}
 
-		// .chatBox::-webkit-scrollbar-track {
-		// 	background: none;
-		// }
+			.word {
+				font-size: 20px;
+				margin-top: 5px;
+			}
+		}
 
+		.hot {
+			z-index: 10;
+			margin-top: 15px;
+			margin-left: 10px;
 
+			.title {
+				font-weight: bold;
+				color: #142d88;
+			}
+
+			.hotBox {
+				margin-top: 10px;
+				display: flex;
+				flex-wrap: wrap;
+
+				.item {
+					padding: 10px;
+					background-color: #f8f5f8;
+					color: #666;
+					font-size: 14px;
+					margin-right: 5px;
+					margin-bottom: 8px;
+					border-radius: 20px;
+					cursor: pointer;
+				}
+			}
+		}
 	}
 
-	// }
+	.chatBox:last-child {
+		margin: 20px 0 40px 0;
+	}
+
 
 	//输入框
 	.chatLine {
+		z-index: 10;
 		width: 99vw;
 		margin-top: 10px;
 		border: 3px solid #142d88;
@@ -294,7 +276,7 @@
 		display: flex;
 		align-items: center;
 		position: fixed;
-		bottom: 0;
+		bottom: 1px;
 		background-color: #fff;
 
 		input {
@@ -320,6 +302,21 @@
 				height: 40px;
 			}
 		}
+	}
+
+	.bgc {
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		// z-index: 1;
+		align-items: center;
+		position: fixed;
+		bottom: 0;
+		background-size: cover;
+		// background-size: contain;
+		background-repeat: repeat-y;
+
+		background-image: url('https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c');
 	}
 
 	// .consultAni-enter-active,
