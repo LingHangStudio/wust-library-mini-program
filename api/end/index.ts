@@ -1,6 +1,8 @@
 import request from "@/api/request"
 const API = "https://424neko.top:3001/api"
 
+// 自己的后台
+
 /*
 * 获取验证码 GET /api/get-verification-code
 * 
@@ -45,6 +47,7 @@ export async function articleListApi(data) {
 		console.log('err', err)
 	}
 }
+
 // 文章详情
 // @params url 
 // https://mp.weixin.qq.com/s/jIBt3ZtsHLN-XK9nLfyOKA

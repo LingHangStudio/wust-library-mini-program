@@ -1,4 +1,5 @@
 <template>
+	<ListNavBar title="书籍详情"></ListNavBar>
 	<uni-card :title="baseInfo?.title" margin="5px" is-shadow :extra="extraInfo._clickCount+'浏览'">
 		<view class="box-head">
 			<view v-for="(val,key,index) in detailInfo" :key="index" class="info">
@@ -10,7 +11,7 @@
 		</view>
 	</uni-card>
 	<uni-collapse>
-		<uni-collapse-item open v-if="!holdError" title="馆藏查询" :show-animation="true">
+		<uni-collapse-item open v-if="!holdError" titleType title="馆藏查询" show-animation>
 			<view class="">
 				<uni-table>
 					<uni-tr>
@@ -26,20 +27,20 @@
 				</uni-table>
 			</view>
 		</uni-collapse-item>
-		<uni-collapse-item title="书目简介" open show-animation v-if="otherInfo.content">
+		<uni-collapse-item title="书目简介" titleType open show-animation v-if="otherInfo.content">
 			<uni-card is-shadow>
 				<view v-html="otherInfo.content" class="box-content">
 				</view>
 			</uni-card>
 		</uni-collapse-item>
-		<uni-collapse-item title="作者" open show-animation v-if="otherInfo.authorInfo">
+		<uni-collapse-item title="作者" titleType open show-animation v-if="otherInfo.authorInfo">
 			<uni-card is-shadow>
 				<view v-html="otherInfo.authorInfo" class="box-author">
 				</view>
 			</uni-card>
 		</uni-collapse-item>
 
-		<uni-collapse-item title="目录" show-animation v-if="otherInfo.catalog">
+		<uni-collapse-item title="目录" titleType show-animation v-if="otherInfo.catalog">
 			<uni-card margin="1px" padding="5px" is-shadow>
 				<view v-html="otherInfo.catalog" class="box-catalog">
 				</view>
@@ -50,14 +51,13 @@
 	<qiun-data-charts :ontouch="true" type="line" :chartData="trendChart" />
 </template>
 
-
 <script setup lang="ts">
 	// 书籍详情的接口：
 	// infos 获取baseInfo，放在顶部
 	// info 获取详细信息，放在下面：章节信息，作者简介，书目简介，封面
 	// trend 获取图表
 	// holdings 获取馆藏信息
-	import { ref, Ref } from "vue"
+	import { onMounted, ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/utils/types/book"
@@ -72,6 +72,7 @@
 	const holdError : Ref<Boolean> = ref(false)
 	// trend 接口，趋势图
 	const trendChart : Ref<any> = ref({})
+
 	const getDetails = async (bibId : string | number) => {
 		const res = await deatileApi(bibId)
 		if (res) {
@@ -139,6 +140,7 @@
 </script>
 
 <style scoped lang="scss">
+	// 书籍介绍
 	.tr {
 		display: flex;
 	}
@@ -153,6 +155,7 @@
 		width: 70%;
 	}
 
+	//
 	.canvas {
 		width: 750rpx;
 		height: 500rpx;

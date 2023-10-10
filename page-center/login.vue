@@ -1,4 +1,5 @@
 <template>
+	<ListNavBar></ListNavBar>
 	<view class="root">
 		<view class="form-wrapper animate__animated animate__slideInRight">
 			<view class="form">
@@ -6,17 +7,18 @@
 					Login</div>
 				<uni-forms ref="myForm" :modelValue="userForm" :rules="rules">
 					<uni-forms-item name="username">
-						<uni-easyinput :maxlength="18" confirmType="next" type="text" prefixIcon="person-filled"
-							v-model="userForm.username" placeholder="请输入学号/工号" />
+						<uni-easyinput :style="{borderColor:'#142d88'}" :maxlength="18" confirmType="next" type="text"
+							prefixIcon="person-filled" v-model="userForm.username" placeholder="请输入学号/工号" />
 					</uni-forms-item>
 					<uni-forms-item name="password">
-						<uni-easyinput type="password" :maxlength="32" prefixIcon="locked" v-model="userForm.password"
-							placeholder="请输入密码" />
+						<uni-easyinput :style="{borderColor:'#142d88'}" type="password" :maxlength="32"
+							prefixIcon="locked" v-model="userForm.password" placeholder="请输入密码" />
 					</uni-forms-item>
 					<view class="" style="display: flex;width: 100%;">
 						<uni-forms-item name="code">
-							<uni-easyinput :maxlength="4" confirmType="send" class="ipt" type="text" prefixIcon="flag"
-								v-model="userForm.code" placeholder="请输入验证码" :clearable="false" />
+							<uni-easyinput :style="{borderColor:'#142d88'}" :maxlength="4" confirmType="send"
+								class="ipt" type="text" prefixIcon="flag" v-model="userForm.code" placeholder="请输入验证码"
+								:clearable="false" />
 						</uni-forms-item>
 						<view @tap="getCode" class="code" hover-class="codeActive">
 							<image :src="codeImg" mode="" style="width: 100px;height: 30px;"></image>
@@ -61,8 +63,8 @@
 	const errorMsgContent = ref("")
 	// 
 	const loading = ref(true)
-	
-	const toolTipContent = 
+
+	const toolTipContent =
 		`<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 账号说明</h3>
 		<p>1.教职工的账号为工号，学生的账号为学号。</p>
 		<p>2.初始密码默认为姓名中姓的首字母大写+账号，如您修改过密码，则以修改后的密码为准。</p>
@@ -159,10 +161,7 @@
 		loading.value = false
 	}
 
-	onMounted(() => {
-		getCode()
-	})
-
+	// 表单校验
 	const vertify = () => {
 		if (code.value.toLowerCase() !== userForm.value.code.toLowerCase()) {
 			errorMsgContent.value = "验证码错误"
@@ -180,17 +179,6 @@
 </script>
 
 <style scoped lang="scss">
-	// .background {
-	// 	width: 100vw;
-	// 	// border: 1px solid red;
-	// 	// margin-bottom: 5px;
-
-	// 	uni-image {
-	// 		// border-radius: 0 0 25% 25%;
-	// 		width: 99%;
-	// 	}
-	// 	// border-radius:0 0 30px 0;
-	// }
 	.root {
 		margin: 0;
 		padding: 0;
@@ -358,15 +346,15 @@
 		}
 
 		25% {
-			transform: scale(0.7, 0.7);
+			transform: scale(0.5, 0.5);
 		}
 
 		50% {
-			transform: scale(.4, 0.3);
+			transform: scale(0, 0);
 		}
 
 		75% {
-			transform: scale(0.7, 0.7);
+			transform: scale(0.5, 0.5);
 		}
 
 		to {

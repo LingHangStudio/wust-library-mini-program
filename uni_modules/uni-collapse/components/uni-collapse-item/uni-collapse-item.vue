@@ -7,6 +7,7 @@
 				<slot name="title">
 					<view class="uni-collapse-item__title-box" :class="{'is-disabled':disabled}">
 						<image v-if="thumb" :src="thumb" class="uni-collapse-item__title-img" />
+						<view class="decoration" v-if="titleType"></view>
 						<text class="uni-collapse-item__title-text">{{ title }}</text>
 					</view>
 				</slot>
@@ -52,6 +53,10 @@
 			title: {
 				type: String,
 				default: ''
+			},
+			titleType: {
+				type: Boolean,
+				default: false
 			},
 			name: {
 				type: [Number, String],
@@ -397,6 +402,13 @@
 			transition-duration: 0.3s;
 			transition-timing-function: ease;
 		}
+	}
 
+	.decoration {
+		margin-right: 6px;
+		background-color: $theme-color;
+		width: 4px;
+		height: 12px;
+		border-radius: 10px;
 	}
 </style>

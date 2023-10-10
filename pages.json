@@ -76,12 +76,12 @@
 		}, {
 			"path": "search-list",
 			"style": {
-				"navigationBarTitleText": "搜索结果"
+				"navigationBarTitleText": "检索结果"
 			}
 		}, {
 			"path": "detail",
 			"style": {
-				"navigationBarTitleText": "书籍详情"
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "tsgview",
@@ -102,7 +102,7 @@
 		"pages": [{
 			"path": "login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "aboutMe",
@@ -114,7 +114,7 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
-		},{
+		}, {
 			"path": "userInfo",
 			"style": {
 				"navigationBarTitleText": "我的"

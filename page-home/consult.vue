@@ -34,16 +34,25 @@
 		</view>
 	</view>
 	<view class="chatLine">
-		<uni-easyinput class="input" placeholder="请输入咨询内容" v-model="questionInput" @keyup.enter="searchQuestions()" />
-		<view class="searchBtn" @tap="searchQuestions()">
-			<image class="img" src="@/static/face1.png" alt=""></image>
+		<view v-show="showWordsModal&&tipsList.length>0" class="toolTips">
+			<view @tap="commonSearch(item.content)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
+				{{item.content}}
+			</view>
+		</view>
+		<view class="chatInput">
+			<uni-easyinput class="input" type="text" confirm-type="send" placeholder="请输入咨询内容" v-model="questionInput"
+				@confirm="searchQuestions()" @blur="showWordsModal=false" @clear="showWordsModal=false"
+				@input="changeInput" />
+			<view class="searchBtn" @tap="searchQuestions()">
+				<image class="img" src="@/static/face1.png" alt=""></image>
+			</view>
 		</view>
 	</view>
 	<view class="bgc"></view>
 </template>
 
 <script setup lang="ts">
-	import { consultApi } from "@/page-home/utils/consult"
+	import { consultApi, getWordApi } from "@/page-home/utils/consult"
 	import { Ref, ref } from "vue"
 	import type { responceType } from "@/utils/types/home"
 
@@ -66,11 +75,38 @@
 	// 结果列表
 	let questionList = ref([])
 
-	// 常见问题搜索
-	const commonSearch = (item) => {
+	// 常见问题，问题列表的搜索
+	const commonSearch = (item : string) => {
 		questionInput.value = item;
 		searchQuestions();
 	}
+
+	// 推荐问题列表
+	const tipsList = ref([])
+
+	// 是否显示搜索词条列表
+	const showWordsModal = ref(false)
+
+	// 输入框发生变化时
+	const changeInput = async (e : string) => {
+		const res = true //await getWordApi(e)
+		if (res) {
+			tipsList.value = [{
+				content: "sasa",
+			}, {
+				content: "sasa",
+			}, {
+				content: "sasa",
+			}, {
+				content: "sasa",
+			}, {
+				content: "sasa",
+			}]
+			showWordsModal.value = false
+			// showWordsModal.value = true
+		}
+	}
+
 	//搜索问题
 	const searchQuestions = async () => {
 		if (questionInput.value == '') {
@@ -89,6 +125,7 @@
 			msg: questionInput.value,
 			userId: "",
 		};
+		showWordsModal.value = false
 		const res = await consultApi(data);
 
 		if (res) {
@@ -153,7 +190,7 @@
 
 		.chatWord {
 			z-index: 10;
-			margin: 20px 0;
+			margin: 10px 0;
 			display: flex;
 			align-items: flex-start;
 
@@ -203,6 +240,10 @@
 					cursor: pointer;
 				}
 			}
+		}
+
+		.chatWord:last-child {
+			margin: 20px 0;
 		}
 
 		.chatQuestion {
@@ -265,41 +306,62 @@
 		margin: 20px 0 40px 0;
 	}
 
-
 	//输入框
 	.chatLine {
 		z-index: 10;
-		width: 99vw;
-		margin-top: 10px;
-		border: 3px solid #142d88;
-		border-radius: 8px;
-		display: flex;
-		align-items: center;
+		width: 100vw;
 		position: fixed;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		bottom: 1px;
-		background-color: #fff;
+		border-radius: 8px;
 
-		input {
-			flex: 1;
-			height: 100%;
-			padding: 0 15px;
+		.chatInput {
+			width: 99vw;
+			border: 3px solid #142d88;
+			display: flex;
+			align-items: center;
+			background-color: #fff;
 			border-radius: 8px;
-			font-size: 16px;
-			color: #666;
-			caret-color: #000;
+
+			input {
+				flex: 1;
+				height: 100%;
+				padding: 0 15px;
+				border-radius: 8px;
+				font-size: 16px;
+				color: #666;
+				caret-color: #000;
+			}
+
+			.searchBtn {
+				height: 100%;
+				background-position: center;
+				background-repeat: no-repeat;
+				border-left: 2px solid #eee;
+				cursor: pointer;
+
+				.img {
+					width: 40px;
+					height: 40px;
+				}
+			}
 		}
 
-		.searchBtn {
-			// width: 80px;
-			height: 100%;
-			background-position: center;
-			background-repeat: no-repeat;
-			border-left: 2px solid #eee;
-			cursor: pointer;
+		.toolTips {
+			overflow: auto;
+			max-height: 20vh;
+			font-size: 14px;
+			padding: 10px 0 0 0;
+			// margin: 0 10px;
+			background-color: rgba(255, 255, 255, 0.7);
+			width: 99vw;
+			border-radius: 8px 8px 0 0;
 
-			.img {
-				width: 40px;
-				height: 40px;
+			.toolTip {
+				padding: 0 0 0 10px;
+				border-bottom: 1px solid $theme-color;
 			}
 		}
 	}
@@ -308,14 +370,11 @@
 		width: 100vw;
 		height: 100vh;
 		display: flex;
-		// z-index: 1;
 		align-items: center;
 		position: fixed;
-		bottom: 0;
+		top: 0;
 		background-size: cover;
-		// background-size: contain;
 		background-repeat: repeat-y;
-
 		background-image: url('https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c');
 	}
 

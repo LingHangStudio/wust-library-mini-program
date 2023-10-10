@@ -3,7 +3,7 @@
 	<List v-else @getMore="search(paginations.currentPage+1,paginations.pageNum)" :listLength="searchList.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<template>
-			<uni-card margin="5px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
+			<uni-card margin="8px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
 				v-for="(item,index) in searchList" :key="index">
 				<view class="main">
 					<view class="tag">
@@ -38,7 +38,7 @@
 		pageNum: 15,
 		total: 0
 	})
-	const search = async (currentPage, pageNum) => {
+	const search = async (currentPage : number, pageNum : number) => {
 		console.log("search api")
 		let value = searchInput.value
 		searchInput.value = ""
@@ -96,16 +96,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.top {
-		position: fixed;
-		bottom: 40px;
-		right: 15px;
-		border-radius: 50%;
-		border: 1px solid $theme-color;
-		padding: 3px;
-		background-color: #fff;
-	}
-
 	.info {
 		color: grey;
 		font-size: .8rem;

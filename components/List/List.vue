@@ -74,7 +74,6 @@
 		// background-color: #F5F7F9;
 		// background: linear-gradient(to bottom, rgb(20, 45, 136), #F5F7F9);
 		background: linear-gradient(to bottom, #142D87 0%, #F5F7F9 60%, #F5F7F9 100%);
-
 	}
 
 	.bgc {

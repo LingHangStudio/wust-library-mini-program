@@ -68,7 +68,9 @@
 		<!-- #endif -->
 	</uni-card>
 
+
 	<view class="copyright">
+		<!-- <official-account></official-account> -->
 		<!-- <p>Copyright © 2023</p> -->
 		<p>v{{systemInfo.appVersion}}</p>
 		<p>公众号：武汉科技大学图书馆</p>
@@ -233,14 +235,15 @@
 			align-items: center;
 		}
 	}
-
+	
+	// 消除按钮的边框
 	.item::after {
 		display: none;
 	}
 
-	.item:last-child {
-		border: 0;
-	}
+	// .item:last-child {
+	// 	border: 0;
+	// }
 
 	.copyright {
 		// text-align: center
