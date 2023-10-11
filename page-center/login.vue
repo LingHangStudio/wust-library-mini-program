@@ -7,17 +7,17 @@
 					Login</div>
 				<uni-forms ref="myForm" :modelValue="userForm" :rules="rules">
 					<uni-forms-item name="username">
-						<uni-easyinput :style="{borderColor:'#142d88'}" :maxlength="18" confirmType="next" type="text"
+						<uni-easyinput primaryColor="#142d88" :maxlength="18" confirmType="next" type="text"
 							prefixIcon="person-filled" v-model="userForm.username" placeholder="请输入学号/工号" />
 					</uni-forms-item>
 					<uni-forms-item name="password">
-						<uni-easyinput :style="{borderColor:'#142d88'}" type="password" :maxlength="32"
-							prefixIcon="locked" v-model="userForm.password" placeholder="请输入密码" />
+						<uni-easyinput primaryColor="#142d88" type="password" :maxlength="32" prefixIcon="locked"
+							v-model="userForm.password" placeholder="请输入密码" />
 					</uni-forms-item>
 					<view class="" style="display: flex;width: 100%;">
 						<uni-forms-item name="code">
-							<uni-easyinput :style="{borderColor:'#142d88'}" :maxlength="4" confirmType="send"
-								class="ipt" type="text" prefixIcon="flag" v-model="userForm.code" placeholder="请输入验证码"
+							<uni-easyinput primaryColor="#142d88" :maxlength="4" confirmType="send" class="ipt"
+								type="text" prefixIcon="flag" v-model="userForm.code" placeholder="请输入验证码"
 								:clearable="false" />
 						</uni-forms-item>
 						<view @tap="getCode" class="code" hover-class="codeActive">
@@ -28,7 +28,6 @@
 						<view class="forget" @tap="showToolTip.open()">
 							忘记密码?
 						</view>
-
 					</view>
 					<button @tap="vertify" class="button">登录</button>
 				</uni-forms>
@@ -51,9 +50,10 @@
 	import { ref, onMounted } from "vue"
 	import { useStore } from "@/store"
 	import RSA from "@/page-center/utils/rsa.js"
+	// 专属处理btoa atob
 	import { weBtoa } from '@/page-center/utils/weapp-jwt'
 	const store = useStore()
-	// 忘记密码的提醒
+	// 忘记密码的提醒model
 	const showToolTip = ref(null)
 	// 存图片
 	const codeImg = ref('')
@@ -176,6 +176,9 @@
 			console.log('error', err)
 		})
 	}
+	onMounted(() => {
+		getCode()
+	})
 </script>
 
 <style scoped lang="scss">

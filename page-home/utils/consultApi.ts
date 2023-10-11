@@ -14,7 +14,7 @@ export function getWordApi(data) {
 	})
 }
 
-// 咨询：发送词条
+// 咨询：匹配输入的词条
 export const consultApi=(data)=> {
 	return request({
 		url: `${API}/web/msg/question`,

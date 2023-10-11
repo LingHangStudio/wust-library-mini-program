@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-	import { consultApi, getWordApi } from "@/page-home/utils/consult"
+	import { consultApi, getWordApi } from "@/page-home/utils/consultApi"
 	import { Ref, ref } from "vue"
 	import type { responceType } from "@/utils/types/home"
 
