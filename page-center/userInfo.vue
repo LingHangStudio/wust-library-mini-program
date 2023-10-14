@@ -1,4 +1,5 @@
 <template>
+	<ListNavBar title="我的"></ListNavBar>
 	<ListSkeleton :loop="3" :row="4" v-if="loading"></ListSkeleton>
 	<view class="" v-else>
 		<uni-card padding="8px 4px">
@@ -159,8 +160,8 @@
 		"obligate": 0,
 		"deposit": 0,
 		"serviceCharge": 0,
-		"voucher": 0,
-		"credit": 0,
+		voucher: 0,
+		credit: 0,
 		"userStatus": 0,
 		"userClass": "",
 		"userCountry": null,
@@ -182,8 +183,8 @@
 		"userExinfos": null,
 		"photoName": null,
 		"loanedCount": 0,
-		"maxLoanCount": 0,
-		"userTypeDesc": null,
+		maxLoanCount: 0,
+		userTypeDesc: null,
 	})
 
 	// 借阅概览

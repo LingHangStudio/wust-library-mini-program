@@ -63,8 +63,8 @@
         "optimization" : {
             "subPackages" : true
         },
-		"lazyCodeLoading": "requiredComponents",
-		"subPackageBuildType": "shared"
+        "lazyCodeLoading" : "requiredComponents",
+        "subPackageBuildType" : "shared"
     },
     "mp-alipay" : {
         "usingComponents" : true

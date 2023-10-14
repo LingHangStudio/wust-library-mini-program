@@ -36,13 +36,13 @@
 	<view class="chatLine">
 		<view v-show="showWordsModal&&tipsList.length>0" class="toolTips">
 			<view @tap="commonSearch(item.content)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
-				{{item.content}}
+				{{item}}
 			</view>
 		</view>
 		<view class="chatInput">
 			<uni-easyinput class="input" type="text" confirm-type="send" placeholder="请输入咨询内容" v-model="questionInput"
 				@confirm="searchQuestions()" @blur="showWordsModal=false" @clear="showWordsModal=false"
-				@input="changeInput" />
+				@input="(e:string)=>handleDebounce(e)" />
 			<view class="searchBtn" @tap="searchQuestions()">
 				<image class="img" src="@/static/face1.png" alt=""></image>
 			</view>
@@ -52,9 +52,10 @@
 </template>
 
 <script setup lang="ts">
+	import { debounce } from "@/utils/operate"
 	import { consultApi, getWordApi } from "@/page-home/utils/consultApi"
 	import { Ref, ref } from "vue"
-	import type { responceType } from "@/utils/types/home"
+	import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
 
 	//常见问题列表
 	const hotList = [
@@ -63,7 +64,7 @@
 		"图书馆咨询电话是多少？",
 	]
 	//聊天列表
-	const chatList : Ref<responceType[]> = ref([
+	const chatList : Ref<resConsultType[]> = ref([
 		{
 			id: 0,
 			content:
@@ -91,21 +92,17 @@
 	const changeInput = async (e : string) => {
 		const res = true //await getWordApi(e)
 		if (res) {
-			tipsList.value = [{
-				content: "sasa",
-			}, {
-				content: "sasa",
-			}, {
-				content: "sasa",
-			}, {
-				content: "sasa",
-			}, {
-				content: "sasa",
-			}]
+			tipsList.value = []
+			for (let i = 0; i < 3; i++) {
+				tipsList.value.push(e)
+			}
+			console.log(tipsList.value)
 			showWordsModal.value = false
 			// showWordsModal.value = true
 		}
 	}
+
+	const handleDebounce = debounce(changeInput, 1000)
 
 	//搜索问题
 	const searchQuestions = async () => {
@@ -124,7 +121,7 @@
 		let data = {
 			msg: questionInput.value,
 			userId: "",
-		};
+		} as requestQuestion;
 		showWordsModal.value = false
 		const res = await consultApi(data);
 
@@ -153,7 +150,7 @@
 		scrollBottom();
 	}
 	//查看问题详情
-	const seeQuestionDetail = (ele) => {
+	const seeQuestionDetail = (ele : any) => {
 		chatList.value.push({
 			id: 2,
 			content: ele.answer,

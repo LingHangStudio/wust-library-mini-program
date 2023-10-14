@@ -18,6 +18,7 @@ const whiteList = [
 	'/page-center/login',
 	'/page-center/aboutMe',
 	"/page-home/hello",
+	'/page-service/test'
 ]
 
 export default async function() {

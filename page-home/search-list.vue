@@ -58,7 +58,7 @@
 			filterFieldList: [],
 			page: currentPage,
 			pageSize: pageNum
-		}
+		} as any;
 		const res = await searchApi(data);
 		try {
 			if (res) {

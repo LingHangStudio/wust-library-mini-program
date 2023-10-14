@@ -5,7 +5,7 @@ const API = "https://libsys.wust.edu.cn"
 
 
 //搜索 - 主页
-export async function searchApi(data) {
+export async function searchApi(data : any) {
 	const res = await request({
 		url: `${API}/meta-local/opac/search/`,
 		method: "POST",
@@ -14,7 +14,7 @@ export async function searchApi(data) {
 	return res?.data
 }
 // 热门检索词
-export async function topSearchApi(count) {
+export async function topSearchApi(count : number) {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/commend/top_search_trend`,
@@ -29,7 +29,7 @@ export async function topSearchApi(count) {
 }
 
 // 热门图书 - 主页
-export async function hotApi(count) {
+export async function hotApi(count : number) {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/commend/hot1`,

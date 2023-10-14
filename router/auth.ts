@@ -26,7 +26,9 @@ const removeAuthorization = () => {
 const logoutFunc = () => {
 	uni.removeStorageSync("Cookie")
 	removeAuthorization()
-	uni.navigateBack()
+	uni.reLaunch({
+		url: "/pages/home/index"
+	})
 }
 
 export {

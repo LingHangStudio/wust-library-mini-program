@@ -25,52 +25,11 @@
 	</view> -->
 	<!-- </uni-card> -->
 
-	<uni-card title="">
-		<template v-for="item in menu" :key="item.id">
-			<button v-if="judgeAuth(item.meta)" @tap="goTo(item)" class="item">
-				<view class="font">
-					<uni-icons :type="item.icon" size="24"></uni-icons>
-					<view class="">
-						{{item.name}}
-					</view>
-				</view>
-				<view class="">
-					<uni-tag type="error" size="small" circle :text="item.meta.fineNum"></uni-tag>
-					<uni-icons type="forward"></uni-icons>
-				</view>
-			</button>
-		</template>
-		<!-- #ifdef MP-WEIXIN-->
-		<button class="item" open-type="share">
-			<view class="font">
-				<uni-icons type="compose" size="24"></uni-icons>
-				<view class="">
-					分享小程序
-				</view>
-			</view>
-			<view class="">
-				<uni-icons type="forward"></uni-icons>
-			</view>
-		</button>
-		<!-- #endif -->
-		<!-- #ifdef MP-WEIXIN-->
-		<button class="item" open-type="feedback">
-			<view class="font">
-				<uni-icons type="chatboxes" size="24"></uni-icons>
-				<view class="">
-					反馈意见
-				</view>
-			</view>
-			<view class="">
-				<uni-icons type="forward"></uni-icons>
-			</view>
-		</button>
-		<!-- #endif -->
-	</uni-card>
-
+	<Menu></Menu>
+	<!-- <button @tap="goTo({url:'/page-service/test'})">测试</button> -->
 
 	<view class="copyright">
-		<!-- <official-account></official-account> -->
+		<official-account></official-account>
 		<!-- <p>Copyright © 2023</p> -->
 		<p>v{{systemInfo.appVersion}}</p>
 		<p>公众号：武汉科技大学图书馆</p>
@@ -78,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+	import Menu from "@/pages/center/components/menu.vue"
 	import { ref, Ref } from "vue"
 	import { onShow } from "@dcloudio/uni-app"
 	import type { systemInfoType } from "@/utils/types/center"
@@ -85,65 +45,6 @@
 	const store = useStore()
 	const user = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
-	// const WechatInfo = uni.getStorageSync("WechatInfo")
-	const menu = [
-		{
-			id: "login",
-			name: "绑定用户",
-			url: "/page-center/login",
-			icon: "locked",
-			meta: {
-				auth: "visitor",// 必须是未登录状态
-			}
-		}, {
-			id: "me",
-			name: "我的",
-			url: "/page-center/userInfo",
-			icon: "locked",
-			meta: {
-				auth: "user",
-				fineNum: uni.getStorageSync("fineSum")
-			}
-		},
-		{
-			id: "subscribe",
-			name: "我的借阅",
-			url: "/page-center/mySubscribe",
-			icon: "eye",
-			meta: {
-				auth: "user"
-			}
-		},
-		// {
-		// 	id: "",
-		// 	name: "我的预约",
-		// 	url: "",
-		// 	inner: false,
-		// 	icon: "tune", complete: ""
-		// }, 
-		// {
-		// 	id: "",
-		// 	name: "我的收藏",
-		// 	url: "",
-		// 	inner: false,
-		// 	icon: "folder-add", complete: ""
-		// }, 
-		{
-			id: "",
-			name: "关于我们",
-			url: "/page-center/aboutMe",
-			icon: "info",
-			meta: {
-				auth: "no"
-			}
-		},
-	]
-
-	const judgeAuth = (meta) => {
-		return meta.auth === 'no'
-			|| (meta.auth === 'user' && uni.getStorageSync('loginState'))
-			|| (meta.auth === 'visitor' && !uni.getStorageSync('loginState'))
-	}
 
 	uni.getSystemInfo({
 		success: function (res) {
@@ -158,11 +59,6 @@
 		},
 	})
 
-	const goTo = (item) => {
-		uni.navigateTo({
-			url: item.url
-		})
-	}
 	onShow(() => {
 		let fineSum = uni.getStorageSync("fineSum")
 		if (fineSum !== 0) {
@@ -207,43 +103,6 @@
 	.back {
 		transform: rotateY(180deg);
 	}
-
-	.item {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		background: white;
-		align-items: center;
-		text-align: left;
-		padding: 0px;
-		margin: 10px 0px;
-		border-bottom: 1px solid #E6E6E6;
-		border-radius: 0;
-		outline: none;
-		color: #000;
-		background-color: transparent;
-		font-size: 1.2rem;
-		height: 2.3rem;
-		line-height: 2.3rem;
-
-
-		.font {
-			display: flex;
-			// font-size: 1.2rem;
-			height: 2.3rem;
-			line-height: 2.3rem;
-			align-items: center;
-		}
-	}
-	
-	// 消除按钮的边框
-	.item::after {
-		display: none;
-	}
-
-	// .item:last-child {
-	// 	border: 0;
-	// }
 
 	.copyright {
 		// text-align: center

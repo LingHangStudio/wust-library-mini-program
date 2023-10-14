@@ -60,7 +60,7 @@
 	import { onMounted, ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
-	import type { baseInfoType, extraInfoType, otherInfoType } from "@/utils/types/book"
+	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
 	// infos接口的内容
 	const baseInfo : Ref<baseInfoType> = ref({})
 	const detailInfo : Ref<any> = ref({})

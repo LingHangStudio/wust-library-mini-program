@@ -96,6 +96,11 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		}, {
+			"path": "test",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}]
 	}, {
 		"root": "page-center",
@@ -117,7 +122,7 @@
 		}, {
 			"path": "userInfo",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationStyle": "custom"
 			}
 		}]
 	}],

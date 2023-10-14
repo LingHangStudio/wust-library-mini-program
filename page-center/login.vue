@@ -48,6 +48,7 @@
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
+	import { onLoad } from "@dcloudio/uni-app"
 	import { useStore } from "@/store"
 	import RSA from "@/page-center/utils/rsa.js"
 	// 专属处理btoa atob
@@ -63,6 +64,9 @@
 	const errorMsgContent = ref("")
 	// 
 	const loading = ref(true)
+
+	// 页面来源
+	// const isCenter = ref(false)
 
 	const toolTipContent =
 		`<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 账号说明</h3>
@@ -140,7 +144,9 @@
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
 			uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
 			store.setloginState(true)
-			uni.navigateBack()
+			uni.reLaunch({
+				url: "/pages/home/index"
+			})
 		} catch (e) {
 			console.log(e)
 			uni.showToast({
@@ -179,6 +185,10 @@
 	onMounted(() => {
 		getCode()
 	})
+	// onLoad((e) => {
+	// 	console.log(e)
+	// 	if (e.e === 'center') isCenter.value = true
+	// })
 </script>
 
 <style scoped lang="scss">
