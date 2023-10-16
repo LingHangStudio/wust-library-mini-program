@@ -75,7 +75,7 @@
 		console.log(url, type);
 		if (type == "tsg") {
 			uni.navigateTo({
-				url: "/page-home/tsgview?url=" + url
+				url: "/page-service/tsgview?url=" + url
 			})
 		} else {
 			uni.navigateTo({

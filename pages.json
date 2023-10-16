@@ -83,15 +83,15 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}, {
-			"path": "tsgview",
-			"style": {
-				"navigationBarTitleText": "图书馆"
-			}
 		}]
 	}, {
 		"root": "page-service",
 		"pages": [{
+			"path": "tsgview",
+			"style": {
+				"navigationBarTitleText": "图书馆"
+			}
+		}, {
 			"path": "inner",
 			"style": {
 				"navigationBarTitleText": ""

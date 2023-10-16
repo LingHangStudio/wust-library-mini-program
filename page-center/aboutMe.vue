@@ -14,7 +14,7 @@
 		</view>
 		<!-- 介绍内容 -->
 		<view v-for="(item,index) in aboutMeContent.content" :key="index" class="">
-			<view :id="'photo_'+index" :class="{active:activeIndex===index}" class="box-font">
+			<view :class="{active:activeIndex===index}" class="box-font">
 				<view class="bgc">
 					<view v-html="item">
 					</view>
@@ -113,8 +113,8 @@
 			// activeIndex.value = (activeIndex.value - 1) % 8
 			if (activeIndex.value > 0)
 				activeIndex.value--
-			else{
-				activeIndex.value=7
+			else {
+				activeIndex.value = 7
 			}
 		} else {
 			activeIndex.value = (activeIndex.value + 1) % 8
@@ -168,60 +168,18 @@
 		bottom: 0px;
 		left: 0px;
 		right: 0px;
-		// width: 80vw;
-		// height: 100%;
+		width: 80vmin;
+		height: 90vmin;
 		margin: auto;
 		overflow: hidden;
 		z-index: 0;
+		opacity: 0;
 		transition: height .7s ease, opacity .7s ease;
-	}
-
-	#photo_0 {
-		height: 0;
-	}
-
-	#photo_1 {
-		width: 70vmin;
-		height: 80vmin;
-		opacity: 0;
-	}
-
-	#photo_2 {
-		height: 0;
-
-	}
-
-	#photo_3 {
-		width: 70vmin;
-		height: 80vmin;
-		opacity: 0;
-	}
-
-	#photo_4 {
-		height: 0;
-	}
-
-	#photo_5 {
-		opacity: 0;
-		width: 70vmin;
-		height: 80vmin;
-	}
-
-	#photo_6 {
-		height: 0;
-	}
-
-	#photo_7 {
-		opacity: 0;
-		width: 70vmin;
-		height: 80vmin;
 	}
 
 	// 文字展示卡片的外层
 	.active {
 		padding: 10px 8px;
-		width: 80vmin !important;
-		height: 90vmin !important;
 		opacity: 1 !important;
 	}
 

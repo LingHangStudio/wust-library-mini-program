@@ -48,7 +48,6 @@
 		}
 	}
 
-
 	const login = async (loginInfo : any) => {
 		console.log(typeof loginInfo)
 		try {

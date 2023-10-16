@@ -66,7 +66,7 @@
 
 	const goTo = (url : string) => {
 		uni.navigateTo({
-			url: "/page-service/inner?url=" + url
+			url: "/page-service/tsgview?url=" + url
 		})
 	}
 </script>
