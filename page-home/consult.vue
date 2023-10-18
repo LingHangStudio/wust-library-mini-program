@@ -34,15 +34,14 @@
 		</view>
 	</view>
 	<view class="chatLine">
-		<view v-show="showWordsModal&&tipsList.length>0" class="toolTips">
-			<view @tap="commonSearch(item.content)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
+		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
+			<view @tap="commonSearch(item)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
 				{{item}}
 			</view>
 		</view>
 		<view class="chatInput">
 			<uni-easyinput class="input" type="text" confirm-type="send" placeholder="请输入咨询内容" v-model="questionInput"
-				@confirm="searchQuestions()" @blur="showWordsModal=false" @clear="showWordsModal=false"
-				@input="(e:string)=>handleDebounce(e)" />
+				@confirm="searchQuestions()" @clear="showWordsModal=false" @input="(e:string)=>handleDebounce(e)" />
 			<view class="searchBtn" @tap="searchQuestions()">
 				<image class="img" src="@/static/face1.png" alt=""></image>
 			</view>
@@ -90,19 +89,20 @@
 
 	// 输入框发生变化时
 	const changeInput = async (e : string) => {
-		const res = true //await getWordApi(e)
+		tipsList.value = []
+		const res = await getWordApi(e)
 		if (res) {
-			tipsList.value = []
-			for (let i = 0; i < 3; i++) {
-				tipsList.value.push(e)
-			}
-			console.log(tipsList.value)
-			showWordsModal.value = false
-			// showWordsModal.value = true
+			tipsList.value = res.data
+			// tipsList.value = [
+			// 	"assasa",
+			// 	"sasasa",
+			// 	"frf"
+			// ]
+			showWordsModal.value = true
 		}
 	}
 
-	const handleDebounce = debounce(changeInput, 1000)
+	const handleDebounce = debounce(changeInput, 700)
 
 	//搜索问题
 	const searchQuestions = async () => {
@@ -126,7 +126,6 @@
 		const res = await consultApi(data);
 
 		if (res) {
-			console.log(res);
 			questionList.value = res.data.matched;
 			questionInput.value = "";
 			if (questionList.value.length !== 0) {
@@ -161,7 +160,6 @@
 	//滚动到底部
 	const scrollBottom = () => {
 		uni.createSelectorQuery().select("#chatBody").boundingClientRect((rect : any) => {
-			console.log(rect);
 			var timer = setTimeout(() => {
 				uni.pageScrollTo({
 					scrollTop: rect.height,
@@ -349,16 +347,30 @@
 		.toolTips {
 			overflow: auto;
 			max-height: 20vh;
+			height: 20vh;
 			font-size: 14px;
 			padding: 10px 0 0 0;
 			// margin: 0 10px;
-			background-color: rgba(255, 255, 255, 0.7);
+			background-color: rgba(255, 255, 255, 0.8);
 			width: 99vw;
 			border-radius: 8px 8px 0 0;
+			transition: height 0.5s;
+
 
 			.toolTip {
+				line-height: 1.5rem;
 				padding: 0 0 0 10px;
 				border-bottom: 1px solid $theme-color;
+			}
+		}
+
+		.hideToolTips {
+			overflow: hidden;
+			height: 0px;
+			transition: height 0.5s;
+
+			.toolTip {
+				opacity: 0;
 			}
 		}
 	}
