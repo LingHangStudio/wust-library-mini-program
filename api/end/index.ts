@@ -10,6 +10,7 @@ const API = "https://424neko.top:3001/api"
 export async function getCodeApi() {
 	const res = await request({
 		url: `${API}/get-verification-code`,
+		hideLoading: true
 	})
 	return res.data
 }

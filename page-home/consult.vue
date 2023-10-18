@@ -20,8 +20,7 @@
 			<view class="icon">
 				<image class="image" src="@/static/face1.png" mode=""></image>
 			</view>
-			<view class="wordBox" v-if="!item.questionList">
-				{{ item.content }}
+			<view class="wordBox" v-if="!item.questionList" v-html="item.content">
 			</view>
 			<view class="judge" v-if="item.id == 2"></view>
 			<view class="questionList" v-if="item?.questionList">
@@ -36,7 +35,7 @@
 	<view class="chatLine">
 		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
 			<view @tap="commonSearch(item)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
-				{{item}}
+				<view v-html="item" class=""></view>
 			</view>
 		</view>
 		<view class="chatInput">
@@ -89,10 +88,18 @@
 
 	// 输入框发生变化时
 	const changeInput = async (e : string) => {
-		tipsList.value = []
+		// 正则匹配
+		let reg : any
+		if (e) reg = new RegExp(e, 'gi')
+		else tipsList.value = []
+
 		const res = await getWordApi(e)
 		if (res) {
-			tipsList.value = res.data
+			tipsList.value = res.data.map((item : string) => {
+				return item.replace(reg, (key) => `<span style='background: #ffb7b7;'>${key}</span>`
+				)
+			})
+
 			// tipsList.value = [
 			// 	"assasa",
 			// 	"sasasa",
@@ -305,6 +312,7 @@
 	.chatLine {
 		z-index: 10;
 		width: 100vw;
+		// padding:  0 auto;
 		position: fixed;
 		display: flex;
 		flex-direction: column;
@@ -347,15 +355,14 @@
 		.toolTips {
 			overflow: auto;
 			max-height: 20vh;
-			height: 20vh;
+			height: auto;
 			font-size: 14px;
 			padding: 10px 0 0 0;
 			// margin: 0 10px;
 			background-color: rgba(255, 255, 255, 0.8);
 			width: 99vw;
 			border-radius: 8px 8px 0 0;
-			transition: height 0.5s;
-
+			transition: all 0.3s;
 
 			.toolTip {
 				line-height: 1.5rem;
@@ -366,8 +373,9 @@
 
 		.hideToolTips {
 			overflow: hidden;
-			height: 0px;
-			transition: height 0.5s;
+			height: 0;
+			max-height: 0;
+			transition: all 0.3s;
 
 			.toolTip {
 				opacity: 0;

@@ -23,9 +23,7 @@ export async function loginAPI(data : any) {
 				"Origin": "https://auth.wust.edu.cn",
 				"Host": "auth.wust.edu.cn"
 			},
-			config: {
-				noValidate: true,
-			},
+			noValidate: true,
 			data
 		})
 		return res
