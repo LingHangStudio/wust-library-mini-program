@@ -34,7 +34,8 @@
 	</view>
 	<view class="chatLine">
 		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
-			<view @tap="commonSearch(item)" v-for="(item,index) in tipsList" :key="index" class="toolTip">
+			<view @tap="commonSearch(tipsListNoLight[index])" v-for="(item,index) in tipsList" :key="index"
+				class="toolTip">
 				<view v-html="item" class=""></view>
 			</view>
 		</view>
@@ -80,8 +81,10 @@
 		searchQuestions();
 	}
 
-	// 推荐问题列表
+	// 根据关键词，匹配的推荐问题列表
+	// 带高亮/不带高亮两种
 	const tipsList = ref([])
+	const tipsListNoLight = ref([])
 
 	// 是否显示搜索词条列表
 	const showWordsModal = ref(false)
@@ -95,16 +98,10 @@
 
 		const res = await getWordApi(e)
 		if (res) {
+			tipsListNoLight.value = res.data
 			tipsList.value = res.data.map((item : string) => {
-				return item.replace(reg, (key) => `<span style='background: #ffb7b7;'>${key}</span>`
-				)
+				return item.replace(reg, key => `<span style='background: #ffb7b7;'>${key}</span>`)
 			})
-
-			// tipsList.value = [
-			// 	"assasa",
-			// 	"sasasa",
-			// 	"frf"
-			// ]
 			showWordsModal.value = true
 		}
 	}
@@ -130,8 +127,7 @@
 			userId: "",
 		} as requestQuestion;
 		showWordsModal.value = false
-		const res = await consultApi(data);
-
+		const res : any = await consultApi(data);
 		if (res) {
 			questionList.value = res.data.matched;
 			questionInput.value = "";
@@ -219,6 +215,10 @@
 				letter-spacing: 1px;
 				border-radius: 10px;
 				word-wrap: break-word;
+
+				em {
+					color: #000;
+				}
 			}
 
 			.questionList {
@@ -368,6 +368,10 @@
 				line-height: 1.5rem;
 				padding: 0 0 0 10px;
 				border-bottom: 1px solid $theme-color;
+
+				.lightHight {
+					background: #ffb7b7;
+				}
 			}
 		}
 

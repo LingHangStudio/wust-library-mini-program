@@ -1,5 +1,4 @@
 <template>
-	<ListNavBar></ListNavBar>
 	<view class="root">
 		<view class="form-wrapper animate__animated animate__slideInRight">
 			<view class="form">

@@ -107,7 +107,7 @@
 		"pages": [{
 			"path": "login",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "登录"
 			}
 		}, {
 			"path": "aboutMe",

@@ -1,6 +1,8 @@
 <template>
 	<!-- <uni-card margin="0px 0px 5px 0px" :border="false" padding="0px" spacing="0px"> -->
 	<view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
+		<!-- <view class="user"> -->
+		<!-- <start></start> -->
 		<view class="header-image" hover-class="back">
 			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
@@ -37,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+	import start from "@/pages/center/components/start.vue"
 	import Menu from "@/pages/center/components/menu.vue"
 	import { ref, Ref } from "vue"
 	import { onShow } from "@dcloudio/uni-app"

@@ -28,6 +28,21 @@
 			</view>
 		</template>
 	</List>
+
+	<uni-popup ref="tsgDialog" type="dialog" @maskClick="tsgDialog.close()">
+		<uni-popup-dialog type="warn" cancelText=" 不再提醒" confirmText="我知道了" title="提示" @confirm="dialogConfirm"
+			@close="dialogClose">
+			<view class="tipBox">
+				<view>即将跳转武科大图书馆官网</view>
+				<view>为更加完美体验</view>
+				<view>建议使用浏览器打开链接</view>
+				<view @tap="copyUrl" class="">
+					<view class="url">{{urlTo}}</view>
+					<span>（点击复制）</span>
+				</view>
+			</view>
+		</uni-popup-dialog>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -94,14 +109,45 @@
 		}
 		loading.value = false
 	}
-	const goTo = (url : string) => {
-		uni.navigateTo({
-			url: "/page-service/tsgview?url=" + url
-		})
-	}
+
 	onMounted(() => {
 		getArticleList(paginations.value.currentPage, paginations.value.pageNum)
 	})
+
+	// 弹出层配置
+	const urlTo = ref("")
+	const routerUrl = ref('/page-service/tsgview?url=')
+	const tsgDialog = ref(null)
+
+	const dialogConfirm = () => {
+		uni.navigateTo({
+			url: routerUrl.value + urlTo.value
+		})
+	}
+
+	const dialogClose = () => {
+		uni.setStorageSync('noViewTip', true)
+		uni.navigateTo({
+			url: routerUrl.value + urlTo.value
+		})
+	}
+
+	const copyUrl = () => {
+		uni.setClipboardData({
+			data: urlTo.value
+		});
+	}
+
+	const goTo = (url : string) => {
+		urlTo.value = url
+		if (uni.getStorageSync("noViewTip")) {
+			uni.navigateTo({
+				url: routerUrl.value + url
+			})
+		} else {
+			tsgDialog.value.open()
+		}
+	}
 </script>
 
 <style scoped lang="scss">
@@ -156,6 +202,23 @@
 				font-size: 14px;
 				color: #9a9999;
 			}
+		}
+	}
+
+	.url {
+		color: $theme-color;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		word-break: break-all;
+	}
+
+	.tipBox {
+		width: 100%;
+		margin: 0px 15px;
+
+		& {
+			line-height: 1.5rem;
 		}
 	}
 </style>
