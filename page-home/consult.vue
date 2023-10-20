@@ -97,7 +97,7 @@
 		else tipsList.value = []
 
 		const res = await getWordApi(e)
-		if (res) {
+		if (res && e) {
 			tipsListNoLight.value = res.data
 			tipsList.value = res.data.map((item : string) => {
 				return item.replace(reg, key => `<span style='background: #ffb7b7;'>${key}</span>`)
@@ -358,11 +358,12 @@
 			height: auto;
 			font-size: 14px;
 			padding: 10px 0 0 0;
-			// margin: 0 10px;
 			background-color: rgba(255, 255, 255, 0.8);
 			width: 99vw;
 			border-radius: 8px 8px 0 0;
-			transition: all 0.3s;
+			transform-origin: center bottom;
+			transform: scaleY(1);
+			transition: 0.5s;
 
 			.toolTip {
 				line-height: 1.5rem;
@@ -376,10 +377,10 @@
 		}
 
 		.hideToolTips {
-			overflow: hidden;
-			height: 0;
-			max-height: 0;
-			transition: all 0.3s;
+			transform: scaleY(0);
+			transform-origin: center bottom;
+			width: 99vw;
+			transition: 0.5s;
 
 			.toolTip {
 				opacity: 0;

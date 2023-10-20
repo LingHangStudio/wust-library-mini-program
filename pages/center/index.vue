@@ -7,12 +7,12 @@
 			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
-		<view v-if="user.displayName" class="info">
-			{{user.displayName}}
+		<view class="info">
+			{{store.userInfo.displayName}}
 		</view>
-		<view v-else class="info">
+		<!-- <view v-else class="info">
 			微信用户
-		</view>
+		</view> -->
 	</view>
 	<!-- <view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg')">
 		<view class="header-image" hover-class="back">
@@ -46,7 +46,7 @@
 	import type { systemInfoType } from "@/utils/types/center"
 	import { useStore } from "@/store"
 	const store = useStore()
-	const user = uni.getStorageSync("userInfo")
+	// const user = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
 
 	uni.getSystemInfo({
@@ -63,11 +63,19 @@
 	})
 
 	onShow(() => {
+		store.userInfo = uni.getStorageSync("userInfo") || { displayName: "微信用户" }
 		let fineSum = uni.getStorageSync("fineSum")
-		if (fineSum !== 0) {
+		if (fineSum && fineSum !== '0') {
 			uni.setTabBarBadge({
 				index: 3,
 				text: fineSum,
+				fail: (result : any) => {
+					console.log(result)
+				}
+			})
+		} else {
+			uni.removeTabBarBadge({
+				index: 3,
 				fail: (result : any) => {
 					console.log(result)
 				}

@@ -25,6 +25,10 @@ interface responceType {
 	statusCode ?: any;
 }
 
+interface errType {
+	errMsg : string;
+}
+
 //服务器
 // 向外暴露一个方法 request
 export default function request(options : requestType) {
@@ -47,7 +51,7 @@ export default function request(options : requestType) {
 			header: options.header,
 			withCredentials: true,
 			// 请求成功
-			success: (res) => {
+			success: (res : responceType) => {
 				console.log("总res", res);
 				// debugger
 				// 此判断可根据自己需要更改 汇文的code为0
@@ -74,12 +78,20 @@ export default function request(options : requestType) {
 				resolve(res)
 			},
 			// 请求失败
-			fail: (err) => {
+			fail: (err : errType) => {
 				console.log("总err", err);
-				uni.showToast({
-					title: '请求接口失败！',
-					icon: "error"
-				})
+				console.log("总err msg", err.errMsg.indexOf('timeout'));
+				if (err.errMsg.indexOf('timeout') !== -1) {
+					uni.showToast({
+						title: '请求超时！',
+						icon: "error"
+					})
+				} else {
+					uni.showToast({
+						title: '请求失败！',
+						icon: "error"
+					})
+				}
 				// 响应失败执行
 				reject(err)
 			},

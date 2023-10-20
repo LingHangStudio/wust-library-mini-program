@@ -9,7 +9,7 @@
 					</view>
 				</view>
 				<view class="">
-					<uni-tag type="error" size="small" circle :text="item.meta.fineNum"></uni-tag>
+					<uni-tag v-if="item.meta.fineNum" type="error" size="small" circle :text="fineNum"></uni-tag>
 					<uni-icons type="forward"></uni-icons>
 				</view>
 			</button>
@@ -45,6 +45,9 @@
 </template>
 
 <script setup lang="ts">
+	import { onShow } from "@dcloudio/uni-app"
+	import { ref, Ref } from "vue"
+	const fineNum : Ref<string> = ref("0")
 	const menu = [
 		{
 			id: "login",
@@ -61,7 +64,7 @@
 			icon: "locked",
 			meta: {
 				auth: "user",
-				fineNum: uni.getStorageSync("fineSum")
+				fineNum: true,//显示超期图标
 			}
 		},
 		{
@@ -105,6 +108,10 @@
 		// || (meta.auth === 'user' && store.loginState)
 		// || (meta.auth === 'visitor' && !store.loginState)
 	}
+
+	onShow(() => {
+		fineNum.value = uni.getStorageSync("fineSum")
+	})
 
 	const goTo = (item : any) => {
 		uni.navigateTo({
