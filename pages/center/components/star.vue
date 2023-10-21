@@ -1,32 +1,20 @@
 <template>
-	<canvas canvas-id="myCanvas" id="myCanvas"></canvas>
+	<canvas type="2d" style="width: 100vw;height:100px;margin: 0 auto;border:1px solid red" canvas-id="myCanvas"
+		id="myCanvas"></canvas>
 </template>
 
 <script setup lang="ts">
+	import { ref, onMounted } from "vue"
 	// 定义星星的配置
 	const STAR_COLOR = '#fff';
-	const STAR_SIZE = 3;
+	const STAR_SIZE = 10;
 	// 定义星星的最小缩放比例
 	const STAR_MIN_SCALE = 0.2;
 	// 定义溢出阈值
 	const OVERFLOW_THRESHOLD = 50;
-	const STAR_COUNT = 32;
+	const STAR_COUNT = 4;
 	// (window.innerWidth + window.innerHeight) / 8;
 
-	// 获取canvas元素
-	let context = uni.createCanvasContext('myCanvas')
-	context.fillStyle = "#DEF4FF";
-	context.fillRect(0, 0, 400, 400)
-	context.fillStyle = "#004250";
-	context.font = '24px Arial'; // 设置字体大小和字体族
-	context.fillStyle = 'blue'; // 设置填充颜色
-	// context.setTextAlign("center")
-
-	context.font = '12px Arial'; // 设置字体大小和字体族
-	context.fillStyle = '#004250'; // 设置填充颜色
-	context.fillText('偏爱', 10, 60);
-
-	context.draw()
 
 	// const canvas = document.querySelector('canvas');
 	// 获取canvas的绘图上下文
@@ -34,34 +22,18 @@
 	// 定义缩放比例
 	let scale = 1; // device pixel ratio
 	// 定义宽度和高度
-	let width;
-	let height;
+	let width = 800;
+	let height = 100;
 	// 定义星星数组
-	let stars = [];
+	let stars = ref([]);
 	// 定义鼠标指针的位置
 	// 定义速度对象
+
 	let velocity = { x: 0, y: 0, tx: 0, ty: 0, z: 0.0009 };
 	// 定义触摸输入标志
 	// let touchInput = false;
-	// 生成星星
-	generate();
-	// 调整大小
-	resize();
-	// 运行动画
-	step();
-
-	// 生成星星
-	function generate() {
-		for (let i = 0; i < STAR_COUNT; i++) {
-			stars.push({
-				x: 0,
-				y: 0,
-				z: STAR_MIN_SCALE + Math.random() * (1 - STAR_MIN_SCALE),
-			});
-		}
-	}
 	// 将星星放置到随机位置
-	function placeStar(star) {
+	function placeStar(star : any) {
 		star.x = Math.random() * width;
 		star.y = Math.random() * height;
 	}
@@ -114,28 +86,21 @@
 			star.y = height + OVERFLOW_THRESHOLD;
 		}
 	}
-	// 调整大小
-	function resize() {
-		// 获取设备像素比例
-		// scale = window.devicePixelRatio || 1;
-		// 设置画布的宽度和高度
-		// width = window.innerWidth * scale;
-		// height = window.innerHeight * scale;
-		// canvas.width = width;
-		// canvas.height = height;
-		// 将所有星星重新放置到屏幕上
-		stars.forEach(placeStar);
-	}
+
 	// 动画的每一帧
-	function step() {
+	function step(context) {
+		console.log("step")
 		// 清空画布
-		context.clearRect(0, 0, width, height);
+		// context.clearRect(0, 0, width, height);
 		// 更新星星的位置和速度
 		update();
 		// 绘制星星
-		render();
+		render(context);
 		// 请求下一帧动画
-		// requestAnimationFrame(step);
+		// setInterval(() => {
+		// 	step(context)
+		// }, 300)
+		// requestAnimationFrame(step)
 	}
 	// 更新星星的位置和速度
 	function update() {
@@ -146,7 +111,7 @@
 		velocity.x += (velocity.tx - velocity.x) * 0.8;
 		velocity.y += (velocity.ty - velocity.y) * 0.8;
 		// 遍历所有星星
-		stars.forEach((star) => {
+		stars.value.forEach((star) => {
 			// 根据速度和缩放比例更新星星的位置
 			star.x += velocity.x * star.z;
 			star.y += velocity.y * star.z;
@@ -167,17 +132,19 @@
 		});
 	}
 	// 绘制星星
-	function render() {
+	function render(context) {
 		// 遍历所有星星
-		stars.forEach((star) => {
+		// console.log(stars.value)
+
+		context.beginPath();
+		stars.value.forEach((star, index) => {
 			// 设置绘制星星的样式
-			context.beginPath();
 			context.lineCap = 'round';
 			context.lineWidth = STAR_SIZE * star.z * scale;
 			context.globalAlpha = 0.5 + 0.5 * Math.random();
 			context.strokeStyle = STAR_COLOR;
 			// 绘制星星的路径
-			context.beginPath();
+			// context.beginPath();
 			context.moveTo(star.x, star.y);
 			// 计算星星的尾巴坐标
 			let tailX = velocity.x * 2;
@@ -189,7 +156,64 @@
 			context.lineTo(star.x + tailX, star.y + tailY);
 			context.stroke();
 		});
+		context.draw()
 	}
+
+	onMounted(() => {
+		// 微信小程序
+		setTimeout(res => {
+			uni.createSelectorQuery().select('#myCanvas').fields({ node: true, size: true }).exec(res => {
+				console.log("canvas res", res)
+				const canvas = res[0].node
+				let ctx = canvas.getContext('2d')
+
+				// const dpr = wx.getSystemInfoSync().pixelRatio
+				// canvas.width = res[0].width * dpr
+				// canvas.height = res[0].height * dpr
+			});
+		}, 2000)
+
+
+		// uni.createSelectorQuery().in(this).select('#myCanvas')
+		// 	.fields({ node: true })
+		// 	.exec((res) => {
+		// 		console.log("res", res)
+		// 		const canvas = res[0].node
+
+		// 		const ctx = canvas.getContext('2d')
+		// 		console.log(canvas, ctx)
+		// 		// 生成星星
+		// 		for (let i = 0; i < STAR_COUNT; i++) {
+		// 			stars.value.push({
+		// 				x: 0,
+		// 				y: 0,
+		// 				z: STAR_MIN_SCALE + Math.random() * (1 - STAR_MIN_SCALE),
+		// 			});
+		// 		}
+		// 		// 调整大小
+		// 		stars.value.forEach(placeStar);
+		// 		// 运行动画
+		// 		step(ctx);
+		// 	})
+
+
+
+
+		// 网页
+		// let context = uni.createCanvasContext('myCanvas')
+		// // 生成星星
+		// for (let i = 0; i < STAR_COUNT; i++) {
+		// 	stars.value.push({
+		// 		x: 0,
+		// 		y: 0,
+		// 		z: STAR_MIN_SCALE + Math.random() * (1 - STAR_MIN_SCALE),
+		// 	});
+		// }
+		// // 调整大小
+		// stars.value.forEach(placeStar);
+		// // 运行动画
+		// step(context);
+	})
 </script>
 
 <style scoped lang="scss">

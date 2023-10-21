@@ -32,7 +32,7 @@
 			</view>
 		</view>
 	</view>
-	<view class="chatLine">
+	<view :class="questionInput&&showWordsModal&&tipsList.length>0?'':'toBottom'" class="chatLine">
 		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
 			<view @tap="commonSearch(tipsListNoLight[index])" v-for="(item,index) in tipsList" :key="index"
 				class="toolTip">
@@ -312,16 +312,18 @@
 	.chatLine {
 		z-index: 10;
 		width: 100vw;
+		height: auto;
 		// padding:  0 auto;
 		position: fixed;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 		bottom: 1px;
 		border-radius: 8px;
 
 		.chatInput {
-			width: 99vw;
+			width: 98vw;
 			border: 3px solid #142d88;
 			display: flex;
 			align-items: center;
@@ -359,7 +361,7 @@
 			font-size: 14px;
 			padding: 10px 0 0 0;
 			background-color: rgba(255, 255, 255, 0.8);
-			width: 99vw;
+			width: 98vw;
 			border-radius: 8px 8px 0 0;
 			transform-origin: center bottom;
 			transform: scaleY(1);
@@ -377,9 +379,10 @@
 		}
 
 		.hideToolTips {
+			z-index: 1;
 			transform: scaleY(0);
 			transform-origin: center bottom;
-			width: 99vw;
+			width: 98vw;
 			transition: 0.5s;
 
 			.toolTip {
@@ -398,6 +401,10 @@
 		background-size: cover;
 		background-repeat: repeat-y;
 		background-image: url('https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c');
+	}
+	
+	.toBottom{
+		z-index: 1;
 	}
 
 	// .consultAni-enter-active,
