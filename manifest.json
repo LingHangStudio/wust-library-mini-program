@@ -16,6 +16,9 @@
             "autoclose" : true,
             "delay" : 0
         },
+        "optimization" : {
+            "subPackages" : true
+        },
         /* 模块配置 */
         "modules" : {},
         /* 应用发布信息 */
@@ -38,7 +41,9 @@
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ],
+                "minSdkVersion" : 21
             },
             /* ios打包配置 */
             "ios" : {
@@ -78,5 +83,10 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "h5" : {
+        "router" : {
+            "mode" : "history"
+        }
+    }
 }

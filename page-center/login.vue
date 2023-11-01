@@ -48,11 +48,11 @@
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
-	import { useStore } from "@/store"
+	// import { useStore } from "@/store"
 	import RSA from "@/page-center/utils/rsa.js"
 	// 专属处理btoa atob
 	import { weBtoa } from '@/page-center/utils/weapp-jwt'
-	const store = useStore()
+	// const store = useStore()
 	// 忘记密码的提醒model
 	const showToolTip = ref(null)
 	// 存图片
@@ -142,7 +142,7 @@
 			uni.setStorageSync("loginState", true);
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(';')[0]);
 			uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
-			store.setloginState(true)
+			// store.setloginState(true)
 			uni.reLaunch({
 				url: "/pages/home/index"
 			})
