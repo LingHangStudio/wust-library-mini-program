@@ -1,14 +1,13 @@
 <template>
-	<!-- <uni-card margin="0px 0px 5px 0px" :border="false" padding="0px" spacing="0px"> -->
-	<view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
+	<!-- <view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
 		<view class="header-image" hover-class="back">
-			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
 		<view class="info">
 			{{store.userInfo.displayName}}
 		</view>
-	</view>
+	</view> -->
+	<Avatar></Avatar>
 	<Menu></Menu>
 	<view class="copyright">
 		<!-- #ifdef MP-WEIXIN-->
@@ -21,6 +20,7 @@
 
 <script setup lang="ts">
 	import Menu from "@/pages/center/components/menu.vue"
+	import Avatar from "@/pages/center/components/avatar.vue"
 	import { ref, Ref } from "vue"
 	import { onShow } from "@dcloudio/uni-app"
 	import type { systemInfoType } from "@/utils/types/center"
@@ -65,44 +65,6 @@
 </script>
 
 <style lang="scss">
-	.user {
-		width: 100%;
-		display: flex;
-		position: relative;
-		flex-direction: column;
-		justify-content: center;
-		background-image: linear-gradient(-225deg, #231557 0%,
-				#43107a 29%, #FF1361 100%);
-
-		#myCanvas {
-			position: absolute;
-		}
-
-		.header-image {
-			z-index: 100;
-			border-radius: 50%;
-			display: block;
-			width: 4rem;
-			height: 4rem;
-			margin: 5px auto;
-
-			position: relative;
-			transform-style: preserve-3d;
-			transition: 1s;
-		}
-
-		.info {
-			color: white;
-			font-size: 1.5rem;
-			margin: 0 auto;
-			padding: 10px 0;
-		}
-	}
-
-	.back {
-		transform: rotateY(180deg);
-	}
-
 	.copyright {
 		position: absolute;
 		width: 750rpx;

@@ -32,7 +32,7 @@
 			</view>
 		</view>
 	</view>
-	<view :class="questionInput&&showWordsModal&&tipsList.length>0?'':'toBottom'" class="chatLine">
+	<view class="chatLine">
 		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
 			<view @tap="commonSearch(tipsListNoLight[index])" v-for="(item,index) in tipsList" :key="index"
 				class="toolTip">
@@ -183,11 +183,10 @@
 		display: flex;
 		flex-direction: column;
 		user-select: text;
-		z-index: 10;
 		overflow-y: auto;
 
 		.chatWord {
-			z-index: 10;
+			z-index: 5 !important;
 			margin: 10px 0;
 			display: flex;
 			align-items: flex-start;
@@ -249,7 +248,7 @@
 		}
 
 		.chatQuestion {
-			z-index: 10;
+			z-index: 5;
 			flex-direction: row-reverse;
 
 			.wordBox {
@@ -313,7 +312,6 @@
 		z-index: 10;
 		width: 100vw;
 		height: auto;
-		// padding:  0 auto;
 		position: fixed;
 		display: flex;
 		flex-direction: column;
@@ -323,6 +321,7 @@
 		border-radius: 8px;
 
 		.chatInput {
+			z-index: 99 !important; // 这个页面最高层级
 			width: 98vw;
 			border: 3px solid #142d88;
 			display: flex;
@@ -355,6 +354,7 @@
 		}
 
 		.toolTips {
+			z-index: 11;
 			overflow: auto;
 			max-height: 20vh;
 			height: auto;
@@ -368,22 +368,26 @@
 			transition: 0.5s;
 
 			.toolTip {
-				line-height: 1.5rem;
-				padding: 0 0 0 10px;
+				line-height: 1.6rem;
+				padding: 1px 0 1px 10px;
 				border-bottom: 1px solid $theme-color;
 
 				.lightHight {
 					background: #ffb7b7;
 				}
 			}
+			.toolTip:last-child{
+				border-bottom: 0;
+			}
 		}
 
 		.hideToolTips {
-			z-index: 1;
+			z-index: 1 !important;
 			transform: scaleY(0);
 			transform-origin: center bottom;
 			width: 98vw;
-			transition: 0.5s;
+			height: 0;
+			transition: all 0.5s;
 
 			.toolTip {
 				opacity: 0;
@@ -402,22 +406,4 @@
 		background-repeat: repeat-y;
 		background-image: url('https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c');
 	}
-	
-	.toBottom{
-		z-index: 1;
-	}
-
-	// .consultAni-enter-active,
-	// .consultAni-leave {
-	// 	right: 130px;
-	// 	opacity: 1;
-	// 	transition: 0.5s ease-in-out;
-	// }
-
-	// .consultAni-enter,
-	// .consultAni-leave-active {
-	// 	opacity: 0;
-	// 	right: -200px;
-	// 	transition: 0.5s ease-in-out;
-	// }
 </style>
