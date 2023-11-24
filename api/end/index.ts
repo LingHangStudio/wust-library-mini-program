@@ -2,10 +2,9 @@ import request from "@/api/request"
 const API = "https://424neko.top:3001/api"
 
 // 自己的后台
-
-/*
+/**
 * 获取验证码 GET /api/get-verification-code
-* 
+* @return 图片base64
 */
 export async function getCodeApi() {
 	const res = await request({
@@ -15,10 +14,10 @@ export async function getCodeApi() {
 	return res.data
 }
 
-/*
+/**
 * 登录的第三个接口 从后端获取cookie GET /get-cookie
 * @prarm data 
-* 
+* @return Cookie
 */
 export async function loginFinalApi(data : string) {
 	const res = await request({

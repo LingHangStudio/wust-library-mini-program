@@ -80,7 +80,7 @@
 		loading.value = false
 	}
 
-	const getDetails = (bibId) => {
+	const getDetails = (bibId: string) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})

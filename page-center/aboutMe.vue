@@ -7,10 +7,6 @@
 				<view v-for="(item,index) in aboutMeContent.content" class="item"
 					:style="{height:cardHeight+'px',width:cardWidth+'px'}">
 					<view class="frame" :class="setClass(index)">
-						<!-- <view class="box front">
-							{{item}}
-						</view>
-						 -->
 						<view class="box front" v-html="item">
 						</view>
 						<!-- <view v-show="currIndex>0" class="box" :class="currIndex>index?'left':''"></view> -->
@@ -33,7 +29,6 @@
 <script setup lang="ts">
 	import { onReady } from "@dcloudio/uni-app"
 	import { ref } from "vue"
-	const activeIndex = ref(0)
 
 	// 新方式
 	// 卡片轮播
@@ -207,7 +202,6 @@
 		z-index: 2;
 		text-align: center;
 
-
 		.footerItem {
 			bottom: 1.5em;
 			width: 2em;
@@ -228,7 +222,6 @@
 		background: #142d88 !important;
 		border: 1px solid #142d88;
 	}
-
 
 	.box-font {
 		position: fixed;
@@ -263,7 +256,6 @@
 
 	// 新方式
 	// 卡片轮播
-
 	.shell {
 		padding: auto;
 		// background-size: cover;

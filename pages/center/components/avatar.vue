@@ -13,7 +13,6 @@
 			<view class="layer3"></view>
 		</view>
 	</view>
-	
 </template>
 
 <script setup lang="ts">

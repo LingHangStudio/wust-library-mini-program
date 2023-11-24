@@ -106,6 +106,7 @@
 		// 清空输入内容
 		searchValue.value = ""
 		searchHistory.value.unshift(value)
+		// 处理检索历史的逻辑
 		searchHistory.value = Array.from(new Set(searchHistory.value))// 清除重复的检索项
 		if (searchHistory.value.length > 7) {
 			searchHistory.value.pop()

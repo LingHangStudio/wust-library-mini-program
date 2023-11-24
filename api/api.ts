@@ -1,4 +1,4 @@
-import request from "@/api/request.ts"
+import request from "@/api/request"
 // 以前的api
 
 //轮播图

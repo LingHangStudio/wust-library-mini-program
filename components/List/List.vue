@@ -4,7 +4,7 @@
 	</view>
 	<view v-else class="root">
 		<scroll-view @scroll="isShowArrow" :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh"
-			@scrolltolower="getMoreFunc" enable-back-to-top>
+			@scrolltolower="getMoreFunc" enable-back-to-top enhanced bounces>
 			<slot></slot>
 			<view style="text-align: center;padding: 3px;">--到底啦！共{{listLength}}条--</view>
 		</scroll-view>
@@ -16,9 +16,16 @@
 </template>
 
 <script setup lang="ts">
+	/**
+	 * 封装List
+	 * 封装这个lits,目的是：简化置顶按钮的配置,简化scroll-view的配置
+	 * @param listLength 列表长度
+	 * @param page 当前页
+	 * @param pageSzie 页面大小
+	 * @param emptyInfo 当数据为空时的信息
+	**/
+	 // @scrolltolower="getMyList({page:paginations.currentPage+1,pageSize:paginations.pageNum})"
 	import Empty from '@/components/Empty/Empty.vue'
-	// @scrolltolower="getMyList({page:paginations.currentPage+1,pageSize:paginations.pageNum})"
-	// 封装这个lits,目的是：简化置顶按钮的配置,简化scroll-view的配置
 	import { ref, nextTick } from "vue"
 	// 子传父方法
 	const emit = defineEmits(['getMore'])
