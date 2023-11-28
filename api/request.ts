@@ -1,5 +1,5 @@
-import { useStore } from "@/store"
-const store = useStore()
+// import { useStore } from "@/store"
+// const store = useStore()
 
 interface headerType {
 	Cookie ?: string;
@@ -59,7 +59,7 @@ export default function request(options : requestType) {
 					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
 						uni.removeStorageSync("Cookie")
-						store.setloginState(false)
+						// store.setloginState(false)
 						uni.removeStorageSync("loginInfo")
 						uni.showToast({
 							title: "未登录或者登录过期",

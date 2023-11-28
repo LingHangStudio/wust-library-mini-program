@@ -309,7 +309,7 @@
 
 	//输入框
 	.chatLine {
-		z-index: 10;
+		z-index: 12;
 		width: 100vw;
 		height: auto;
 		position: fixed;
@@ -354,7 +354,7 @@
 		}
 
 		.toolTips {
-			z-index: 11;
+			z-index: 9 !important;
 			overflow: auto;
 			max-height: 20vh;
 			height: auto;

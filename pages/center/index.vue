@@ -4,18 +4,18 @@
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
 		<view class="info">
-			{{store.userInfo.displayName}}
+			{{userInfo.displayName}}
 		</view>
 	</view> -->
 	<Avatar></Avatar>
 	<Menu></Menu>
-	<view class="copyright">
-		<!-- #ifdef MP-WEIXIN-->
-		<official-account></official-account>
-		<!-- #endif -->
-		<p>v{{systemInfo.appVersion}}</p>
+	<!-- <view class="copyright"> -->
+	<!-- #ifdef MP-WEIXIN-->
+	<!-- <official-account></official-account> -->
+	<!-- #endif -->
+	<!-- <p>v{{systemInfo.appVersion}}</p>
 		<p>公众号：武汉科技大学图书馆</p>
-	</view>
+	</view> -->
 </template>
 
 <script setup lang="ts">
@@ -24,9 +24,9 @@
 	import { ref, Ref } from "vue"
 	import { onShow } from "@dcloudio/uni-app"
 	import type { systemInfoType } from "@/utils/types/center"
-	import { useStore } from "@/store"
-	const store = useStore()
-	// const user = uni.getStorageSync("userInfo")
+	// import { useStore } from "@/store"
+	// const store = useStore()
+	const userInfo = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
 
 	uni.getSystemInfo({
@@ -43,24 +43,24 @@
 	})
 
 	onShow(() => {
-		store.userInfo = uni.getStorageSync("userInfo") || { displayName: "微信用户" }
-		let fineSum = uni.getStorageSync("fineSum")
-		if (fineSum && fineSum !== '0') {
-			uni.setTabBarBadge({
-				index: 3,
-				text: fineSum,
-				fail: (result : any) => {
-					console.log(result)
-				}
-			})
-		} else {
-			uni.removeTabBarBadge({
-				index: 3,
-				fail: (result : any) => {
-					console.log(result)
-				}
-			})
-		}
+		// store.userInfo = uni.getStorageSync("userInfo") || { displayName: "微信用户" }
+		// let fineSum = uni.getStorageSync("fineSum")
+		// if (fineSum && fineSum !== '0') {
+		// 	uni.setTabBarBadge({
+		// 		index: 3,
+		// 		text: fineSum,
+		// 		fail: (result : any) => {
+		// 			console.log(result)
+		// 		}
+		// 	})
+		// } else {
+		// 	uni.removeTabBarBadge({
+		// 		index: 3,
+		// 		fail: (result : any) => {
+		// 			console.log(result)
+		// 		}
+		// 	})
+		// }
 	})
 </script>
 
