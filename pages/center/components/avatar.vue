@@ -81,7 +81,7 @@
 	}
 	
 	$count: 1000;
-	$duration:1000s;
+	$duration:1250s;
 	
 	@for $i from 1 through 3 {
 		$duration: floor($duration/2);
