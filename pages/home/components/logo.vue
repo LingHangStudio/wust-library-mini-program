@@ -1,7 +1,7 @@
 <template>
 	<view class="head">
 		<view class="logo">
-			<img class="logoImg" src="@/static/logo.png" alt="">
+			<image class="logoImg" src="@/static/logo.png" alt=""></image>
 		</view>
 		<view class="font">
 			<p class="chinese">
@@ -12,8 +12,8 @@
 			</p>
 		</view>
 		<view class="background">
-			<img class="background-img"
-				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt="">
+			<image class="background-img"
+				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt=""/>
 		</view>
 	</view>
 </template>

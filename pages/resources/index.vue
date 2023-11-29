@@ -7,26 +7,24 @@
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<List v-else @getMore="getArticleList(paginations.currentPage+1,paginations.pageNum)" :listLength="showList.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
-		<template>
-			<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
-				<uni-card margin="5px" padding="3px">
-					<view class="box">
-						<view style="margin: 3px;" class="">
-							<img style=" display: block;width: 40px;height: 40px;"
-								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+		<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
+			<uni-card margin="7px" padding="3px">
+				<view class="box">
+					<view style="margin: 3px;" class="">
+						<img style=" display: block;width: 40px;height: 40px;"
+							src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+					</view>
+					<view class="font">
+						<view class="title">
+							{{item.title}}
 						</view>
-						<view class="font">
-							<view class="title">
-								{{item.title}}
-							</view>
-							<view class="date">
-								{{item.date}}
-							</view>
+						<view class="date">
+							{{item.date}}
 						</view>
 					</view>
-				</uni-card>
-			</view>
-		</template>
+				</view>
+			</uni-card>
+		</view>
 	</List>
 
 	<uni-popup ref="tsgDialog" type="dialog" @maskClick="tsgDialog.close()">
@@ -196,6 +194,18 @@
 			.title {
 				font-size: 18px;
 				color: #1C1C1C;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				/*行数*/
+				-webkit-box-orient: vertical;
+				display: -moz-box;
+				-moz-line-clamp: 2;
+				-moz-box-orient: vertical;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: normal;
 			}
 
 			.date {

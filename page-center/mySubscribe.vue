@@ -6,23 +6,21 @@
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<List v-else @getMore="getMyList(paginations.currentPage+1,paginations.pageNum)" :listLength="lists.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum" emptyInfo="立学以读书为本">
-		<template>
-			<view class="tag" v-show="false">
-				<uni-tag @tap="showShare=true" type="theme" circle inverted text="导出海报"></uni-tag>
+		<view class="tag" v-show="false">
+			<uni-tag @tap="showShare=true" type="theme" circle inverted text="导出海报"></uni-tag>
+		</view>
+		<uni-card @tap="getInfo(index)" extra="···" margin="8px" :title="item.title" v-for="(item,index) in lists"
+			:key="item.bibId" class="item">
+			<view>
+				索书号：{{item.barCode}}</view>
+			<view>借阅时间:{{item.loanDate}}</view>
+			<view class="">
+				归还时间:{{item.returnDate}}
 			</view>
-			<uni-card @tap="getInfo(index)" extra="···" margin="8px" :title="item.title" v-for="(item,index) in lists"
-				:key="item.bibId" class="item">
-				<view>
-					索书号：{{item.barCode}}</view>
-				<view>借阅时间:{{item.loanDate}}</view>
-				<view class="">
-					归还时间:{{item.returnDate}}
-				</view>
-				<view class="">
-					借阅地点:{{item.location}}
-				</view>
-			</uni-card>
-		</template>
+			<view class="">
+				借阅地点:{{item.location}}
+			</view>
+		</uni-card>
 	</List>
 	<uni-popup @change="hidePop" ref="popBook" background-color="#fff" type="bottom">
 		<uni-card is-full :border="false" :title="currentBookInfo?.title">

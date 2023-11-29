@@ -3,18 +3,18 @@
 		<!-- #ifdef APP-NVUE -->
 		<list class="uni-indexed-list__scroll" scrollable="true" show-scrollbar="false">
 			<cell v-for="(list, idx) in lists" :key="idx" :ref="'uni-indexed-list-' + idx">
-				<!-- #endif -->
+			<!-- #endif -->
 				<!-- #ifndef APP-NVUE -->
 				<scroll-view :scroll-into-view="scrollViewId" class="uni-indexed-list__scroll" scroll-y>
 					<view v-for="(list, idx) in lists" :key="idx" :id="'uni-indexed-list-' + idx">
-						<!-- #endif -->
+					<!-- #endif -->
 						<indexed-list-item :list="list" :loaded="loaded" :idx="idx" :showSelect="showSelect"
 							@itemClick="onClick"></indexed-list-item>
-						<!-- #ifndef APP-NVUE -->
+					<!-- #ifndef APP-NVUE -->
 					</view>
 				</scroll-view>
 				<!-- #endif -->
-				<!-- #ifdef APP-NVUE -->
+			<!-- #ifdef APP-NVUE -->
 			</cell>
 		</list>
 		<!-- #endif -->

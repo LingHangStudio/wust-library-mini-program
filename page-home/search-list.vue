@@ -2,23 +2,21 @@
 	<ListSkeleton :rows="4" :loop="6" v-if="loading"></ListSkeleton>
 	<List v-else @getMore="search(paginations.currentPage+1,paginations.pageNum)" :listLength="searchList.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
-		<template>
-			<uni-card margin="8px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
-				v-for="(item,index) in searchList" :key="index">
-				<view class="main">
-					<view class="tag">
-						<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
-						{{item.callno[0]}}
-					</view>
-					<view class="publish">
-						{{item.author}}/{{item.publisher}}/{{item.pub_year}}
-					</view>
-					<view v-show="item.abstract!=[]" class="info">
-						{{item.abstract}}
-					</view>
+		<uni-card margin="8px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
+			v-for="(item,index) in searchList" :key="index">
+			<view class="main">
+				<view class="tag">
+					<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
+					{{item.callno[0]}}
 				</view>
-			</uni-card>
-		</template>
+				<view class="publish">
+					{{item.author}}/{{item.publisher}}/{{item.pub_year}}
+				</view>
+				<view v-show="item.abstract!=[]" class="info">
+					{{item.abstract}}
+				</view>
+			</view>
+		</uni-card>
 	</List>
 </template>
 
@@ -80,7 +78,7 @@
 		loading.value = false
 	}
 
-	const getDetails = (bibId: string) => {
+	const getDetails = (bibId : string) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})

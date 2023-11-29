@@ -4,37 +4,36 @@
 	<view v-else class="content">
 		<List @getMore="getArticle(paginations.currentPage+1,paginations.pageNum)" :listLength="all.length"
 			:page="paginations.currentPage" :pageSize="paginations.pageNum">
-			<template>
-				<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
-					<uni-card margin="5px" padding="3px">
-						<view class="box">
-							<view style="marginRight: 3px;" class="">
-								<img v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
-									src="@/static/resource.png" alt="">
-								<img v-else-if="item.tag" style=" display: block;width: 40px;height: 40px;"
-									src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
-								<img v-else style=" display: block;width: 40px;height: 40px;" src="@/static/logo.png"
-									alt="Error">
+			<view @tap="goTo(item.url)" v-for="(item,index) in all" :key="index" class="item">
+				<uni-card margin="5px" padding="3px">
+					<view class="box">
+						<view style="marginRight: 3px;" class="">
+							<image v-if="item.tag='资源'" style=" display: block;width: 40px;height: 40px;"
+								src="@/static/resource.png" alt="" />
+							<image v-else-if="item.tag" style=" display: block;width: 40px;height: 40px;"
+								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="" />
+							<image v-else style=" display: block;width: 40px;height: 40px;" src="@/static/logo.png"
+								alt="Error" />
+						</view>
+						<view class="font">
+							<view class="title">
+								{{item.title}}
 							</view>
-							<view class="font">
-								<view class="title">
-									{{item.title}}
-								</view>
-								<view class="date">
-									{{item.date}}
-								</view>
-							</view>
-							<view style="min-width: 3rem;" class="tag">
-								<uni-tag :text="item.tag" type="primary" circle></uni-tag>
+							<view class="date">
+								{{item.date}}
 							</view>
 						</view>
-					</uni-card>
-				</view>
-			</template>
+						<view style="min-width: 3rem;" class="tag">
+							<uni-tag :text="item.tag" type="primary" circle></uni-tag>
+						</view>
+					</view>
+				</uni-card>
+			</view>
 		</List>
 	</view>
 	<uni-popup ref="tsgDialog" type="dialog" @maskClick="tsgDialog.close()">
-		<uni-popup-dialog type="warn" cancelText="不再提醒" confirmText="我知道了" title="提示" @confirm="dialogConfirm" @close="dialogClose">
+		<uni-popup-dialog type="warn" cancelText="不再提醒" confirmText="我知道了" title="提示" @confirm="dialogConfirm"
+			@close="dialogClose">
 			<view class="tipBox">
 				<view>即将跳转武科大图书馆官网</view>
 				<view>为更加完美体验</view>
@@ -142,8 +141,19 @@
 
 			.title {
 				font-size: 18px;
-
 				color: #1C1C1C;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				/*行数*/
+				-webkit-box-orient: vertical;
+				display: -moz-box;
+				-moz-line-clamp: 2;
+				-moz-box-orient: vertical;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: normal;
 			}
 
 			.date {
