@@ -5,7 +5,12 @@
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
 		<view class="info">
+			<!-- #ifndef APP-PLUS -->
 			{{store.userInfo.displayName}}
+			<!-- #endif -->
+			<!-- #ifdef APP-PLUS -->
+			安卓用户
+			<!-- #endif -->
 		</view>
 		<view>
 			<view class="layer1"></view>
@@ -16,8 +21,10 @@
 </template>
 
 <script setup lang="ts">
+	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	const store = useStore()
+	// #endif
 </script>
 
 <style scoped lang="scss">
@@ -53,40 +60,41 @@
 			margin: 0 auto;
 			padding: 10px 0;
 		}
-	
-	
-	
-	
-	
+
+
+
+
+
 	}
 
 	.back {
 		transform: rotateY(180deg);
 	}
 
-	
+
 	@function getShadows($n) {
 		$shadows: '#{random($limit: 100)}vw #{random($limit: 100)}vh #fff';
-	
+
 		@for $i from 2 through $n {
 			$shadows: '#{$shadows}, #{random($limit: 100)}vw #{random($limit: 100)}vh #fff';
 		}
+
 		@return unquote($shadows)
 	}
-	
+
 	@keyframes moveUp {
 		100% {
 			transform: translateY(-100vh);
 		}
 	}
-	
+
 	$count: 1000;
-	$duration:1250s;
-	
+	$duration: 1250s;
+
 	@for $i from 1 through 3 {
-		$duration: floor($duration/2);
-		$count: floor($count/2);
-	
+		$duration: floor($duration / 2);
+		$count: floor($count / 2);
+
 		.layer#{$i} {
 			$size: #{$i}px;
 			position: fixed;
@@ -97,7 +105,7 @@
 			left: 0;
 			box-shadow: getShadows($count);
 			animation: moveUp $duration linear infinite;
-	
+
 			&::after {
 				content: "";
 				position: fixed;
@@ -109,8 +117,6 @@
 				box-shadow: inherit;
 			}
 		}
-	
+
 	}
-	
-	
 </style>

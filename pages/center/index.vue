@@ -24,8 +24,10 @@
 	import { ref, Ref } from "vue"
 	import { onShow } from "@dcloudio/uni-app"
 	import type { systemInfoType } from "@/utils/types/center"
+	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	const store = useStore()
+	// #endif
 	// const user = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
 
@@ -43,7 +45,9 @@
 	})
 
 	onShow(() => {
+		// #ifndef APP-PLUS
 		store.userInfo = uni.getStorageSync("userInfo") || { displayName: "微信用户" }
+		// #endif
 		let fineSum = uni.getStorageSync("fineSum")
 		if (fineSum && fineSum !== '0') {
 			uni.setTabBarBadge({

@@ -75,12 +75,16 @@
 <script setup lang="ts">
 	import { onMounted, ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
+	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
+	// #endif
 	import { logoutFunc } from "@/router/auth"
 	import { userInfoApi, typeListApi, trendListApi, statsApi } from "@/page-center/utils/huiwen/center"
 	const loading = ref(true)
 	const logoutTip = ref(null)
+	// #ifndef APP-PLUS
 	const store = useStore()
+	// #endif
 	// 画图的
 	const trendChart : Ref<any> = ref({})
 	const trendOpts = {
@@ -268,7 +272,9 @@
 
 	const logout = () => {
 		console.log("logout")
+		// #ifndef APP-PLUS
 		store.setloginState(false)
+		// #endif
 		logoutFunc()
 	}
 </script>

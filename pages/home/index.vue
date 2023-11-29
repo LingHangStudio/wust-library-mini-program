@@ -4,7 +4,6 @@
 		<uni-search-bar bgColor="#EBEDF0" readonly cancelButton="none" placeholder="搜索书名,作者,分类,IBSN"
 			:radius="100"></uni-search-bar>
 	</view>
-	<!-- <uni-card margin="20px 10px 10px 10px"> -->
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
 		<swiper-item v-for="(item,index) in bannerList" :key="index">
 			<view class="swiper-item uni-bg-red">
@@ -12,7 +11,6 @@
 			</view>
 		</swiper-item>
 	</swiper>
-	<!-- </uni-card> -->
 	<Nav></Nav>
 	<Recommend></Recommend>
 </template>
@@ -27,16 +25,14 @@
 	import { loginFinalApi } from "@/api/end"
 	import { statsApi } from "@/api/huiwen/center"
 
-	const bannerList = ref([
-		{
-			url: "https://424neko.top:3001/images/background-img1.jpg"
-		}, {
-			url: "https://424neko.top:3001/images/background-img2.jpg"
-		},
+	const bannerList = ref([{
+		url: "https://424neko.top:3001/images/background-img1.jpg"
+	}, {
+		url: "https://424neko.top:3001/images/background-img2.jpg"
+	},
 	])
 
 	const goTo = (url : string, type : string) => {
-		console.log(url, type);
 		if (type == "tsg") {
 			uni.navigateTo({
 				url: "/page-home/tsgview?url=" + url
@@ -49,16 +45,15 @@
 	}
 
 	const login = async (loginInfo : any) => {
-		console.log(typeof loginInfo)
 		try {
 			// 进入登录流程
 			console.log(loginInfo.password)
 			const res1 = await loginAPI(loginInfo)
 			console.log('res', res1)
-			const res2 = await login1API(res1.data)
+			const res2 = await login1API(res1?.data)
 			console.log('res2', res2)
 			// 第三个接口，请求自己的后台，获取到Cookie
-			let myCookie = await loginFinalApi(res2.data)
+			let myCookie = await loginFinalApi(res2?.data)
 			console.log('Cookie', myCookie)
 			// 登录成功后的处理
 			uni.setStorageSync("loginState", true);
@@ -103,7 +98,6 @@
 		// 用户没登录过：就跳过
 		// 用户曾经登录过：请求看有没有401
 		// 没有 跳出；有401重新登录
-		console.log("loginState", uni.getStorageSync('loginState'))
 		if (uni.getStorageSync('loginState')) {
 			getStats()
 		}
@@ -111,8 +105,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.search {}
-
 	swiper {
 		height: 400rpx;
 

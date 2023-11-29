@@ -1,6 +1,7 @@
+// #ifndef APP-PLUS
 import { useStore } from "@/store"
 const store = useStore()
-
+// #endif
 interface headerType {
 	Cookie ?: string;
 	Accept ?: string;
@@ -59,7 +60,9 @@ export default function request(options : requestType) {
 					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
 						uni.removeStorageSync("Cookie")
+						// #ifndef  APP-PLUS
 						store.setloginState(false)
+						// #endif
 						uni.removeStorageSync("loginInfo")
 						uni.showToast({
 							title: "未登录或者登录过期",
