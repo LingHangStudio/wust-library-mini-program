@@ -2,11 +2,23 @@
 
 *武汉科技大学图书馆微信小程序*
 
+仓库地址：查看PMS
+
 ## 支撑技术
 
 vue3 +  + pinia +  + scss + typescript
 
 使用HBuild开发uni-app，生成微信小程序
+
+## 运行，打包，发布
+
+运行：微信开发者工具，app模拟器
+打包：各种小程序，Android, IOS
+发布：微信公众平台上传，审核，发布代码；APP上架
+
+
+
+
 
 ## 需求内容
 
@@ -38,9 +50,16 @@ vue3 +  + pinia +  + scss + typescript
 *接口是从浏览器上 抓包获取的，没有文档*
 *每个接口，对应于一个功能*
 
-后台地址：
+*可供参考的汇文后台地址*
+
+https://huiwen.yuque.com/fxik4g/qpggre/utqhsl?
+*这些接口也可以整合到小程序或者APP，来将图书馆功能整合进小程序或者APP，并以此来开发图书到期归还通知（微信公众号自动推送模板信息）*
+
+### 后台地址汇总
+
 汇文接口地址: https://libsys.wust.edu.cn
 统一登录接口 https://auth.wust.edu.cn
+node后台地址：https://424neko.top:3001
 
 ### tsg接口
 
