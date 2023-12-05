@@ -13,7 +13,10 @@
 		<!-- #ifdef MP-WEIXIN-->
 		<official-account></official-account>
 		<!-- #endif -->
-		<p>v{{systemInfo.appVersion}}</p>
+		<!-- 能获取小程序的版本，就用小程序版本；
+		不能，就用manifest的版本 -->
+		<p v-if="systemInfo.version">v{{systemInfo.version}}</p>
+		<p v-else>v{{systemInfo.appVersion}}</p>
 		<p>公众号：武汉科技大学图书馆</p>
 	</view>
 </template>
@@ -43,6 +46,16 @@
 			}
 		},
 	})
+
+	// #ifdef MP-WEIXIN
+	const accountInfo = uni.getAccountInfoSync();
+	systemInfo.value = { ...systemInfo.value, ...accountInfo.miniProgram }
+	console.log("ver", systemInfo.value)
+	// console.log(accountInfo.miniProgram.appId); // 小程序 appId
+	// console.log(accountInfo.miniProgram.envVersion); // 小程序 appId
+	// console.log(accountInfo.plugin.appId); // 插件 appId
+	// console.log(accountInfo.plugin.version); // 插件版本号， 'a.b.c' 这样的形式
+	// #endif
 
 	onShow(() => {
 		// #ifndef APP-PLUS

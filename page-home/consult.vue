@@ -15,7 +15,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="chatWord" v-for="(item, index) in chatList" :key="index"
+		<view class="chatWord" v-if="showList_BugInAPP" v-for="(item, index) in chatList" :key="index"
 			:class="item.id == 1 ? 'chatQuestion' : ''">
 			<view class="icon">
 				<image class="image" src="@/static/face1.png" mode=""></image>
@@ -32,6 +32,7 @@
 			</view>
 		</view>
 	</view>
+	<!-- 输入框 -->
 	<view class="chatLine">
 		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
 			<view @tap="commonSearch(tipsListNoLight[index])" v-for="(item,index) in tipsList" :key="index"
@@ -55,6 +56,9 @@
 	import { consultApi, getWordApi } from "@/page-home/utils/consultApi"
 	import { Ref, ref } from "vue"
 	import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
+
+	// 解决app的列表渲染问题
+	const showList_BugInAPP = ref(true);
 
 	//常见问题列表
 	const hotList = [
@@ -149,7 +153,13 @@
 				content: "您的问题超出了小图的理解能力喔 ~ ",
 			});
 		}
+		// #ifdef APP-PLUS
+		showList_BugInAPP.value = false;
+		// #endif
 		scrollBottom();
+		// #ifdef APP-PLUS
+		showList_BugInAPP.value = true;
+		// #endif
 	}
 	//查看问题详情
 	const seeQuestionDetail = (ele : any) => {
@@ -376,7 +386,8 @@
 					background: #ffb7b7;
 				}
 			}
-			.toolTip:last-child{
+
+			.toolTip:last-child {
 				border-bottom: 0;
 			}
 		}
