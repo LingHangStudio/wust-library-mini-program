@@ -68,10 +68,6 @@
 				currentPage: page,
 				pageNum: pageSize,
 			}
-			all.value.sort((item1 : any, item2 : any) => {
-				return Date.parse(item2.date) - Date.parse(item1.date)
-			})
-			console.log('all', all.value)
 		}
 		loading.value = false
 	}

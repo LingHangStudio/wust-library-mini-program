@@ -129,11 +129,9 @@
 	})
 	const lists = ref([])
 	const getMyList = async (page : number, pageSize : number) => {
-		console.log("调用了，", page, pageSize, current.value)
 		if (current.value === 0) {
 			// 当前借阅
 			const res = await readListApi(page, pageSize)
-			console.log('list', res)
 			if (res) {
 				let temp = res.data
 				lists.value = lists.value.concat(temp.items)
@@ -146,7 +144,6 @@
 		} else {
 			// 历史借阅
 			const res = await histsListApi(page, pageSize)
-			console.log("hist", res)
 			if (res) {
 				let temp = res.data
 				lists.value = lists.value.concat(temp.items)

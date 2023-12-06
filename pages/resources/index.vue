@@ -83,11 +83,6 @@
 					currentPage: page,
 					pageNum: pageSize,
 				}
-				showList.value.sort((a, b) => {
-					const dateA : any = new Date(a.date);
-					const dateB : any = new Date(b.date);
-					return dateA - dateB;
-				});
 			}
 		} else {
 			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1, })
@@ -97,12 +92,6 @@
 					currentPage: page,
 					pageNum: pageSize,
 				}
-				showList.value.sort((a, b) => {
-					const dateA : any = new Date(a.date);
-					const dateB : any = new Date(b.date);
-					return dateB - dateA;
-				});
-				console.log("showlist", showList.value)
 			}
 		}
 		loading.value = false

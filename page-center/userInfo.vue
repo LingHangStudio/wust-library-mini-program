@@ -203,8 +203,6 @@
 	})
 	const getStats = async () => {
 		const res = await statsApi()
-		console.log(typeof res.data.fineSum)
-		console.log("fineSum", res.data.fineSum)
 		if (res) {
 			stats.value = res.data
 		}
@@ -214,15 +212,12 @@
 	const loan_range = ref({})
 	const getTrendChart = async () => {
 		const res = await trendListApi()
-		console.log("time", res)
 		if (res) {
 			loan_range.value = res.data
 			trendChart.value = {
-				// categories: Object.keys(trendArr.data).splice(-6),
 				categories: Object.keys(loan_range.value).splice(-6),
 				series: [{
 					name: '借阅量',
-					// data: Object.values(trendArr.data).splice(-6),
 					data: Object.values(loan_range.value).splice(-6),
 				}],
 			}
@@ -233,7 +228,6 @@
 	const loan_type = ref([])
 	const getTypeChart = async () => {
 		const res = await typeListApi()
-		console.log("type", res)
 		if (res) {
 			loan_type.value = res.data
 			// 需要 更换字段	
@@ -250,7 +244,6 @@
 	// 获取用户信息
 	const getUserInfo = async () => {
 		const res = await userInfoApi()
-		console.log('info', res)
 		if (res) {
 			info.value = res.data
 			uni.setStorageSync("userInfo", res.data)
@@ -271,7 +264,6 @@
 	})
 
 	const logout = () => {
-		console.log("logout")
 		// #ifndef APP-PLUS
 		store.setloginState(false)
 		// #endif

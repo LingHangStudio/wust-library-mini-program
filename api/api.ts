@@ -41,17 +41,17 @@ export function searchArticle(data) {
 
 
 //获取文章详情
-export function getArticleContent(data) {
-	console.log("id", data);
-	return request({
-		url: '/article/index',
-		method: "GET",
-		data: data
-	}).then(res => {
-		return res.data
-	}).catch(err => {
+export async function getArticleContent(data) {
+	try {
+		const res = await request({
+			url: '/article/index',
+			method: "GET",
+			data: data
+		});
+		return res.data;
+	} catch (err) {
 		console.log(err);
-	})
+	}
 }
 
 // -------------- 文章推荐

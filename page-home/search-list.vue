@@ -37,7 +37,6 @@
 		total: 0
 	})
 	const search = async (currentPage : number, pageNum : number) => {
-		console.log("search api")
 		let value = searchInput.value
 		searchInput.value = ""
 		let data = {
@@ -60,7 +59,6 @@
 		const res = await searchApi(data);
 		try {
 			if (res) {
-				console.log("search", res)
 				let resData = res.data
 				paginations.value = {
 					currentPage: resData.offset,

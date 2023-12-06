@@ -30,7 +30,6 @@ export default async function() {
 			invoke(e) {
 				// 获取要跳转的页面路径（url去掉"?"和"?"后的参数）
 				const url = e.url.split('?')[0]
-				console.log('url', url)
 				if (getAuthorization() || (!getAuthorization() && whiteList.includes(url))) {
 					return e
 				} else {
@@ -43,20 +42,6 @@ export default async function() {
 					})
 					return false
 				}
-				// let pass = whiteList.some((item) => url === item)
-
-				// 不是白名单 或者 没有token
-				// if (!pass && !getAuthorization()) {
-				// 	uni.showToast({
-				// 		title: '请先登录',
-				// 		icon: 'error'
-				// 	})
-				// 	uni.navigateTo({
-				// 		url: "/page-center/login"
-				// 	})
-				// 	return false
-				// }
-
 			},
 			fail(err) {
 				console.log(err)

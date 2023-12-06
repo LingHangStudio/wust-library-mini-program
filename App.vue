@@ -4,7 +4,6 @@
 
 	onLaunch(() => {
 		routingIntercept()
-		console.log('App Launch')
 	})
 </script>
 

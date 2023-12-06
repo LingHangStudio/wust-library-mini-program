@@ -35,7 +35,7 @@
 	</view>
 
 	<uni-popup ref="showToolTip" type="bottom" background-color="#fff">
-		<view class="popup-content" v-html="toolTipContent"></view>
+		<view class="popup-content bgc-liner" v-html="toolTipContent"></view>
 	</uni-popup>
 
 	<uni-popup ref="errorMsg" type="message">
@@ -123,7 +123,6 @@
 	const login = async () => {
 		let password = encrypt(userForm.value.password)
 		try {
-			console.log(password)
 			const res1 = await loginAPI({ ...userForm.value, password })
 			console.log('res', res1)
 			if (res1?.data.data) {
@@ -190,10 +189,6 @@
 	onMounted(() => {
 		getCode()
 	})
-	// onLoad((e) => {
-	// 	console.log(e)
-	// 	if (e.e === 'center') isCenter.value = true
-	// })
 </script>
 
 <style scoped lang="scss">
@@ -318,8 +313,7 @@
 	}
 
 	.popup-content {
-		max-width: 80vw;
-		margin: 2vw;
+		max-width: 100vw;
 		padding: 2vw;
 	}
 
