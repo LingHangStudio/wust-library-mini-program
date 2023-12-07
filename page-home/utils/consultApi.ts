@@ -2,7 +2,11 @@ import request from "@/api/request"
 import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
 const API = "https://424neko.top:8182/api"
 
-// 咨询：获取词条,咨询的结果
+/**
+ * 咨询：获取词条,咨询的结果
+ * @param {requestQuestion} data 
+ * @return {resConsultType[]}
+ */
 export async function consultApi(data : requestQuestion) : Promise<resConsultType[]> {
 	try {
 		const res = await request({
@@ -16,8 +20,12 @@ export async function consultApi(data : requestQuestion) : Promise<resConsultTyp
 	}
 }
 
-// 咨询：匹配输入的词条,
-export const getWordApi = async (data : string) : Promise<any> => {
+/** 
+ * 咨询：匹配输入的词条（模糊查询）
+ * @param {string} data
+ * @return {string[]}
+*/
+export const getWordApi = async (data : string) : Promise<string[]> => {
 	try {
 		const res = await request({
 			url: `${API}/web/qa/fuzzyQuery`,

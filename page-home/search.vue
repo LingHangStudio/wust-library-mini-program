@@ -12,14 +12,13 @@
 	</view>
 	<view v-if="searchHistory.length!=0" class="historyBox">
 		<view class="head">
-			<view class="">
+			<text>
 				检索历史
-			</view>
-			<view @tap="clearHis" class="">
+			</text>
+			<text @tap="clearHis">
 				清空
-			</view>
+			</text>
 		</view>
-
 		<view class="history">
 			<view @tap="selectHistoryOne(item)" class="item" v-for="(item, index) in searchHistory" :key="index">
 				{{ item }}
@@ -144,8 +143,9 @@
 		searchValue.value = item
 		search()
 	}
-	// 点击
-	const getBookDetail = (bibId : string | number) => {
+
+	// 点击跳转
+	const getBookDetail = (bibId : string) => {
 		uni.navigateTo({
 			url: "/page-home/detail?bibId=" + bibId
 		})
@@ -195,7 +195,6 @@
 
 			.item {
 				font-size: 12px;
-				// background-color: #181963;
 				color: #142d88;
 				margin: 1px 5px;
 				border: 1px solid #142d88;
@@ -234,27 +233,26 @@
 		padding: 10px;
 		overflow: hidden;
 
-		.card-header-box {
+		&-box {
 			flex: 1;
 			flex-direction: row;
 			align-items: center;
 			overflow: hidden;
 		}
 
-		.card-header-content {
+		&-content {
 			flex-direction: column;
 			justify-content: center;
 			flex: 1;
-			// height: 40px;
 			overflow: hidden;
 
-			.card-header-content-title {
+			&-title {
 				font-size: 15px;
 				color: #3a3a3a;
 			}
 		}
 
-		.card-header-extra {
+		&-extra {
 			align-items: center;
 			line-height: 12px;
 		}

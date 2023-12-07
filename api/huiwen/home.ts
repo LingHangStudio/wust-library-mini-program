@@ -1,14 +1,14 @@
 // 此页接口不用Cookie
 import request from "@/api/request"
+import { ISearchReq } from "@/page-home/utils/types.d";
 const API = "https://libsys.wust.edu.cn"
-
 
 /** 
  * 搜索 - 主页
  * @param {any} data 
  * @return 
  */
-export async function searchApi(data : any) {
+export async function searchApi(data : ISearchReq) {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/search/`,
@@ -64,7 +64,7 @@ export async function hotApi(count : number) {
  * @param {any} bidId 
  * @return 
  */
-export async function deatileApi(bidId : any) {
+export async function deatileApi(bidId : string) {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/bibs/${bidId}/infos`,
@@ -80,7 +80,7 @@ export async function deatileApi(bidId : any) {
  * @param {any} isbn 
  * @return 
  */
-export async function deatileExtApi(isbn : any) {
+export async function deatileExtApi(isbn : any) : Promise<any> {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/third_api/douban/${isbn}/info`,
@@ -95,9 +95,9 @@ export async function deatileExtApi(isbn : any) {
 /**
  * 书籍详情的阅读趋势
  * @param {any} bidId 
- * @return 
+ * @return {[k?:number]} data
  */
-export async function deatileTrendApi(bidId : any) {
+export async function deatileTrendApi(bidId : string) : Promise<any> {
 	try {
 		const res = await request({
 			url: `${API}/meta-local/opac/bibs/${bidId}/trend`,

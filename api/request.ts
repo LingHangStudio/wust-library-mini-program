@@ -83,7 +83,6 @@ export default function request(options : requestType) {
 			// 请求失败
 			fail: (err : errType) => {
 				console.log("总err", err);
-				console.log("总err msg", err.errMsg.indexOf('timeout'));
 				if (err.errMsg.indexOf('timeout') !== -1) {
 					uni.showToast({
 						title: '请求超时！',

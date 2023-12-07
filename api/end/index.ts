@@ -48,9 +48,11 @@ export async function articleListApi(data) {
 	}
 }
 
-// 文章详情
-// @params url 
-// https://mp.weixin.qq.com/s/jIBt3ZtsHLN-XK9nLfyOKA
+/** 
+ * 文章详情
+ * @params url 
+ *
+*/
 export async function articleDetailApi(data) {
 	try {
 		const res = await request({

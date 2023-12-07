@@ -65,6 +65,7 @@
 	const baseInfo : Ref<baseInfoType> = ref({})
 	const detailInfo : Ref<any> = ref({})
 	const extraInfo : Ref<extraInfoType> = ref({})
+	
 	// info接口下的内容
 	const otherInfo : Ref<otherInfoType> = ref({}) //
 	// 馆藏分布内容
@@ -73,7 +74,7 @@
 	// trend 接口，趋势图
 	const trendChart : Ref<any> = ref({})
 
-	const getDetails = async (bibId : string | number) => {
+	const getDetails = async (bibId : string) => {
 		const res = await deatileApi(bibId)
 		if (res) {
 			let info = res.data.map
@@ -82,7 +83,9 @@
 			extraInfo.value = info.extraInfo.map
 		}
 
-		/* 获取馆藏分布
+		/* 
+		* 获取馆藏分布,数据格式为字符串
+		* 将字符串转化为数组：
 		* 数据解析步骤:
 		* 去除首尾[]
 		* 去除所有的\
@@ -117,6 +120,7 @@
 		if (trendArr) {
 			trendChart.value = {
 				canvas2d: true,
+				// 放不下，只留一部分
 				categories: Object.keys(trendArr.data).splice(-6),
 				enableScroll: true,
 				animation: false,

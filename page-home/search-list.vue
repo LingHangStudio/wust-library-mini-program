@@ -3,7 +3,7 @@
 	<List v-else @getMore="search(paginations.currentPage+1,paginations.pageNum)" :listLength="searchList.length"
 		:page="paginations.currentPage" :pageSize="paginations.pageNum">
 		<uni-card margin="8px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
-			v-for="(item,index) in searchList" :key="index">
+			v-for="(item,index) in searchList" :key="item.bibId">
 			<view class="main">
 				<view class="tag">
 					<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
@@ -12,7 +12,7 @@
 				<view class="publish">
 					{{item.author}}/{{item.publisher}}/{{item.pub_year}}
 				</view>
-				<view v-show="item.abstract!=[]" class="info">
+				<view v-if="typeof item.abstract === 'string'" class="info">
 					{{item.abstract}}
 				</view>
 			</view>
@@ -25,6 +25,7 @@
 	import { ref } from "vue"
 	import { searchApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
+	import {ISearchReq} from "./utils/types"
 	const loading = ref(true)
 	//从搜索页传参
 	const searchInput = ref("")
@@ -55,7 +56,7 @@
 			filterFieldList: [],
 			page: currentPage,
 			pageSize: pageNum
-		} as any;
+		} as ISearchReq;
 		const res = await searchApi(data);
 		try {
 			if (res) {
@@ -65,14 +66,11 @@
 					pageNum: resData.limit,
 					total: resData.actualTotal
 				}
-				if (resData.dataList.length === 0) {
-
-				} else {
+				if (resData.dataList.length !== 0) {
 					searchList.value = searchList.value.concat(resData.dataList)
 				}
 			}
-		} catch (err) {
-		}
+		} catch (err) { }
 		loading.value = false
 	}
 

@@ -1,12 +1,4 @@
 <template>
-	<!-- <view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
-		<view class="header-image" hover-class="back">
-			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
-		</view>
-		<view class="info">
-			{{store.userInfo.displayName}}
-		</view>
-	</view> -->
 	<Avatar></Avatar>
 	<Menu></Menu>
 	<view class="copyright">
@@ -31,7 +23,6 @@
 	import { useStore } from "@/store"
 	const store = useStore()
 	// #endif
-	// const user = uni.getStorageSync("userInfo")
 	const systemInfo : Ref<systemInfoType> = ref({})
 
 	uni.getSystemInfo({
@@ -52,9 +43,7 @@
 	systemInfo.value = { ...systemInfo.value, ...accountInfo.miniProgram }
 	console.log("ver", systemInfo.value)
 	// console.log(accountInfo.miniProgram.appId); // 小程序 appId
-	// console.log(accountInfo.miniProgram.envVersion); // 小程序 appId
-	// console.log(accountInfo.plugin.appId); // 插件 appId
-	// console.log(accountInfo.plugin.version); // 插件版本号， 'a.b.c' 这样的形式
+	// console.log(accountInfo.miniProgram.envVersion); // 小程序 版本
 	// #endif
 
 	onShow(() => {

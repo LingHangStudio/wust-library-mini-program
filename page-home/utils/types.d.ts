@@ -1,22 +1,58 @@
-// 咨询页
+// 搜索接口
+/**
+ * 搜索的请求参数
+ */
+export interface ISearchReq {
+	queryFieldList : ISearchWord[],
+	sortType : string;
+	sortField : string;
+	indexName : string;
+	collapseField : string;
+	filterFieldList : [];
+	page : number;
+	pageSize : number;
+}
+
+export interface ISearchWord {
+	logic : number;
+	field : string;
+	operator : string;
+	values : any;
+}
+
+export interface ISearchRes {
+
+}
+
+
+//--------------------------
+// 智能答疑 - 咨询页
+// 请求参数
 export interface requestQuestion {
 	msg : string,
-	userId : number | string,
+	userId : any,
 }
-
-export interface questionItem {
-	id ?: number | string;
-	question ?: string
-}
-
+// 准确查询的返回类型
 export interface resConsultType {
 	id : number;
 	content : string;
-	questionList ?: questionItem[]
+	question : "怎么看图书编号在几楼？",
+	questionJieBa : string;
+	answer : string;
+	matchNum : number;
+	weight : number;
 }
 
-// 书籍的类型
+//--------------------------
+// 书籍的类型：一本的所有详细信息来自不同的接口
 // infos接口下的内容
+export interface IDetailInfo{
+	baseInfo:baseInfoType;
+	detailInfo: any;
+	extraInfo:extraInfoType;
+}
+
+// 书籍详情返回内容的baseInfo
 export interface baseInfoType {
 	author ?: string;
 	docType ?: string;

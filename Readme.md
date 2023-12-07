@@ -203,14 +203,27 @@ node后台地址：https://424neko.top:3001
 ```javascript
 /*
 * 推荐-热门图书 GET /meta-local/opac/commend/hot1
-* @prarm count 返回数量
+* @prarm {number} count 返回数量
 */
 ```
 
 书籍的详情
+*比较麻烦，很多个接口汇总*
+infos 获取baseInfo，放在顶部
+info 获取详细信息，放在下面：章节信息，作者简介，书目简介，封面
+trend 获取图表
+holdings 获取馆藏信息
 
 ```javascript
-/**/
+/**
+ * 获取基础信息baseInfo
+ * @param {string} bibId 
+ * @return {}
+*/
+
+
+
+
 ```
 
 
@@ -339,7 +352,7 @@ RSA加密，具体详情，看代码
 | backgroundColor |  背景颜色  | string | #142d88主题色 |
 
 ## 其他
-
+体验评分：开发者工具 - 详情 - 性能质量 - 体验评分
 主题色：#142d88  
 
 
