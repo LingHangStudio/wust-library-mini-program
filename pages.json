@@ -1,0 +1,136 @@
+{
+	"tabBar": {
+		"selectedColor": "#142d88",
+		"list": [{
+				"text": "服务大厅",
+				"pagePath": "pages/home/index",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home_active.png"
+			},
+			{
+				"text": "活动大厅",
+				"pagePath": "pages/activity/index",
+				"iconPath": "static/icon/activity.png",
+				"selectedIconPath": "static/icon/activity_active.png"
+			}, {
+				"text": "消息资源",
+				"pagePath": "pages/resources/index",
+				"iconPath": "static/icon/resource.png",
+				"selectedIconPath": "static/icon/resource_active.png"
+			},
+			{
+				"text": "个人中心",
+				"pagePath": "pages/center/index",
+				"iconPath": "static/icon/center.png",
+				"selectedIconPath": "static/icon/center_active.png"
+			}
+		]
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		//主页
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "主页"
+			}
+		},
+		{
+			"path": "pages/activity/index",
+			"style": {
+				"onReachBottomDistance": 100,
+				"navigationBarTitleText": "活动"
+			}
+		},
+		{
+			"path": "pages/resources/index",
+			"style": {
+				"onReachBottomDistance": 100,
+				"navigationBarTitleText": "消息资源"
+			}
+		},
+		//个人中心
+		{
+			"path": "pages/center/index",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}
+	],
+	"subPackages": [{
+		"root": "page-home",
+		"pages": [{
+			"path": "consult",
+			"style": {
+				"navigationBarTitleText": "咨询"
+			}
+		}, {
+			"path": "hello",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		}, {
+			"path": "search-list",
+			"style": {
+				"navigationBarTitleText": "检索结果"
+			}
+		}, {
+			"path": "detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}]
+	}, {
+		"root": "page-service",
+		"pages": [{
+			"path": "tsgview",
+			"style": {
+				"navigationBarTitleText": "图书馆"
+			}
+		}, {
+			"path": "inner",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "test",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}]
+	}, {
+		"root": "page-center",
+		"pages": [{
+			"path": "login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		}, {
+			"path": "aboutMe",
+			"style": {
+				"navigationBarTitleText": "关于"
+			}
+		}, {
+			"path": "mySubscribe",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "userInfo",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}]
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "武科大图书馆",
+		"navigationBarBackgroundColor": "#142d88",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
