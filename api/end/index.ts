@@ -1,5 +1,5 @@
 import request from "@/api/request"
-const API = "https://424neko.top:3001/api"
+const API = "https://tsg.424neko.top:3001/api"
 
 // 自己的后台
 /**

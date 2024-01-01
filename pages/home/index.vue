@@ -26,9 +26,9 @@
 	import { statsApi } from "@/api/huiwen/center"
 
 	const bannerList = ref([{
-		url: "https://424neko.top:3001/images/background-img1.jpg"
+		url: "https://tsg.424neko.top:3001/images/background-img1.jpg"
 	}, {
-		url: "https://424neko.top:3001/images/background-img2.jpg"
+		url: "https://tsg.424neko.top:3001/images/background-img2.jpg"
 	},
 	])
 

@@ -28,7 +28,7 @@ vue3 +  + pinia +  + scss + typescript
 
 #### 主页
 
-搜索框，轮播图，热门服务，智能答疑
+搜索框，轮播图(点击放大：未完成)，热门服务，智能答疑
 其他服务（读者指南，关于本馆，机构设置，文献资源……）
 推荐阅读
 
@@ -59,7 +59,7 @@ https://huiwen.yuque.com/fxik4g/qpggre/utqhsl?
 
 汇文接口地址: https://libsys.wust.edu.cn
 统一登录接口 https://auth.wust.edu.cn
-node后台地址：https://424neko.top:3001
+node后台地址：https://tsg.424neko.top:3001
 
 ### tsg接口
 
