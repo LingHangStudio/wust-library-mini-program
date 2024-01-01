@@ -252,8 +252,8 @@ https://libsys.wust.edu.cn/meta-local/opac/commend/hot1?count=20
 
 使用了登录接口的页面：
 
-- 登录页
-- 主页（因为登录的token很快就会过期。重新启动时，检测是否已经登录，如果已经登录[token失效]，则重新登录）
+- 登录页 /login
+- 主页/home（因为登录的token很快就会过期。重新启动时，检测是否已经登录，如果已经登录[此时token失效]，则重新登录）
 
 #### 密码加密算法
 
