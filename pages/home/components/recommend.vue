@@ -1,21 +1,20 @@
 <template>
-	<ListSkeleton :rows="4" v-if="loadingSkeleton">
-	</ListSkeleton>
+	<ListSkeleton v-if="loadingSkeleton" :rows="4"> </ListSkeleton>
 	<uni-card v-else margin="10px 8px 5px 8px" spacing="0px" padding="0px">
-		<uni-section title="为您推荐" type="line" typeColor="#142d88">
+		<uni-section title="为您推荐" type="line" type-color="#142d88">
 			<template #right>
-				<uni-icons @click="changeBatch" type="refresh" size="24" color="#142d88"></uni-icons>
+				<uni-icons type="refresh" size="24" color="#142d88" @click="changeBatch"></uni-icons>
 			</template>
-			<view v-if="recommendList.length===0" class="">
+			<view v-if="recommendList.length === 0" class="">
 				<Empty width="160px" height="120px"></Empty>
 			</view>
 			<view v-else class="list">
-				<view class="item" @tap="goToInner(item.bibId)"
-					v-for="(item,index) in recommendList.slice(8*recommendIndex,8+8*recommendIndex)" :key="item.rank">
+				<view v-for="item in recommendList.slice(8 * recommendIndex, 8 + 8 * recommendIndex)" :key="item.rank"
+					class="item" @tap="goToInner(item.bibId)">
 					<!-- <uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px"
 						margin="0px" :is-full="true"> -->
-					<span class="order" :style="{backgroundColor:setColor(item.rank)}">{{item.rank}}</span>
-					<span class="title">{{item.title}}</span>
+					<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
+					<span class="title">{{ item.title }}</span>
 					<!-- </uni-card> -->
 				</view>
 			</view>
@@ -31,30 +30,24 @@
 
 	const getRecommend = async () => {
 		const res = await hotApi(16)
-		if (res) {
-			console.log(res);
-			recommendList.value = res.data as any[]
-		}
+		res && (recommendList.value = res.data as any[])
 		// 无论请求成功与否，都关闭骨架屏
 		loadingSkeleton.value = false
 	}
 
 	const setColor = (order : number) => {
-		if (order === 1) {
-			return "#ffbb3b"
-		} else if (order === 2) {
-			return "#d9dae3"
-		} else if (order === 3) {
-			return "#ff9d6a"
-		} else {
-			return ""
-		}
+		const colorMap = {
+			1: "#ffbb3b",
+			2: "#d9dae3",
+			3: "#ff9d6a",
+		};
+		return colorMap[order] || "";
 	}
 
 	// 推荐的书目，进入书籍详情
 	const goToInner = (bibId : string) => {
 		uni.navigateTo({
-			url: "/page-home/detail?bibId=" + bibId
+			url: "/page-home/detail?bibId=" + bibId,
 		})
 	}
 

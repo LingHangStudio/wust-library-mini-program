@@ -1,19 +1,17 @@
 <template>
-	<ListSkeleton :rows="4" :loop="6" v-if="loading"></ListSkeleton>
-	<List v-else @getMore="search(paginations.currentPage+1,paginations.pageNum)" :listLength="searchList.length"
-		:page="paginations.currentPage" :pageSize="paginations.pageNum">
-		<uni-card margin="8px" :extra="'可借'+item.itemCount" :title="item.title" @click="getDetails(item.bibId)"
-			v-for="(item,index) in searchList" :key="item.bibId">
+	<ListSkeleton v-if="loading" :rows="4" :loop="6"></ListSkeleton>
+	<List v-else :list-length="searchList.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
+		@get-more="search(paginations.currentPage + 1, paginations.pageNum)">
+		<uni-card v-for="item in searchList" :key="item.bibId" margin="8px" :extra="'可借' + item.itemCount"
+			:title="item.title" @click="getDetails(item.bibId)">
 			<view class="main">
 				<view class="tag">
 					<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
-					{{item.callno[0]}}
+					{{ item.callno[0] }}
 				</view>
-				<view class="publish">
-					{{item.author}}/{{item.publisher}}/{{item.pub_year}}
-				</view>
+				<view class="publish"> {{ item.author }}/{{ item.publisher }}/{{ item.pub_year }} </view>
 				<view v-if="typeof item.abstract === 'string'" class="info">
-					{{item.abstract}}
+					{{ item.abstract }}
 				</view>
 			</view>
 		</uni-card>
@@ -25,7 +23,7 @@
 	import { ref } from "vue"
 	import { searchApi } from "@/api/huiwen/home"
 	import { onLoad } from "@dcloudio/uni-app"
-	import {ISearchReq} from "./utils/types"
+	import { ISearchReq } from "./utils/types"
 	const loading = ref(true)
 	//从搜索页传参
 	const searchInput = ref("")
@@ -35,7 +33,7 @@
 	const paginations = ref({
 		currentPage: 1,
 		pageNum: 15,
-		total: 0
+		total: 0,
 	})
 	const search = async (currentPage : number, pageNum : number) => {
 		let value = searchInput.value
@@ -46,8 +44,8 @@
 					logic: 0,
 					field: choiceType.value,
 					operator: "*",
-					values: [value]
-				}
+					values: [value],
+				},
 			],
 			sortType: "desc",
 			sortField: "relevance",
@@ -55,16 +53,16 @@
 			collapseField: "groupId",
 			filterFieldList: [],
 			page: currentPage,
-			pageSize: pageNum
-		} as ISearchReq;
-		const res = await searchApi(data);
+			pageSize: pageNum,
+		} as ISearchReq
+		const res = await searchApi(data)
 		try {
 			if (res) {
 				let resData = res.data
 				paginations.value = {
 					currentPage: resData.offset,
 					pageNum: resData.limit,
-					total: resData.actualTotal
+					total: resData.actualTotal,
 				}
 				if (resData.dataList.length !== 0) {
 					searchList.value = searchList.value.concat(resData.dataList)
@@ -76,7 +74,7 @@
 
 	const getDetails = (bibId : string) => {
 		uni.navigateTo({
-			url: "/page-home/detail?bibId=" + bibId
+			url: "/page-home/detail?bibId=" + bibId,
 		})
 	}
 
@@ -92,7 +90,7 @@
 <style lang="scss" scoped>
 	.info {
 		color: grey;
-		font-size: .8rem;
+		font-size: 0.8rem;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;

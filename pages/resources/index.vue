@@ -1,25 +1,25 @@
 <template>
 	<view>
-		<uni-segmented-control :current="current" styleType="text" activeColor="#142d88" :values="items"
-			@clickItem="onClickItem" />
+		<uni-segmented-control :current="current" style-type="text" active-color="#142d88" :values="items"
+			@click-item="onClickItem" />
 	</view>
 
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
-	<List v-else @getMore="getArticleList(paginations.currentPage+1,paginations.pageNum)" :listLength="showList.length"
-		:page="paginations.currentPage" :pageSize="paginations.pageNum">
-		<view @tap="goTo(item.url)" v-for="(item,index) in showList" class="item" :key="index">
+	<List v-else :list-length="showList.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
+		@get-more="getArticleList(paginations.currentPage + 1, paginations.pageNum)">
+		<view v-for="(item, index) in showList" :key="index" class="item" @tap="goTo(item.url)">
 			<uni-card margin="7px" padding="3px">
 				<view class="box">
-					<view style="margin: 3px;" class="">
-						<img style=" display: block;width: 40px;height: 40px;"
-							src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="">
+					<view style="margin: 3px" class="">
+						<img style="display: block; width: 40px; height: 40px"
+							src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="" />
 					</view>
 					<view class="font">
 						<view class="title">
-							{{item.title}}
+							{{ item.title }}
 						</view>
 						<view class="date">
-							{{item.date}}
+							{{ item.date }}
 						</view>
 					</view>
 				</view>
@@ -27,15 +27,15 @@
 		</view>
 	</List>
 
-	<uni-popup ref="tsgDialog" type="dialog" @maskClick="tsgDialog.close()">
-		<uni-popup-dialog type="warn" cancelText=" 不再提醒" confirmText="我知道了" title="提示" @confirm="dialogConfirm"
+	<uni-popup ref="tsgDialog" type="dialog" @mask-click="tsgDialog.close()">
+		<uni-popup-dialog type="warn" cancel-text=" 不再提醒" confirm-text="我知道了" title="提示" @confirm="dialogConfirm"
 			@close="dialogClose">
 			<view class="tipBox">
 				<view>即将跳转武科大图书馆官网</view>
 				<view>为更加完美体验</view>
 				<view>建议使用浏览器打开链接</view>
-				<view @tap="copyUrl" class="">
-					<view class="url">{{urlTo}}</view>
+				<view class="" @tap="copyUrl">
+					<view class="url">{{ urlTo }}</view>
 					<span>（点击复制）</span>
 				</view>
 			</view>
@@ -48,31 +48,19 @@
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
 	const loading = ref(true)
-	const items = ref(['最新资源', "最新消息"])
+	const items = ref(["最新资源", "最新消息"])
 
 	const showList = ref([])
+
+	// 分栏
+	const current = ref(0)
 	// 分页信息
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
-		total: 0
+		total: 0,
 	})
 
-	// 选择分栏
-	const current = ref(0)
-	const onClickItem = (e : any) => {
-		if (current.value != e.currentIndex) {
-			current.value = e.currentIndex
-			paginations.value = {
-				currentPage: 1,
-				pageNum: 10,
-				total: 0
-			}
-			loading.value = true
-			showList.value = []
-			getArticleList(1, 10)
-		}
-	}
 	const getArticleList = async (page : number, pageSize : number) => {
 		// 新接口:获取资源和公告
 		if (current.value === 0) {
@@ -85,7 +73,7 @@
 				}
 			}
 		} else {
-			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1, })
+			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1 })
 			if (resNotice) {
 				showList.value = showList.value.concat(resNotice.data)
 				paginations.value = {
@@ -97,39 +85,54 @@
 		loading.value = false
 	}
 
+	// 选择分栏
+	const onClickItem = (e : any) => {
+		if (current.value != e.currentIndex) {
+			current.value = e.currentIndex
+			paginations.value = {
+				currentPage: 1,
+				pageNum: 10,
+				total: 0,
+			}
+			loading.value = true
+			showList.value = []
+			getArticleList(1, 10)
+		}
+	}
+
 	onMounted(() => {
 		getArticleList(paginations.value.currentPage, paginations.value.pageNum)
 	})
 
 	// 弹出层配置
 	const urlTo = ref("")
-	const routerUrl = ref('/page-service/tsgview?url=')
+	const routerUrl = ref("/page-service/tsgview?url=")
 	const tsgDialog = ref(null)
 
 	const dialogConfirm = () => {
 		uni.navigateTo({
-			url: routerUrl.value + urlTo.value
+			url: routerUrl.value + urlTo.value,
 		})
 	}
 
 	const dialogClose = () => {
-		uni.setStorageSync('noViewTip', true)
+		uni.setStorageSync("noViewTip", true)
 		uni.navigateTo({
-			url: routerUrl.value + urlTo.value
+			url: routerUrl.value + urlTo.value,
 		})
 	}
 
 	const copyUrl = () => {
 		uni.setClipboardData({
-			data: urlTo.value
-		});
+			data: urlTo.value,
+		})
 	}
 
 	const goTo = (url : string) => {
 		urlTo.value = url
 		if (uni.getStorageSync("noViewTip")) {
 			uni.navigateTo({
-				url: routerUrl.value + url
+				url: routerUrl.value + url,
 			})
 		} else {
 			tsgDialog.value.open()
@@ -182,7 +185,7 @@
 
 			.title {
 				font-size: 18px;
-				color: #1C1C1C;
+				color: #1c1c1c;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;

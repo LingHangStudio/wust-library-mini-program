@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-	
 	import { articleDetailApi } from "@/api/end"
 	import { onLoad } from "@dcloudio/uni-app"
 	import { ref, } from "vue";
@@ -15,9 +14,7 @@
 
 	const getArticle = async (url : string) => {
 		const res = await articleDetailApi(url)
-		if (res) {
-			article.value = res.data.content.replaceAll("form", "div")
-		}
+		res && (article.value = res.data.content.replaceAll("form", "div"))
 	}
 
 	onLoad((e : any) => {

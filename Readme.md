@@ -59,7 +59,7 @@ https://huiwen.yuque.com/fxik4g/qpggre/utqhsl?
 
 汇文接口地址: https://libsys.wust.edu.cn
 统一登录接口 https://auth.wust.edu.cn
-node后台地址：https://tsg.424neko.top:3001
+node后台地址：https://smarttool.wust.edu.cn:3001
 
 ### tsg接口
 
@@ -229,7 +229,7 @@ holdings 获取馆藏信息
 
 
 
-
+汇文地址的请求示例
 https://libsys.wust.edu.cn/meta-local/opac/commend/hot1?count=20
 
 ### 自己的后台接口（基于node）

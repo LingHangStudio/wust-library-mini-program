@@ -1,7 +1,7 @@
 <template>
-	<uni-nav-bar :fixed="false" v-if="title&&showBar" :title="title" statusBar shadow :color="color"
-		:backgroundColor="backgroundColor" :dark="false" />
-	<view @tap="goBack" class="backBtn">
+	<uni-nav-bar v-if="title&&showBar" :fixed="false" :title="title" status-bar shadow :color="color"
+		:background-color="backgroundColor" :dark="false" />
+	<view class="backBtn" @tap="goBack">
 		<uni-icons type="back" color="#fff" size="27"></uni-icons>
 	</view>
 </template>
@@ -28,7 +28,7 @@
 
 	const getSystemInfo = () => {
 		uni.getSystemInfo().then(res => {
-			if (res.deviceModel === 'Windows') showBar.value = false
+			res.deviceModel === 'Windows' && (showBar.value = false)
 		}).catch(err => {
 			console.log(err)
 		})

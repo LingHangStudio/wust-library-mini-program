@@ -6,7 +6,7 @@
 		<slot v-else>
 			<img class="u-empty" :src="image" :style="imageStyle" alt="image" />
 		</slot>
-		<span class="u-description" v-if="description" :class="{gray: image === '2'}">
+		<span v-if="description" class="u-description" :class="{gray: image === '2'}">
 			<slot name="description">{{ description }}</slot>
 		</span>
 	</div>

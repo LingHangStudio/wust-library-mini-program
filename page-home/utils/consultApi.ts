@@ -1,6 +1,6 @@
 import request from "@/api/request"
 import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
-const API = "https://tsg.424neko.top:8182/api"
+const API = "https://smarttool.wust.edu.cn:8182/api"
 
 /**
  * 咨询：获取词条,咨询的结果

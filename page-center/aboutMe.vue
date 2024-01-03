@@ -13,8 +13,8 @@
 			</view>
 		</view>
 		<view class="footer">
-			<view @click="activeIndex = index-1" v-for="index in aboutMeContent.content.length"
-				:class="{activeIndex:activeIndex===index-1}" class="footerItem">
+			<view v-for="index in aboutMeContent.content.length" :key="index"
+				:class="{activeIndex:activeIndex===index-1}" class="footerItem" @click="activeIndex = index-1">
 				<span>&bull;</span>
 			</view>
 		</view>
@@ -35,7 +35,7 @@
 			图书馆作为学校的文献信息中心，根据学校发展和专业设置，进行馆藏资源建设。
 			我馆通过多途径有计划、有重点的采集国内外书刊资料，
 			重点收藏材料、冶金、化工、机械、电子与信息、建筑、环境、医学、管理等科学文献，
-			其馆藏文献类型包括图书、期刊、学位论文、会议录、标准、专利、产品目录及各种工具书；	
+			其馆藏文献类型包括图书、期刊、学位论文、会议录、标准、专利、产品目录及各种工具书；
 			`,
 			`近年来，图书馆重视发展电子资源，根据学校教学、科研工作需要，
 			有计划、多渠道的重点引进各种中文光盘、网络数据库、多媒体教学课件、VCD影视资料等。
@@ -91,11 +91,7 @@
 		if (moveRight.value) {
 			moveRight.value = false
 			// activeIndex.value = (activeIndex.value - 1) % 8
-			if (activeIndex.value > 0)
-				activeIndex.value--
-			else {
-				activeIndex.value = 7
-			}
+			activeIndex.value > 0 ? (activeIndex.value--) : (activeIndex.value = 7)
 		} else {
 			activeIndex.value = (activeIndex.value + 1) % 8
 		}

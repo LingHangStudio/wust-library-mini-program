@@ -6,12 +6,12 @@
 			<!--右边虚化-->
 			<view class="hide-content-box hide-content-box-right"></view>
 			<scroll-view scroll-x="true">
-				<view @tap="goTo(item.url,item.type)" v-for="(item, index) in menu" :index="index" class="item"
-					:class="'nav-li bg-index' + (index + 1)">
+				<view v-for="(item, index) in menu" :key="index" class="item" :class="'nav-li bg-index' + (index + 1)"
+					@tap="goTo(item.url, item.type)">
 					<view class="icon">
 						<uni-icons :type="item.icon" color="#F0E7FE" size="50"></uni-icons>
 					</view>
-					<view class="text">{{item.name}}</view>
+					<view class="text">{{ item.name }}</view>
 				</view>
 			</scroll-view>
 		</view>
@@ -24,62 +24,67 @@
 			id: "",
 			name: "我的借阅",
 			url: "/page-center/mySubscribe",
-			icon: "calendar"
+			icon: "calendar",
 		},
 		{
 			id: "",
 			name: "智能答疑",
 			url: "/page-home/consult",
 			icon: "chatboxes",
-			type: "inner"
-		}, {
+			type: "inner",
+		},
+		{
 			id: "",
 			name: "文献资源",
 			url: "https://tsg.wust.edu.cn/info/1691/4471.htm",
 			icon: "list",
 			type: "tsg",
-		}, {
+		},
+		{
 			id: "",
 			name: "借阅服务",
 			url: "https://tsg.wust.edu.cn/jyfw/gzjsysy.htm",
 			icon: "star",
 			type: "tsg",
-		}, {
+		},
+		{
 			id: "",
 			name: "科研服务",
 			url: "https://tsg.wust.edu.cn/kyfw/xkfw.htm",
 			icon: "paperplane",
 			type: "tsg",
-		}, {
+		},
+		{
 			id: "",
 			name: "互动交流",
 			url: "https://tsg.wust.edu.cn/hdjl/ygzydt.htm",
 			icon: "chat",
 			type: "tsg",
-		}, {
+		},
+		{
 			id: "",
 			name: "读者指南",
 			url: "https://tsg.wust.edu.cn/dzzn/gzzd.htm",
 			icon: "map",
 			type: "tsg",
-		}, {
+		},
+		{
 			id: "",
 			name: "关于",
 			url: "https://tsg.wust.edu.cn/gy.htm",
 			icon: "flag",
 			type: "tsg",
-		}
+		},
 	]
 
 	const goTo = (url : string, type : string) => {
-		console.log(url, type);
 		if (type == "tsg") {
 			uni.navigateTo({
-				url: "/page-service/tsgview?url=" + url
+				url: "/page-service/tsgview?url=" + url,
 			})
 		} else {
 			uni.navigateTo({
-				url: url
+				url: url,
 			})
 		}
 	}
@@ -109,7 +114,6 @@
 
 				.uni-icons {}
 			}
-
 		}
 	}
 
@@ -131,7 +135,7 @@
 	}
 
 	.nav-name::before {
-		content: '';
+		content: "";
 		position: absolute;
 		display: block;
 		width: 40rpx;
@@ -143,7 +147,7 @@
 	}
 
 	.nav-name::after {
-		content: '';
+		content: "";
 		position: absolute;
 		display: block;
 		width: 100rpx;
@@ -210,7 +214,6 @@
 		background-color: #954ff6;
 		color: #fff;
 	}
-
 
 	/*scroll-view外层*/
 	.skill-sequence-panel-content-wrapper {

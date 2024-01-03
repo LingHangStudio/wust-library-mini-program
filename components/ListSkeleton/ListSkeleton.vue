@@ -2,7 +2,7 @@
 	<view v-show="isShow" class="loading">
 		<view v-if="hasImage" class="image">
 		</view>
-		<view :class="display" class='content' v-for="index of loop" :key="index">
+		<view v-for="index of loop" :key="index" :class="display" class='content'>
 			<view v-for="childIndex in rows" :key="childIndex" class="description">
 			</view>
 		</view>
@@ -59,7 +59,7 @@
 		}
 
 		.content {
-			
+
 
 			.description {
 				// font-size: 10px;

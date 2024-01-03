@@ -1,6 +1,6 @@
 <template>
 	<!-- 聊天框 -->
-	<view class="chatBox" id="chatBody">
+	<view id="chatBody" class="chatBox">
 		<!-- 咨询页 -->
 		<view class="helloTitle">
 			<view class="hello">Hi,你好</view>
@@ -10,39 +10,41 @@
 		<view class="hot">
 			<view class="title">常见问题</view>
 			<view class="hotBox">
-				<view class="item" v-for="(item, index) in hotList" :key="index" @tap="commonSearch(item)">
+				<view v-for="(item, index) in hotList" :key="index" class="item" @tap="commonSearch(item)">
 					{{ item }}
 				</view>
 			</view>
 		</view>
-		<view class="chatWord" v-if="showList_BugInAPP" v-for="(item, index) in chatList" :key="index"
-			:class="item.id == 1 ? 'chatQuestion' : ''">
-			<view class="icon">
-				<image class="image" src="@/static/face1.png" mode=""></image>
-			</view>
-			<view class="wordBox" v-if="!item.questionList" v-html="item.content">
-			</view>
-			<view class="judge" v-if="item.id == 2"></view>
-			<view class="questionList" v-if="item?.questionList">
-				<view class="tips">小图为您找到了以下问题~点击查看详情</view>
-				<view class="questionItem" v-for="ele in item?.questionList" :key="ele.id"
-					@tap="seeQuestionDetail(ele)">
-					{{ ele.question }}
+		<template v-if="showList_BugInAPP">
+			<view v-for="(item, index) in chatList" :key="index" class="chatWord"
+				:class="item.id == 1 ? 'chatQuestion' : ''">
+				<view class="icon">
+					<image class="image" src="@/static/face1.png" mode=""></image>
+				</view>
+				<view v-if="!item.questionList" class="wordBox" v-html="item.content"> </view>
+				<view v-if="item.id == 2" class="judge"></view>
+				<view v-if="item?.questionList" class="questionList">
+					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
+					<view v-for="ele in item?.questionList" :key="ele.id" class="questionItem"
+						@tap="seeQuestionDetail(ele)">
+						{{ ele.question }}
+					</view>
 				</view>
 			</view>
-		</view>
+		</template>
 	</view>
 	<!-- 输入框 -->
 	<view class="chatLine">
-		<view :class="questionInput&&showWordsModal&&tipsList.length>0?'toolTips':'hideToolTips'">
-			<view @tap="commonSearch(tipsListNoLight[index])" v-for="(item,index) in tipsList" :key="index"
-				class="toolTip">
-				<view v-html="item" class=""></view>
+		<view :class="questionInput && showWordsModal && tipsList.length > 0 ? 'toolTips' : 'hideToolTips'">
+			<view v-for="(item, index) in tipsList" :key="index" class="toolTip"
+				@tap="commonSearch(tipsListNoLight[index])">
+				<view class="" v-html="item"></view>
 			</view>
 		</view>
 		<view class="chatInput">
-			<uni-easyinput class="input" type="text" confirm-type="send" placeholder="请输入咨询内容" v-model="questionInput"
-				@confirm="searchQuestions()" @clear="showWordsModal=false" @input="(e:string)=>handleDebounce(e)" />
+			<uni-easyinput v-model="questionInput" class="input" type="text" confirm-type="send" placeholder="请输入咨询内容"
+				@confirm="searchQuestions()" @clear="showWordsModal = false"
+				@input="(e: string) => handleDebounce(e)" />
 			<view class="searchBtn" @tap="searchQuestions()">
 				<image class="img" src="@/static/face1.png" alt=""></image>
 			</view>
@@ -58,31 +60,95 @@
 	import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
 
 	// 解决app的列表渲染问题
-	const showList_BugInAPP = ref(true);
+	const showList_BugInAPP = ref(true)
 
 	//常见问题列表
-	const hotList = [
-		"图书馆什么时候开放？",
-		"如何找到我想借的书",
-		"图书馆咨询电话是多少？",
-	]
+	const hotList = ["图书馆什么时候开放？", "如何找到我想借的书", "图书馆咨询电话是多少？"]
 	//聊天列表
 	const chatList = ref([
 		{
 			id: 0,
-			content:
-				"您好,我是智能客服机器人小图,我可以回答您相关的业务问题,有什么问题就问我吧!很高兴为您服务!",
+			content: "您好,我是智能客服机器人小图,我可以回答您相关的业务问题,有什么问题就问我吧!很高兴为您服务!",
 		},
-	]) as Ref<resConsultType[]>;
+	]) as Ref<resConsultType[]>
 	//搜索内容
 	const questionInput = ref("")
 	// 结果列表
 	let questionList = ref([])
 
+	const scrollTop = ref(0) // 内容底部与顶部的距离
+	//滚动到底部
+	const scrollBottom = () => {
+		uni
+			.createSelectorQuery()
+			.select("#chatBody")
+			.boundingClientRect((rect : any) => {
+				var timer = setTimeout(() => {
+					uni.pageScrollTo({
+						scrollTop: rect.height,
+						duration: 300, // 滑动速度
+					})
+					scrollTop.value = rect.height - scrollTop.value
+					clearTimeout(timer)
+				}, 0)
+			})
+			.exec()
+	}
+
+	//搜索问题
+	const searchQuestions = async () => {
+		if (questionInput.value == "") {
+			uni.showToast({
+				title: "输入不能为空！",
+				duration: 2000,
+				icon: "fail",
+			})
+			return
+		}
+		chatList.value.push({
+			id: 1,
+			content: questionInput.value,
+		})
+		let data = {
+			msg: questionInput.value,
+			userId: "",
+		} as requestQuestion
+		showWordsModal.value = false
+		const res : any = await consultApi(data)
+		if (res) {
+			questionList.value = res.data.matched
+			questionInput.value = ""
+			if (questionList.value.length !== 0) {
+				chatList.value.push({
+					id: 2,
+					content: "",
+					questionList: questionList.value,
+				})
+			} else {
+				chatList.value.push({
+					id: 2,
+					content: "您的问题超出了小图的理解能力喔 ~ ",
+				})
+			}
+		} else {
+			chatList.value.push({
+				id: 2,
+				content: "您的问题超出了小图的理解能力喔 ~ ",
+			})
+		}
+		// #ifdef APP-PLUS
+		showList_BugInAPP.value = false
+		// #endif
+		scrollBottom()
+		// #ifdef APP-PLUS
+		showList_BugInAPP.value = true
+		// #endif
+	}
+
 	// 常见问题，问题列表的搜索
 	const commonSearch = (item : string) => {
-		questionInput.value = item;
-		searchQuestions();
+		questionInput.value = item
+		searchQuestions()
 	}
 
 	// 根据关键词，匹配的推荐问题列表
@@ -97,14 +163,13 @@
 	const changeInput = async (e : string) => {
 		// 正则匹配
 		let reg : any
-		if (e) reg = new RegExp(e, 'gi')
-		else tipsList.value = []
+		e ? (reg = new RegExp(e, "gi")) : (tipsList.value = [])
 
 		const res = await getWordApi(e)
 		if (res && e) {
 			tipsListNoLight.value = res.data
 			tipsList.value = res.data.map((item : string) => {
-				return item.replace(reg, key => `<span style='background: #ffb7b7;'>${key}</span>`)
+				return item.replace(reg, (key) => `<span style='background: #ffb7b7;'>${key}</span>`)
 			})
 			showWordsModal.value = true
 		}
@@ -112,76 +177,13 @@
 
 	const handleDebounce = debounce(changeInput, 700)
 
-	//搜索问题
-	const searchQuestions = async () => {
-		if (questionInput.value == '') {
-			uni.showToast({
-				title: "输入不能为空！",
-				duration: 2000,
-				icon: "fail"
-			})
-			return
-		}
-		chatList.value.push({
-			id: 1,
-			content: questionInput.value,
-		});
-		let data = {
-			msg: questionInput.value,
-			userId: "",
-		} as requestQuestion;
-		showWordsModal.value = false
-		const res : any = await consultApi(data);
-		if (res) {
-			questionList.value = res.data.matched;
-			questionInput.value = "";
-			if (questionList.value.length !== 0) {
-				chatList.value.push({
-					id: 2,
-					content: "",
-					questionList: questionList.value,
-				});
-			} else {
-				chatList.value.push({
-					id: 2,
-					content: "您的问题超出了小图的理解能力喔 ~ ",
-				});
-			}
-		} else {
-			chatList.value.push({
-				id: 2,
-				content: "您的问题超出了小图的理解能力喔 ~ ",
-			});
-		}
-		// #ifdef APP-PLUS
-		showList_BugInAPP.value = false;
-		// #endif
-		scrollBottom();
-		// #ifdef APP-PLUS
-		showList_BugInAPP.value = true;
-		// #endif
-	}
 	//查看问题详情
 	const seeQuestionDetail = (ele : any) => {
 		chatList.value.push({
 			id: 2,
 			content: ele.answer,
-		});
-		scrollBottom();
-	}
-	const scrollTop = ref(0) // 内容底部与顶部的距离
-	//滚动到底部
-	const scrollBottom = () => {
-		uni.createSelectorQuery().select("#chatBody").boundingClientRect((rect : any) => {
-			var timer = setTimeout(() => {
-				uni.pageScrollTo({
-					scrollTop: rect.height,
-					duration: 300,// 滑动速度
-				})
-				scrollTop.value = rect.height - scrollTop.value
-				clearTimeout(timer)
-			}, 0)
-		}).exec()
+		})
+		scrollBottom()
 	}
 </script>
 
@@ -415,6 +417,6 @@
 		top: 0;
 		background-size: cover;
 		background-repeat: repeat-y;
-		background-image: url('https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c');
+		background-image: url("https://pic4.zhimg.com/v2-e87a84f502665d8ee5fc8f1c8344f9a3_r.jpg?source=1940ef5c");
 	}
 </style>
