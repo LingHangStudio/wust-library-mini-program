@@ -71,7 +71,7 @@ export default function request(options : requestType) {
 						reject()
 					}
 					uni.showToast({
-						title: '获取数据失败！',
+						title: res.data.msg || '获取数据失败！',
 						icon: "error"
 					})
 					uni.hideLoading()

@@ -53,7 +53,7 @@ export async function statsApi() {
 }
 
 /*
-* 借阅列表 GET /meta-local/opac/users/loans?page=1&pageSize=100
+* 当前借阅列表 GET /meta-local/opac/users/loans?page=1&pageSize=100
 * @param page 当前页数
 * @param pageSize 每页大小
 * @return [] 列表
@@ -121,6 +121,44 @@ export async function histsListApi(page : number, pageSize : number) {
 }
 
 /*
+* 即将到期
+* 借阅历史 GET /meta-local/opac/users/overdue_soon
+*/
+export async function overDueListApi() {
+	const res = await request({
+		url: `${API}/overdue_soon`,
+		header: {
+			Cookie: uni.getStorageSync("Cookie")
+		}
+	})
+	return res?.data
+}
+
+/*
+* 续借
+* 续借操作 GET /meta-local/opac/users/overdue_soon
+* @param {string} loanId 书籍id
+* @return {} status是否续借成功
+*/
+export async function renewApi(loanId : string) {
+	const res = await request({
+		url: `${API}/renew`,
+		method: "POST",
+		header: {
+			Cookie: uni.getStorageSync("Cookie")
+		},
+		data: {
+			loanId,
+			source: 0
+		},
+		noValidate: true
+	})
+	return res?.data
+}
+
+
+
+/*
 * 超期记录
 * 借阅历史 GET /meta-local/opac/users/fines
 * @prarm page
@@ -139,4 +177,3 @@ export async function fineListApi(page : number, pageSize : number) {
 	})
 	return res?.data
 }
-

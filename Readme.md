@@ -91,6 +91,10 @@ node后台地址：https://smarttool.wust.edu.cn:3001
 
 ### 汇文接口
 
+[汇文的文档地址](https://huiwen.yuque.com/fxik4g/ptq8uc)
+
+appId uFizoTW/ZW3mj70uUidDaa4gQKP5lNsTTqiFMKf4x+w=
+
 #### 登录相关
 
 *请求头添加Cookie*

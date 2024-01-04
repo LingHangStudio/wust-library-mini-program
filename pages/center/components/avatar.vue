@@ -60,11 +60,6 @@
 			margin: 0 auto;
 			padding: 10px 0;
 		}
-
-
-
-
-
 	}
 
 	.back {
@@ -89,7 +84,7 @@
 	}
 
 	$count: 1000;
-	$duration: 1250s;
+	$duration: 1550s;
 
 	@for $i from 1 through 3 {
 		$duration: floor($duration / 2);
