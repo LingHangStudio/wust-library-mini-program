@@ -5,14 +5,21 @@
 			:radius="100"></uni-search-bar>
 	</view>
 	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
-		<swiper-item v-for="(item, index) in bannerList" :key="index">
-			<view class="swiper-item uni-bg-red">
-				<image :src="item.url" alt="error"></image>
-			</view>
+		<swiper-item @tap="viewImg(item.url)" v-for="(item, index) in bannerList" :key="index">
+			<!-- <view class="swiper-item uni-bg-red"> -->
+			<image :src="item.url" alt="error"></image>
+			<!-- </view> -->
 		</swiper-item>
 	</swiper>
 	<Nav></Nav>
 	<Recommend></Recommend>
+	<uni-popup ref="popImg">
+		<movable-area class="img-area">
+			<movable-view :out-of-bounds="true" direction="all" :x="40" :y="40" :scale="true">
+				<image :src="imgUrl" alt="图片加载失败"></image>
+			</movable-view>
+		</movable-area>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +31,10 @@
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi } from "@/api/end"
 	import { statsApi } from "@/api/huiwen/center"
+
+	// 图片弹窗，放大浏览
+	const popImg = ref(null)
+	const imgUrl = ref("")
 
 	const bannerList = ref([
 		{
@@ -73,6 +84,7 @@
 	const stats : Ref<any> = ref({
 		fineSum: 0, // 我的欠款
 	})
+
 	const getStats = async () => {
 		console.log("stats")
 		const res : any = await statsApi() //取消api拦截器拦截
@@ -95,6 +107,11 @@
 		}
 	}
 
+	const viewImg = (url : string) => {
+		imgUrl.value = url;
+		popImg.value.open()
+	}
+
 	onMounted(() => {
 		// 登录验证逻辑:
 		// 用户没登录过：就跳过
@@ -113,5 +130,9 @@
 		image {
 			width: 100vw;
 		}
+	}
+
+	.img-area {
+		transform: translateX(-160px) translateY(-30vh);
 	}
 </style>
