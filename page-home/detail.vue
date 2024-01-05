@@ -57,15 +57,28 @@
 	// holdings 获取馆藏信息
 	import { ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
-	import { onLoad } from "@dcloudio/uni-app"
+	import { onLoad, onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
+
+	const bookBibId = ref("")
+
 	// infos接口的内容
-	const baseInfo : Ref<baseInfoType> = ref({})
+	const baseInfo : Ref<baseInfoType> = ref({
+		author: "",
+		docType: "",
+		isbn: "",
+		title: "",
+	})
 	const detailInfo : Ref<any> = ref({})
 	const extraInfo : Ref<extraInfoType> = ref({})
 
 	// info接口下的内容
-	const otherInfo : Ref<otherInfoType> = ref({}) //
+	const otherInfo : Ref<otherInfoType> = ref({
+		catalog: "",
+		content: "",
+		imageUrl: "",
+		authorInfo: ""
+	}) //
 	// 馆藏分布内容
 	const holdingInfo : Ref<any> = ref([])
 	const holdError : Ref<boolean> = ref(false)
@@ -73,6 +86,7 @@
 	const trendChart : Ref<any> = ref({})
 
 	const getDetails = async (bibId : string) => {
+		bookBibId.value = bibId
 		const res = await deatileApi(bibId)
 		if (res) {
 			let info = res.data.map
@@ -85,9 +99,9 @@
 		 * 获取馆藏分布,数据格式为字符串
 		 * 将字符串转化为数组：
 		 * 数据解析步骤:
-		 * 去除首尾[]
-		 * 去除所有的\
-		 * 按照', '分割为数组
+		 * 1.去除首尾[]
+		 * 2.去除所有的\
+		 * 3.按照', '分割为数组
 		 */
 		try {
 			const resHold = await deatileHoldingApi(bibId)
@@ -140,6 +154,38 @@
 		}
 	}
 	onLoad((e) => e && getDetails(e.bibId))
+
+	// #ifdef MP-WEIXIN
+	// 涉及到onLoad的页面，需要单独设置一下分享
+	// 并且要和 onLoad方法的参数相匹配
+	onShareAppMessage(() => {
+		//发送给朋友
+		return {
+			title: '科大图书精灵',
+			path: "page-home/detail?bibId=" + bookBibId.value,
+			success: () => {
+				uni.showToast({
+					icon: "success",
+					title: "分享成功"
+				})
+			}, fail: () => {
+				uni.showToast({
+					icon: "fail",
+					title: "分享失败"
+				})
+			}
+		}
+	})
+
+	onShareTimeline(() => {
+		//分享到朋友圈
+		return {
+			title: '科大图书精灵',
+			path: "page-home/detail?bibId=" + bookBibId.value
+		}
+	})
+
+	// #endif
 </script>
 
 <style scoped lang="scss">

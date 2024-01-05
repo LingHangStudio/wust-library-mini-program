@@ -49,15 +49,15 @@ import {
 // #ifdef MP-WEIXIN
 //引入pinia
 import * as Pinia from 'pinia';
-// 全局分享 混入
+
+// 全局分享 混入，混入的优先级最高
 import share from "./utils/share";
 // #endif
 
 export function createApp() {
 	const app = createSSRApp(App)
 	// #ifdef MP-WEIXIN
-	app.mixin(share)
-	app.use(Pinia.createPinia());
+	app.mixin(share).use(Pinia.createPinia());
 	return {
 		app,
 		Pinia

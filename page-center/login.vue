@@ -183,6 +183,10 @@
 		myForm.value.validate((err : [], formData : any) => !err && login())
 	}
 	onMounted(() => {
+		// 本页面禁止分享
+		uni.hideShareMenu({
+			hideShareItems: ['shareAppMessage', 'shareTimeline'],
+		})
 		getCode()
 	})
 </script>

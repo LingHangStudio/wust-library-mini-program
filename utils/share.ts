@@ -5,7 +5,19 @@ export default {
 		let currentPage = pages[pages.length - 1];
 		return {
 			title: '科大图书精灵',
-			path: currentPage.route
+			path: currentPage.route,
+			success: () => {
+				uni.showToast({
+					title: "分享成功！",
+					icon: "error"
+				})
+			},
+			fail: () => {
+				uni.showToast({
+					title: "分享失败！",
+					icon: "error"
+				})
+			}
 		}
 	},
 	onShareTimeline() {//分享到朋友圈
@@ -13,7 +25,19 @@ export default {
 		let currentPage = pages[pages.length - 1];
 		return {
 			title: '科大图书精灵',
-			path: currentPage.route //后面是路径上要传递的参数
+			path: currentPage.route, //后面是路径上要传递的参数
+			success: () => {
+				uni.showToast({
+					title: "分享成功！",
+					icon: "error"
+				})
+			},
+			fail: () => {
+				uni.showToast({
+					title: "分享失败！",
+					icon: "error"
+				})
+			}
 		}
 	},
 }

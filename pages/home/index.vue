@@ -15,7 +15,7 @@
 	<Recommend></Recommend>
 	<uni-popup ref="popImg">
 		<movable-area class="img-area">
-			<movable-view :out-of-bounds="true" direction="all" :x="40" :y="40" :scale="true">
+			<movable-view :inertia="true" :out-of-bounds="true" direction="all" :scale="true">
 				<image :src="imgUrl" alt="图片加载失败"></image>
 			</movable-view>
 		</movable-area>
