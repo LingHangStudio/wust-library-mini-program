@@ -78,6 +78,122 @@ $uni-font-size-paragraph: 15px;
 // 主题色 rgb(20,45,136)
 $theme-color: #142d88;
 
+
+/*
+* 自定义的全局样式
+*/
+
+.self-button {
+			color: #fff;
+			width: 90%;
+			border: 0;
+			background-color: #142d88;
+			border-radius: 5px;
+			text-align: center;
+			margin: 10px auto;
+		}
+
+		// 闪光效果
+		.self-button::before {
+			content: "";
+			position: absolute;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 70%);
+			background-size: 200%;
+			animation: wipes 6s ease-in-out infinite;
+		}
+
+		@keyframes wipes {
+			0% {
+				background-position: 0 0;
+			}
+
+			100% {
+				background-position: 100% 0;
+			}
+		}
+
+
+
+
+
+// 卡片点击动画
+@keyframes cardAnimation {
+	0%{
+		transform: scale(1);
+		
+	}
+	
+	50%{
+		transform: scale(1.1);
+	}
+	
+	100%{
+		transform: scale(1);
+	}
+}
+
+.card-tap-active{
+	animation: cardAnimation 0.5s;
+	opacity: 0;
+	box-shadow: 0 0 0 6px $theme-color;
+	transition: 0.3s;
+}
+
+// 自定义卡片头部
+.card-header {
+		display: flex;
+		border-bottom: 1px $uni-border-color solid;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+		overflow: hidden;
+
+		&-box {
+			flex: 1;
+			flex-direction: row;
+			align-items: center;
+			overflow: hidden;
+		}
+
+		&-content {
+			flex-direction: column;
+			justify-content: center;
+			flex: 1;
+			overflow: hidden;
+
+			&-title {
+				font-size: 15px;
+				color: #3a3a3a;
+			}
+		}
+
+		&-extra {
+			align-items: center;
+			line-height: 12px;
+		}
+	}
+
+
+// 2d顺时针旋转
+@keyframes rotate {
+		/* 在0%时，元素未旋转 */
+		0% {
+			transform: rotate(0deg);
+		}
+
+		/* 在100%时，元素顺时针旋转360度 */
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+.rotate-2d {
+	animation: rotate .5s;
+}
+
 // 渐变背景
 .bgc-liner {
   background-image: linear-gradient(

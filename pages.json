@@ -115,6 +115,11 @@
 				"navigationBarTitleText": "关于"
 			}
 		}, {
+			"path": "set",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		}, {
 			"path": "mySubscribe",
 			"style": {
 				"navigationBarTitleText": "我的"

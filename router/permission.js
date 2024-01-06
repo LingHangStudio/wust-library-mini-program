@@ -18,6 +18,8 @@ const whiteList = [
 	"/page-service/inner",
 	"/page-center/login",
 	"/page-center/aboutMe",
+	"/page-center/set",
+	"/page-center/set/comment",
 	"/page-home/hello",
 	"/page-service/test",
 ]
@@ -41,7 +43,6 @@ export default async function() {
 					url: "/page-center/login",
 				})
 				return false
-
 			},
 			fail(err) {
 				console.log(err)

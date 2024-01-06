@@ -9,8 +9,17 @@
 		<view v-show="false" class="tag">
 			<uni-tag type="theme" circle inverted text="导出海报" @tap="showShare = true"></uni-tag>
 		</view>
-		<uni-card v-for="(item, index) in lists" :key="item?.bibId" extra="···" margin="8px"
-			:title="item?.title || item?.item.bibAttrs.title" class="item" @tap="getInfo(index)">
+		<uni-card v-for="(item, index) in lists" :key="item?.bibId" margin="8px" class="item" @tap="getInfo(index)">
+			<template #title>
+				<view class="card-header">
+					<view class="card-header-content">
+						<text class="card-header-content-title">{{item?.title || item?.item.bibAttrs.title}}</text>
+					</view>
+					<view class="card-header-extra">
+						<uni-icons type="more-filled" size="24" color="#142d88"></uni-icons>
+					</view>
+				</view>
+			</template>
 			<view v-if="item?.item">索书号：{{ item?.item.callNo}}</view>
 			<view v-else>索书号：{{ item?.bibAttrs.callno}}</view>
 			<view>借阅时间:{{ item?.loanDate }}</view>
@@ -19,12 +28,21 @@
 			<view v-show="item?.location" class="">借阅地点:{{ item?.location }} </view>
 			<view v-show="controlCurrent!==HIST_NO">
 				<uni-tag v-show="item?.isOverdue" type="error">已超期</uni-tag>
-				<!-- <uni-tag v-show="!item?.isOverdue" type="success">未超期</uni-tag> -->
 			</view>
 		</uni-card>
 	</List>
 	<uni-popup ref="popBook" background-color="#fff" type="bottom" @change="hidePop">
-		<uni-card v-if="controlCurrent!==OVERDUE_NO" is-full :border="false" :title="currentBookInfo?.title">
+		<uni-card v-if="controlCurrent!==OVERDUE_NO" is-full :border="false">
+			<template #title>
+				<view class="card-header">
+					<view class="card-header-content">
+						<text class="card-header-content-title">{{currentBookInfo?.title}}</text>
+					</view>
+					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">
+						续借
+					</view>
+				</view>
+			</template>
 			<view v-if="currentBookInfo?.item">条码号：{{ currentBookInfo?.item.barCode }}</view>
 			<view v-else>条码号：{{ currentBookInfo?.barCode }}</view>
 			<view>
@@ -38,19 +56,24 @@
 			<view>出版年:{{ currentBookInfo?.bibAttrs.pub_year }}</view>
 			<view class=""> 作者：{{ currentBookInfo?.author }} </view>
 			<view class=""> 出版社：{{ currentBookInfo?.bibAttrs.publisher }} </view>
-			<hr />
 			<view>借阅时间:{{ currentBookInfo?.loanDate }}</view>
 			<view v-show="currentBookInfo?.dueDate" class="">应还时间:{{ currentBookInfo?.dueDate }} </view>
 			<view v-show="currentBookInfo?.returnDate" class="">归还时间:{{ currentBookInfo?.returnDate }} </view>
 			<view class=""> 借阅地点:{{ currentBookInfo?.location }} </view>
-			<view v-show="controlCurrent !== HIST_NO">
-				<uni-tag v-show="currentBookInfo?.isOverdue" type="error">已超期</uni-tag>
-				<!-- <uni-tag v-show="!item?.isOverdue" type="success">未超期</uni-tag> -->
-				<span class="lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">续借</span>
-			</view>
 		</uni-card>
 
-		<uni-card v-else is-full :border="false" :title="currentBookInfo?.item.bibAttrs.title">
+		<uni-card v-else is-full :border=" false" :title="currentBookInfo?.item.bibAttrs.title">
+			<template #title>
+				<view class="card-header">
+					<view class="card-header-content">
+						<text class="card-header-content-title">{{currentBookInfo?.item.bibAttrs.title}}</text>
+					</view>
+					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">
+						续借
+					</view>
+				</view>
+			</template>
+
 			<view>条码号：{{ currentBookInfo?.item.barCode }}</view>
 			<view @tap="copyNo(currentBookInfo?.item.callNo)">
 				索书号：
@@ -62,17 +85,9 @@
 			<view>出版年:{{ currentBookInfo?.item.bibAttrs.pub_year }}</view>
 			<view class=""> 作者：{{ currentBookInfo?.item.bibAttrs.author }} </view>
 			<view class=""> 出版社：{{ currentBookInfo?.item.bibAttrs.publisher }} </view>
-			<hr />
 			<view>借阅时间:{{ currentBookInfo?.loanDate }}</view>
 			<view v-show="currentBookInfo?.dueDate" class="">应还时间:{{ currentBookInfo?.dueDate }} </view>
 			<view v-show="currentBookInfo?.returnDate" class="">归还时间:{{ currentBookInfo?.returnDate }} </view>
-			<!-- <view class=""> 归还时间:{{ currentBookInfo?.dueDate || currentBookInfo?.returnDate }} </view> -->
-			<!-- <view class=""> 借阅地点:{{ currentBookInfo?.location }} </view> -->
-			<view v-show="controlCurrent !== HIST_NO">
-				<uni-tag v-show="currentBookInfo?.isOverdue" type="error">已超期</uni-tag>
-				<!-- <uni-tag v-show="!item?.isOverdue" type="success">未超期</uni-tag> -->
-				<span class="lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">续借</span>
-			</view>
 		</uni-card>
 	</uni-popup>
 
@@ -87,7 +102,7 @@
 	import { ref, Ref } from "vue"
 	import { readListApi, histsListApi, overDueListApi, renewApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
-	import { bookInfoType } from "./utils/types.d.ts"
+	import { bookInfoType } from "./utils/types.d"
 	const loading = ref(true)
 	const showShare = ref(false)
 

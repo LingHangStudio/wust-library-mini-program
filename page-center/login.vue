@@ -25,7 +25,7 @@
 					<view class="foot">
 						<view class="forget" @tap="showToolTip.open()"> 忘记密码? </view>
 					</view>
-					<button class="button" @tap="vertify">登录</button>
+					<button class="self-button" @tap="vertify">登录</button>
 				</uni-forms>
 			</view>
 		</view>
@@ -267,38 +267,6 @@
 			.forget {
 				text-decoration: underline;
 				color: #142d88;
-			}
-		}
-
-		.button {
-			color: #fff;
-			width: 90%;
-			border: 0;
-			background-color: #142d88;
-			border-radius: 5px;
-			text-align: center;
-			margin: 10px auto;
-		}
-
-		// 闪光效果
-		.button::before {
-			content: "";
-			position: absolute;
-			left: 0px;
-			width: 100%;
-			height: 100%;
-			background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 70%);
-			background-size: 200%;
-			animation: wipes 3s infinite;
-		}
-
-		@keyframes wipes {
-			0% {
-				background-position: 0 0;
-			}
-
-			100% {
-				background-position: 100% 0;
 			}
 		}
 	}

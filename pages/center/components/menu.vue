@@ -37,6 +37,8 @@
 		</button>
 		<!-- #endif -->
 	</uni-card>
+
+	<button class="self-button" @tap="toComment" type="default">体验评价</button>
 </template>
 
 <script setup lang="ts">
@@ -95,6 +97,15 @@
 				auth: "no",
 			},
 		},
+		// {
+		// 	id: "",
+		// 	name: "设置",
+		// 	url: "/page-center/set",
+		// 	icon: "settings",
+		// 	meta: {
+		// 		auth: "no",
+		// 	},
+		// },
 	]
 
 	const judgeAuth = (meta : any) => {
@@ -104,6 +115,20 @@
 		// || (meta.auth === 'user' && store.loginState)
 		// || (meta.auth === 'visitor' && !store.loginState)
 	}
+
+
+	const toComment = () => {
+		let plugin = requirePlugin("wxacommentplugin");
+		plugin.openComment({
+			success: (res) => {
+				console.log('plugin.openComment success', res)
+			},
+			fail: (res) => {
+				console.log('plugin.openComment fail', res)
+			}
+		})
+	}
+
 
 	onShow(() => {
 		fineNum.value = uni.getStorageSync("fineSum")
@@ -152,4 +177,8 @@
 	// .item:last-child {
 	// 	border: 0;
 	// }
+	
+	.self-button{
+		width: 50%;
+	}
 </style>

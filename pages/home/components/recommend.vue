@@ -1,9 +1,11 @@
 <template>
-	<ListSkeleton v-if="loadingSkeleton" :rows="4"> </ListSkeleton>
+	<ListSkeleton v-if="loadingSkeleton" :rows="4"></ListSkeleton>
 	<uni-card v-else margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<uni-section title="为您推荐" type="line" type-color="#142d88">
 			<template #right>
-				<uni-icons type="refresh" size="24" color="#142d88" @click="changeBatch"></uni-icons>
+				<view hover-class="rotate-2d">
+					<uni-icons type="refresh" size="24" color="#142d88" @click="changeBatch"></uni-icons>
+				</view>
 			</template>
 			<view v-if="recommendList.length === 0" class="">
 				<Empty width="160px" height="120px"></Empty>
@@ -41,7 +43,7 @@
 			2: "#d9dae3",
 			3: "#ff9d6a",
 		};
-		return colorMap[order] || "";
+		return colorMap[order] ?? "";
 	}
 
 	// 推荐的书目，进入书籍详情

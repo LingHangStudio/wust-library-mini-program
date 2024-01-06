@@ -16,8 +16,7 @@
 			</view>
 		</view>
 		<template v-if="showList_BugInAPP">
-			<view v-for="(item, index) in chatList" :key="index" class="chatWord"
-				:class="item.id == 1 ? 'chatQuestion' : ''">
+			<view v-for="(item, index) in chatList" :key="index" class="chatWord" :class="{chatQuestion:item.id == 1}">
 				<view class="icon">
 					<image class="image" src="@/static/face1.png" mode=""></image>
 				</view>

@@ -21,13 +21,14 @@
 			</view>
 		</view>
 	</view>
-	<uni-card margin="7px" is-shadow>
+
+	<uni-card ref="topSearch" margin="7px" is-shadow>
 		<template #title>
 			<view class="card-header">
 				<view class="card-header-content">
 					<text class="card-header-content-title">热门检索词</text>
 				</view>
-				<view class="card-header-extra" @click="changeBatch('hot')">
+				<view hover-class="rotate-2d" class="card-header-extra" @click="changeBatch('hot')">
 					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
 				</view>
 			</view>
@@ -49,7 +50,7 @@
 				<view class="card-header-content">
 					<text class="card-header-content-title">大家都在看</text>
 				</view>
-				<view class="card-header-extra" @click="changeBatch('recommend')">
+				<view hover-class="rotate-2d" class="card-header-extra" @click="changeBatch('recommend')">
 					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
 				</view>
 			</view>
@@ -152,6 +153,7 @@
 			"hot": HotWordIndex,
 			"recommend": recommendIndex,
 		};
+
 		indexMap[key].value = (indexMap[key].value + 1) % 2;
 	}
 </script>
