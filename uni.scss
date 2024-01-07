@@ -150,6 +150,7 @@ $theme-color: #142d88;
 		align-items: center;
 		padding: 10px;
 		overflow: hidden;
+		color:inherit;
 
 		&-box {
 			flex: 1;
@@ -166,7 +167,7 @@ $theme-color: #142d88;
 
 			&-title {
 				font-size: 15px;
-				color: #3a3a3a;
+				color: inherit;
 			}
 		}
 

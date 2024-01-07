@@ -28,7 +28,8 @@
 				<view class="card-header-content">
 					<text class="card-header-content-title">热门检索词</text>
 				</view>
-				<view hover-class="rotate-2d" class="card-header-extra" @click="changeBatch('hot')">
+				<view v-show="collectionHotWord.length !== 0" hover-class="rotate-2d" class="card-header-extra"
+					@click="changeBatch('hot')">
 					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
 				</view>
 			</view>
@@ -53,7 +54,8 @@
 				<view class="card-header-content">
 					<text class="card-header-content-title">大家都在看</text>
 				</view>
-				<view hover-class="rotate-2d" class="card-header-extra" @click="changeBatch('recommend')">
+				<view v-show="recommendList.length !== 0" hover-class="rotate-2d" class="card-header-extra"
+					@click="changeBatch('recommend')">
 					<uni-icons type="refresh" size="24" color="#142d88"></uni-icons>
 				</view>
 			</view>
@@ -200,7 +202,8 @@
 			display: flex;
 			justify-content: space-between;
 			margin: 2px 5px 3px 20px;
-			color: #181963;
+			color: inherit;
+			// color: #181963;
 		}
 
 		.history {
@@ -210,7 +213,7 @@
 
 			.item {
 				font-size: 12px;
-				color: #142d88;
+				color: inherit;
 				margin: 1px 5px;
 				border: 1px solid #142d88;
 				border-radius: 15px;
@@ -222,6 +225,7 @@
 	.topSearch {
 		display: flex;
 		flex-wrap: wrap;
+		color: inherit;
 
 		.item {
 			padding: 1px;
@@ -232,6 +236,7 @@
 	.recommend {
 		display: flex;
 		flex-wrap: wrap;
+		color: inherit;
 
 		.item {
 			padding: 1px;

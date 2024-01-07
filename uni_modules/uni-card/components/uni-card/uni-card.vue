@@ -119,17 +119,18 @@
 
 <style lang="scss">
 	$uni-border-3: #EBEEF5 !default;
-	$uni-shadow-base:0 0px 6px 1px rgba($color: #a5a5a5, $alpha: 0.2) !default;
+	$uni-shadow-base: 0 0px 6px 1px rgba($color: #a5a5a5, $alpha: 0.2) !default;
 	$uni-main-color: #3a3a3a !default;
+
 	$uni-base-color: #6a6a6a !default;
 	$uni-secondary-color: #909399 !default;
 	$uni-spacing-sm: 8px !default;
-	$uni-border-color:$uni-border-3;
+	$uni-border-color: $uni-border-3;
 	$uni-shadow: $uni-shadow-base;
 	$uni-card-title: 15px;
-	$uni-cart-title-color:$uni-main-color;
+	$uni-cart-title-color: $uni-main-color;
 	$uni-card-subtitle: 12px;
-	$uni-cart-subtitle-color:$uni-secondary-color;
+	$uni-cart-subtitle-color: $uni-secondary-color;
 	$uni-card-spacing: 10px;
 	$uni-card-content-color: $uni-base-color;
 
@@ -148,6 +149,7 @@
 			flex-direction: row;
 			overflow: hidden;
 			border-radius: 4px;
+
 			.uni-card__cover-image {
 				flex: 1;
 				// width: 100%;
@@ -181,6 +183,7 @@
 				overflow: hidden;
 				border-radius: 5px;
 				margin-right: $uni-card-spacing;
+
 				.uni-card__header-avatar-image {
 					flex: 1;
 					width: 40px;
@@ -267,4 +270,11 @@
 		lines: 1;
 		/* #endif */
 	}
+
+	// @media (prefers-color-scheme: dark) {
+	// 	.uni-card {
+	// 		color: #fff;
+	// 		background-color: #000;
+	// 	}
+	// }
 </style>

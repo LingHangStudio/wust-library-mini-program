@@ -128,6 +128,13 @@
 			transition: background 0.5s ease, color 0.5s ease;
 			text-align: center;
 		}
+
+		@media (prefers-color-scheme: dark) {
+			.footerItem {
+				background: rgba(0, 0, 0, 0.6);
+			}
+		}
+
 	}
 
 	.activeIndex {
@@ -208,6 +215,12 @@
 		font-size: 1.1rem;
 		padding: 10px;
 		border-radius: 0.3em;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.bgc {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
 	}
 
 	.textP:first-letter {

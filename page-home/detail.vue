@@ -1,6 +1,6 @@
 <template>
 	<ListNavBar title="书籍详情"></ListNavBar>
-	<uni-card :title="baseInfo?.title" margin="5px" is-shadow :extra="extraInfo._clickCount + '浏览'">
+	<uni-card :title="baseInfo?.title" margin="0px" is-shadow :extra="extraInfo._clickCount + '浏览'">
 		<view class="box-head">
 			<view v-for="(val, key, index) in detailInfo" :key="index" class="info">
 				<div class="tr">

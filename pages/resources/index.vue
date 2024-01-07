@@ -1,9 +1,6 @@
 <template>
-	<view>
-		<uni-segmented-control :current="current" style-type="text" active-color="#142d88" :values="items"
-			@click-item="onClickItem" />
-	</view>
-
+	<uni-segmented-control :current="current" style-type="text" active-color="#142d88" :values="items"
+		@click-item="onClickItem" />
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<List v-else :list-length="showList.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
 		@get-more="getArticleList(paginations.currentPage + 1, paginations.pageNum)">

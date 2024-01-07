@@ -12,7 +12,7 @@
 			安卓用户
 			<!-- #endif -->
 		</view>
-		<view>
+		<view class="star">
 			<view class="layer1"></view>
 			<view class="layer2"></view>
 			<view class="layer3"></view>
@@ -36,6 +36,7 @@
 		justify-content: center;
 		background-image: linear-gradient(-225deg, #231557 0%,
 				#43107a 29%, #FF1361 100%);
+		overflow: hidden;
 
 		#myCanvas {
 			position: absolute;
@@ -48,7 +49,6 @@
 			width: 4rem;
 			height: 4rem;
 			margin: 5px auto;
-
 			position: relative;
 			transform-style: preserve-3d;
 			transition: 1s;
@@ -66,7 +66,6 @@
 	.back {
 		transform: rotateY(180deg);
 	}
-
 
 	@function getShadows($n) {
 		$shadows: '#{random($limit: 100)}vw #{random($limit: 100)}vh #fff';
@@ -86,6 +85,10 @@
 
 	$count: 1000;
 	$duration: 1550s;
+
+	.star {
+		overflow: hidden;
+	}
 
 	@for $i from 1 through 3 {
 		$duration: floor($duration / 2);

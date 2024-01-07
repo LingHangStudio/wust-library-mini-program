@@ -1,28 +1,30 @@
 {
 	"tabBar": {
-		"selectedColor": "#142d88",
+		"selectedColor": "@tabSelectedColor",
+		"backgroundColor":"@tabBgColor",
+		"color":"@tabFontColor",
 		"list": [{
 				"text": "服务大厅",
 				"pagePath": "pages/home/index",
-				"iconPath": "static/icon/home.png",
-				"selectedIconPath": "static/icon/home_active.png"
+				"iconPath": "@iconPathHome",
+				"selectedIconPath": "@selectedIconPathHome"
 			},
 			{
 				"text": "活动大厅",
 				"pagePath": "pages/activity/index",
-				"iconPath": "static/icon/activity.png",
-				"selectedIconPath": "static/icon/activity_active.png"
+				"iconPath": "@iconPathActivity",
+				"selectedIconPath": "@selectedIconPathActivity"
 			}, {
 				"text": "消息资源",
 				"pagePath": "pages/resources/index",
-				"iconPath": "static/icon/resource.png",
-				"selectedIconPath": "static/icon/resource_active.png"
+				"iconPath": "@iconPathResource",
+				"selectedIconPath": "@selectedIconPathResource"
 			},
 			{
 				"text": "个人中心",
 				"pagePath": "pages/center/index",
-				"iconPath": "static/icon/center.png",
-				"selectedIconPath": "static/icon/center_active.png"
+				"iconPath": "@iconPathCenter",
+				"selectedIconPath": "@selectedIconPathCenter"
 			}
 		]
 	},
@@ -132,10 +134,10 @@
 		}]
 	}],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "@navTxtStyle",
 		"navigationBarTitleText": "武科大图书馆",
-		"navigationBarBackgroundColor": "#142d88",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "@navBgColor",
+		"backgroundColor": "@navBgColor"
 	},
 	"uniIdRouter": {}
 }

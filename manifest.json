@@ -108,7 +108,9 @@
 				"version": "latest",
 				"provider": "wx82e6ae1175f264fa"
 			}
-		}
+		},
+		"darkmode" : true,
+		"themeLocation" : "theme.json"
 	},
 	"mp-alipay": {
 		"usingComponents": true

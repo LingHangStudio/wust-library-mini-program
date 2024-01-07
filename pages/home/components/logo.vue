@@ -13,7 +13,7 @@
 		</view>
 		<view class="background">
 			<image class="background-img"
-				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt=""/>
+				src="https://tse4-mm.cn.bing.net/th/id/OIP-C.KPb9J7dN2DZ28HNApCvnOAHaEo?pid=ImgDet&rs=1" alt="" />
 		</view>
 	</view>
 </template>
@@ -23,11 +23,14 @@
 
 <style scoped lang="scss">
 	.head {
+		color: inherit;
 		display: flex;
 		justify-content: space-around;
 		position: relative;
 		margin: 0 0 3rpx 0;
 		overflow: hidden;
+		z-index: 99;
+		// background-color: transparent;
 
 		.logo {
 			margin: auto 0;

@@ -151,10 +151,11 @@
 		text-align: left;
 		padding: 0px;
 		margin: 10px 0px;
-		border-bottom: 1px solid #e6e6e6;
+		// border-bottom: 1px solid #e6e6e6;
+		border-bottom: 1px solid #ccc;
 		border-radius: 0;
 		outline: none;
-		color: #000;
+		color: #000000;
 		background-color: transparent;
 		font-size: 1.2rem;
 		height: 2.3rem;
@@ -177,8 +178,15 @@
 	// .item:last-child {
 	// 	border: 0;
 	// }
-	
-	.self-button{
+
+	.self-button {
 		width: 50%;
 	}
+
+	// @media (prefers-color-scheme: dark) {
+	// 	.item {
+	// 		 color: #fff;
+	// 		 background-color: #000;
+	// 	}
+	// }
 </style>

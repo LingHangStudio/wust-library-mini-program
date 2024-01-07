@@ -110,10 +110,6 @@
 </script>
 
 <style scoped lang="scss">
-	.content {
-		background-color: #f5f7f9;
-		// height: 100vh;
-	}
 
 	.box {
 		display: flex;

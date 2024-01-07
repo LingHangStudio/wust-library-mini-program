@@ -54,5 +54,16 @@
 		.gray {
 			color: rgba(0, 0, 0, .25);
 		}
+
+		@media (prefers-color-scheme: dark) {
+			.u-description {
+				color: rgba(255, 255, 255, .88);
+			}
+
+			.gray {
+				// color: rgba(0, 0, 0, .25);
+				color: rgba(255, 255, 255, .88);
+			}
+		}
 	}
 </style>

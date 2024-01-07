@@ -1,25 +1,27 @@
 <template>
-	<Logo></Logo>
-	<view class="search" @tap.stop="goTo('/page-home/search', 'inner')">
-		<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN"
-			:radius="100"></uni-search-bar>
+	<view class="root">
+		<Logo></Logo>
+		<view @tap.stop="goTo('/page-home/search', 'inner')">
+			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN"
+				:radius="100"></uni-search-bar>
+		</view>
+		<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
+			<swiper-item @tap="viewImg(item.url)" v-for="(item, index) in bannerList" :key="index">
+				<!-- <view class="swiper-item uni-bg-red"> -->
+				<image :src="item.url" alt="error"></image>
+				<!-- </view> -->
+			</swiper-item>
+		</swiper>
+		<Nav></Nav>
+		<Recommend></Recommend>
+		<uni-popup ref="popImg">
+			<movable-area class="img-area">
+				<movable-view :inertia="true" :out-of-bounds="true" direction="all" :scale="true">
+					<image :src="imgUrl" alt="图片加载失败"></image>
+				</movable-view>
+			</movable-area>
+		</uni-popup>
 	</view>
-	<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
-		<swiper-item @tap="viewImg(item.url)" v-for="(item, index) in bannerList" :key="index">
-			<!-- <view class="swiper-item uni-bg-red"> -->
-			<image :src="item.url" alt="error"></image>
-			<!-- </view> -->
-		</swiper-item>
-	</swiper>
-	<Nav></Nav>
-	<Recommend></Recommend>
-	<uni-popup ref="popImg">
-		<movable-area class="img-area">
-			<movable-view :inertia="true" :out-of-bounds="true" direction="all" :scale="true">
-				<image :src="imgUrl" alt="图片加载失败"></image>
-			</movable-view>
-		</movable-area>
-	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -134,5 +136,12 @@
 
 	.img-area {
 		transform: translateX(-160px) translateY(-30vh);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.root {
+			color: #fff;
+			background-color: #000;
+		}
 	}
 </style>

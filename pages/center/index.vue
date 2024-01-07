@@ -71,6 +71,17 @@
 </script>
 
 <style lang="scss">
+	// @media (prefers-color-scheme: dark) {
+	// 	.root {
+	// 		color: #fff;
+	// 		background-color: #000;
+	// 	}
+
+	// 	.copyright {
+	// 		color: #ccc;
+	// 	}
+	// }
+
 	.copyright {
 		position: absolute;
 		width: 750rpx;

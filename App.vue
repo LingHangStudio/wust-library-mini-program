@@ -1,10 +1,24 @@
 <script setup lang="ts">
-	import { onLaunch, onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
+	import { ref } from "vue"
+	import { onLaunch, onShareAppMessage, onShareTimeline, onThemeChange } from "@dcloudio/uni-app"
 	import routingIntercept from "@/router/permission.js"
 
 	onLaunch(() => {
 		routingIntercept()
 	})
+
+	const color = ref("#000000")
+	const background = ref("#F5F7F9")
+	onThemeChange((e) => {
+		if (e?.theme === "dark") {
+			color.value = "#ffffff"
+			background.value = "#000000"
+		} else {
+			color.value = "#000000"
+			background.value = "#F5F7F9"
+		}
+	})
+
 	// const themeColor = uni.getStorageSync("themeColor") || "#142d88"
 </script>
 
@@ -15,8 +29,19 @@
 
 	/*每个页面公共css */
 	page {
+		color: #000;
+		// background-color: v-bind(background);
 		padding: 0;
-		margin: 0;
+		margin: 0;	
 		background-color: #F5F7F9;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		page {
+			color: #fff;
+			background-color: #000;
+			padding: 0;
+			margin: 0;
+		}
 	}
 </style>
