@@ -33,16 +33,19 @@
 				</view>
 			</view>
 		</template>
-		<ListSkeleton v-if="loading" :rows="12" display="flex" width="90%"></ListSkeleton>
-		<view v-else-if="!loading && collectionHotWord.length === 0">
-			<Empty description="暂无检索词" width="160px" height="120px"></Empty>
-		</view>
-		<view v-else class="topSearch">
-			<view v-for="(item, index) in collectionHotWord.slice(8 * HotWordIndex, 8 + 8 * HotWordIndex)" :key="index"
-				class="item" @tap="selectHistoryOne(item._1)">
-				<uni-tag type="theme" circle inverted :text="item._1"></uni-tag>
+		<uni-transition mode-class="fade" :show="hotWordStatus.show">
+			<ListSkeleton v-if="loading" :rows="12" display="flex" width="90%"></ListSkeleton>
+			<view v-else-if="!loading && collectionHotWord.length === 0">
+				<Empty description="暂无检索词" width="160px" height="120px"></Empty>
 			</view>
-		</view>
+			<view v-else class="topSearch">
+				<view
+					v-for="(item, index) in collectionHotWord.slice(8 * hotWordStatus.index, 8 + 8 * hotWordStatus.index)"
+					:key="index" class="item" @tap="selectHistoryOne(item._1)">
+					<uni-tag type="theme" circle inverted :text="item._1"></uni-tag>
+				</view>
+			</view>
+		</uni-transition>
 	</uni-card>
 	<uni-card margin="7px" is-shadow>
 		<template #title>
@@ -55,16 +58,19 @@
 				</view>
 			</view>
 		</template>
-		<ListSkeleton v-if="loading" :rows="12" display="flex" width="90%"></ListSkeleton>
-		<view v-else-if="!loading && recommendList.length === 0">
-			<Empty width="160px" height="120px"></Empty>
-		</view>
-		<view v-else class="recommend">
-			<view v-for="(item, index) in recommendList.slice(8 * recommendIndex, 8 + 8 * recommendIndex)" :key="index"
-				class="item" @tap="getBookDetail(item.bibId)">
-				<uni-tag type="theme" circle inverted :text="item.title"></uni-tag>
+		<uni-transition mode-class="fade" :show="recommendStatus.show">
+			<ListSkeleton v-if="loading" :rows="12" display="flex" width="90%"></ListSkeleton>
+			<view v-else-if="!loading && recommendList.length === 0">
+				<Empty width="160px" height="120px"></Empty>
 			</view>
-		</view>
+			<view v-else class="recommend">
+				<view
+					v-for="(item, index) in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
+					:key="index" class="item" @tap="getBookDetail(item.bibId)">
+					<uni-tag type="theme" circle inverted :text="item.title"></uni-tag>
+				</view>
+			</view>
+		</uni-transition>
 	</uni-card>
 </template>
 
@@ -76,11 +82,20 @@
 	// Storage可以存储:数组和对象,不用序列化
 	const searchHistory = uni.getStorageSync("searchHistory") ? ref(uni.getStorageSync("searchHistory")) : ref([])
 
-	// 检索词列表，index用于换一换
-	const collectionHotWord = ref([])
-	const HotWordIndex = ref(0)
-	const recommendList = ref([])
-	const recommendIndex = ref(0)
+	// 检索词列表，index用于换一换的序号,show用于过渡效果
+	const collectionHotWord = ref([]) // 热门检索词列表
+	const hotWordStatus = ref({
+		// 热门检索词卡片状态
+		index: 0,
+		show: true
+	})
+
+	const recommendList = ref([]) // 大家都在看列表
+	const recommendStatus = ref({
+		// 大家都在看列表卡片状态
+		index: 0,
+		show: true
+	})
 
 	const searchType = ref([
 		{
@@ -97,6 +112,7 @@
 		},
 	])
 	const choiceType = ref("all")
+
 	const search = async () => {
 		let value = searchValue.value
 		// 清空输入内容
@@ -150,11 +166,17 @@
 	// 换一换：改变展示的列表
 	const changeBatch = (key : string) => {
 		const indexMap = {
-			"hot": HotWordIndex,
-			"recommend": recommendIndex,
+			"hot": hotWordStatus,
+			"recommend": recommendStatus,
 		};
-
-		indexMap[key].value = (indexMap[key].value + 1) % 2;
+		indexMap[key].value.show = false
+		let timmer = setTimeout(() => {
+			indexMap[key].value = {
+				index: (indexMap[key].value.index + 1) % 2,
+				show: true
+			}
+			// timmer.clear()
+		}, 300)
 	}
 </script>
 
@@ -214,39 +236,6 @@
 		.item {
 			padding: 1px;
 			margin: 3px;
-		}
-	}
-
-	.card-header {
-		display: flex;
-		border-bottom: 1px $uni-border-color solid;
-		flex-direction: row;
-		align-items: center;
-		padding: 10px;
-		overflow: hidden;
-
-		&-box {
-			flex: 1;
-			flex-direction: row;
-			align-items: center;
-			overflow: hidden;
-		}
-
-		&-content {
-			flex-direction: column;
-			justify-content: center;
-			flex: 1;
-			overflow: hidden;
-
-			&-title {
-				font-size: 15px;
-				color: #3a3a3a;
-			}
-		}
-
-		&-extra {
-			align-items: center;
-			line-height: 12px;
 		}
 	}
 </style>

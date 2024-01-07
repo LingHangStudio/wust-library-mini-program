@@ -3,23 +3,22 @@
 	<uni-card v-else margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<uni-section title="为您推荐" type="line" type-color="#142d88">
 			<template #right>
-				<view hover-class="rotate-2d">
+				<view v-show="recommendList.length !== 0" hover-class="rotate-2d">
 					<uni-icons type="refresh" size="24" color="#142d88" @click="changeBatch"></uni-icons>
 				</view>
 			</template>
-			<view v-if="recommendList.length === 0" class="">
-				<Empty width="160px" height="120px"></Empty>
-			</view>
-			<view v-else class="list">
-				<view v-for="item in recommendList.slice(8 * recommendIndex, 8 + 8 * recommendIndex)" :key="item.rank"
-					class="item" @tap="goToInner(item.bibId)">
-					<!-- <uni-card :border="false" shadow="0px 0px 0px 0px #fff" :is-shadow="false" padding="0px"
-						margin="0px" :is-full="true"> -->
-					<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
-					<span class="title">{{ item.title }}</span>
-					<!-- </uni-card> -->
+			<uni-transition mode-class="fade" :show="recommendStatus.show">
+				<view v-if="recommendList.length === 0" class="">
+					<Empty width="160px" height="120px"></Empty>
 				</view>
-			</view>
+				<view v-else class="list">
+					<view v-for="item in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
+						:key="item.rank" class="item" @tap="goToInner(item.bibId)">
+						<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
+						<span class="title">{{ item.title }}</span>
+					</view>
+				</view>
+			</uni-transition>
 		</uni-section>
 	</uni-card>
 </template>
@@ -53,15 +52,23 @@
 		})
 	}
 
-	const recommendIndex = ref(0)
+	const recommendStatus = ref({
+		index: 0,
+		show: true
+	})
+
 	// 换一换：改变展示的列表
 	const changeBatch = () => {
-		recommendIndex.value = (recommendIndex.value + 1) % 2
+		recommendStatus.value.show = false;
+		setTimeout(() => {
+			recommendStatus.value = {
+				index: (recommendStatus.value.index + 1) % 2,
+				show: true
+			}
+		}, 300)
 	}
 
-	onMounted(() => {
-		getRecommend()
-	})
+	onMounted(() => getRecommend())
 </script>
 
 <style scoped lang="scss">
