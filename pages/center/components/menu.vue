@@ -44,8 +44,9 @@
 <script setup lang="ts">
 	import { onShow } from "@dcloudio/uni-app"
 	import { ref, Ref } from "vue"
+	import type { centerMenuType } from "../utils/types.d"
 	const fineNum : Ref<string> = ref("0")
-	const menu = [
+	const menu : Readonly<centerMenuType[]> = [
 		{
 			id: "login",
 			name: "绑定用户",
@@ -124,6 +125,11 @@
 				console.log('plugin.openComment success', res)
 			},
 			fail: (res) => {
+				uni.showToast({
+					icon: "error",
+					title: "跳转失败",
+					duration: 2000
+				})
 				console.log('plugin.openComment fail', res)
 			}
 		})

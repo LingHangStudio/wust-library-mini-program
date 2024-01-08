@@ -11,7 +11,6 @@
  *
  * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
  */
-
 /* 颜色变量 */
 
 /* 行为相关颜色 */
@@ -80,122 +79,152 @@ $theme-color: #142d88;
 
 
 /*
+*
 * 自定义的全局样式
+*
 */
-
+// 自定义按钮
 .self-button {
-			color: #fff;
-			width: 90%;
-			border: 0;
-			background-color: #142d88;
-			border-radius: 5px;
-			text-align: center;
-			margin: 10px auto;
-		}
-
-		// 闪光效果
-		.self-button::before {
-			content: "";
-			position: absolute;
-			left: 0px;
-			width: 100%;
-			height: 100%;
-			background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 70%);
-			background-size: 200%;
-			animation: wipes 6s ease-in-out infinite;
-		}
-
-		@keyframes wipes {
-			0% {
-				background-position: 0 0;
-			}
-
-			100% {
-				background-position: 100% 0;
-			}
-		}
-
-
-
-
-
-// 卡片点击动画
-@keyframes cardAnimation {
-	0%{
-		transform: scale(1);
-		
-	}
-	
-	50%{
-		transform: scale(1.1);
-	}
-	
-	100%{
-		transform: scale(1);
-	}
+  color: #fff;
+  width: 90%;
+  border: 0;
+  background-color: #142d88;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px auto;
+  transition: 0.1s ease-in-out;
 }
 
-.card-tap-active{
-	animation: cardAnimation 0.5s;
-	opacity: 0;
-	box-shadow: 0 0 0 6px $theme-color;
-	transition: 0.3s;
+// 自定义按钮闪光效果
+@keyframes wipes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.self-button::before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  background-size: 200%;
+  animation: wipes 6s ease-in-out infinite;
+}
+
+@keyframes buttonAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// 自定义按钮的点击效果
+.self-button-active {
+  animation: buttonAnimation 0.1s;
+  /* 边框 */
+  box-shadow: 1px 1px 0 6px #ccc;
+  transition: 0.1s cubic-bezier(0.680, 0, 0.265, 1);
+}
+
+/*
+* 卡片点击动画
+*/ 
+@keyframes cardAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.card-tap-active {
+  animation: cardAnimation 0.5s;
+  opacity: 0;
+  box-shadow: 0 0 0 6px $theme-color;
+  transition: 0.3s;
 }
 
 // 自定义卡片头部
 .card-header {
-		display: flex;
-		border-bottom: 1px $uni-border-color solid;
-		flex-direction: row;
-		align-items: center;
-		padding: 10px;
-		overflow: hidden;
-		color:inherit;
+  display: flex;
+  border-bottom: 1px $uni-border-color solid;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+  color: inherit;
 
-		&-box {
-			flex: 1;
-			flex-direction: row;
-			align-items: center;
-			overflow: hidden;
-		}
+  &-box {
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+  }
 
-		&-content {
-			flex-direction: column;
-			justify-content: center;
-			flex: 1;
-			overflow: hidden;
+  &-content {
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    overflow: hidden;
 
-			&-title {
-				font-size: 15px;
-				color: inherit;
-			}
-		}
+    &-title {
+      font-size: 15px;
+      color: inherit;
+    }
+  }
 
-		&-extra {
-			align-items: center;
-			line-height: 12px;
-		}
-	}
-
-
-// 2d顺时针旋转
-@keyframes rotate {
-		/* 在0%时，元素未旋转 */
-		0% {
-			transform: rotate(0deg);
-		}
-
-		/* 在100%时，元素顺时针旋转360度 */
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-
-.rotate-2d {
-	animation: rotate .5s;
+  &-extra {
+    align-items: center;
+    line-height: 12px;
+  }
 }
 
-// 渐变背景
+
+
+/*
+* 2d顺时针旋转
+*/ 
+@keyframes rotate {
+  /* 在0%时，元素未旋转 */
+  0% {
+    transform: rotate(0deg);
+  }
+
+  /* 在100%时，元素顺时针旋转360度 */
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-2d {
+  animation: rotate 0.5s;
+}
+
+/*
+* 渐变背景
+*/ 
 .bgc-liner {
   background-image: linear-gradient(
     to bottom left,

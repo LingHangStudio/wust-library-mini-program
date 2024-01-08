@@ -25,7 +25,7 @@
 					<view class="foot">
 						<view class="forget" @tap="showToolTip.open()"> 忘记密码? </view>
 					</view>
-					<button class="self-button" @tap="vertify">登录</button>
+					<button hover-class="self-button-active" class="self-button" @tap="vertify">登录</button>
 				</uni-forms>
 			</view>
 		</view>
@@ -44,15 +44,19 @@
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
+	
 	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	// #endif
+	
 	import RSA from "@/page-center/utils/rsa.js"
 	// 专属处理btoa atob
 	import { weBtoa } from "@/page-center/utils/weapp-jwt"
+	
 	// #ifndef APP-PLUS
 	const store = useStore()
 	// #endif
+	
 	// 忘记密码的提醒model
 	const showToolTip = ref(null)
 	// 存图片
@@ -154,7 +158,6 @@
 				url: "/pages/home/index",
 			})
 		} catch (e) {
-			console.log(e)
 			uni.showToast({
 				title: "登录失败",
 				icon: "error",
