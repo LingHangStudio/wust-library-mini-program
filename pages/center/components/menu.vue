@@ -109,6 +109,7 @@
 		// },
 	]
 
+	// 通过权限判断显示和隐藏
 	const judgeAuth = (meta : any) => {
 		return (
 			meta.auth === "no" || (meta.auth === "user" && uni.getStorageSync("loginState")) || (meta.auth === "visitor" && !uni.getStorageSync("loginState"))
@@ -135,10 +136,7 @@
 		})
 	}
 
-
-	onShow(() => {
-		fineNum.value = uni.getStorageSync("fineSum")
-	})
+	onShow(() => fineNum.value = uni.getStorageSync("fineSum"))
 
 	const goTo = (item : any) => {
 		uni.navigateTo({

@@ -223,6 +223,17 @@ $theme-color: #142d88;
 }
 
 /*
+* 居中盒子
+*/
+.self-center-box{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+}
+
+/*
 * 渐变背景
 */ 
 .bgc-liner {

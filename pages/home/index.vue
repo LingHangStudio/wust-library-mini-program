@@ -88,8 +88,8 @@
 	})
 
 	const getStats = async () => {
-		console.log("stats")
-		const res : any = await statsApi() //取消api拦截器拦截
+		const res : any = await statsApi()
+		//已经取消api拦截器拦截，需要自己处理报错
 		if (res.statusCode === 401) {
 			// 登录过期，需要重新登录
 			login(uni.getStorageSync("loginInfo"))
@@ -119,9 +119,7 @@
 		// 用户没登录过：就跳过
 		// 用户曾经登录过：请求看有没有401
 		// 没有 跳出；有401重新登录
-		if (uni.getStorageSync("loginState")) {
-			getStats()
-		}
+		uni.getStorageSync("loginState") && getStats()
 	})
 </script>
 

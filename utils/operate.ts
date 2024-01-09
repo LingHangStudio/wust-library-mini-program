@@ -1,7 +1,5 @@
 
-const goBack = () => {
-	uni.navigateBack()
-}
+const goBack = () => uni.navigateBack()
 
 const goTo = (e : string) => {
 	uni.navigateTo({
@@ -20,8 +18,6 @@ function debounce(fn, delay = 500) {
 		}, delay)
 	}
 }
-
-
 
 export {
 	goBack, goTo, debounce

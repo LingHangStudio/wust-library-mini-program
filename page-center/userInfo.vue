@@ -253,8 +253,7 @@
 		getTypeChart()
 		loading.value = false
 	})
-	onMounted(() => stats.value.fineSum !== 0 && (uni.setStorageSync("fineSum", stats.value.fineSum.toString()))
-	)
+	onMounted(() => stats.value.fineSum !== 0 && (uni.setStorageSync("fineSum", stats.value.fineSum.toString())))
 
 	const logout = () => {
 		// #ifndef APP-PLUS

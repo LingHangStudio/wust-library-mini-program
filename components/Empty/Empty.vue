@@ -1,8 +1,11 @@
 <template>
 	<div class="m-empty">
-		<view v-if="image=='empty'" class="image">
-			<image src="@/static/empty.svg" :style="{width:width,height:height}" mode="scaleToFill" alt="empty"></image>
-		</view>
+		<template v-if="image==='empty'">
+			<view class="image">
+				<image src="@/static/empty.svg" :style="{width:width,height:height}" mode="scaleToFill" alt="empty">
+				</image>
+			</view>
+		</template>
 		<slot v-else>
 			<img class="u-empty" :src="image" :style="imageStyle" alt="image" />
 		</slot>

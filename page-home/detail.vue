@@ -1,19 +1,21 @@
 <template>
 	<ListNavBar title="书籍详情"></ListNavBar>
-	<uni-card :title="baseInfo?.title" margin="0px" is-shadow :extra="extraInfo._clickCount + '浏览'">
+	<uni-card :title="baseInfo?.title" margin="0px" padding="4px" is-shadow :extra="extraInfo._clickCount + '浏览'">
 		<view class="box-head">
-			<view v-for="(val, key, index) in detailInfo" :key="index" class="info">
+			<view v-for="(val, key, index) in detailInfo" :key="index">
 				<div class="tr">
 					<div class="left-style">{{ key }}</div>
-					:
-					<div class="right-style"><span class="" v-html="val"></span></div>
+					<div class="right-style"><span v-html="val"></span></div>
 				</div>
+			</view>
+			<view class="self-center-box">
+				<uni-tag type="theme" circle inverted text="分享" @tap="showShareModel"></uni-tag>
 			</view>
 		</view>
 	</uni-card>
 	<uni-collapse>
-		<uni-collapse-item v-if="!holdError" open title-type title="馆藏查询" show-animation>
-			<view class="">
+		<template v-if="!holdError">
+			<uni-collapse-item open title-type title="馆藏查询" show-animation>
 				<uni-table>
 					<uni-tr>
 						<uni-th align="center">索书号</uni-th>
@@ -26,23 +28,30 @@
 						<uni-td>{{ item.status }}</uni-td>
 					</uni-tr>
 				</uni-table>
-			</view>
+			</uni-collapse-item>
+		</template>
+		<!-- lazy-tag是 懒加载 的标志，到这里，就请求下面的内容 -->
+		<uni-collapse-item class="lazy-tag" title="书目简介" title-type open show-animation>
+			<template v-if="otherInfo.content">
+				<uni-card is-shadow>
+					<view v-html="otherInfo.content"> </view>
+				</uni-card>
+			</template>
 		</uni-collapse-item>
-		<uni-collapse-item v-if="otherInfo.content" title="书目简介" title-type open show-animation>
-			<uni-card is-shadow>
-				<view class="box-content" v-html="otherInfo.content"> </view>
-			</uni-card>
-		</uni-collapse-item>
-		<uni-collapse-item v-if="otherInfo.authorInfo" title="作者" title-type open show-animation>
-			<uni-card is-shadow>
-				<view class="box-author" v-html="otherInfo.authorInfo"> </view>
-			</uni-card>
+		<uni-collapse-item title="作者" title-type open show-animation>
+			<template v-if="otherInfo.authorInfo">
+				<uni-card is-shadow>
+					<view v-html="otherInfo.authorInfo"> </view>
+				</uni-card>
+			</template>
 		</uni-collapse-item>
 
-		<uni-collapse-item v-if="otherInfo.catalog" title="目录" title-type show-animation>
-			<uni-card margin="1px" padding="5px" is-shadow>
-				<view class="box-catalog" v-html="otherInfo.catalog"> </view>
-			</uni-card>
+		<uni-collapse-item title="目录" title-type show-animation>
+			<template v-if="otherInfo.catalog">
+				<uni-card margin="1px" padding="5px" is-shadow>
+					<view class="box-catalog" v-html="otherInfo.catalog"> </view>
+				</uni-card>
+			</template>
 		</uni-collapse-item>
 	</uni-collapse>
 
@@ -52,12 +61,12 @@
 <script setup lang="ts">
 	// 书籍详情的接口：
 	// infos 获取baseInfo，放在顶部
-	// info 获取详细信息，放在下面：章节信息，作者简介，书目简介，封面
+	// info 获取详细信息(other)，放在下面：章节信息，作者简介，书目简介，封面
 	// trend 获取图表
 	// holdings 获取馆藏信息
 	import { ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
-	import { onLoad, onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
+	import { onLoad, onShareAppMessage, onShareTimeline, onReady } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
 
 	const bookBibId = ref("")
@@ -69,7 +78,7 @@
 		isbn: "",
 		title: "",
 	})
-	const detailInfo : Ref<any> = ref({})
+	const detailInfo : Ref<any> = ref({})// 对象的键是中文
 	const extraInfo : Ref<extraInfoType> = ref({})
 
 	// info接口下的内容
@@ -85,8 +94,8 @@
 	// trend 接口，趋势图
 	const trendChart : Ref<any> = ref({})
 
-	const getDetails = async (bibId : string) => {
-		bookBibId.value = bibId
+	// 获取书籍的基础信息
+	const getBaseInfo = async (bibId : string) => {
 		const res = await deatileApi(bibId)
 		if (res) {
 			let info = res.data.map
@@ -94,7 +103,10 @@
 			detailInfo.value = info.detailInfo.map
 			extraInfo.value = info.extraInfo.map
 		}
+	}
 
+	// 获取馆藏分布表格
+	const getTableInfo = async (bibId : string) => {
 		/*
 		 * 获取馆藏分布,数据格式为字符串
 		 * 将字符串转化为数组：
@@ -121,11 +133,10 @@
 			// 字符串处理异常，就不显示馆藏分布
 			holdError.value = true
 		}
+	}
 
-		// 通过baseInfo里的isbn，获取其他信息
-		const resExt = await deatileExtApi(baseInfo.value.isbn)
-		resExt && (otherInfo.value = resExt.data)
-
+	// 获取图表信息
+	const getEChartInfo = async (bibId : string) => {
 		// 获取趋势图 lineCanvas
 		const trendArr = await deatileTrendApi(bibId)
 		if (trendArr) {
@@ -153,7 +164,27 @@
 			}
 		}
 	}
-	onLoad((e) => e && getDetails(e.bibId))
+
+	// 本页面一个 四个接口，先获取两个，再懒加载
+	const getBookDetails = (bibId : string) => {
+		bookBibId.value = bibId
+		getBaseInfo(bibId)
+		getTableInfo(bibId)
+	}
+
+	onLoad((e) => e && getBookDetails(e.bibId))
+
+	// 懒加载
+	onReady(() => {
+		uni.createIntersectionObserver(this).relativeToViewport({ bottom: 30 }).observe('.lazy-tag', async (res) => {
+			// 懒加载，获取剩余两个接口
+			// 通过baseInfo里的isbn，获取其他信息
+			const resExt = await deatileExtApi(baseInfo.value.isbn)
+			resExt && (otherInfo.value = resExt.data)
+
+			getEChartInfo(bookBibId.value)
+		})
+	})
 
 	// #ifdef MP-WEIXIN
 	// 涉及到onLoad的页面，需要单独设置一下分享
@@ -186,6 +217,42 @@
 	})
 
 	// #endif
+
+	// 分享相关
+	const savePage2Img = () => {
+
+	}
+
+	const saveCallNumber = () => {
+		console.log("baseInfo", baseInfo.value)
+		uni.setClipboardData({
+			data: detailInfo.value["中图法分类号"] ?? ""
+		})
+	}
+
+	const showShareModel = () => {
+		uni.showActionSheet({
+			itemList: ['图片分享', '复制索书号', '分享页面(暂不支持)'],
+			success: (res) => {
+				if (res.tapIndex === 0) {
+					savePage2Img()
+				} else if (res.tapIndex === 1) {
+					saveCallNumber()
+				} else {
+					// uni.share({
+
+					// })
+				}
+				console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+			},
+			fail: (res) => {
+				uni.showToast({
+					title: "分享失败",
+					icon: "error"
+				})
+			}
+		});
+	}
 </script>
 
 <style scoped lang="scss">
@@ -197,6 +264,10 @@
 	.left-style {
 		width: 30%;
 		text-align: right;
+	}
+
+	.left-style::after {
+		content: ":";
 	}
 
 	.right-style {

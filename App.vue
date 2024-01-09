@@ -9,6 +9,7 @@
 
 	const color = ref("#000000")
 	const background = ref("#F5F7F9")
+	// 深色模式未完善
 	onThemeChange((e) => {
 		if (e?.theme === "dark") {
 			color.value = "#ffffff"
@@ -32,7 +33,7 @@
 		color: #000;
 		// background-color: v-bind(background);
 		padding: 0;
-		margin: 0;	
+		margin: 0;
 		background-color: #F5F7F9;
 	}
 

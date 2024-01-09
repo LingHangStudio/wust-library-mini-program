@@ -10,9 +10,9 @@
 					{{ item.callno[0] }}
 				</view>
 				<view class="publish"> {{ item.author }}/{{ item.publisher }}/{{ item.pub_year }} </view>
-				<view v-if="typeof item.abstract === 'string'" class="info">
-					{{ item.abstract }}
-				</view>
+				<template v-if="typeof item.abstract === 'string'">
+					<view class="info">{{ item.abstract }}</view>
+				</template>
 			</view>
 		</uni-card>
 	</List>

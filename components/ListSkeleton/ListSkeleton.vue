@@ -1,7 +1,8 @@
 <template>
 	<view v-show="isShow" class="loading">
-		<view v-if="hasImage" class="image">
-		</view>
+		<template v-if="hasImage">
+			<view class="image"></view>
+		</template>
 		<view v-for="index of loop" :key="index" :class="display" class='content'>
 			<view v-for="childIndex in rows" :key="childIndex" class="description">
 			</view>

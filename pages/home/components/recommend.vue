@@ -8,9 +8,9 @@
 				</view>
 			</template>
 			<uni-transition mode-class="fade" :show="recommendStatus.show">
-				<view v-if="recommendList.length === 0" class="">
+				<template v-if="recommendList.length === 0">
 					<Empty width="160px" height="120px"></Empty>
-				</view>
+				</template>
 				<view v-else class="list">
 					<view v-for="item in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
 						:key="item.rank" class="item" @tap="goToInner(item.bibId)">

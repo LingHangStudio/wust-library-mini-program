@@ -2,8 +2,8 @@
 	<uni-segmented-control :current="current" style-type="text" active-color="#142d88" :values="items"
 		@click-item="onClickItem" />
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
-	<List v-else :list-length="showList.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
-		@get-more="getArticleList(paginations.currentPage + 1, paginations.pageNum)">
+	<List ref="listNode" v-else :list-length="showList.length" :page="paginations.currentPage"
+		:page-size="paginations.pageNum" @get-more="getArticleList(paginations.currentPage + 1, paginations.pageNum)">
 		<view v-for="(item, index) in showList" :key="index" class="item" @tap="goTo(item.url)">
 			<uni-card margin="7px" padding="3px">
 				<view class="box">
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+	import { onTabItemTap } from "@dcloudio/uni-app"
 	import { ref, onMounted, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
@@ -49,6 +50,7 @@
 
 	const showList = ref([])
 
+	const listNode = ref(null)
 	// 分栏
 	const current = ref(0)
 	// 分页信息
@@ -119,11 +121,12 @@
 		})
 	}
 
-	const copyUrl = () => {
-		uni.setClipboardData({
-			data: urlTo.value,
-		})
-	}
+	// 复制链接
+	const copyUrl = () => uni.setClipboardData({ data: urlTo.value })
+
+	// 点击tabber回到顶部
+	const TABBER_RESOURCE_NO = 2
+	onTabItemTap((e) => e.index === TABBER_RESOURCE_NO && listNode.value && listNode.value.toTop())
 
 	const goTo = (url : string) => {
 		urlTo.value = url

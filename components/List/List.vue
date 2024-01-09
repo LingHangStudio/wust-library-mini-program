@@ -1,7 +1,7 @@
 <template>
-	<view v-if="listLength === 0" class="">
+	<template v-if="listLength === 0">
 		<Empty :description="emptyInfo"></Empty>
-	</view>
+	</template>
 	<view v-else class="root">
 		<scroll-view :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh" enable-back-to-top
 			enhanced bounces @scroll="isShowArrow" @scrolltolower="getMoreFunc">
@@ -55,9 +55,7 @@
 	const topArrow = ref(false)
 	const toTop = () => {
 		myScroll.value = oldScrollTop.value
-		nextTick(() => {
-			myScroll.value = -20
-		})
+		nextTick(() => myScroll.value = -20)
 		topArrow.value = false
 	}
 
@@ -69,6 +67,9 @@
 	const getMoreFunc = () => {
 		emit("getMore", { page: props.page + 1, pageSize: props.pageSize })
 	}
+	
+	// 父组件需要什么方法，暴露出去
+	defineExpose({ toTop })
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
 	<uni-notice-bar v-if="all[0]" show-icon :text="all[0].title" />
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<view v-else class="content">
-		<List :list-length="all.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
+		<List ref="listNode" :list-length="all.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
 			@get-more="getArticle(paginations.currentPage + 1, paginations.pageNum)">
 			<view v-for="(item, index) in all" :key="index" class="item" @tap="goTo(item.url)">
 				<uni-card margin="5px" padding="3px">
@@ -38,7 +38,7 @@
 				<view>即将跳转武科大图书馆官网</view>
 				<view>为更加完美体验</view>
 				<view>建议使用浏览器打开链接</view>
-				<view class="" @tap="copyUrl">
+				<view @tap="copyUrl">
 					<view class="url">{{ urlTo }}</view>
 					<span>（点击复制）</span>
 				</view>
@@ -48,10 +48,13 @@
 </template>
 
 <script setup lang="ts">
+	import { onTabItemTap } from "@dcloudio/uni-app"
 	import { ref, Ref } from "vue"
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
 
+	const listNode = ref(null)
+	const TABBER_ACTIVITY_NO = 1
 	const loading = ref(true)
 	const all = ref([])
 	// 分页信息
@@ -60,6 +63,7 @@
 		pageNum: 10,
 		total: 0,
 	})
+
 	const getArticle = async (page : number, pageSize : number) => {
 		const res = await articleListApi({ category: 2, type: 2, page, pageSize })
 		if (res) {
@@ -78,6 +82,7 @@
 	const routerUrl = ref("/page-service/tsgview?url=")
 	const tsgDialog = ref(null)
 
+	// 弹窗的选项事件
 	const dialogConfirm = () => {
 		uni.navigateTo({
 			url: routerUrl.value + urlTo.value,
@@ -91,26 +96,20 @@
 		})
 	}
 
-	const copyUrl = () => {
-		uni.setClipboardData({
-			data: urlTo.value,
-		})
-	}
+	// 点击复制链接
+	const copyUrl = () => uni.setClipboardData({ data: urlTo.value })
+
+	// 点击tabber回到顶部
+	onTabItemTap((e) => e.index === TABBER_ACTIVITY_NO && listNode.value && listNode.value.toTop())
 
 	const goTo = (url : string) => {
 		urlTo.value = url
-		if (uni.getStorageSync("noViewTip")) {
-			uni.navigateTo({
-				url: routerUrl.value + url,
-			})
-		} else {
-			tsgDialog.value.open()
-		}
+		// true: 跳转页面，false: 弹窗提醒
+		uni.getStorageSync("noViewTip") ? (uni.navigateTo({ url: routerUrl.value + url })) : (tsgDialog.value.open())
 	}
 </script>
 
 <style scoped lang="scss">
-
 	.box {
 		display: flex;
 		align-items: center;
