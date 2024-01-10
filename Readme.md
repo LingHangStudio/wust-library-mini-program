@@ -299,6 +299,42 @@ RSA加密，具体详情，看代码
   - 我的借阅 /
   - 关于 /about
 
+
+├─api
+│  ├─end
+│  ├─huiwen
+│  └─user
+├─components
+│  ├─Empty
+│  ├─List
+│  ├─ListNavBar
+│  └─ListSkeleton
+├─page-center
+├─page-home
+├─page-service
+├─pages
+│  ├─activity
+│  ├─center
+│  ├─home
+│  └─resources
+├─router
+├─static
+│  ├─background
+│  └─icon
+├─store
+├─uni_modules
+├─unpackage
+│  ├─dist
+│  │  ├─build
+│  │  └─dev
+│  │      └─mp-weixin 微信开发者工具运行
+│  ├─release
+│  │  └─apk 生成的安装包
+└─utils 工具
+
+
+
+
 ## 组件
 
 ###  组件封装文档

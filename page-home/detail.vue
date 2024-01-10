@@ -1,5 +1,6 @@
 <template>
 	<ListNavBar title="书籍详情"></ListNavBar>
+	<!-- <canvas type="2d" canvas-id="baseInfo" id="baseInfo" style="width: 430px;height: 430px;"></canvas> -->
 	<uni-card :title="baseInfo?.title" margin="0px" padding="4px" is-shadow :extra="extraInfo._clickCount + '浏览'">
 		<view class="box-head">
 			<view v-for="(val, key, index) in detailInfo" :key="index">
@@ -8,7 +9,7 @@
 					<div class="right-style"><span v-html="val"></span></div>
 				</div>
 			</view>
-			<view class="self-center-box">
+			<view v-if="false" class="self-center-box">
 				<uni-tag type="theme" circle inverted text="分享" @tap="showShareModel"></uni-tag>
 			</view>
 		</view>
@@ -30,7 +31,7 @@
 				</uni-table>
 			</uni-collapse-item>
 		</template>
-		<!-- lazy-tag是 懒加载 的标志，到这里，就请求下面的内容 -->
+		<!-- lazy-tag是 懒加载 的标志，可视区域滚动到这里，就请求下面的内容 -->
 		<uni-collapse-item class="lazy-tag" title="书目简介" title-type open show-animation>
 			<template v-if="otherInfo.content">
 				<uni-card is-shadow>
@@ -38,13 +39,13 @@
 				</uni-card>
 			</template>
 		</uni-collapse-item>
-		<uni-collapse-item title="作者" title-type open show-animation>
-			<template v-if="otherInfo.authorInfo">
+		<template v-if="otherInfo.authorInfo">
+			<uni-collapse-item title="作者" title-type open show-animation>
 				<uni-card is-shadow>
 					<view v-html="otherInfo.authorInfo"> </view>
 				</uni-card>
-			</template>
-		</uni-collapse-item>
+			</uni-collapse-item>
+		</template>
 
 		<uni-collapse-item title="目录" title-type show-animation>
 			<template v-if="otherInfo.catalog">
@@ -56,6 +57,8 @@
 	</uni-collapse>
 
 	<qiun-data-charts :ontouch="true" type="line" :chart-data="trendChart" />
+
+
 </template>
 
 <script setup lang="ts">
@@ -69,8 +72,9 @@
 	import { onLoad, onShareAppMessage, onShareTimeline, onReady } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
 
+	// const startDrawLoad = ref(true)
 	const bookBibId = ref("")
-
+	const baseInfoRef = ref(null)
 	// infos接口的内容
 	const baseInfo : Ref<baseInfoType> = ref({
 		author: "",
@@ -174,16 +178,24 @@
 
 	onLoad((e) => e && getBookDetails(e.bibId))
 
-	// 懒加载
+	// 懒加载,绑定监听
 	onReady(() => {
-		uni.createIntersectionObserver(this).relativeToViewport({ bottom: 30 }).observe('.lazy-tag', async (res) => {
-			// 懒加载，获取剩余两个接口
-			// 通过baseInfo里的isbn，获取其他信息
-			const resExt = await deatileExtApi(baseInfo.value.isbn)
-			resExt && (otherInfo.value = resExt.data)
+		// 当前面的接口获取完成后，再监听交叉，
+		// 防止没内容时，误触发
+		let startTimer = setTimeout(() => {
+			let observer = uni.createIntersectionObserver(this);
+			observer.relativeToViewport({ bottom: 30 }).observe('.lazy-tag', async (res) => {
+				// 懒加载，获取剩余两个接口
+				// 通过baseInfo里的isbn，获取其他信息
+				const resExt = await deatileExtApi(baseInfo.value.isbn)
+				resExt && (otherInfo.value = resExt.data)
 
-			getEChartInfo(bookBibId.value)
-		})
+				getEChartInfo(bookBibId.value)
+				observer.disconnect()// 解除监听
+			})
+			clearTimeout(startTimer)
+		}, 1000)
+
 	})
 
 	// #ifdef MP-WEIXIN
@@ -220,17 +232,136 @@
 
 	// 分享相关
 	const savePage2Img = () => {
+		// uni.createSelectorQuery().select('#baseInfo').fields({ node: true, size: true }).exec(res => {
+		// 	const canvas = res[0].node
+		// 	const ctx = canvas.getContext('2d');
+		// 	ctx.draw(false, () => {
+		// 		uni.canvasToTempFilePath({
+		// 			canvasId: "baseInfo",
+		// 			canvas: "baseInfo",
+		// 			success: (res) => {
+		// 				console.log('filepath', res.tempFilePath);
+		// 				ctx.draw();
+		// 			}
+		// 		}, this)
+		// 	})
 
+		// })
+
+		// uni.canvasToTempFilePath({
+		// 	// canvasId: 'baseInfo',
+		// 	canvasId: baseInfoRef.value,
+		// 	fileType: 'png',
+		// 	quality: 1, //图片质量
+		// 	success(res) {
+		// 		console.log(res);
+		// 		let temp = res.tempFilePath
+		// 		uni.downloadFile({
+		// 			url: temp,
+		// 			success: res => {
+		// 				if (res.statusCode === 200) {
+		// 					uni.saveFile({
+		// 						filePath: res.tempFilePath,
+		// 						success(res) {
+		// 							wx.showToast({ title: '保存图片成功！', })
+		// 						},
+		// 						fail(res) {
+		// 							wx.showToast({ title: '保存图片失败！', })
+		// 						}
+		// 					})
+		// 				}
+		// 			},
+		// 			fail: err => {
+		// 				console.log(err, 'err')
+		// 			}
+		// 		})
+		// 	}, fail: (err) => {
+		// 		console.log("er", err)
+		// 		uni.showToast({
+		// 			title: "保存失败",
+		// 			icon: "error",
+		// 			duration: 2000
+		// 		})
+		// 	}
+		// }, this)
+
+
+
+		// uni.canvasToTempFilePath({
+		// 	destWidth: 100,
+		// 	destHeight: 100,
+		// 	canvas: 'baseInfo',
+		// 	success: (res) => {
+		// 		// 在H5平台下，tempFilePath 为 base64
+		// 		console.log(res.tempFilePath)
+		// 	},
+		// 	fail: (err) => {
+		// 		console.log("err", err)
+		// 		uni.showToast({
+		// 			icon: "error",
+		// 			title: "保存图片失败!"
+		// 		})
+		// 	}
+		// })
 	}
 
 	const saveCallNumber = () => {
-		console.log("baseInfo", baseInfo.value)
-		uni.setClipboardData({
+		uni.setClipboardData({// 类型必须为字符串
 			data: detailInfo.value["中图法分类号"] ?? ""
 		})
 	}
 
 	const showShareModel = () => {
+		// 将基本信息，画到canvas上
+		setTimeout(() => {
+			uni.createSelectorQuery().select('#baseInfo').fields({ node: true, size: true }).exec(res => {
+				const canvas = res[0].node
+				let ctx = canvas.getContext('2d')
+				// 先配置ctx
+				const dpr = uni.getSystemInfoSync().pixelRatio
+				canvas.width = res[0].width * dpr
+				canvas.height = res[0].height * dpr
+				ctx.scale(dpr, dpr)
+				console.log("ctx", ctx)
+				// 画标题
+				ctx.font = "20px"
+				let tempList = {
+					"ISBN及定价": "7-5628-1346-9 CNY15.00",
+					"个人责任者": "<a style='color:#006fcc' href='{meta}/#/search?query=authors,*,%E8%AE%B8%E5%BF%97%E7%BE%8E'>许志美</a> 编著 <a style='color:#006fcc' href='{meta}/#/search?query=authors,*,%E5%BC%A0%E6%BF%82'>张濂</a> 编著 <a style='color:#006fcc' href='{meta}/#/search?query=authors,*,%E8%A2%81%E5%90%91%E5%89%8D'>袁向前</a> 编著",
+					"中图法分类号": "TQ03-44",
+					"书目附注": "有书目 (第224页)",
+					"使用对象附注": "读者对象：一般读者。",
+					"出版发行项": "上海:<a style='color:#006fcc' href='{meta}/#/search?query=publisher,*,%E5%8D%8E%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E5%87%BA%E7%89%88%E7%A4%BE'>华东理工大学出版社</a>,2002",
+					"学科主题": "<a style='color:#006fcc' href='{meta}/#/search?query=subjects,*,%E5%8C%96%E5%AD%A6%E5%8F%8D%E5%BA%94%E5%B7%A5%E7%A8%8B'>化学反应工程</a> 教学参考资料 <a style='color:#006fcc' href='{meta}/#/search?query=subjects,*,%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1'>高等学校</a>",
+					"并列正题名": "Chemical reaction engineering:",
+					"提要文摘附注": "本书以例题与习题的形式把化学反应工程的基本概念、重要观点和工程分析方法加以再现。",
+					"电子资源": "<a style='color:#006fcc' href='753734.htm'>753734.htm</a>",
+					"相关题名附注": "封面英文题名：Chemical reaction engineering",
+					"载体形态项": "224页:图;21cm",
+					"题名/责任者": "化学反应工程原理例题与习题:许志美, 张濂, 袁向前编著",
+				}
+
+				ctx.fillText("sassasssassasa", 10, 20)
+				// ctx.fillText(baseInfo.value?.title, 20, 40)
+				// ctx.lineWidth(1)
+				// 画书籍详情
+				ctx.font = "14px"
+				let showKeys = ['题名/责任者', 'ISBN及定价', '中图法分类号', '出版发行项', '学科主题']
+				Object.keys(tempList).forEach((key : string, index : number) => {
+					let isATag = tempList[key].match(/<a[^>]*>([^<]*)<\/a>/)
+					let valueOfKey = isATag ? isATag[1] : tempList[key]
+					ctx.fillText(key + ':' + valueOfKey, 10, 30 + index * 20)
+				});
+				// Object.keys(detailInfo.value).forEach((key : string, index : number) => {
+				// 	ctx.fillText(key + ':' + detailInfo.value[key], 20, 42 + index * 20, 320)
+				// });
+
+				// ctx.draw()
+			});
+		}, 2000)
+
+		// const ctx = uni.createCanvasContext('baseInfo',);
+
 		uni.showActionSheet({
 			itemList: ['图片分享', '复制索书号', '分享页面(暂不支持)'],
 			success: (res) => {
@@ -243,7 +374,6 @@
 
 					// })
 				}
-				console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
 			},
 			fail: (res) => {
 				uni.showToast({
