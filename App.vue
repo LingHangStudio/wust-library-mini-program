@@ -18,6 +18,10 @@
 			color.value = "#000000"
 			background.value = "#F5F7F9"
 		}
+		// 重启，保证颜色变化
+		uni.reLaunch({
+			url: '/pages/home/index'
+		});
 	})
 
 	// const themeColor = uni.getStorageSync("themeColor") || "#142d88"
