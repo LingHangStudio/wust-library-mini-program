@@ -169,14 +169,17 @@
 		}
 	}
 
-	// 本页面一个 四个接口，先获取两个，再懒加载
-	const getBookDetails = (bibId : string) => {
+	// 本页面一个 四个接口，先获取三个，再懒加载
+	const getBookDetails = async (bibId : string) => {
 		bookBibId.value = bibId
 		getBaseInfo(bibId)
 		getTableInfo(bibId)
+		// 通过baseInfo里的isbn，获取其他信息
+		const resExt = await deatileExtApi(baseInfo.value.isbn)
+		resExt && (otherInfo.value = resExt.data)
 	}
 
-	onLoad((e) => e && getBookDetails(e.bibId))
+	onLoad(e => e && getBookDetails(e.bibId))
 
 	// 懒加载,绑定监听
 	onReady(() => {
@@ -185,17 +188,13 @@
 		let startTimer = setTimeout(() => {
 			let observer = uni.createIntersectionObserver(this);
 			observer.relativeToViewport({ bottom: 30 }).observe('.lazy-tag', async (res) => {
-				// 懒加载，获取剩余两个接口
-				// 通过baseInfo里的isbn，获取其他信息
-				const resExt = await deatileExtApi(baseInfo.value.isbn)
-				resExt && (otherInfo.value = resExt.data)
-
+				console.log("ob", res)
+				// 懒加载，获取剩余一个接口
 				getEChartInfo(bookBibId.value)
 				observer.disconnect()// 解除监听
 			})
 			clearTimeout(startTimer)
-		}, 1000)
-
+		}, 2000)
 	})
 
 	// #ifdef MP-WEIXIN

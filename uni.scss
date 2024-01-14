@@ -200,8 +200,35 @@ $theme-color: #142d88;
     line-height: 12px;
   }
 }
+@media (prefers-color-scheme: dark) {
+.card-header {
+  color: inherit;
+  background-color: #000;
+
+  &-box {
+  }
+
+  &-content {
+
+    &-title {
+      color: inherit;
+    }
+  }
+
+  &-extra {
+  }
+}
+}
 
 
+.self-dark-card{
+	background-color: #fff;
+}
+@media(prefers-color-scheme:dark){
+	.self-dark-card{
+		background-color: #000;
+	}
+}
 
 /*
 * 2d顺时针旋转
