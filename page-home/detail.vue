@@ -172,8 +172,8 @@
 	// 本页面一个 四个接口，先获取三个，再懒加载
 	const getBookDetails = async (bibId : string) => {
 		bookBibId.value = bibId
-		getBaseInfo(bibId)
-		getTableInfo(bibId)
+		await getBaseInfo(bibId)
+		await getTableInfo(bibId)
 		// 通过baseInfo里的isbn，获取其他信息
 		const resExt = await deatileExtApi(baseInfo.value.isbn)
 		resExt && (otherInfo.value = resExt.data)

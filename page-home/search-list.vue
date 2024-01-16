@@ -2,8 +2,8 @@
 	<ListSkeleton v-if="loading" :rows="4" :loop="6"></ListSkeleton>
 	<List v-else :list-length="searchList.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
 		@get-more="search(paginations.currentPage + 1, paginations.pageNum)">
-		<uni-card v-for="item in searchList" :key="item.bibId" margin="8px" :extra="'可借' + item.itemCount"
-			:title="item.title" @click="getDetails(item.bibId)">
+		<uni-card v-for="item in searchList" :key="item.bibId" margin="8px"
+			:extra='"纸本"+item.itemCount+ "  可借"+item.circCount' :title="item.title" @click="getDetails(item.bibId)">
 			<view class="main">
 				<view class="tag">
 					<uni-tag :text="item.docTypeDesc" size="small" type="warning" circle inverted></uni-tag>
