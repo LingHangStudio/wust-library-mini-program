@@ -48,15 +48,8 @@
 	])
 
 	const goTo = (url : string, type : string) => {
-		if (type == "tsg") {
-			uni.navigateTo({
-				url: "/page-home/tsgview?url=" + url,
-			})
-		} else {
-			uni.navigateTo({
-				url: url,
-			})
-		}
+		if (type == "tsg") uni.navigateTo({ url: "/page-home/tsgview?url=" + url })
+		else uni.navigateTo({ url: url })
 	}
 
 	const login = async (loginInfo : any) => {

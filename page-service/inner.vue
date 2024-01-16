@@ -1,6 +1,6 @@
 <template>
 	<view v-if="article" class="root">
-		<view v-html="article" class="">
+		<view v-html="article">
 		</view>
 	</view>
 </template>

@@ -1,8 +1,7 @@
 <template>
-	<!-- 隐藏 -->
-	<uni-card v-if="false" padding="2px">
+	<uni-card is-full padding="2px">
 		<uni-collapse ref="collapse" :accordion="true">
-			<uni-collapse-item title="主题">
+			<uni-collapse-item title="主题设置">
 				推荐颜色
 				<view class="color-box">
 					<view class="color-box-item" :style="{backgroundColor:item.color}" v-for="item in themeColorList"
@@ -12,17 +11,11 @@
 			</uni-collapse-item>
 		</uni-collapse>
 	</uni-card>
-	<!-- 隐藏 -->
-	<uni-card v-if="false" padding="2px" v-for="item in buttonMenu" :key="item.id">
-		<button class="button-item" @tap="item.fun">
-			<view class="font">
-				<uni-icons :type="item.icon" size="24"></uni-icons>
-				<view class="">
-					清除缓存
-				</view>
-			</view>
-		</button>
-	</uni-card>
+	<template v-for="item in buttonMenu" :key="item.id">
+		<uni-card :title="item.name" is-full padding="2px" @tap="item.fun">
+			<uni-icons :type="item.icon" size="24"></uni-icons>
+		</uni-card>
+	</template>
 	<button class="button" @tap="toComment" type="default">体验评价</button>
 </template>
 
@@ -30,6 +23,7 @@
 	import { ref } from "vue"
 
 	const clearCache = () => {
+		// 将localStorage的内容删除一部分，保留登录信息
 		uni.showToast({
 			title: "清除成功！",
 			icon: "success"
@@ -39,7 +33,7 @@
 	const buttonMenu = [
 		{
 			id: "cache",
-			name: "清除缓存",
+			name: "清除缓存(不影响登录)",
 			fun: () => clearCache(),
 			icon: "",
 		},
@@ -58,22 +52,22 @@
 	}
 
 	const setThemeColor = (color : string) => {
+		// 设置后，重启生效
 		uni.setStorageSync("themeColor", color)
 	}
 
 	const themeColorList = [
 		{
 			color: "#142d88",
+			name: "",
 		}, {
-			color: "#15ad28",
+			name: "",
+			color: "#C74E23",
+		}, {
+			name: "绿色",
+			color: "#118A17",
 		},
 	]
-
-	// const goTo = (e : string) => {
-	// 	uni.navigateTo({
-	// 		url: e,
-	// 	})
-	// }
 </script>
 
 <style scoped lang="scss">

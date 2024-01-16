@@ -37,7 +37,7 @@
 		<view :class="questionInput && showWordsModal && tipsList.length > 0 ? 'toolTips' : 'hideToolTips'">
 			<view v-for="(item, index) in tipsList" :key="index" class="toolTip"
 				@tap="commonSearch(tipsListNoLight[index])">
-				<view class="" v-html="item"></view>
+				<view v-html="item"></view>
 			</view>
 		</view>
 		<view class="chatInput">

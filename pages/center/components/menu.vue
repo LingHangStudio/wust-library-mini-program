@@ -4,11 +4,11 @@
 			<button v-if="judgeAuth(item.meta)" class="item" @tap="goTo(item)">
 				<view class="font">
 					<uni-icons :type="item.icon" size="24"></uni-icons>
-					<view class="">
+					<view>
 						{{ item.name }}
 					</view>
 				</view>
-				<view class="">
+				<view>
 					<uni-tag v-if="item.meta.fineNum" type="error" size="small" circle :text="fineNum"></uni-tag>
 					<uni-icons type="forward"></uni-icons>
 				</view>
@@ -18,9 +18,9 @@
 		<button class="item" open-type="share">
 			<view class="font">
 				<uni-icons type="compose" size="24"></uni-icons>
-				<view class=""> 分享小程序 </view>
+				<view> 分享小程序 </view>
 			</view>
-			<view class="">
+			<view>
 				<uni-icons type="forward"></uni-icons>
 			</view>
 		</button>

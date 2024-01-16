@@ -54,7 +54,7 @@
 
 		<qiun-data-charts type="line" canvas2d :opts="trendOpts" :chart-data="trendChart" />
 
-		<view v-show="loan_type.length !== 0" class="">
+		<view v-show="loan_type.length !== 0">
 			<qiun-data-charts type="pie" canvas2d :opts="pieOpts" :chart-data="pieChart" />
 		</view>
 

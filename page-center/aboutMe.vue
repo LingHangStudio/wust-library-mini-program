@@ -1,11 +1,11 @@
 <template>
-	<view class="" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+	<view @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
 		<view class="background">
 			<image src="https://b.zol-img.com.cn/sjbizhi/images/11/320x510/1591843603385.jpg"
 				style="width: 100%;height: 100%;" mode="aspectFill"></image>
 		</view>
 		<!-- 介绍内容 -->
-		<view v-for="(item,index) in aboutMeContent.content" :key="index" class="">
+		<view v-for="(item,index) in aboutMeContent.content" :key="index">
 			<view :id="'photo_'+index" :class="{active:activeIndex===index}" class="box-font">
 				<view class="bgc">
 					<view class="textP">{{item}}</view>

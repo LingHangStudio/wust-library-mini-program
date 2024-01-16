@@ -7,8 +7,8 @@
 		<view v-for="(item, index) in showList" :key="index" class="item" @tap="goTo(item.url)">
 			<uni-card margin="7px" padding="3px">
 				<view class="box">
-					<view style="margin: 3px" class="">
-						<img style="display: block; width: 40px; height: 40px"
+					<view style="margin: 3px">
+						<image style="display: block; width: 40px; height: 40px"
 							src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="" />
 					</view>
 					<view class="font">
@@ -25,13 +25,13 @@
 	</List>
 
 	<uni-popup ref="tsgDialog" type="dialog" @mask-click="tsgDialog.close()">
-		<uni-popup-dialog type="warn" cancel-text=" 不再提醒" confirm-text="我知道了" title="提示" @confirm="dialogConfirm"
+		<uni-popup-dialog type="warn" cancel-text="不再提醒" confirm-text="我知道了" title="提示" @confirm="dialogConfirm"
 			@close="dialogClose">
 			<view class="tipBox">
 				<view>即将跳转武科大图书馆官网</view>
 				<view>为更加完美体验</view>
 				<view>建议使用浏览器打开链接</view>
-				<view class="" @tap="copyUrl">
+				<view @tap="copyUrl">
 					<view class="url">{{ urlTo }}</view>
 					<span>（点击复制）</span>
 				</view>

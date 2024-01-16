@@ -15,7 +15,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-	const props = defineProps({
+	defineProps({
 		description: {
 			type: String,
 			default: "暂无数据"

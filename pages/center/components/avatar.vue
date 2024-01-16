@@ -1,5 +1,5 @@
 <template>
-	<view class="user" style="background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');">
+	<view class="user">
 		<view class="header-image" hover-class="back">
 			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
@@ -34,8 +34,8 @@
 		position: relative;
 		flex-direction: column;
 		justify-content: center;
-		background-image: linear-gradient(-225deg, #231557 0%,
-				#43107a 29%, #FF1361 100%);
+		// background-image: linear-gradient(-225deg, #231557 0%,
+		// 		#43107a 29%, #FF1361 100%);
 		overflow: hidden;
 
 		#myCanvas {
@@ -59,6 +59,12 @@
 			font-size: 1.5rem;
 			margin: 0 auto;
 			padding: 10px 0;
+		}
+	}
+
+	@media (prefers-color-scheme: light) {
+		.user {
+			background-image: url('https://cdn.zhoukaiwen.com/zjx_me_bg6.jpg');
 		}
 	}
 
@@ -90,32 +96,34 @@
 		overflow: hidden;
 	}
 
-	@for $i from 1 through 3 {
-		$duration: floor($duration / 2);
-		$count: floor($count / 2);
+	@media (prefers-color-scheme: light) {
+		@for $i from 1 through 3 {
+			$duration: floor($duration / 2);
+			$count: floor($count / 2);
 
-		.layer#{$i} {
-			$size: #{$i}px;
-			position: fixed;
-			width: $size;
-			height: $size;
-			border-radius: 50%;
-			top: 0;
-			left: 0;
-			box-shadow: getShadows($count);
-			animation: moveUp $duration linear infinite;
-
-			&::after {
-				content: "";
+			.layer#{$i} {
+				$size: #{$i}px;
 				position: fixed;
-				left: 0;
-				top: 100vh;
 				width: $size;
 				height: $size;
-				border-radius: inherit;
-				box-shadow: inherit;
-			}
-		}
+				border-radius: 50%;
+				top: 0;
+				left: 0;
+				box-shadow: getShadows($count);
+				animation: moveUp $duration linear infinite;
 
+				&::after {
+					content: "";
+					position: fixed;
+					left: 0;
+					top: 100vh;
+					width: $size;
+					height: $size;
+					border-radius: inherit;
+					box-shadow: inherit;
+				}
+			}
+
+		}
 	}
 </style>
