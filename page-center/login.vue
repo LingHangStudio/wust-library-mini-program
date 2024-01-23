@@ -130,7 +130,7 @@
 		let password = encrypt(userForm.value.password)
 		try {
 			const res1 = await loginAPI({ ...userForm.value, password })
-			console.log("res", res1)
+			console.log("res1", res1)
 			if (res1?.data.data) {
 				if (res1?.data.data.code === "NOUSER") {
 					errorMsgContent.value = "账号不存在。"
@@ -142,7 +142,7 @@
 				errorMsg.value.open()
 				return
 			}
-			const res2 = await login1API(res1.data)
+			const res2 = await login1API(res1.data.tgt)
 			console.log("res2", res2)
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2.data)
@@ -185,6 +185,7 @@
 		}
 		myForm.value.validate((err : [], formData : any) => !err && login())
 	}
+	
 	onMounted(() => {
 		// 本页面禁止分享
 		uni.hideShareMenu({
