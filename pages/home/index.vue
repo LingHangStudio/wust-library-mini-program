@@ -2,7 +2,7 @@
 	<view class="root">
 		<Logo></Logo>
 		<view @tap.stop="goTo('/page-home/search', 'inner')">
-			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN"
+			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN,是呀是呀"
 				:radius="100"></uni-search-bar>
 		</view>
 		<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
@@ -58,7 +58,7 @@
 			console.log(loginInfo.password)
 			const res1 = await loginAPI(loginInfo)
 			console.log("res", res1)
-			const res2 = await login1API(res1?.data)
+			const res2 = await login1API(res1.data.tgt)
 			console.log("res2", res2)
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2?.data)

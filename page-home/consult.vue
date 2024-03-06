@@ -15,23 +15,34 @@
 				</view>
 			</view>
 		</view>
+
 		<template v-if="showList_BugInAPP">
 			<view v-for="(item, index) in chatList" :key="index" class="chatWord" :class="{chatQuestion:item.id == 1}">
-				<view class="icon">
-					<image class="image" src="@/static/face1.png" mode=""></image>
-				</view>
-				<view v-if="!item.questionList" class="wordBox" v-html="item.content"> </view>
-				<view v-if="item.id == 2" class="judge"></view>
-				<view v-if="item?.questionList" class="questionList">
-					<view class="tips">小图为您找到了以下问题~点击查看详情</view>
-					<view v-for="ele in item?.questionList" :key="ele.id" class="questionItem"
-						@tap="seeQuestionDetail(ele)">
-						{{ ele.question }}
+
+				<view class="chat">
+					<view class="icon">
+						<image class="image" src="@/static/face1.png" mode=""></image>
+					</view>
+					<view v-if="!item.questionList" class="wordBox" v-html="item.content"> </view>
+					<view v-if="item.id == 2" class="judge"></view>
+					<view v-if="item?.questionList" class="questionList">
+						<view class="tips">小图为您找到了以下问题~点击查看详情</view>
+						<view v-for="ele in item?.questionList" :key="ele.id" class="questionItem"
+							@tap="seeQuestionDetail(ele)">
+							{{ ele.question }}
+						</view>
 					</view>
 				</view>
+
+				<view v-if="item.id == 2" class="feedback">
+					<view class="yes" @tap="submitQuestions">未解决</view>
+					<view class="no" @tap="submitSuccess">已解决</view>
+				</view>
+
 			</view>
 		</template>
 	</view>
+
 	<!-- 输入框 -->
 	<view class="chatLine">
 		<view :class="questionInput && showWordsModal && tipsList.length > 0 ? 'toolTips' : 'hideToolTips'">
@@ -40,6 +51,7 @@
 				<view v-html="item"></view>
 			</view>
 		</view>
+
 		<view class="chatInput">
 			<uni-easyinput v-model="questionInput" class="input" type="text" confirm-type="send" placeholder="请输入咨询内容"
 				@confirm="searchQuestions()" @clear="showWordsModal = false"
@@ -54,7 +66,7 @@
 
 <script setup lang="ts">
 	import { debounce } from "@/utils/operate"
-	import { consultApi, getWordApi } from "@/page-home/utils/consultApi"
+	import { consultApi, getWordApi, submitFeedback } from "@/page-home/utils/consultApi"
 	import { Ref, ref } from "vue"
 	import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
 
@@ -96,6 +108,9 @@
 
 	//搜索问题
 	const searchQuestions = async () => {
+		console.log("返回数据")
+		console.log(chatList.value)
+		console.log("question:", questionList.value)
 		if (questionInput.value == "") {
 			uni.showToast({
 				title: "输入不能为空！",
@@ -144,6 +159,22 @@
 		// #endif
 	}
 
+
+
+	//提交未解决
+	const submitQuestions = async () => {
+		const res : any = await submitFeedback(chatList)
+		if (res) {
+			chatList.value.push({
+				id: 2,
+				content: "亲，已反馈给图书馆"
+			})
+		}
+	}
+	//提交已解决
+
+	const submitSuccess = async () => {
+	}
 	// 常见问题，问题列表的搜索
 	const commonSearch = (item : string) => {
 		questionInput.value = item
@@ -188,6 +219,7 @@
 
 <style scoped lang="scss">
 	.chatBox {
+
 		flex: 1;
 		margin-bottom: 10px;
 		padding: 15px 15px 40px 15px;
@@ -195,63 +227,105 @@
 		flex-direction: column;
 		user-select: text;
 		overflow-y: auto;
+		flex-wrap: wrap;
 
 		.chatWord {
 			z-index: 5 !important;
 			margin: 10px 0;
-			display: flex;
 			align-items: flex-start;
+			flex-direction: row;
 
-			.icon {
-				width: 40px;
-				height: 40px;
-				background-color: pink;
-				border-radius: 25px;
-				background-position: center;
+			.chat {
+				display: flex;
+				align-items: flex-start;
 
-				.image {
+				.icon {
 					width: 40px;
 					height: 40px;
+					background-color: pink;
+					border-radius: 25px;
+					background-position: center;
+
+					.image {
+						width: 40px;
+						height: 40px;
+					}
+				}
+
+
+				.wordBox {
+					max-width: 70%;
+					margin-left: 15px;
+					padding: 15px;
+					background-color: #f8f5f8;
+					color: #666;
+					font-size: 14px;
+					letter-spacing: 1px;
+					border-radius: 10px;
+					word-wrap: break-word;
+
+					em {
+						color: #000;
+					}
+				}
+
+				.questionList {
+					max-width: 100%;
+					margin-left: 15px;
+					padding: 15px;
+					background-color: #f8f5f8;
+					color: #666;
+					font-size: 14px;
+					letter-spacing: 1px;
+					border-radius: 10px;
+					word-wrap: break-word;
+
+					.tips {
+						color: #151515;
+						font-weight: bold;
+					}
+
+					.questionItem {
+						color: #142d88;
+						cursor: pointer;
+					}
 				}
 			}
 
-			.wordBox {
-				max-width: 70%;
-				margin-left: 15px;
-				padding: 15px;
-				background-color: #f8f5f8;
-				color: #666;
-				font-size: 14px;
-				letter-spacing: 1px;
-				border-radius: 10px;
-				word-wrap: break-word;
+			.feedback {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 20px;
 
-				em {
-					color: #000;
+				.yes {
+
+					width: 60px;
+					height: 25px;
+					font-size: 15px;
+					background-color: rgba(255, 255, 255, 0.8);
+					border-radius: 10px;
+					line-height: 25px;
+					text-align: center;
+					margin-top: 3px;
+					opacity: 0.5;
+				}
+
+				.no {
+
+					width: 60px;
+					height: 25px;
+					font-size: 15px;
+					background-color: rgba(255, 255, 255, 0.8);
+					border-radius: 10px;
+					line-height: 25px;
+					text-align: center;
+					margin-top: 3px;
+					opacity: 0.5;
 				}
 			}
 
-			.questionList {
-				max-width: 70%;
-				margin-left: 15px;
-				padding: 15px;
-				background-color: #f8f5f8;
-				color: #666;
-				font-size: 14px;
-				letter-spacing: 1px;
-				border-radius: 10px;
-				word-wrap: break-word;
 
-				.tips {
-					color: #151515;
-					font-weight: bold;
-				}
-
-				.questionItem {
-					color: #142d88;
-					cursor: pointer;
-				}
-			}
 		}
 
 		.chatWord:last-child {
@@ -262,11 +336,30 @@
 			z-index: 5;
 			flex-direction: row-reverse;
 
-			.wordBox {
-				margin-left: 0;
-				margin-right: 15px;
-				background-color: #142d88;
-				color: #fff;
+			.chat {
+				display: flex;
+				flex-direction: row-reverse;
+
+				.icon {
+					width: 40px;
+					height: 40px;
+					background-color: pink;
+					border-radius: 25px;
+					background-position: center;
+
+					.image {
+						width: 40px;
+						height: 40px;
+					}
+				}
+
+				.wordBox {
+					margin-left: 0;
+					margin-right: 15px;
+					background-color: #142d88;
+					color: #fff;
+
+				}
 			}
 		}
 

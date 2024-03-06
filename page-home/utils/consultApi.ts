@@ -39,3 +39,16 @@ export const getWordApi = async (data : string) : Promise<string[]> => {
 		console.log("err", err)
 	}
 }
+
+export async function submitFeedback(data : requestQuestion) : Promise<resConsultType[]> {
+	try {
+		const res = await request({
+			url: `${API}/web/msg/question`,
+			method: "POST",
+			data
+		})
+		return res.data
+	} catch (err) {
+		console.log("err", err)
+	}
+}
