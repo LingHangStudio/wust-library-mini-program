@@ -3,6 +3,7 @@ export default {
 	onShareAppMessage() { //发送给朋友
 		let pages = getCurrentPages();
 		let currentPage = pages[pages.length - 1];
+		console.log("route:", currentPage.route);
 		return {
 			title: '科大图书精灵',
 			path: currentPage.route,

@@ -69,7 +69,7 @@
 	// holdings 获取馆藏信息
 	import { ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
-	import { onLoad, onShareAppMessage, onShareTimeline, onReady } from "@dcloudio/uni-app"
+	import { onLoad, onShareAppMessage, onShareTimeline, onReady, onShow } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
 
 	// const startDrawLoad = ref(true)
@@ -179,7 +179,43 @@
 		resExt && (otherInfo.value = resExt.data)
 	}
 
-	onLoad(e => e && getBookDetails(e.bibId))
+
+	// onLoad(e => e && getBookDetails(e.bibId))
+
+	onLoad((option) => {
+		console.log("id:s")
+		console.log(option)
+		console.log(option.bibId)
+		if (option) {
+			getBookDetails(option.bibId)
+
+		}
+		onShareAppMessage(() => {
+			//发送给朋友
+			return {
+				title: '科大图书精灵',
+				path: "page-home/detail?bibId=" + bookBibId.value,
+				success: () => {
+					uni.showToast({
+						icon: "success",
+						title: "分享成功"
+					})
+				}, fail: () => {
+					uni.showToast({
+						icon: "fail",
+						title: "分享失败"
+					})
+				}
+			}
+		})
+		onShareTimeline(() => {
+			//分享到朋友圈
+			return {
+				title: '科大图书精灵',
+				path: "page-home/detail?bibId=" + bookBibId.value
+			}
+		})
+	})
 
 	// 懒加载,绑定监听
 	onReady(() => {
@@ -200,32 +236,7 @@
 	// #ifdef MP-WEIXIN
 	// 涉及到onLoad的页面，需要单独设置一下分享
 	// 并且要和 onLoad方法的参数相匹配
-	onShareAppMessage(() => {
-		//发送给朋友
-		return {
-			title: '科大图书精灵',
-			path: "page-home/detail?bibId=" + bookBibId.value,
-			success: () => {
-				uni.showToast({
-					icon: "success",
-					title: "分享成功"
-				})
-			}, fail: () => {
-				uni.showToast({
-					icon: "fail",
-					title: "分享失败"
-				})
-			}
-		}
-	})
 
-	onShareTimeline(() => {
-		//分享到朋友圈
-		return {
-			title: '科大图书精灵',
-			path: "page-home/detail?bibId=" + bookBibId.value
-		}
-	})
 
 	// #endif
 
