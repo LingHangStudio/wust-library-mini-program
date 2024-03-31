@@ -16,9 +16,15 @@
 			</scroll-view>
 		</view>
 	</uni-card>
+	<!-- 提示信息弹窗 -->
+	<uni-popup ref="message">
+		<uni-popup-message type="warn" message="里面路径请用浏览器打开,微信内部无法打开" :duration="2000"></uni-popup-message>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
+	import { ref } from 'vue';
+	const message = ref(null);
 	const menu = [
 		{
 			id: "",
@@ -33,13 +39,13 @@
 			icon: "chatboxes",
 			type: "inner",
 		},
-		{
-			id: "",
-			name: "文献资源",
-			url: "https://tsg.wust.edu.cn/info/1691/4471.htm",
-			icon: "list",
-			type: "tsg",
-		},
+		// {
+		// 	id: "",
+		// 	name: "文献资源",
+		// 	url: "https://tsg.wust.edu.cn/info/1691/4471.htm",
+		// 	icon: "list",
+		// 	type: "tsg",
+		// },
 		{
 			id: "",
 			name: "借阅服务",
@@ -76,12 +82,23 @@
 			type: "tsg",
 		},
 	]
-
+	const messageToggle = () => {
+		message.value.open()
+		setTimeout(() => {
+			message.value.close();
+		}, 3000); // 3秒后关闭消息
+	}
 	const goTo = (url : string, type : string) => {
+		if (url == "https://tsg.wust.edu.cn/info/1691/4471.htm") {
+			messageToggle();
+		}
 		if (type == "tsg") {
-			uni.navigateTo({
-				url: "/page-service/tsgview?url=" + url,
-			})
+			setTimeout(() => {
+				uni.navigateTo({
+					url: "/page-service/tsgview?url=" + url,
+				})
+			}, 1000); // 3秒后关闭消息
+
 		} else {
 			uni.navigateTo({
 				url: url,

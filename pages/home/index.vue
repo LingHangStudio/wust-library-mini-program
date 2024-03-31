@@ -5,13 +5,14 @@
 			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN,是呀是呀"
 				:radius="100"></uni-search-bar>
 		</view>
+
 		<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
 			<swiper-item @tap="viewImg(item.url)" v-for="(item, index) in bannerList" :key="index">
-				<!-- <view class="swiper-item uni-bg-red"> -->
 				<image :src="item.url" alt="error"></image>
-				<!-- </view> -->
 			</swiper-item>
 		</swiper>
+		<!-- 	<web-view src="https://mp.weixin.qq.com/s/Zn958Zv-RuJxnZjhE8n2Lg"></web-view> -->
+
 		<Nav></Nav>
 		<Recommend></Recommend>
 		<uni-popup ref="popImg">
@@ -104,9 +105,26 @@
 
 	const viewImg = (url : string) => {
 		imgUrl.value = url;
-		popImg.value.open()
+		popImg.value.open();
+		console.log("你好世界")
+		navigateToArticle
 	}
-
+	const navigateToArticle = () => {
+		// 调用微信小程序的跳转方法
+		wx.navigateToMiniProgram({
+			appId: 'wx10a1836791a682d0',
+			path: 'pages/activity/index',
+			extraData: {
+				// 传递的额外参数，可以为空
+			},
+			success(res) {
+				console.log(res);
+			},
+			fail(res) {
+				console.error(res);
+			}
+		})
+	}
 	onMounted(() => {
 		// 登录验证逻辑:
 		// 用户没登录过：就跳过

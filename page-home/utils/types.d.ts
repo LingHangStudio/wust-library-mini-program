@@ -47,10 +47,10 @@ export interface resConsultType {
 //--------------------------
 // 书籍的类型：一本的所有详细信息来自不同的接口
 // infos接口下的内容
-export interface IDetailInfo{
-	baseInfo:baseInfoType;
-	detailInfo: any;
-	extraInfo:extraInfoType;
+export interface IDetailInfo {
+	baseInfo : baseInfoType;
+	detailInfo : any;
+	extraInfo : extraInfoType;
 }
 
 // 书籍详情返回内容的baseInfo
@@ -74,4 +74,13 @@ export interface otherInfoType {
 	content ?: string;
 	imageUrl ?: string;
 	authorInfo ?: string;
+}
+
+
+
+//已解决的传的类型
+export interface feedBackList {
+	userId : number;
+	question : string;
+	matched : string[];
 }

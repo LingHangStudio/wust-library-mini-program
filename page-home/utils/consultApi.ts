@@ -1,6 +1,7 @@
 import request from "@/api/request"
-import type { resConsultType, requestQuestion } from "@/page-home/utils/types.d"
+import type { resConsultType, requestQuestion, feedBackList } from "@/page-home/utils/types.d"
 const API = "https://smarttool.wust.edu.cn:8182/api"
+
 
 /**
  * 咨询：获取词条,咨询的结果
@@ -40,10 +41,15 @@ export const getWordApi = async (data : string) : Promise<string[]> => {
 	}
 }
 
-export async function submitFeedback(data : requestQuestion) : Promise<resConsultType[]> {
+/**
+ * 咨询：获取词条,咨询的结果
+ * @param {feedBackList} data 
+ * @return {string[]}
+ */
+export async function submitFeedback(data : feedBackList) : Promise<string[]> {
 	try {
 		const res = await request({
-			url: `${API}/web/msg/question`,
+			url: "https://smarttool.wust.edu.cn:8381/api/web/qa/review",
 			method: "POST",
 			data
 		})
