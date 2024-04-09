@@ -48,6 +48,7 @@ export const getWordApi = async (data : string) : Promise<string[]> => {
  */
 export async function submitFeedback(data : feedBackList) : Promise<string[]> {
 	try {
+		console.log("开始调用")
 		const res = await request({
 			url: "https://smarttool.wust.edu.cn:8381/api/web/qa/review",
 			method: "POST",

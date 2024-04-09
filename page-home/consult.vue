@@ -131,6 +131,7 @@
 			return
 		}
 		if (questionInput.value == "春日诗韵") {
+			questionInput.value = ""
 			chatList.value.push({
 				id: 1,
 				content: "春日诗韵",
@@ -198,7 +199,7 @@
 			feedbacklist.value.matched = ["你的能力超出了小图的理解范围"]
 		}
 		else {
-			feedbacklist.value.matched = chatList.value[serial].questionList
+			feedbacklist.value.matched = chatList.value[serial].questionList.map(item => item.answer.toString());
 		}
 		console.log(feedbacklist.value);
 		const { userId, question, matched, status } = feedbacklist.value;
@@ -223,7 +224,7 @@
 			feedbacklist.value.matched = ["你的能力超出了小图的理解范围"]
 		}
 		else {
-			feedbacklist.value.matched = chatList.value[serial].questionList
+			feedbacklist.value.matched = chatList.value[serial].questionList.map(item => item.answer.toString());
 		}
 		console.log(feedbacklist.value);
 		const { userId, question, matched, status } = feedbacklist.value;
