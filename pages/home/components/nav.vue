@@ -16,15 +16,15 @@
 			</scroll-view>
 		</view>
 	</uni-card>
-	<!-- 提示信息弹窗 -->
+	<!-- 	提示信息弹窗
 	<uni-popup ref="message">
 		<uni-popup-message type="warn" message="如果没有数据,请检查是否登录" :duration="2000"></uni-popup-message>
-	</uni-popup>
+	</uni-popup> -->
 </template>
 
 <script setup lang="ts">
 	import { ref } from 'vue';
-	const message = ref(null);
+	// const message = ref(null);
 	const menu = [
 		{
 			id: "",
@@ -82,22 +82,20 @@
 			type: "tsg",
 		},
 	]
-	const messageToggle = () => {
-		message.value.open()
-		setTimeout(() => {
-			message.value.close();
-		}, 3000); // 3秒后关闭消息
-	}
+	// const messageToggle = () => {
+	// 	message.value.open()
+	// 	setTimeout(() => {
+	// 		message.value.close();
+	// 	}, 3000); // 3秒后关闭消息
+	// }
 	const goTo = (url : string, type : string) => {
-		if (url == "/page-center/mySubscribe") {
-			messageToggle();
-		}
+		// if (url == "/page-center/mySubscribe") {
+		// 	messageToggle();
+		// }
 		if (type == "tsg") {
-			setTimeout(() => {
-				uni.navigateTo({
-					url: "/page-service/tsgview?url=" + url,
-				})
-			}, 1000); // 3秒后关闭消息
+			uni.navigateTo({
+				url: "/page-service/tsgview?url=" + url,
+			})
 
 		} else {
 			uni.navigateTo({

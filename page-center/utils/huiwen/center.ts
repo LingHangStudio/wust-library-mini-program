@@ -1,25 +1,6 @@
 import request from "@/api/request"
 const API = "https://libsys.wust.edu.cn/meta-local/opac/users"
 
-// /*
-// * 对获取到底cookie进行激活 GET https://libsys.wust.edu.cn:443/meta-local/opac/cas/rosetta
-// * @prarm isPlaintext false
-// * @header
-// * 
-// */
-// export async function activeCookie() {
-// 	const res = await request({
-// 		url: 'https://libsys.wust.edu.cn:443/meta-local/opac/cas/rosetta',
-// 		header: {
-// 			Cookie: uni.getStorageSync('Cookie')
-// 		},
-// 		noValidate: true
-// 	})
-// 	return res
-// }
-
-
-
 /*
 * 获取用户信息 GET /meta-local/opac/users/info
 * @prarm isPlaintext false

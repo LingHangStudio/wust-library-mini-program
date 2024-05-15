@@ -44,19 +44,19 @@
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
-	
+
 	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	// #endif
-	
+
 	import RSA from "@/page-center/utils/rsa.js"
 	// 专属处理btoa atob
 	import { weBtoa } from "@/page-center/utils/weapp-jwt"
-	
+
 	// #ifndef APP-PLUS
 	const store = useStore()
 	// #endif
-	
+
 	// 忘记密码的提醒model
 	const showToolTip = ref(null)
 	// 存图片
@@ -77,7 +77,7 @@
 		<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 忘记密码</h3>
 		<p>用户忘记密码可通过两种方式进行密码重置：</p>
 		<p>1. 用户可在图书馆官网登录页面点击“忘记密码”，输入正确信息找回密码。</p>
-		<P>2. 用户可持有效证件（身份证、校园卡）至图书馆二楼服务台重置密码。</P>`
+		<P>2. 用户可拨打网络信息中心服务电话：68862223或者联系服务邮箱：support@wust.edu.cn重置密码。</P>`
 	const myForm = ref(null)
 	const userForm = ref({
 		username: "",
@@ -129,8 +129,8 @@
 	const login = async () => {
 		let password = encrypt(userForm.value.password)
 		try {
+			console.log("res1")
 			const res1 = await loginAPI({ ...userForm.value, password })
-			console.log("res1", res1)
 			if (res1?.data.data) {
 				if (res1?.data.data.code === "NOUSER") {
 					errorMsgContent.value = "账号不存在。"
@@ -142,11 +142,10 @@
 				errorMsg.value.open()
 				return
 			}
+			console.log("res2")
 			const res2 = await login1API(res1.data.tgt)
-			console.log("res2", res2)
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2.data)
-			console.log("Cookie", myCookie)
 			// 登录成功后的处理
 			uni.setStorageSync("loginState", true)
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
@@ -185,7 +184,7 @@
 		}
 		myForm.value.validate((err : [], formData : any) => !err && login())
 	}
-	
+
 	onMounted(() => {
 		// 本页面禁止分享
 		uni.hideShareMenu({

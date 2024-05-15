@@ -294,12 +294,13 @@ RSA加密，具体详情，看代码
   - tsg官网 web-view
 - 活动 page-sevice
 - 资源 page-sevice
-- 个人中心 page-center
-  - 登录 /login
-  - 个人信息 /
-  - 我的借阅 /
-  - 关于 /about
+- 个人中心 pages/center/compoents/menu
+  - 登录（绑定用户（未登录）） /login
+  - 我的借阅 /mySubscribe
+  - 关于我们 /aboutMe
   - 我的 /userinfo(登录后才有)
+  - 分享小程序
+  - 反馈意见
 
 
 ├─api

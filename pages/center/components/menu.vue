@@ -43,7 +43,10 @@
 
 <script setup lang="ts">
 	import { onShow } from "@dcloudio/uni-app"
-	import { ref, Ref } from "vue"
+	import { ref, Ref, onMounted } from "vue"
+	import { loginAPI, login1API } from "@/api/user/user"
+	import { loginFinalApi } from "@/api/end"
+	import { removeAuthorization } from "@/router/auth"
 	import type { centerMenuType } from "../utils/types.d"
 	const fineNum : Ref<string> = ref("0")
 	const menu : Readonly<centerMenuType[]> = [
@@ -143,6 +146,31 @@
 			url: item.url,
 		})
 	}
+	//对当前页面登录信息进行检验
+	const login = async (loginInfo : any) => {
+		try {
+			const res1 = await loginAPI(loginInfo)
+			const res2 = await login1API(res1.data.tgt)
+			// 第三个接口，请求自己的后台，获取到Cookie
+			let myCookie = await loginFinalApi(res2?.data)
+			// 登录成功后的处理
+			uni.setStorageSync("loginState", true)
+			uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
+			// uni.navigateBack()
+		} catch (e) {
+			// 任何异常，只捕获，不提示
+			console.log(e)
+			// 登录失败，把登录信息删除
+			removeAuthorization()
+		}
+	}
+	onMounted(() => {
+		if (!uni.getStorageSync("Cookie") && uni.getStorageSync("loginInfo")) {
+			login(uni.getStorageSync("loginInfo"))
+		} else if (!uni.getStorageSync("Cookie") && !uni.getStorageSync("loginInfo")) {
+			uni.setStorageSync("loginState", false)
+		}
+	})
 </script>
 
 <style scoped lang="scss">

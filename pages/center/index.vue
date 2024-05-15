@@ -42,8 +42,6 @@
 	const accountInfo = uni.getAccountInfoSync();
 	systemInfo.value = { ...systemInfo.value, ...accountInfo.miniProgram }
 	console.log("ver", systemInfo.value)
-	// console.log(accountInfo.miniProgram.appId); // 小程序 appId
-	// console.log(accountInfo.miniProgram.envVersion); // 小程序 版本
 	// #endif
 
 	onShow(() => {
@@ -71,17 +69,6 @@
 </script>
 
 <style lang="scss">
-	// @media (prefers-color-scheme: dark) {
-	// 	.root {
-	// 		color: #fff;
-	// 		background-color: #000;
-	// 	}
-
-	// 	.copyright {
-	// 		color: #ccc;
-	// 	}
-	// }
-
 	.copyright {
 		position: absolute;
 		width: 750rpx;
