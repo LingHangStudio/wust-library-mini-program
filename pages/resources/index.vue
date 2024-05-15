@@ -46,7 +46,7 @@
 	import type { paginationType } from "@/utils/types/list"
 	import { articleListApi } from "@/api/end/index"
 	const loading = ref(true)
-	const items = ref(["最新资源", "最新消息"])
+	const items = ref(["最新消息"])
 
 	const showList = ref([])
 
@@ -62,25 +62,26 @@
 
 	const getArticleList = async (page : number, pageSize : number) => {
 		// 新接口:获取资源和公告
-		if (current.value === 0) {
-			const resResource = await articleListApi({ page, pageSize, category: 3, type: 3 })
-			if (resResource) {
-				showList.value = showList.value.concat(resResource.data)
-				paginations.value = {
-					currentPage: page,
-					pageNum: pageSize,
-				}
-			}
-		} else {
-			const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1 })
-			if (resNotice) {
-				showList.value = showList.value.concat(resNotice.data)
-				paginations.value = {
-					currentPage: page,
-					pageNum: pageSize,
-				}
+		// if (current.value === 0) {
+		// 	const resResource = await articleListApi({ page, pageSize, category: 3, type: 3 })
+		// 	if (resResource) {
+		// 		showList.value = showList.value.concat(resResource.data)
+		// 		paginations.value = {
+		// 			currentPage: page,
+		// 			pageNum: pageSize,
+		// 		}
+		// 	}
+		// } 
+		// else {
+		const resNotice = await articleListApi({ page, pageSize, category: 1, type: 1 })
+		if (resNotice) {
+			showList.value = showList.value.concat(resNotice.data)
+			paginations.value = {
+				currentPage: page,
+				pageNum: pageSize,
 			}
 		}
+		// }
 		loading.value = false
 	}
 

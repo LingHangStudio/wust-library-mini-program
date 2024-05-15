@@ -1,7 +1,6 @@
 <template>
 	<view class="user">
 		<view class="header-image" hover-class="back">
-			<!-- <img class="header-image" :src="WechatInfo.avatarUrl" alt="avatar"> -->
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
 		<view class="info">

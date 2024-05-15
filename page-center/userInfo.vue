@@ -51,26 +51,31 @@
 				</view>
 			</view>
 		</uni-card>
-
+		<!-- 俩张图 -->
 		<qiun-data-charts type="line" canvas2d :opts="trendOpts" :chart-data="trendChart" />
 
 		<view v-show="loan_type.length !== 0">
 			<qiun-data-charts type="pie" canvas2d :opts="pieOpts" :chart-data="pieChart" />
 		</view>
-
+		<!-- 退出登录 -->
 		<button class="button" type="warn" @tap="logoutTip.open">退出登录</button>
 		<uni-popup ref="logoutTip" type="dialog" background-color="#fff">
 			<uni-popup-dialog type="warn" cancel-text="关闭" confirm-text="退出" title="通知" content="是否退出登录？"
 				@confirm="logout" @close="logoutTip.close()"></uni-popup-dialog>
 		</uni-popup>
 	</view>
+	<!-- 	<view>
+		<uni-popup ref="messagess" type="message">
+			<uni-popup-message type="error" message="还未登陆,请检查登录在进入改页面喔" :duration="2000"></uni-popup-message>
+		</uni-popup>
+	</view> -->
 </template>
 
 <script setup lang="ts">
 	import { onMounted, ref, Ref } from "vue"
 	import { onLoad } from "@dcloudio/uni-app"
 	// #ifndef APP-PLUS
-	import { useStore } from "@/store"
+	import { useStore } from "../store"
 	// #endif
 	import { logoutFunc } from "@/router/auth"
 	import { userInfoApi, typeListApi, trendListApi, statsApi } from "@/page-center/utils/huiwen/center"
@@ -185,7 +190,7 @@
 		userTypeDesc: null,
 	})
 
-	// 借阅概览
+	// 借阅概览（借阅信息的获取）
 	const stats : Ref<any> = ref({
 		booklistCount: 0, // ×我的书单
 		requestCount: 0, //×我的请求
@@ -199,7 +204,14 @@
 		const res = await statsApi()
 		res && (stats.value = res.data)
 	}
-
+	//获取人物基本信息
+	const getUserInfo = async () => {
+		const res = await userInfoApi()
+		if (res) {
+			info.value = res.data
+			uni.setStorageSync("userInfo", res.data)
+		}
+	}
 	// 借阅时间分布
 	const loan_range = ref({})
 	const getTrendChart = async () => {
@@ -236,15 +248,8 @@
 			}
 		}
 	}
+	const messagess = ref(null)
 
-	// 获取用户信息
-	const getUserInfo = async () => {
-		const res = await userInfoApi()
-		if (res) {
-			info.value = res.data
-			uni.setStorageSync("userInfo", res.data)
-		}
-	}
 
 	onLoad(() => {
 		getUserInfo()

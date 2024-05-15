@@ -95,6 +95,9 @@
 	<uni-popup ref="renewMsgNode" type="message">
 		<uni-popup-message :type="renewMsg.type" :message="renewMsg.content" :duration="2000"></uni-popup-message>
 	</uni-popup>
+	<uni-popup ref="messagess" type="message">
+		<uni-popup-message type="error" message="还未登陆,请检查登录在进入改页面喔" :duration="2000"></uni-popup-message>
+	</uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -147,11 +150,6 @@
 
 				let temp = res.data
 				lists.value = lists.value.concat(temp)
-				// paginations.value = {
-				// 	currentPage: temp.currentPage,
-				// 	pageNum: temp.pageSize,
-				// 	total: temp.total,
-				// }
 			}
 		} else {
 			// 历史借阅
@@ -273,7 +271,6 @@
 	const reNewOpera = async (loanId : string) => {
 		if (loanId) {
 			const res = await renewApi(loanId)
-			console.log("res inner", res)
 			if (res && res?.code === 0) {
 				lists.value = []
 				// 成功，并刷新页面
@@ -303,8 +300,12 @@
 			data: c,
 		})
 	}
+	const messagess = ref(null)
+	onLoad((e) => {
+		messagess.value.open();
+		e?.current && (controlCurrent.value = e.current)
 
-	onLoad((e) => e?.current && (controlCurrent.value = e.current))
+	})
 
 	getMyList(paginations.value.currentPage, paginations.value.pageNum)
 </script>

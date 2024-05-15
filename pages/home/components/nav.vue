@@ -18,7 +18,7 @@
 	</uni-card>
 	<!-- 提示信息弹窗 -->
 	<uni-popup ref="message">
-		<uni-popup-message type="warn" message="里面路径请用浏览器打开,微信内部无法打开" :duration="2000"></uni-popup-message>
+		<uni-popup-message type="warn" message="如果没有数据,请检查是否登录" :duration="2000"></uni-popup-message>
 	</uni-popup>
 </template>
 
@@ -89,7 +89,7 @@
 		}, 3000); // 3秒后关闭消息
 	}
 	const goTo = (url : string, type : string) => {
-		if (url == "https://tsg.wust.edu.cn/info/1691/4471.htm") {
+		if (url == "/page-center/mySubscribe") {
 			messageToggle();
 		}
 		if (type == "tsg") {

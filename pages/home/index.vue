@@ -2,7 +2,7 @@
 	<view class="root">
 		<Logo></Logo>
 		<view @tap.stop="goTo('/page-home/search', 'inner')">
-			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN,是呀是呀"
+			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN"
 				:radius="100"></uni-search-bar>
 		</view>
 
@@ -11,7 +11,6 @@
 				<image :src="item.url" alt="error"></image>
 			</swiper-item>
 		</swiper>
-		<!-- 	<web-view src="https://mp.weixin.qq.com/s/Zn958Zv-RuJxnZjhE8n2Lg"></web-view> -->
 
 		<Nav></Nav>
 		<Recommend></Recommend>
@@ -58,12 +57,9 @@
 			// 进入登录流程
 			console.log(loginInfo.password)
 			const res1 = await loginAPI(loginInfo)
-			console.log("res", res1)
 			const res2 = await login1API(res1.data.tgt)
-			console.log("res2", res2)
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2?.data)
-			console.log("Cookie", myCookie)
 			// 登录成功后的处理
 			uni.setStorageSync("loginState", true)
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
@@ -106,7 +102,6 @@
 	const viewImg = (url : string) => {
 		imgUrl.value = url;
 		popImg.value.open();
-		console.log("你好世界")
 		navigateToArticle
 	}
 	const navigateToArticle = () => {
