@@ -60,38 +60,35 @@
 	],
 	"subPackages": [{
 		"root": "page-home",
-		"pages": [{
-			"path": "consult",
-			"style": {
-				"navigationBarTitleText": "咨询"
+		"pages": [
+			// 	{
+			// 	"path": "consult",
+			// 	"style": {
+			// 		"navigationBarTitleText": "咨询"
+			// 	}
+			// },
+			{
+				"path": "hello",
+				"style": {
+					"navigationStyle": "custom"
+				}
+			}, {
+				"path": "search",
+				"style": {
+					"navigationBarTitleText": "搜索"
+				}
+			}, {
+				"path": "search-list",
+				"style": {
+					"navigationBarTitleText": "检索结果"
+				}
+			}, {
+				"path": "detail",
+				"style": {
+					"navigationStyle": "custom"
+				}
 			}
-		}, {
-			"path": "hello",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "search",
-			"style": {
-				"navigationBarTitleText": "搜索"
-			}
-		}, {
-			"path": "search-list",
-			"style": {
-				"navigationBarTitleText": "检索结果"
-			}
-		}, {
-			"path": "detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}],
-		"plugins": {
-			"chatbot": {
-				"version": "1.3.12",
-				"provider": "wx8c631f7e9f2465e1"
-			}
-		}
+		]
 	}, {
 		"root": "page-service",
 		"pages": [{
@@ -106,6 +103,11 @@
 			}
 		}, {
 			"path": "test",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "chatbot",
 			"style": {
 				"navigationBarTitleText": ""
 			}

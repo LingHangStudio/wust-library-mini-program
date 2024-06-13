@@ -44,7 +44,7 @@
 	import { loginAPI, login1API } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
-
+	import { userInfoApi } from "@/page-center/utils/huiwen/center"
 	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	// #endif
@@ -129,7 +129,6 @@
 	const login = async () => {
 		let password = encrypt(userForm.value.password)
 		try {
-			console.log("res1")
 			const res1 = await loginAPI({ ...userForm.value, password })
 			if (res1?.data.data) {
 				if (res1?.data.data.code === "NOUSER") {
@@ -150,6 +149,11 @@
 			uni.setStorageSync("loginState", true)
 			uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
 			uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
+
+			const res = await userInfoApi()
+			if (res) {
+				uni.setStorageSync("userInfo", res.data)
+			}
 			// #ifndef APP-PLUS
 			store.setloginState(true)
 			// #endif
@@ -168,9 +172,15 @@
 	const getCode = async () => {
 		loading.value = true
 		const res = await getCodeApi()
-		if (res) {
+		if (res.data) {
 			codeImg.value = "data:image/svg+xml;base64," + weBtoa(res?.data.codeSvg)
 			code.value = res.data.text
+		}
+		else {
+			uni.showToast({
+				title: "验证码获取失败，请刷新重试",
+				icon: "none"
+			})
 		}
 		loading.value = false
 	}
@@ -232,6 +242,7 @@
 			margin-bottom: 20px;
 			font-family: cursive;
 		}
+
 
 		.h1flash {
 			position: relative;

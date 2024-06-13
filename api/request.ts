@@ -54,8 +54,7 @@ export default function request(options : requestType) {
 			success: (res : responceType) => {
 				// debugger
 				// 此判断可根据自己需要更改 汇文的code为0
-				if (!options?.noValidate && (res.data?.status !== 200 && res.data?.code !== 200 && res.data?.code !== 0)) {
-					console.log(res.statusCode === 401)
+				if (!options?.noValidate && (res.data?.status !== 200 && res.data?.code !== 200 && res.data?.code !== 0 && res.statusCode !== 200)) {
 					if (res.statusCode === 401) {
 						// 未登录，或者登录过期
 						uni.removeStorageSync("Cookie")
@@ -85,7 +84,6 @@ export default function request(options : requestType) {
 			},
 			// 请求失败
 			fail: (err : errType) => {
-				console.log("失败res", err)
 				if (err.errMsg.indexOf('timeout') !== -1) {
 					uni.showToast({
 						title: '请求超时！',

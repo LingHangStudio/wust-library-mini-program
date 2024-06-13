@@ -12,8 +12,5 @@
 			"前端组件",
 			"通用组件"
 		]
-	},
-	"usingComponents": {
-		"chat": "plugin://chatbot/chat"
 	}
 }

@@ -35,9 +35,10 @@
 		{
 			id: "",
 			name: "智能答疑",
-			url: "/page-home/consult",
+			// url: "/page-home/consult",
+			url: "https://chatbot.weixin.qq.com/webapp/HIsRh8vT25AHKfzXhYrhufodkOACze?robotName=%E7%A7%91%E5%A4%A7%E5%9B%BE%E4%B9%A6%E7%B2%BE%E7%81%B5",
 			icon: "chatboxes",
-			type: "inner",
+			type: "chatbot",
 		},
 		// {
 		// 	id: "",
@@ -97,6 +98,11 @@
 				url: "/page-service/tsgview?url=" + url,
 			})
 
+		}
+		else if (type == "chatbot") {
+			uni.navigateTo({
+				url: "/page-service/chatbot",
+			});
 		} else {
 			uni.navigateTo({
 				url: url,

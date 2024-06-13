@@ -84,3 +84,17 @@ export interface feedBackList {
 	question : string;
 	matched : string[];
 }
+
+//获取openid
+export interface openIdList {
+	appid : string;
+	secret : string;
+	js_code : string;
+	grant_type : string;
+}
+
+
+// 请求参数
+export interface botQuestion {
+	query : string,
+}

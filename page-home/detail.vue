@@ -1,6 +1,5 @@
 <template>
 	<ListNavBar title="书籍详情"></ListNavBar>
-	<!-- <canvas type="2d" canvas-id="baseInfo" id="baseInfo" style="width: 430px;height: 430px;"></canvas> -->
 	<uni-card :title="baseInfo?.title" margin="0px" padding="4px" is-shadow :extra="extraInfo._clickCount + '浏览'">
 		<view class="box-head">
 			<view v-for="(val, key, index) in detailInfo" :key="index">
@@ -183,9 +182,6 @@
 	// onLoad(e => e && getBookDetails(e.bibId))
 
 	onLoad((option) => {
-		console.log("id:s")
-		console.log(option)
-		console.log(option.bibId)
 		if (option) {
 			getBookDetails(option.bibId)
 
@@ -224,7 +220,6 @@
 		let startTimer = setTimeout(() => {
 			let observer = uni.createIntersectionObserver(this);
 			observer.relativeToViewport({ bottom: 30 }).observe('.lazy-tag', async (res) => {
-				console.log("ob", res)
 				// 懒加载，获取剩余一个接口
 				getEChartInfo(bookBibId.value)
 				observer.disconnect()// 解除监听

@@ -1,5 +1,5 @@
 import request from "@/api/request"
-import type { resConsultType, requestQuestion, feedBackList } from "@/page-home/utils/types.d"
+import type { resConsultType, requestQuestion, feedBackList, openIdList } from "@/page-home/utils/types.d"
 const API = "https://smarttool.wust.edu.cn:8182/api"
 
 
@@ -48,7 +48,6 @@ export const getWordApi = async (data : string) : Promise<string[]> => {
  */
 export async function submitFeedback(data : feedBackList) : Promise<string[]> {
 	try {
-		console.log("开始调用")
 		const res = await request({
 			url: "https://smarttool.wust.edu.cn:8381/api/web/qa/review",
 			method: "POST",
@@ -57,5 +56,45 @@ export async function submitFeedback(data : feedBackList) : Promise<string[]> {
 		return res.data
 	} catch (err) {
 		console.log("err", err)
+	}
+}
+
+
+/**
+ * 获取openid：
+ * @param {openIdList} data 
+ * @return {string[]}
+ */
+export async function getOpenId(data : openIdList) : Promise<string[]> {
+	try {
+		const res = await request({
+			url: "https://api.weixin.qq.com/sns/jscode2session",
+			method: "GET",
+			data: data,
+		})
+		uni.setStorageSync("openId", res.data.openid);
+		return res.data
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+
+/**
+ * 问答系统：
+ * @param {openIdList} data 
+ * @return {string[]}
+ */
+export async function getAnswer(data : botQuestion) : Promise<string[]> {
+	try {
+		const res = await request({
+			url: " https://openaiapi.weixin.qq.com/v2/bot/query",
+			method: "POST",
+			data: data,
+		})
+		console.log("测试", res)
+		return res.data
+	} catch (err) {
+		console.log(err)
 	}
 }

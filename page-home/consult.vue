@@ -70,11 +70,13 @@
 
 <script setup lang="ts">
 	import { debounce } from "@/utils/operate"
-	import { consultApi, getWordApi, submitFeedback } from "@/page-home/utils/consultApi"
-	import { Ref, ref } from "vue"
+	import { consultApi, getWordApi, submitFeedback, getOpenId, getAnswer } from "@/page-home/utils/consultApi"
+	import { Ref, ref, onMounted } from "vue"
 	import type { resConsultType, requestQuestion, feedBackList } from "@/page-home/utils/types.d"
 	import { es } from "element-plus/es/locale";
 
+	//初始机器人回答问题
+	let plugin = requirePlugin("chatbot");
 	// 解决app的列表渲染问题
 	const showList_BugInAPP = ref(true)
 	let useid : Ref<number> = ref(0)
@@ -120,8 +122,6 @@
 
 	//搜索问题
 	const searchQuestions = async () => {
-		console.log(chatList.value)
-		console.log("question:", questionList.value)
 		if (questionInput.value == "") {
 			uni.showToast({
 				title: "输入不能为空！",
@@ -146,38 +146,55 @@
 			id: 1,
 			content: questionInput.value,
 		})
-		let data = {
-			msg: questionInput.value,
-			userId: "",
-		} as requestQuestion
+		// let data = {
+		// 	msg: questionInput.value,
+		// 	userId: "",
+		// } as requestQuestion
 		showWordsModal.value = false
-		const res : any = await consultApi(data)
-
-		if (res) {
-			useid = res.data.userId;
-			console.log(useid)
-			questionList.value = res.data.matched
-			questionInput.value = ""
-			if (questionList.value.length !== 0) {
-				chatList.value.push({
-					id: 2,
-					content: "",
-					questionList: questionList.value,
-				})
-			} else {
-				chatList.value.push({
-					id: 2,
-					content: "您的问题超出了小图的理解能力喔 ~ ",
-				})
-			}
-		} else {
-			chatList.value.push({
-				id: 2,
-				content: "您的问题超出了小图的理解能力喔 ~ ",
-			})
-		}
-		console.log("chat", chatList.value)
-		console.log("chatlist", chatList.value[2].questionList)
+		// const res : any = await consultApi(data)
+		plugin.send({
+			query: questionInput.value,
+			success: res => {
+				console.log(res);
+				useid = res.ans_node_id;
+				questionList.value = res.answer;
+				questionInput.value = ""
+				if (questionList.value.length !== 0) {
+					chatList.value.push({
+						id: 2,
+						content: res.answer,
+					})
+				} else {
+					chatList.value.push({
+						id: 2,
+						content: "您的问题超出了小图的理解能力喔 ~ ",
+					})
+				}
+			},
+			fail: error => { }
+		});
+		// if (res) {
+		// 	useid = res.data.userId;
+		// 	questionList.value = res.data.matched
+		// 	questionInput.value = ""
+		// 	if (questionList.value.length !== 0) {
+		// 		chatList.value.push({
+		// 			id: 2,
+		// 			content: "",
+		// 			questionList: questionList.value,
+		// 		})
+		// 	} else {
+		// 		chatList.value.push({
+		// 			id: 2,
+		// 			content: "您的问题超出了小图的理解能力喔 ~ ",
+		// 		})
+		// 	}
+		// } else {
+		// 	chatList.value.push({
+		// 		id: 2,
+		// 		content: "您的问题超出了小图的理解能力喔 ~ ",
+		// 	})
+		// }
 		// #ifdef APP-PLUS
 		showList_BugInAPP.value = false
 		// #endif
@@ -201,7 +218,6 @@
 		else {
 			feedbacklist.value.matched = chatList.value[serial].questionList.map(item => item.answer.toString());
 		}
-		console.log(feedbacklist.value);
 		const { userId, question, matched, status } = feedbacklist.value;
 		const data : feedBackList = { userId, question, matched, status };
 		const res : any = await submitFeedback(data)
@@ -226,7 +242,6 @@
 		else {
 			feedbacklist.value.matched = chatList.value[serial].questionList.map(item => item.answer.toString());
 		}
-		console.log(feedbacklist.value);
 		const { userId, question, matched, status } = feedbacklist.value;
 		const data : feedBackList = { userId, question, matched, status };
 		const res : any = await submitFeedback(data)
@@ -277,6 +292,49 @@
 		})
 		scrollBottom()
 	}
+	//调用微信对话平台
+	const toComment = async () => {
+		wx.login({
+			success: (res) => {
+				//获取openid
+				const res1 = getOpenId({
+					appid: "wx10a1836791a682d0",
+					secret: "35437585ba8d6e4f08602aff81e1ba78",
+					js_code: res.code,
+					grant_type: "authorization_code",
+				})
+			},
+			fail: (error) => {
+				console.log("失败", error)
+			},
+			complete: () => { },
+		});
+
+		plugin.init({
+			appid: "HIsRh8vT25AHKfzXhYrhufodkOACze", //微信对话开放平台小程序插件appid
+			openid: uni.getStorageSync("openId"), // 小程序用户的openid，必填项
+			userHeader: "", // 用户头像,不传会弹出登录框
+			userName: "", // 用户昵称,不传会弹出登录框
+			anonymous: false, // 是否允许匿名用户登录，版本1.2.9后生效, 默认为false，设为true时，未传递userName、userHeader两个字段时将弹出登录框
+			success: () => {
+				// 初始化成功后的逻辑  
+				console.log('插件初始化成功');
+			},
+			fail: (error) => {
+				// 初始化失败后的逻辑  
+				console.error('插件初始化失败:', error);
+				// 显示错误提示给用户  
+				uni.showToast({
+					title: '插件初始化失败',
+					icon: 'none'
+				});
+			}
+		});
+
+	}
+	onMounted(async () => {
+		toComment();
+	})
 </script>
 
 <style scoped lang="scss">
@@ -297,6 +355,7 @@
 			margin: 10px 0;
 			align-items: flex-start;
 			flex-direction: row;
+			width: 100%;
 
 			.chat {
 				display: flex;

@@ -207,6 +207,7 @@
 	//获取人物基本信息
 	const getUserInfo = async () => {
 		const res = await userInfoApi()
+		console.log("人物信息", res)
 		if (res) {
 			info.value = res.data
 			uni.setStorageSync("userInfo", res.data)

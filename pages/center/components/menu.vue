@@ -134,7 +134,6 @@
 					title: "跳转失败",
 					duration: 2000
 				})
-				console.log('plugin.openComment fail', res)
 			}
 		})
 	}
