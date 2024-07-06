@@ -141,7 +141,6 @@
 				errorMsg.value.open()
 				return
 			}
-			console.log("res2")
 			const res2 = await login1API(res1.data.tgt)
 			// 第三个接口，请求自己的后台，获取到Cookie
 			let myCookie = await loginFinalApi(res2.data)

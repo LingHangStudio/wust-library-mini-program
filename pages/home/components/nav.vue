@@ -90,9 +90,6 @@
 	// 	}, 3000); // 3秒后关闭消息
 	// }
 	const goTo = (url : string, type : string) => {
-		// if (url == "/page-center/mySubscribe") {
-		// 	messageToggle();
-		// }
 		if (type == "tsg") {
 			uni.navigateTo({
 				url: "/page-service/tsgview?url=" + url,

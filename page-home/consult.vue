@@ -299,7 +299,7 @@
 				//获取openid
 				const res1 = getOpenId({
 					appid: "wx10a1836791a682d0",
-					secret: "35437585ba8d6e4f08602aff81e1ba78",
+					// secret: "",
 					js_code: res.code,
 					grant_type: "authorization_code",
 				})

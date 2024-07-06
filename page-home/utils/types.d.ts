@@ -88,7 +88,7 @@ export interface feedBackList {
 //获取openid
 export interface openIdList {
 	appid : string;
-	secret : string;
+	// secret : string;
 	js_code : string;
 	grant_type : string;
 }
