@@ -1,33 +1,22 @@
 <template>
 	<view class="root">
-		<Logo></Logo>
-		<view @tap.stop="goTo('/page-home/search', 'inner')">
-			<uni-search-bar bg-color="#EBEDF0" readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN"
-				:radius="100"></uni-search-bar>
-		</view>
-
-		<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
-			<swiper-item @tap="viewImg(item.url)" v-for="(item, index) in bannerList" :key="index">
-				<image :src="item.url" alt="error"></image>
-			</swiper-item>
-		</swiper>
-
+		<!-- 搜索框 -->
+		<Search></Search>
+		<!-- 借阅服务列表 -->
 		<Nav></Nav>
+		<!-- 公众号轮播图 -->
+		<OfficialSwiper></officialSwiper>
+		<!-- 好书推荐 -->
 		<Recommend></Recommend>
-		<uni-popup ref="popImg">
-			<movable-area class="img-area">
-				<movable-view :inertia="true" :out-of-bounds="true" direction="all" :scale="true">
-					<image :src="imgUrl" alt="图片加载失败"></image>
-				</movable-view>
-			</movable-area>
-		</uni-popup>
 	</view>
 </template>
 
 <script setup lang="ts">
 	import Nav from "@/pages/home/components/nav.vue"
-	import Logo from "@/pages/home/components/logo.vue"
+	import Search from "@/pages/home/components/search.vue"
 	import Recommend from "@/pages/home/components/recommend.vue"
+	import OfficialSwiper from "@/pages/home/components/officialSwiper.vue"
+
 	import { ref, onMounted, Ref } from "vue"
 	import { removeAuthorization } from "@/router/auth"
 	import { loginAPI, login1API } from "@/api/user/user"
@@ -38,19 +27,8 @@
 	const popImg = ref(null)
 	const imgUrl = ref("")
 
-	const bannerList = ref([
-		{
-			url: "https://smarttool.wust.edu.cn:3001/images/background-img1.jpg",
-		},
-		{
-			url: "https://smarttool.wust.edu.cn:3001/images/background-img2.jpg",
-		},
-	])
 
-	const goTo = (url : string, type : string) => {
-		if (type == "tsg") uni.navigateTo({ url: "/page-home/tsgview?url=" + url })
-		else uni.navigateTo({ url: url })
-	}
+
 
 	const login = async (loginInfo : any) => {
 		try {

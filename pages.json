@@ -14,11 +14,6 @@
 				"pagePath": "pages/activity/index",
 				"iconPath": "@iconPathActivity",
 				"selectedIconPath": "@selectedIconPathActivity"
-			}, {
-				"text": "消息资源",
-				"pagePath": "pages/resources/index",
-				"iconPath": "@iconPathResource",
-				"selectedIconPath": "@selectedIconPathResource"
 			},
 			{
 				"text": "个人中心",
@@ -33,7 +28,7 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "主页"
+				"navigationBarTitleText": "武汉科技大学图书馆"
 			}
 		},
 		{
@@ -41,13 +36,6 @@
 			"style": {
 				"onReachBottomDistance": 100,
 				"navigationBarTitleText": "活动"
-			}
-		},
-		{
-			"path": "pages/resources/index",
-			"style": {
-				"onReachBottomDistance": 100,
-				"navigationBarTitleText": "消息资源"
 			}
 		},
 		//个人中心
@@ -60,35 +48,27 @@
 	],
 	"subPackages": [{
 		"root": "page-home",
-		"pages": [
-			// 	{
-			// 	"path": "consult",
-			// 	"style": {
-			// 		"navigationBarTitleText": "咨询"
-			// 	}
-			// },
-			{
-				"path": "hello",
-				"style": {
-					"navigationStyle": "custom"
-				}
-			}, {
-				"path": "search",
-				"style": {
-					"navigationBarTitleText": "搜索"
-				}
-			}, {
-				"path": "search-list",
-				"style": {
-					"navigationBarTitleText": "检索结果"
-				}
-			}, {
-				"path": "detail",
-				"style": {
-					"navigationStyle": "custom"
-				}
+		"pages": [{
+			"path": "hello",
+			"style": {
+				"navigationStyle": "custom"
 			}
-		]
+		}, {
+			"path": "search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		}, {
+			"path": "search-list",
+			"style": {
+				"navigationBarTitleText": "检索结果"
+			}
+		}, {
+			"path": "detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}]
 	}, {
 		"root": "page-service",
 		"pages": [{

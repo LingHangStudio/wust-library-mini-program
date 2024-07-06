@@ -1,25 +1,45 @@
 <template>
+	<!-- 等待时候展示的样式骨架屏（一个个灰色横杠） -->
 	<ListSkeleton v-if="loadingSkeleton" :rows="4"></ListSkeleton>
+	<!-- 推荐卡片 -->
 	<uni-card v-else margin="10px 8px 5px 8px" spacing="0px" padding="0px">
-		<uni-section title="为您推荐" type="line" type-color="#142d88">
-			<template #right>
-				<view v-show="recommendList.length !== 0" hover-class="rotate-2d">
-					<uni-icons type="refresh" size="24" color="#142d88" @click="changeBatch"></uni-icons>
+		<!-- 标题 -->
+		<view class="recommendTitle">好书推荐</view>
+		<!-- 内容 -->
+		<!-- 如果没有数据展示Empty组件 -->
+		<template v-if="recommendList.length === 0">
+			<Empty width="160px" height="120px"></Empty>
+		</template>
+		<!-- 如果有数据展示图片 -->
+		<view v-else class="recommendCard">
+			<view v-for="(item, index) in recommendList" :key="index" class="recommendContent"
+				@tap="goToInner(item.bibId)">
+				<view>
+					<image :src="item.url" alt="error"></image>
 				</view>
+				<view>{{ item.name }}</view>
+			</view>
+		</view>
+
+
+
+		<!-- <template #right>
+			<view v-show="recommendList.length !== 0" hover-class="rotate-2d">
+				<uni-icons type="refresh" size="24" color="#22b3f6" @click="changeBatch"></uni-icons>
+			</view>
+		</template>
+		<uni-transition mode-class="fade" :show="recommendStatus.show">
+			<template v-if="recommendList.length === 0">
+				<Empty width="160px" height="120px"></Empty>
 			</template>
-			<uni-transition mode-class="fade" :show="recommendStatus.show">
-				<template v-if="recommendList.length === 0">
-					<Empty width="160px" height="120px"></Empty>
-				</template>
-				<view v-else class="list">
-					<view v-for="item in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
-						:key="item.rank" class="item" @tap="goToInner(item.bibId)">
-						<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
-						<span class="title">{{ item.title }}</span>
-					</view>
+			<view v-else class="list">
+				<view v-for="item in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
+					:key="item.rank" class="item" @tap="goToInner(item.bibId)">
+					<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
+					<span class="title">{{ item.title }}</span>
 				</view>
-			</uni-transition>
-		</uni-section>
+			</view>
+		</uni-transition> -->
 	</uni-card>
 </template>
 
@@ -72,6 +92,17 @@
 </script>
 
 <style scoped lang="scss">
+	.recommendTitle {
+		padding: 10px;
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.recommendContent {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.list {
 		display: flex;
 		justify-content: space-around;
