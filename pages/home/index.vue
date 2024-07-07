@@ -28,7 +28,10 @@
 	const imgUrl = ref("")
 
 
+	// onPullDownRefresh() {
+	// 	console.log("下拉刷新了")
 
+	// }
 
 	const login = async (loginInfo : any) => {
 		try {

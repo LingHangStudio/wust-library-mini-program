@@ -19,6 +19,7 @@
 			url: "/page-center/mySubscribe",
 			icon: "calendar",
 		},
+
 		{
 			id: "",
 			name: "借阅服务",
@@ -26,6 +27,7 @@
 			icon: "star",
 			type: "tsg",
 		},
+
 		{
 			id: "",
 			name: "科研服务",
@@ -53,6 +55,12 @@
 			url: "https://tsg.wust.edu.cn/gy.htm",
 			icon: "flag",
 			type: "tsg",
+		},
+		{
+			id: "",
+			name: "电子资源访问",
+			url: "/page-home/resourceWebsite",
+			icon: "bars",
 		},
 	]
 	// 跳转页面
@@ -98,5 +106,6 @@
 		.navContent:nth-child(5) {
 			padding: 10px 8px 10px 15px;
 		}
+
 	}
 </style>

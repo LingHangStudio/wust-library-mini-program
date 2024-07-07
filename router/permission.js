@@ -13,6 +13,7 @@ const whiteList = [
 	"/page-home/search",
 	"/page-home/search-list",
 	"/page-home/detail",
+	"/page-home/resourceWebsite",
 	// '/page-home/tsgview',
 	"/page-service/tsgview",
 	"/page-service/inner",

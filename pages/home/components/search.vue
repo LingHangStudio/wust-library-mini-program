@@ -5,8 +5,8 @@
 		<uni-notice-bar show-icon scrollable color="#fff" background-color="#39baf6"
 			text="uni-app 版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
 		<!-- 首页搜索框,readonly(只读）) -->
-		<view @tap.stop="goTo('/page-home/search', 'inner')">
-			<uni-search-bar readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN" :radius="80"></uni-search-bar>
+		<view @tap.stop="goTo('/page-home/search', 'inner')" class="search">
+			<uni-search-bar readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN" :radius="60"></uni-search-bar>
 		</view>
 	</view>
 
@@ -22,5 +22,9 @@
 <style scoped lang="scss">
 	.searchBox {
 		background-color: #22b3f6;
+
+		.search {
+			padding: 10px;
+		}
 	}
 </style>

@@ -28,7 +28,10 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "武汉科技大学图书馆"
+				"navigationBarTitleText": "武汉科技大学图书馆",
+				// 支持下拉刷新
+				"enablePullDownRefresh": true
+
 			}
 		},
 		{
@@ -67,6 +70,11 @@
 			"path": "detail",
 			"style": {
 				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "resourceWebsite",
+			"style": {
+				"navigationBarTitleText": "电子资源库"
 			}
 		}]
 	}, {

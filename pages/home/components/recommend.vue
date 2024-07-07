@@ -10,59 +10,64 @@
 		<template v-if="recommendList.length === 0">
 			<Empty width="160px" height="120px"></Empty>
 		</template>
-		<!-- 如果有数据展示图片 -->
+		<!-- 如果有数据展示 -->
 		<view v-else class="recommendCard">
-			<view v-for="(item, index) in recommendList" :key="index" class="recommendContent"
-				@tap="goToInner(item.bibId)">
-				<view>
-					<image :src="item.url" alt="error"></image>
+			<scroll-view :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh" enable-back-to-top
+				enhanced bounces @scroll="isShowArrow" @scrolltolower="getMoreFunc">
+				<view v-for="(item, index) in recommendList" :key="index" class="recommendContent"
+					@tap="goToInner(item.bibId)">
+					<!-- 推荐书籍图片，但是接口没有给所以只能用固定图片 -->
+					<view class="recommendPhoto">
+						<image src="../../../static/book.png" alt="error" class="photo"></image>
+					</view>
+					<!-- 推荐书籍右部介绍 -->
+					<view class="bookContent">
+						<view class="bookTitle">{{ item.title }}</view>
+						<view class="bookAuthor">{{ item.author }} / {{item.pub_year}} / {{item.publisher}}</view>
+						<view class="bookISBN">ISBN号：{{item.isbn}}</view>
+					</view>
 				</view>
-				<view>{{ item.name }}</view>
-			</view>
+				<view style="text-align: center; padding: 3px">--到底啦！共{{ recommendList.length }}条--</view>
+			</scroll-view>
 		</view>
-
-
-
-		<!-- <template #right>
-			<view v-show="recommendList.length !== 0" hover-class="rotate-2d">
-				<uni-icons type="refresh" size="24" color="#22b3f6" @click="changeBatch"></uni-icons>
-			</view>
-		</template>
-		<uni-transition mode-class="fade" :show="recommendStatus.show">
-			<template v-if="recommendList.length === 0">
-				<Empty width="160px" height="120px"></Empty>
-			</template>
-			<view v-else class="list">
-				<view v-for="item in recommendList.slice(8 * recommendStatus.index, 8 + 8 * recommendStatus.index)"
-					:key="item.rank" class="item" @tap="goToInner(item.bibId)">
-					<span class="order" :style="{ backgroundColor: setColor(item.rank) }">{{ item.rank }}</span>
-					<span class="title">{{ item.title }}</span>
-				</view>
-			</view>
-		</uni-transition> -->
 	</uni-card>
+	<uni-fab v-show="topArrow" icon="top" horizontal="right" vertical="bottom" button-color="" background-color=""
+		:pop-menu="false" @fab-click="toTop" />
 </template>
 
 <script setup lang="ts">
 	import { hotApi } from "@/api/huiwen/home"
-	import { onMounted, ref, Ref } from "vue"
+	import { nextTick, onMounted, ref, Ref } from "vue"
 	const loadingSkeleton = ref(true)
 	const recommendList : Ref<any[]> = ref([])
-
-	const getRecommend = async () => {
-		const res = await hotApi(16)
+	let bookCount = ref(10)
+	// 置顶按钮
+	const myScroll = ref(0)
+	const oldScrollTop = ref(0)
+	const topArrow = ref(false)
+	const toTop = () => {
+		myScroll.value = oldScrollTop.value
+		nextTick(() => myScroll.value = -30)
+		topArrow.value = false
+	}
+	const isShowArrow = (e : any) => {
+		oldScrollTop.value = e.detail.scrollTop
+		e.detail.scrollTop > 50 ? topArrow.value = true : topArrow.value = false
+	}
+	//获取推荐书籍信息
+	const getRecommend = async (total : number) => {
+		const res = await hotApi(total)
 		res && (recommendList.value = res.data as any[])
 		// 无论请求成功与否，都关闭骨架屏
 		loadingSkeleton.value = false
 	}
-
-	const setColor = (order : number) => {
-		const colorMap = {
-			1: "#ffbb3b",
-			2: "#d9dae3",
-			3: "#ff9d6a",
-		};
-		return colorMap[order] ?? "";
+	const getMoreFunc = () => {
+		bookCount.value += 10;
+		getRecommend(bookCount.value)
+		setTimeout(() => {
+			//结束下拉刷新
+			uni.stopPullDownRefresh();
+		}, 1000);
 	}
 
 	// 推荐的书目，进入书籍详情
@@ -72,23 +77,8 @@
 		})
 	}
 
-	const recommendStatus = ref({
-		index: 0,
-		show: true
-	})
 
-	// 换一换：改变展示的列表
-	const changeBatch = () => {
-		recommendStatus.value.show = false;
-		setTimeout(() => {
-			recommendStatus.value = {
-				index: (recommendStatus.value.index + 1) % 2,
-				show: true
-			}
-		}, 300)
-	}
-
-	onMounted(() => getRecommend())
+	onMounted(() => getRecommend(10))
 </script>
 
 <style scoped lang="scss">
@@ -98,47 +88,67 @@
 		font-weight: 600;
 	}
 
-	.recommendContent {
+	.recommendCard {
 		display: flex;
 		flex-direction: column;
-	}
 
-	.list {
-		display: flex;
-		justify-content: space-around;
-		flex-wrap: wrap;
+		.recommendContent {
+			display: flex;
+			flex-direction: row;
+			height: 150px;
+			padding: 5px 15px 15px 15px;
 
-		.item {
-			// padding-left: 10px;
-			height: 35px;
-			border: none;
-			width: 45%;
-			align-items: center;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			word-break: break-all;
+			.recommendPhoto {
+				padding: 0 5px 0 0;
+
+				.photo {
+					width: 100px;
+					height: 150px;
+				}
+			}
+
+			.bookContent {
+				display: flex;
+				flex-direction: column;
+				padding: 0 10px 0 10px;
+				width: 150px;
+
+				.bookTitle {
+					padding: 10px 0 0 0;
+					font-size: 16px;
+					color: #339ed9;
+					font-weight: 550;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.bookAuthor,
+				.bookISBN {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					display: -moz-box;
+					-moz-line-clamp: 2;
+					-moz-box-orient: vertical;
+					word-wrap: break-word;
+					word-break: break-all;
+					white-space: normal;
+					font-size: 12px;
+				}
+
+				.bookAuthor {
+					height: 36px;
+					padding: 10px 0;
+					color: black;
+				}
+
+				.bookISBN {
+					color: gray;
+				}
+			}
 		}
-	}
-
-	.title {
-		width: 100%;
-		font-size: 1rem;
-		// margin: 2px;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		word-break: break-all;
-		white-space: nowrap;
-	}
-
-	.order {
-		display: inline-block;
-		border-radius: 50%;
-		// padding: 10px;
-		width: 25px;
-		align-items: center;
-		text-align: center;
-		height: 25px;
-		// line-height: 12.5px;
 	}
 </style>
