@@ -23,10 +23,11 @@
 						</view>
 						<view class="font">
 							<view class="title">
-								{{ item.title }}
+								{{item.title}}
 							</view>
-							<view class="date">
-								{{ item.date }}
+							<view class="link" v-if="item.link.length!==0">
+								<view class="linkWord">{{item.link}}</view>
+								<button @click="copy(item.link)" class="linkButton" type="primary">复制</button>
 							</view>
 						</view>
 					</view>
@@ -36,6 +37,8 @@
 			<view style="text-align: center; padding: 3px">--到底啦！共{{ showList.length }}条--</view>
 		</scroll-view>
 	</view>
+
+	<!-- 返回顶部按钮 -->
 	<uni-fab v-show="topArrow" icon="top" horizontal="right" vertical="bottom" button-color="" background-color=""
 		:pop-menu="false" @fab-click="toTop" />
 </template>
@@ -45,15 +48,16 @@
 	import { articleListApi } from "@/api/end/index"
 	const loading = ref(true)
 	const items = ref(["全部", "中文库", "外文库", "OA库", "自建库"])
-
+	const showLists = ref([{ key: 1,title:"测试", link: "https://blog.csdn.net/qd_ljp/article/details/119732680" },
+	{ key: 2,title:"测试",link: "https://blog.csdn.net/qd_ljp/article/details" }, { key: 3,title:"ceshi",link: "https://blog.csdn.ne99999" }])
 	const showList = ref([])
-
 	// 分栏
 	const current = ref(0)
 	// 置顶按钮
 	const myScroll = ref(0)
 	const oldScrollTop = ref(0)
 	const topArrow = ref(false)
+
 	const toTop = () => {
 		myScroll.value = oldScrollTop.value
 		nextTick(() => myScroll.value = -30)
@@ -72,6 +76,7 @@
 		if (res.code === 200) {
 			showList.value = res.data.list
 		}
+		showList.value = showLists.value
 		loading.value = false
 	}
 
@@ -82,9 +87,15 @@
 			loading.value = true
 			showList.value = []
 			getArticleList(e.currentIndex)
+			loading.value = false
 		}
 	}
-
+	//复制信息
+	const copy = (value : string) => {
+		uni.setClipboardData({
+			data: value,
+		})
+	}
 	onMounted(() => {
 		getArticleList(0)
 	})
@@ -118,6 +129,7 @@
 		display: flex;
 		align-items: center;
 		min-height: 57px;
+		width: 100%;
 
 		.line {
 			width: 3px;
@@ -128,10 +140,9 @@
 
 		.font {
 			align-items: center;
-			// margin: auto 0;
-			// line-height: 1rem;
 			margin-left: 2px;
 			padding: 3px 0;
+			width: 100%;
 
 			.title {
 				font-size: 18px;
@@ -150,9 +161,31 @@
 				white-space: normal;
 			}
 
-			.date {
-				font-size: 14px;
-				color: #9a9999;
+			.link {
+
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+				width: 80%;
+
+				.linkWord {
+					font-size: 14px;
+					color: #9a9999;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				.linkButton {
+					margin-left: 5px;
+					padding: 0 5px 0 5px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					height: 16px;
+					font-size: 8px;
+					width: 40px;
+				}
 			}
 		}
 	}

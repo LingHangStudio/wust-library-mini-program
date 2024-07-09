@@ -38,7 +38,6 @@
 		<!-- #endif -->
 	</uni-card>
 
-	<button class="self-button" @tap="toComment" type="default">体验评价</button>
 </template>
 
 <script setup lang="ts">
@@ -78,20 +77,6 @@
 				auth: "user",
 			},
 		},
-		// {
-		// 	id: "",
-		// 	name: "我的预约",
-		// 	url: "",
-		// 	inner: false,
-		// 	icon: "tune", complete: ""
-		// },
-		// {
-		// 	id: "",
-		// 	name: "我的收藏",
-		// 	url: "",
-		// 	inner: false,
-		// 	icon: "folder-add", complete: ""
-		// },
 		{
 			id: "",
 			name: "关于我们",
@@ -101,15 +86,6 @@
 				auth: "no",
 			},
 		},
-		// {
-		// 	id: "",
-		// 	name: "设置",
-		// 	url: "/page-center/set",
-		// 	icon: "settings",
-		// 	meta: {
-		// 		auth: "no",
-		// 	},
-		// },
 	]
 
 	// 通过权限判断显示和隐藏
@@ -117,8 +93,6 @@
 		return (
 			meta.auth === "no" || (meta.auth === "user" && uni.getStorageSync("loginState")) || (meta.auth === "visitor" && !uni.getStorageSync("loginState"))
 		)
-		// || (meta.auth === 'user' && store.loginState)
-		// || (meta.auth === 'visitor' && !store.loginState)
 	}
 
 

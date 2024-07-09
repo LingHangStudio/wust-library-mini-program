@@ -41,10 +41,12 @@
 </template>
 
 <script setup lang="ts">
-	import { loginAPI, login1API } from "@/api/user/user"
+	import { loginAPI, login1API, loginWust } from "@/api/user/user"
 	import { loginFinalApi, getCodeApi } from "@/api/end"
 	import { ref, onMounted } from "vue"
 	import { userInfoApi } from "@/page-center/utils/huiwen/center"
+	// 引入crypto-js的MD5模块
+	import CryptoJS from 'crypto-js';
 	// #ifndef APP-PLUS
 	import { useStore } from "@/store"
 	// #endif
@@ -119,46 +121,92 @@
 		},
 	}
 
-	const encrypt = (password : string) => {
-		const rsaTokenPublicModulus =
-			"b5eeb166e069920e80bebd1fea4829d3d1f3216f2aabe79b6c47a3c18dcee5fd22c2e7ac519cab59198ece036dcf289ea8201e2a0b9ded307f8fb704136eaeb670286f5ad44e691005ba9ea5af04ada5367cd724b5a26fdb5120cc95b6431604bd219c6b7d83a6f8f24b43918ea988a76f93c333aa5a20991493d4eb1117e7b1"
-		const rsaTokenPublicExponent = "10001"
-		return RSA.encryptedString(RSA.getKeyPair(rsaTokenPublicExponent, "", rsaTokenPublicModulus), password)
+	const encrypt = (password : string, appid : string) => {
+		// 第一次Base64编码  
+		const firstEncoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(password));
+		// 将第一次编码的结果与appid拼接  
+		const combined = firstEncoded + appid;
+		// 第二次Base64编码  
+		const secondEncoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(combined));
+		// 返回最终编码的字符串  
+		return secondEncoded;
+	};
+
+	//获取时间currentTime
+	const getCurrentTime = () => {
+		// 创建一个Date对象  
+		const now = new Date();
+		// 获取年份  
+		const year = now.getFullYear();
+		// 获取月份，由于getMonth()返回的月份是从0开始的，所以要加1  
+		const month = (now.getMonth() + 1).toString().padStart(2, '0');
+		// 获取日期  
+		const day = now.getDate().toString().padStart(2, '0');
+		// 拼接成yyyyMMdd格式  
+		const dateStr = year + month + day;
+		//返回出去
+		return dateStr
 	}
 
-	const login = async () => {
-		let password = encrypt(userForm.value.password)
-		try {
-			const res1 = await loginAPI({ ...userForm.value, password })
-			if (res1?.data.data) {
-				if (res1?.data.data.code === "NOUSER") {
-					errorMsgContent.value = "账号不存在。"
-				} else if (res1?.data.data.code === "PASSERROR") {
-					errorMsgContent.value = `密码错误。一共${res1?.data.data.data[0]} 已经错误${res1?.data.data.data[2]},`
-				} else {
-					errorMsgContent.value = "账号异常"
-				}
-				errorMsg.value.open()
-				return
-			}
-			const res2 = await login1API(res1.data.tgt)
-			// 第三个接口，请求自己的后台，获取到Cookie
-			let myCookie = await loginFinalApi(res2.data)
-			// 登录成功后的处理
-			uni.setStorageSync("loginState", true)
-			uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
-			uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
+	// 获取secret
+	function getSecret(userName : string, appid : string, currentTime : string) {
+		// 将用户名、appid和当前时间拼接成一个字符串  
+		const inputString = userName + appid + currentTime;
+		// 使用CryptoJS的MD5函数进行加密  
+		const encryptedValue = CryptoJS.MD5(inputString).toString();
+		// 返回加密后的字符串  
+		return encryptedValue;
+	}
 
-			const res = await userInfoApi()
-			if (res) {
-				uni.setStorageSync("userInfo", res.data)
-			}
-			// #ifndef APP-PLUS
-			store.setloginState(true)
-			// #endif
-			uni.reLaunch({
-				url: "/pages/home/index",
+
+	const login = async () => {
+		let appid = "07E6724C8712B9F0"
+		let password = encrypt(userForm.value.password, appid)
+		let currentTime = getCurrentTime()
+		let secret = getSecret(userForm.value.username, appid, currentTime)
+		try {
+			console.log("password:",password)
+			console.log("currentTime:",currentTime)
+			console.log("secret:",secret)
+			console.log("appid:",appid)
+			const res = await loginWust({
+				appid,
+				username: userForm.value.username,
+				secret,
+				password,
 			})
+			console.log(res)
+
+			// const res1 = await loginAPI({ ...userForm.value, password })
+			// if (res1?.data.data) {
+			// 	if (res1?.data.data.code === "NOUSER") {
+			// 		errorMsgContent.value = "账号不存在。"
+			// 	} else if (res1?.data.data.code === "PASSERROR") {
+			// 		errorMsgContent.value = `密码错误。一共${res1?.data.data.data[0]} 已经错误${res1?.data.data.data[2]},`
+			// 	} else {
+			// 		errorMsgContent.value = "账号异常"
+			// 	}
+			// 	errorMsg.value.open()
+			// 	return
+			// }
+			// const res2 = await login1API(res1.data.tgt)
+			// // 第三个接口，请求自己的后台，获取到Cookie
+			// let myCookie = await loginFinalApi(res2.data)
+			// // 登录成功后的处理
+			// uni.setStorageSync("loginState", true)
+			// uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
+			// uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
+
+			// const res = await userInfoApi()
+			// if (res) {
+			// 	uni.setStorageSync("userInfo", res.data)
+			// }
+			// // #ifndef APP-PLUS
+			// store.setloginState(true)
+			// // #endif
+			// uni.reLaunch({
+			// 	url: "/pages/home/index",
+			// })
 		} catch (e) {
 			uni.showToast({
 				title: "登录失败",

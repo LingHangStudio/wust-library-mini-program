@@ -3,14 +3,23 @@
 		<view class="navTitle">借阅服务</view>
 		<view class="navCard">
 			<view v-for="(item, index) in menu" :key="index" class="navContent" @tap="goTo(item.url, item.type)">
-				<uni-icons :type="item.icon" color="#F0E7FE" size="50"></uni-icons>
+				<uni-icons :type="item.icon" color="#E7F1FE" size="50"></uni-icons>
 				<view>{{ item.name }}</view>
 			</view>
 		</view>
 	</uni-card>
+	<view>
+		<!-- 提示信息弹窗 -->
+		<uni-popup ref="moreMsg" type="message">
+			<uni-popup-message  type="success" message="呜呜呜就这点功能,别点了" :duration="2000"></uni-popup-message>
+		</uni-popup>
+	</view>
 </template>
 
 <script setup lang="ts">
+	import {ref} from "vue"
+	//更多点击弹窗
+	const moreMsg =ref(null)
 	//借阅服务的数据列表
 	const menu = [
 		{
@@ -58,9 +67,16 @@
 		},
 		{
 			id: "",
-			name: "电子资源访问",
+			name: "电子资源",
 			url: "/page-home/resourceWebsite",
 			icon: "bars",
+		},
+		{
+			id: "",
+			name: "更多",
+			url: "",
+			icon: "bars",
+			type: "more"
 		},
 	]
 	// 跳转页面
@@ -69,6 +85,9 @@
 			uni.navigateTo({
 				url: "/page-service/tsgview?url=" + url,
 			})
+		}
+		else if (type == "more") {
+			moreMsg.value.open();
 		}
 		else {
 			uni.navigateTo({
@@ -89,6 +108,7 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		justify-content: space-around;
 
 		.navContent {
 			display: flex;
@@ -106,6 +126,7 @@
 		.navContent:nth-child(5) {
 			padding: 10px 8px 10px 15px;
 		}
+
 
 	}
 </style>

@@ -3,7 +3,7 @@
 	<view class="searchBox">
 		<!-- 通告栏 -->
 		<uni-notice-bar show-icon scrollable color="#fff" background-color="#39baf6"
-			text="uni-app 版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
+			text="暑期版本更新中,QQ群345514337,有意见进来找群主让群主改,我们宗旨是为同学们服务" />
 		<!-- 首页搜索框,readonly(只读）) -->
 		<view @tap.stop="goTo('/page-home/search', 'inner')" class="search">
 			<uni-search-bar readonly cancel-button="none" placeholder="搜索书名,作者,分类,IBSN" :radius="60"></uni-search-bar>
