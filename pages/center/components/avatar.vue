@@ -4,12 +4,7 @@
 			<image class="header-image" src="@/static/face1.png" alt="avatar"></image>
 		</view>
 		<view class="info">
-			<!-- #ifndef APP-PLUS -->
-			{{store.userInfo.displayName}}
-			<!-- #endif -->
-			<!-- #ifdef APP-PLUS -->
-			安卓用户
-			<!-- #endif -->
+			{{userInfo.displayName}}
 		</view>
 		<view class="star">
 			<view class="layer1"></view>
@@ -20,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-	// #ifndef APP-PLUS
-	import { useStore } from "@/store"
+	import { useStore } from "../../../store"
+	import { storeToRefs } from 'pinia'
 	const store = useStore()
-	// #endif
+	const { userInfo } = storeToRefs(store);
 </script>
 
 <style scoped lang="scss">

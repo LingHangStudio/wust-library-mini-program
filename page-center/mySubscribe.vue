@@ -5,23 +5,22 @@
 	</view>
 	<ListSkeleton v-if="loading" :loop="6" :rows="2"></ListSkeleton>
 	<List v-else :list-length="lists.length" :page="paginations.currentPage" :page-size="paginations.pageNum"
-		empty-info="立学以读书为本" @get-more="getMyList(paginations.currentPage + 1, paginations.pageNum)">
+		empty-info="立学以读书为本" @get-more="getMyList(loginInfo.userName, 0,paginations.currentPage + 1, paginations.pageNum)">
 		<view v-show="false" class="tag">
 			<uni-tag type="theme" circle inverted text="导出海报" @tap="showShare = true"></uni-tag>
 		</view>
-		<uni-card v-for="(item, index) in lists" :key="item?.bibId" margin="8px" class="item" @tap="getInfo(index)">
+		<uni-card v-for="(item, index) in lists" :key="item?.callNo" margin="8px" class="item" @tap="getInfo(index)">
 			<template #title>
 				<view class="card-header">
 					<view class="card-header-content">
-						<text class="card-header-content-title">{{item?.title || item?.item.bibAttrs.title}}</text>
+						<text class="card-header-content-title">{{item?.title}}</text>
 					</view>
 					<view class="card-header-extra">
 						<uni-icons type="more-filled" size="24" color="#142d88"></uni-icons>
 					</view>
 				</view>
 			</template>
-			<view v-if="item?.item">索书号：{{ item?.item.callNo}}</view>
-			<view v-else>索书号：{{ item?.bibAttrs.callno}}</view>
+			<view v-show="item?.callNo">索书号：{{ item?.callNo}}</view>
 			<view>借阅时间:{{ item?.loanDate }}</view>
 			<view v-show="item?.dueDate" class="">应还时间:{{ item?.dueDate }} </view>
 			<view v-show="item?.returnDate" class="">归还时间:{{ item?.returnDate }} </view>
@@ -38,28 +37,25 @@
 					<view class="card-header-content">
 						<text class="card-header-content-title">{{currentBookInfo?.title}}</text>
 					</view>
-					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">
+					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.barCode)">
 						续借
 					</view>
 				</view>
 			</template>
-			<view v-if="currentBookInfo?.item">条码号：{{ currentBookInfo?.item.barCode }}</view>
-			<view v-else>条码号：{{ currentBookInfo?.barCode }}</view>
+			<view>条码号：{{ currentBookInfo.barCode }}</view>
 			<view>
 				索书号：
-				<span class="lightHight" v-if="currentBookInfo?.item"
-					@tap="copyNo(currentBookInfo?.item.callNo)">{{ currentBookInfo?.item.callNo }}</span>
-				<span v-else class="lightHight"
-					@tap="copyNo(currentBookInfo?.bibAttrs.callno)">{{ currentBookInfo?.bibAttrs.callno }}</span>
+				<span class="lightHight" 
+					@tap="copyNo(currentBookInfo?.callNo)">{{ currentBookInfo?.callNo }}</span>
 			</view>
-			<view>ISBN:{{ currentBookInfo?.bibAttrs.isbn  }}</view>
-			<view>出版年:{{ currentBookInfo?.bibAttrs.pub_year }}</view>
+			<view>ISBN:{{ currentBookInfo?.isbn  }}</view>
+			<view>出版年:{{ currentBookInfo?.pubYear }}</view>
 			<view class=""> 作者：{{ currentBookInfo?.author }} </view>
-			<view class=""> 出版社：{{ currentBookInfo?.bibAttrs.publisher }} </view>
+			<view class=""> 出版社：{{ currentBookInfo?.publisher }} </view>
 			<view>借阅时间:{{ currentBookInfo?.loanDate }}</view>
 			<view v-show="currentBookInfo?.dueDate" class="">应还时间:{{ currentBookInfo?.dueDate }} </view>
 			<view v-show="currentBookInfo?.returnDate" class="">归还时间:{{ currentBookInfo?.returnDate }} </view>
-			<view class=""> 借阅地点:{{ currentBookInfo?.location }} </view>
+			<view class=""> 借阅地点:{{ currentBookInfo?.locaCodeDesc }} </view>
 		</uni-card>
 
 		<uni-card v-else is-full :border=" false" :title="currentBookInfo?.item.bibAttrs.title">
@@ -68,23 +64,23 @@
 					<view class="card-header-content">
 						<text class="card-header-content-title">{{currentBookInfo?.item.bibAttrs.title}}</text>
 					</view>
-					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.loanId)">
+					<view class="card-header-extra lightHight" @tap="reNewOpera(currentBookInfo?.barCode)">
 						续借
 					</view>
 				</view>
 			</template>
 
-			<view>条码号：{{ currentBookInfo?.item.barCode }}</view>
-			<view @tap="copyNo(currentBookInfo?.item.callNo)">
+			<view>条码号：{{ currentBookInfo?.barCode }}</view>
+			<view @tap="copyNo(currentBookInfo?.callNo)">
 				索书号：
 				<span class="lightHight">
-					{{ currentBookInfo?.item.callNo }}
+					{{ currentBookInfo?.callNo }}
 				</span>
 			</view>
-			<view>ISBN:{{ currentBookInfo?.item.bibAttrs.isbn }}</view>
-			<view>出版年:{{ currentBookInfo?.item.bibAttrs.pub_year }}</view>
-			<view class=""> 作者：{{ currentBookInfo?.item.bibAttrs.author }} </view>
-			<view class=""> 出版社：{{ currentBookInfo?.item.bibAttrs.publisher }} </view>
+			<view>ISBN:{{ currentBookInfo?.isbn }}</view>
+			<view>出版年:{{ currentBookInfo?.pubYear }}</view>
+			<view class=""> 作者：{{ currentBookInfo?.author }} </view>
+			<view class=""> 出版社：{{ currentBookInfo?.publisher }} </view>
 			<view>借阅时间:{{ currentBookInfo?.loanDate }}</view>
 			<view v-show="currentBookInfo?.dueDate" class="">应还时间:{{ currentBookInfo?.dueDate }} </view>
 			<view v-show="currentBookInfo?.returnDate" class="">归还时间:{{ currentBookInfo?.returnDate }} </view>
@@ -103,9 +99,11 @@
 <script setup lang="ts">
 	import { onLoad } from "@dcloudio/uni-app"
 	import { ref, Ref } from "vue"
-	import { readListApi, histsListApi, overDueListApi, renewApi } from "@/page-center/utils/huiwen/center"
 	import { paginationType } from "@/utils/types/list"
 	import { bookInfoType } from "./utils/types.d"
+	import { getHistoryList, getOverDueList, getReadList, reNewBook } from "../api/huiwen/center"
+	//获取用户信息
+	const loginInfo = uni.getStorageSync("loginInfo")
 	const loading = ref(true)
 	const showShare = ref(false)
 
@@ -123,50 +121,39 @@
 		type: "success"
 	})
 
-	// const user = uni.getStorageSync("user")
 	const paginations : Ref<paginationType> = ref({
 		currentPage: 1,
 		pageNum: 10,
 		total: 0,
 	})
 
-	const getMyList = async (page : number, pageSize : number) => {
+	const getMyList = async (id : string, type : number, currentPage : number, pageSize : number) => {
 		if (controlCurrent.value === LOAN_NO) {
 			// 当前借阅
-			const res = await readListApi(page, pageSize)
+			const res = await getReadList({ id, type })
 			if (res) {
-				let temp = res.data
-				lists.value = lists.value.concat(temp.items)
-				paginations.value = {
-					currentPage: temp.currentPage,
-					pageNum: temp.pageSize,
-					total: temp.total,
-				}
+				lists.value = res.data
 			}
 		} else if (controlCurrent.value === OVERDUE_NO) {
 			// 即将到期
-			const res = await overDueListApi()
+			const res = await getOverDueList({ id, type, beforeDays: 7 })
 			if (res) {
-
-				let temp = res.data
-				lists.value = lists.value.concat(temp)
+				lists.value = res.data
 			}
 		} else {
 			// 历史借阅
-			const res = await histsListApi(page, pageSize)
+			const res = await getHistoryList({ id, type, currentPage, pageSize })
 			if (res) {
-				let temp = res.data
-				lists.value = lists.value.concat(temp.items)
+				lists.value = res.data.items;
 				paginations.value = {
-					currentPage: temp.currentPage,
-					pageNum: temp.pageSize,
-					total: temp.total,
+					currentPage: res.data.currentPage,
+					pageNum: res.data.pageSize,
+					total: res.data.total,
 				}
 			}
 		}
 		loading.value = false
 	}
-
 	// 分栏信息
 	const controlCurrent = ref(0)
 	const controlItems = ref(["当前借阅", "即将到期", "借阅历史"])
@@ -181,7 +168,7 @@
 				pageNum: 10,
 				total: 0,
 			}
-			getMyList(1, 10)
+			getMyList(loginInfo.userName, 0, 1, 10)
 		}
 	}
 	// 弹窗
@@ -268,9 +255,9 @@
 		}
 	}
 
-	const reNewOpera = async (loanId : string) => {
-		if (loanId) {
-			const res = await renewApi(loanId)
+	const reNewOpera = async (barCode : string) => {
+		if (barCode) {
+			const res = await reNewBook({barCode})
 			if (res && res?.code === 0) {
 				lists.value = []
 				// 成功，并刷新页面
@@ -278,13 +265,8 @@
 					content: res?.msg || "续借成功",
 					type: "success"
 				}
-				getMyList(paginations.value.currentPage, paginations.value.pageNum)
-				// uni.showToast({
-				// 	title: "",
-				// 	icon: "error"
-				// })
+				getMyList(loginInfo.userName, 0, paginations.value.currentPage, paginations.value.pageNum)
 			} else {
-				// 失败
 				renewMsg.value = {
 					content: res?.msg || "续借失败",
 					type: "error"
@@ -304,10 +286,8 @@
 	onLoad((e) => {
 		messagess.value.open();
 		e?.current && (controlCurrent.value = e.current)
-
 	})
-
-	getMyList(paginations.value.currentPage, paginations.value.pageNum)
+	getMyList(loginInfo.userName,0,paginations.value.currentPage, paginations.value.pageNum)
 </script>
 
 <style scoped lang="scss">

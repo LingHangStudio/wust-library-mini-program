@@ -62,13 +62,13 @@ export default function request(options : requestType) {
 						store.setloginState(false)
 						// #endif
 						uni.removeStorageSync("loginInfo")
-						// uni.setStorageSync("loginState", false)
+						uni.setStorageSync("loginState", false)
 						uni.showToast({
 							title: "未登录或者登录过期",
 							icon: "error"
 						})
 						uni.navigateTo({
-							url: '../page-center/login'
+							url: "/pages/login/index"
 						})
 						reject()
 					}
@@ -100,9 +100,9 @@ export default function request(options : requestType) {
 			},
 			//请求结束之后，执行的回调函数（成功或失败都会执行）
 			complete() {
-				//隐藏loading
-				uni.hideLoading()
-			}
+			//隐藏loading
+			uni.hideLoading()
+		}
 		})
-	})
+})
 }

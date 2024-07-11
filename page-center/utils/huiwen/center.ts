@@ -1,24 +1,6 @@
 import request from "@/api/request"
 const API = "https://libsys.wust.edu.cn/meta-local/opac/users"
 
-/*
-* 获取用户信息 GET /meta-local/opac/users/info
-* @prarm isPlaintext false
-* @header
-* 
-*/
-export async function userInfoApi() {
-	const res = await request({
-		url: `${API}/info`,
-		header: {
-			Cookie: uni.getStorageSync('Cookie')
-		},
-		data: {
-			isPlaintext: false
-		}
-	})
-	return res?.data
-}
 
 /*
 * 借阅状态-总览 GET /meta-local/opac/users/stats

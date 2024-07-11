@@ -22,7 +22,7 @@
 <script setup lang="ts">
 	const getUserProfile = () => {
 		uni.navigateTo({
-			url: "/page-center/login"
+			url: "/pages/login/index"
 		})
 		// uni.getUserProfile({
 		// 	desc: "用于完善用户信息",

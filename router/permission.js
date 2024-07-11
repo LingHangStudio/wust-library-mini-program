@@ -1,6 +1,3 @@
-import {
-	getAuthorization
-} from "@/router/auth.ts"
 
 // 白名单
 const whiteList = [
@@ -17,12 +14,12 @@ const whiteList = [
 	// '/page-home/tsgview',
 	"/page-service/tsgview",
 	"/page-service/inner",
-	"/page-center/login",
 	"/page-center/aboutMe",
 	"/page-center/set",
 	"/page-center/set/comment",
 	"/page-home/hello",
 	"/page-service/test",
+	"/pages/login/index"
 ]
 
 export default async function() {
@@ -31,9 +28,9 @@ export default async function() {
 	list.forEach((item) => {
 		uni.addInterceptor(item, {
 			invoke(e) {
-				// 获取要跳转的页面路径（url去掉"?"和"?"后的参数）
+				// 获取要跳转的页面路径（url去掉"?"和"?"后的参数）			
 				const url = e.url.split("?")[0]
-				if (getAuthorization() || (!getAuthorization() && whiteList.includes(url))) {
+				if (uni.getStorageSync("loginInfo") || (!uni.getStorageSync("loginInfo") && whiteList.includes(url))) {
 					return e
 				}
 				uni.showToast({
@@ -41,7 +38,7 @@ export default async function() {
 					icon: "error",
 				})
 				uni.navigateTo({
-					url: "/page-center/login",
+					url: "/pages/login/index",
 				})
 				return false
 			},

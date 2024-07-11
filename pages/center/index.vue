@@ -45,9 +45,6 @@
 	// #endif
 
 	onShow(() => {
-		// #ifndef APP-PLUS
-		store.userInfo = uni.getStorageSync("userInfo") || { displayName: "微信用户" }
-		// #endif
 		let fineSum = uni.getStorageSync("fineSum")
 		if (fineSum && fineSum !== '0') {
 			uni.setTabBarBadge({

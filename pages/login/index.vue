@@ -41,35 +41,26 @@
 </template>
 
 <script setup lang="ts">
-	import { loginAPI, login1API, loginWust } from "@/api/user/user"
-	import { loginFinalApi, getCodeApi } from "@/api/end"
+	import { loginWust } from "@/api/user/login"
+	import { getCodeApi } from "../../api/end"
 	import { ref, onMounted } from "vue"
-	import { userInfoApi } from "@/page-center/utils/huiwen/center"
+	import { getPersonInfo, infoParams } from "../../api/huiwen/center";
 	// 引入crypto-js的MD5模块
 	import CryptoJS from 'crypto-js';
-	// #ifndef APP-PLUS
-	import { useStore } from "@/store"
-	// #endif
-
-	import RSA from "@/page-center/utils/rsa.js"
 	// 专属处理btoa atob
-	import { weBtoa } from "@/page-center/utils/weapp-jwt"
+	import { weBtoa } from "../../utils/weapp-jwt"
+	import { useStore } from "../../store";
 
-	// #ifndef APP-PLUS
 	const store = useStore()
-	// #endif
-
 	// 忘记密码的提醒model
 	const showToolTip = ref(null)
 	// 存图片
 	const codeImg = ref("")
 	const code = ref("")
 	// 错误提醒的节点
-	const errorMsg = ref(null)
+	const errorMsg = ref(undefined)
 	const errorMsgContent = ref("")
-	//
 	const loading = ref(true)
-
 	// 页面来源
 	// const isCenter = ref(false)
 
@@ -121,8 +112,37 @@
 		},
 	}
 
+	//获取验证码
+	const getCode = async () => {
+		loading.value = true
+		const res = await getCodeApi()
+		if (res.data) {
+			codeImg.value = "data:image/svg+xml;base64," + weBtoa(res?.data.codeSvg)
+			code.value = res.data.text
+		}
+		else {
+			uni.showToast({
+				title: "验证码获取失败，请刷新重试",
+				icon: "none"
+			})
+		}
+		loading.value = false
+	}
+	// 表单校验
+	const vertify = () => {
+		if (code.value.toLowerCase() !== userForm.value.code.toLowerCase()) {
+			errorMsgContent.value = "验证码错误"
+			errorMsg.value.open()
+			return
+		}
+		myForm.value.validate((err : [], formData : any) =>
+			!err && login(userForm.value.username, userForm.value.password))
+	}
+
+
+
 	const encrypt = (password : string, appid : string) => {
-		// 第一次Base64编码  
+		// 第一次Base64编码
 		const firstEncoded = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(password));
 		// 将第一次编码的结果与appid拼接  
 		const combined = firstEncoded + appid;
@@ -155,58 +175,44 @@
 		// 使用CryptoJS的MD5函数进行加密  
 		const encryptedValue = CryptoJS.MD5(inputString).toString();
 		// 返回加密后的字符串  
-		return encryptedValue;
+		return encryptedValue.toUpperCase();
 	}
 
-
-	const login = async () => {
+	//登陆{前端负责加密，接口为学校网络中心的，看不懂加密不要紧，学长我也看不懂哈，加密要求文件有，看文件去}
+	const login = async (userName : string, passWord : string) => {
 		let appid = "07E6724C8712B9F0"
-		let password = encrypt(userForm.value.password, appid)
+		let password = encrypt(passWord, appid)
 		let currentTime = getCurrentTime()
-		let secret = getSecret(userForm.value.username, appid, currentTime)
+		let secret = getSecret(userName, appid, currentTime)
+		let username = userName
 		try {
-			console.log("password:",password)
-			console.log("currentTime:",currentTime)
-			console.log("secret:",secret)
-			console.log("appid:",appid)
-			const res = await loginWust({
+			const data = {
 				appid,
-				username: userForm.value.username,
+				username,
 				secret,
 				password,
-			})
-			console.log(res)
-
-			// const res1 = await loginAPI({ ...userForm.value, password })
-			// if (res1?.data.data) {
-			// 	if (res1?.data.data.code === "NOUSER") {
-			// 		errorMsgContent.value = "账号不存在。"
-			// 	} else if (res1?.data.data.code === "PASSERROR") {
-			// 		errorMsgContent.value = `密码错误。一共${res1?.data.data.data[0]} 已经错误${res1?.data.data.data[2]},`
-			// 	} else {
-			// 		errorMsgContent.value = "账号异常"
-			// 	}
-			// 	errorMsg.value.open()
-			// 	return
-			// }
-			// const res2 = await login1API(res1.data.tgt)
-			// // 第三个接口，请求自己的后台，获取到Cookie
-			// let myCookie = await loginFinalApi(res2.data)
-			// // 登录成功后的处理
-			// uni.setStorageSync("loginState", true)
-			// uni.setStorageSync("Cookie", myCookie.data.cookie.split(";")[0])
-			// uni.setStorageSync("loginInfo", { username: userForm.value.username, password })
-
-			// const res = await userInfoApi()
-			// if (res) {
-			// 	uni.setStorageSync("userInfo", res.data)
-			// }
-			// // #ifndef APP-PLUS
-			// store.setloginState(true)
-			// // #endif
-			// uni.reLaunch({
-			// 	url: "/pages/home/index",
-			// })
+			}
+			const urlEnd = (`?username=${username}&appid=${appid}&password=${password}&secret=${secret}`)
+			const res = await loginWust(data, urlEnd)
+			// 后端返回的字符串”0”用俩个等于号免得他们改成数字0我们又要改
+			if (res.code == 0) {
+				uni.setStorageSync("loginState", true)
+				uni.setStorageSync("loginInfo", { userName, passWord })
+				//获取读者信息
+				const infoParams : infoParams = {
+					id: userName,
+					type: 0,
+					userIdentifierType: "0",
+				};
+				getInfo(infoParams);
+				uni.reLaunch({
+					url: "/pages/home/index",
+				})
+			}
+			else {
+				errorMsgContent.value = res.message;
+				errorMsg.value.open()
+			}
 		} catch (e) {
 			uni.showToast({
 				title: "登录失败",
@@ -216,31 +222,23 @@
 		}
 	}
 
-	const getCode = async () => {
-		loading.value = true
-		const res = await getCodeApi()
-		if (res.data) {
-			codeImg.value = "data:image/svg+xml;base64," + weBtoa(res?.data.codeSvg)
-			code.value = res.data.text
+	//检查本地是否有登陆信息，有就不需要用户二次登陆，我们直接掉接口处理
+	const loginStatus = () => {
+		if (uni.getStorageSync("loginInfo")) {
+			const loginInfo = uni.getStorageSync("loginInfo")
+			login(loginInfo.userName, loginInfo.passWord)
 		}
-		else {
-			uni.showToast({
-				title: "验证码获取失败，请刷新重试",
-				icon: "none"
-			})
-		}
-		loading.value = false
 	}
 
-	// 表单校验
-	const vertify = () => {
-		if (code.value.toLowerCase() !== userForm.value.code.toLowerCase()) {
-			errorMsgContent.value = "验证码错误"
-			errorMsg.value.open()
-			return
+	//获取个人信息，然后批量存储在store里面
+	const getInfo = async (info : infoParams) => {
+		const res = await getPersonInfo(info)
+		if (res.code === 0) {
+			store.userInfo = { ...store.userInfo, ...res.data };
+			console.log("nihao", store.userInfo)
 		}
-		myForm.value.validate((err : [], formData : any) => !err && login())
 	}
+
 
 	onMounted(() => {
 		// 本页面禁止分享
@@ -248,6 +246,7 @@
 			hideShareItems: ['shareAppMessage', 'shareTimeline'],
 		})
 		getCode()
+		loginStatus()
 	})
 </script>
 

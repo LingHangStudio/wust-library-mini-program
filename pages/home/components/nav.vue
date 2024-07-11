@@ -11,15 +11,15 @@
 	<view>
 		<!-- 提示信息弹窗 -->
 		<uni-popup ref="moreMsg" type="message">
-			<uni-popup-message  type="success" message="呜呜呜就这点功能,别点了" :duration="2000"></uni-popup-message>
+			<uni-popup-message type="success" message="呜呜呜就这点功能,别点了" :duration="2000"></uni-popup-message>
 		</uni-popup>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import {ref} from "vue"
+	import { ref } from "vue"
 	//更多点击弹窗
-	const moreMsg =ref(null)
+	const moreMsg = ref(null)
 	//借阅服务的数据列表
 	const menu = [
 		{
@@ -28,48 +28,39 @@
 			url: "/page-center/mySubscribe",
 			icon: "calendar",
 		},
-
 		{
 			id: "",
-			name: "借阅服务",
-			url: "https://tsg.wust.edu.cn/jyfw/gzjsysy.htm",
-			icon: "star",
-			type: "tsg",
+			name: "电子资源",
+			url: "/page-home/resourceWebsite",
+			icon: "bars",
 		},
-
 		{
 			id: "",
-			name: "科研服务",
-			url: "https://tsg.wust.edu.cn/kyfw/xkfw.htm",
+			name: "座位预约",
+			url: "http://ic.lib.wust.edu.cn/clientweb/xcus/ic2/Default.aspx",
 			icon: "paperplane",
 			type: "tsg",
 		},
-		{
+	{
 			id: "",
-			name: "互动交流",
-			url: "https://tsg.wust.edu.cn/hdjl/ygzydt.htm",
+			name: "馆藏服务",
+			url: "https://tsg.wust.edu.cn/jyfw/fwsjygzfb.htm",
 			icon: "chat",
 			type: "tsg",
 		},
 		{
 			id: "",
 			name: "读者指南",
-			url: "https://tsg.wust.edu.cn/dzzn/gzzd.htm",
+			url: "https://tsg.wust.edu.cn/info/1801/4941.htm",
 			icon: "map",
 			type: "tsg",
 		},
 		{
 			id: "",
-			name: "关于",
-			url: "https://tsg.wust.edu.cn/gy.htm",
-			icon: "flag",
+			name: "联系我们",
+			url: "https://tsg.wust.edu.cn/bggk/lxwm.htm",
+			icon: "star",
 			type: "tsg",
-		},
-		{
-			id: "",
-			name: "电子资源",
-			url: "/page-home/resourceWebsite",
-			icon: "bars",
 		},
 		{
 			id: "",
