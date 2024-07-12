@@ -68,7 +68,7 @@
 	// holdings 获取馆藏信息
 	import { ref, Ref } from "vue"
 	import { deatileApi, deatileExtApi, deatileTrendApi, deatileHoldingApi } from "@/api/huiwen/home"
-	import { onLoad, onShareAppMessage, onShareTimeline, onReady, onShow } from "@dcloudio/uni-app"
+	import { onLoad, onShareAppMessage, onShareTimeline, onReady } from "@dcloudio/uni-app"
 	import type { baseInfoType, extraInfoType, otherInfoType } from "@/page-home/utils/types.d"
 
 	// const startDrawLoad = ref(true)

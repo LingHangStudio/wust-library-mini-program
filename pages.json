@@ -57,12 +57,7 @@
 	],
 	"subPackages": [{
 		"root": "page-home",
-		"pages": [{
-			"path": "hello",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
+		"pages": [ {
 			"path": "search",
 			"style": {
 				"navigationBarTitleText": "搜索"

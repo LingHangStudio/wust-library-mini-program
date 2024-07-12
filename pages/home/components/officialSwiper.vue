@@ -3,7 +3,7 @@
 	<view class="swiperBox">
 		<swiper class="swiper" :indicator-dots="true" circular :autoplay="true" :interval="2000">
 			<swiper-item @tap="goto(item.url)" v-for="(item, index) in bannerList" :key="index">
-				<image :src="item.url" alt="error"></image>
+				<image :src="item.url" alt="error" class="images"></image>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -34,5 +34,8 @@
 		margin: 10px 8px 5px 8px;
 		border-radius: 8px;
 		overflow: hidden;
+		.images{
+			width:400px;
+		}
 	}
 </style>

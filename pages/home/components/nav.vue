@@ -1,9 +1,17 @@
 <template>
 	<uni-card margin="10px 8px 5px 8px" spacing="0px" padding="0px">
 		<view class="navTitle">借阅服务</view>
+		<!-- 第一行 -->
 		<view class="navCard">
-			<view v-for="(item, index) in menu" :key="index" class="navContent" @tap="goTo(item.url, item.type)">
-				<uni-icons :type="item.icon" color="#E7F1FE" size="50"></uni-icons>
+			<view v-for="(item, index) in firstMenu" :key="index" class="navContent" @tap="goTo(item.url, item.type)">
+				<uni-icons :type="item.icon" color="#22b3f6" size="50"></uni-icons>
+				<view>{{ item.name }}</view>
+			</view>
+		</view>
+		<!-- 第二行 -->
+		<view class="navCard">
+			<view v-for="(item, index) in secondMenu" :key="index" class="navContent" @tap="goTo(item.url, item.type)">
+				<uni-icons :type="item.icon" color="#22b3f6" size="50"></uni-icons>
 				<view>{{ item.name }}</view>
 			</view>
 		</view>
@@ -11,7 +19,7 @@
 	<view>
 		<!-- 提示信息弹窗 -->
 		<uni-popup ref="moreMsg" type="message">
-			<uni-popup-message type="success" message="呜呜呜就这点功能,别点了" :duration="2000"></uni-popup-message>
+			<uni-popup-message type="success" message="相关功能正在开发中" :duration="2000"></uni-popup-message>
 		</uni-popup>
 	</view>
 </template>
@@ -33,13 +41,14 @@
 			name: "电子资源",
 			url: "/page-home/resourceWebsite",
 			icon: "bars",
+			type: "more"
 		},
 		{
 			id: "",
 			name: "座位预约",
 			url: "http://ic.lib.wust.edu.cn/clientweb/xcus/ic2/Default.aspx",
 			icon: "paperplane",
-			type: "tsg",
+			type: "copy",
 		},
 	{
 			id: "",
@@ -69,7 +78,19 @@
 			icon: "bars",
 			type: "more"
 		},
+		// 保证每行数据相同
+		{
+			id: "",
+			name: "",
+			url: "",
+			icon: "",
+			type: "empty"
+		},
 	]
+	// 有些手机第一行显示了五行，机型不一样存在偏差，这样写偷个懒吧
+	const firstMenu = menu.slice(0,4);	//第一行menu
+	const secondMenu = menu.slice(4);//第二行menu
+	
 	// 跳转页面
 	const goTo = (url : string, type : string) => {
 		if (type == "tsg") {
@@ -79,6 +100,9 @@
 		}
 		else if (type == "more") {
 			moreMsg.value.open();
+		}
+		else if(type == "copy"){
+			
 		}
 		else {
 			uni.navigateTo({
