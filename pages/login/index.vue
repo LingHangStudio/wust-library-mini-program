@@ -235,7 +235,6 @@
 		const res = await getPersonInfo(info)
 		if (res.code === 0) {
 			store.userInfo = { ...store.userInfo, ...res.data };
-			console.log("nihao", store.userInfo)
 		}
 	}
 

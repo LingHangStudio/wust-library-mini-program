@@ -1,5 +1,7 @@
+//采用网络中心的后端登陆接口，登陆用网络中心，其余用汇文和自己的后端接口
 import request from "@/api/request"
 const API = "https://auth.wust.edu.cn"
+
 
 // 登陆接口loginWust返回数据
 // interface logindata{
