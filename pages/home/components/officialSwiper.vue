@@ -14,17 +14,19 @@
 	import { onMounted, ref } from 'vue';
 	import { getHomeArticle, swiperList } from '../../../api/end';
 	const swiperArticle = ref<swiperList[]>([])
+	const bannerList = ref<swiperList[]>([])
 	const getSwiperArticle = async () => {
 		const res = await getHomeArticle()
 		if (res.code === 200) {
 			swiperArticle.value = res.data;
+			bannerList.value = swiperArticle.value.filter(item => item.show === 1)
 		}
 	}
-	const bannerList = swiperArticle.value.slice(0, 2);
-
 	//搜索跳转函数
 	const goTo = (url : string) => {
-		console.log(url)
+		uni.navigateTo({
+			url: "/page-service/tsgview?url=" + url,
+		})
 	}
 	onMounted(() => {
 		getSwiperArticle()

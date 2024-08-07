@@ -48,9 +48,9 @@
 			name: "座位预约",
 			url: "http://ic.lib.wust.edu.cn/clientweb/xcus/ic2/Default.aspx",
 			icon: "paperplane",
-			type: "copy",
+			type: "tsg",
 		},
-	{
+	   {
 			id: "",
 			name: "馆藏服务",
 			url: "https://tsg.wust.edu.cn/jyfw/fwsjygzfb.htm",
@@ -100,9 +100,6 @@
 		}
 		else if (type == "more") {
 			moreMsg.value.open();
-		}
-		else if(type == "copy"){
-			
 		}
 		else {
 			uni.navigateTo({

@@ -1,17 +1,6 @@
 import request from "@/api/request"
 // 以前的api
 
-//轮播图
-export function banner() {
-	return request({
-		url: '/banner/list1',
-		method: "GET",
-	}).then(res => {
-		return res.data
-	}).catch(err => {
-		console.log(err);
-	})
-}
 
 //文章列表
 export function getArticleList(data) {
