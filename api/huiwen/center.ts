@@ -1,5 +1,5 @@
 import request from "@/api/request"
-const API = "https://libsys.wust.edu.cn/meta-local"
+const API = "https://libsys.wust.edu.cn/meta-local"//汇文接口
 
 const appId = "0Jum0nzpEREB4bwwCyhTUl82XAbEAdEY";
 const noncestr = "4b76c6dbf9f041f79ec9d67dc6abc80b";
@@ -32,7 +32,7 @@ export async function statsApi() {
 export interface infoParams {
 	id : string,
 	type : number,
-	userIdentifierType : string,
+	userIdentifierType ?: string,//这个参数别传，传了拿不到数据
 }
 export interface infoData {
 	// 不全，太多了没有一键导入，有需要自己查看汇文接口文档
@@ -44,7 +44,7 @@ export interface infoResponse {
 	msg : string,
 	data : infoData[],
 }
-//获取个人信息
+//获取个人信息,
 export async function getPersonInfo(data : infoParams) : Promise<infoResponse> {
 	const res = await request({
 		url: `${API}/api/v1/patron/info`,

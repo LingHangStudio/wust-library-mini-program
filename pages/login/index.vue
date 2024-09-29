@@ -32,7 +32,15 @@
 	</view>
 
 	<uni-popup ref="showToolTip" type="bottom" background-color="#fff">
-		<view class="popup-content bgc-liner" v-html="toolTipContent"></view>
+		<view class="popup-content bgc-liner">
+			<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 账号说明</h3>
+			<p>教职工账号为工号，学生账号为学号。</p>
+			<p>初始密码为姓名中姓的首字母大写加上账号。若已修改密码，则以修改后的为准。</p>
+			<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 忘记密码</h3>
+			<p>用户忘记密码时，可通过以下两种方式重置密码：</p>
+			<p>1. 在图书馆官网登录页面点击“忘记密码”，输入正确信息找回密码。</p>
+			<p>2. 拨打网络信息中心服务电话：68862223，或者联系服务邮箱：support@wust.edu.cn 进行密码重置。</p>
+		</view>
 	</uni-popup>
 
 	<uni-popup ref="errorMsg" type="message">
@@ -64,13 +72,7 @@
 	// 页面来源
 	// const isCenter = ref(false)
 
-	const toolTipContent = `<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 账号说明</h3>
-		<p>1.教职工的账号为工号，学生的账号为学号。</p>
-		<p>2.初始密码默认为姓名中姓的首字母大写+账号，如您修改过密码，则以修改后的密码为准。</p>
-		<h3 style="color:#142d88"><span style="display:inline-block;width:3px">|</span> 忘记密码</h3>
-		<p>用户忘记密码可通过两种方式进行密码重置：</p>
-		<p>1. 用户可在图书馆官网登录页面点击“忘记密码”，输入正确信息找回密码。</p>
-		<P>2. 用户可拨打网络信息中心服务电话：68862223或者联系服务邮箱：support@wust.edu.cn重置密码。</P>`
+
 	const myForm = ref(null)
 	const userForm = ref({
 		username: "",
@@ -202,7 +204,6 @@
 				const infoParams : infoParams = {
 					id: userName,
 					type: 0,
-					userIdentifierType: "0",
 				};
 				getInfo(infoParams);
 				uni.reLaunch({
@@ -233,6 +234,7 @@
 	//获取个人信息，然后批量存储在store里面
 	const getInfo = async (info : infoParams) => {
 		const res = await getPersonInfo(info)
+		console.log("userinfo", res)
 		if (res.code === 0) {
 			store.userInfo = { ...store.userInfo, ...res.data };
 		}

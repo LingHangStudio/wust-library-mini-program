@@ -7,7 +7,6 @@
 			</swiper-item>
 		</swiper>
 	</view>
-
 </template>
 
 <script setup lang="ts">

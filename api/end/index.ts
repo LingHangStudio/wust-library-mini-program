@@ -65,6 +65,14 @@ export async function addArticleView(id : number) {
 	})
 	return res.data
 }
+//电子资源数据
+export async function resourcesList(data) {
+	const res = await request({
+		url: `${API}/wx/resource/getResourcesList`,
+		data: data
+	})
+	return res.data
+}
 
 
 

@@ -57,7 +57,7 @@
 	],
 	"subPackages": [{
 		"root": "page-home",
-		"pages": [ {
+		"pages": [{
 			"path": "search",
 			"style": {
 				"navigationBarTitleText": "搜索"
@@ -76,6 +76,11 @@
 			"path": "resourceWebsite",
 			"style": {
 				"navigationBarTitleText": "电子资源库"
+			}
+		}, {
+			"path": "resourceDetail",
+			"style": {
+				"navigationBarTitleText": "电子资源详情"
 			}
 		}]
 	}, {

@@ -41,21 +41,7 @@
 			name: "电子资源",
 			url: "/page-home/resourceWebsite",
 			icon: "bars",
-			type: "more"
-		},
-		{
-			id: "",
-			name: "座位预约",
-			url: "http://ic.lib.wust.edu.cn/clientweb/xcus/ic2/Default.aspx",
-			icon: "paperplane",
-			type: "tsg",
-		},
-	   {
-			id: "",
-			name: "馆藏服务",
-			url: "https://tsg.wust.edu.cn/jyfw/fwsjygzfb.htm",
-			icon: "chat",
-			type: "tsg",
+			type: "calendar"
 		},
 		{
 			id: "",
@@ -64,6 +50,21 @@
 			icon: "map",
 			type: "tsg",
 		},
+		{
+			id: "",
+			name: "馆藏服务",
+			url: "https://tsg.wust.edu.cn/jyfw/fwsjygzfb.htm",
+			icon: "chat",
+			type: "tsg",
+		},
+
+		// {
+		// 	id: "",
+		// 	name: "座位预约",
+		// 	url: "https://tsg.wust.edu.cn/dzzn/zwyy.htm",
+		// 	icon: "paperplane",
+		// 	type: "tsg",
+		// },
 		{
 			id: "",
 			name: "联系我们",
@@ -75,7 +76,7 @@
 			id: "",
 			name: "更多",
 			url: "",
-			icon: "bars",
+			icon: "paperplane",
 			type: "more"
 		},
 		// 保证每行数据相同
@@ -86,11 +87,18 @@
 			icon: "",
 			type: "empty"
 		},
+		{
+			id: "",
+			name: "",
+			url: "",
+			icon: "",
+			type: "empty"
+		},
 	]
 	// 有些手机第一行显示了五行，机型不一样存在偏差，这样写偷个懒吧
-	const firstMenu = menu.slice(0,4);	//第一行menu
+	const firstMenu = menu.slice(0, 4);	//第一行menu
 	const secondMenu = menu.slice(4);//第二行menu
-	
+
 	// 跳转页面
 	const goTo = (url : string, type : string) => {
 		if (type == "tsg") {

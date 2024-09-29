@@ -81,6 +81,12 @@ export const useStore = defineStore('main', {
 			userTypeDesc: null,
 		},
 		loginState: false,
+		link: {
+			title: "",
+			inLink: "",
+			outLink: '',
+			content: ""
+		},
 		// 页面间传参：搜索的词，选择的类型
 		pages: {
 			searchValue: "",

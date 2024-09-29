@@ -14,27 +14,24 @@
 		<scroll-view :scroll-top="myScroll" scroll-y :lower-threshold="30" style="height: 100vh" enable-back-to-top
 			enhanced bounces @scroll="isShowArrow" @scrolltolower="getMoreFunc">
 
-			<view v-for="(item, index) in showList" :key="index" class="item">
+			<view v-for="(item, index) in showList" :key="index" class="item" @tap="goTo(item)">
 				<uni-card margin=" 7px" padding="3px">
 					<view class="box">
-						<view style="margin: 3px" class="">
-							<img style="display: block; width: 40px; height: 40px"
-								src="https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png" alt="" />
-						</view>
+
 						<view class="font">
 							<view class="title">
 								{{item.title}}
 							</view>
-							<view class="link" v-if="item.link.length!==0">
-								<view class="linkWord">{{item.link}}</view>
-								<button @click="copy(item.link)" class="linkButton" type="primary">复制</button>
+							<view class="link">
+								<view class="linkWord">{{item.inLink}}</view>
+								<button @tap.stop="copy(item.inLink)" class="linkButton" type="primary">复制</button>
 							</view>
 						</view>
 					</view>
 				</uni-card>
 			</view>
 
-			<view style="text-align: center; padding: 3px">--到底啦！共{{ showList.length }}条--</view>
+			<view style="text-align: center; padding: 3px">--到底啦！共{{ showTotal }}条--</view>
 		</scroll-view>
 	</view>
 
@@ -45,12 +42,13 @@
 
 <script setup lang="ts">
 	import { ref, onMounted, Ref, nextTick } from "vue"
-	import { articleListApi } from "@/api/end/index"
+	import { resourcesList } from "@/api/end/index"
+	import { useStore } from "../store";
+	const store = useStore()
 	const loading = ref(true)
 	const items = ref(["全部", "中文库", "外文库", "OA库", "自建库"])
-	const showLists = ref([{ key: 1,title:"测试", link: "https://blog.csdn.net/qd_ljp/article/details/119732680" },
-	{ key: 2,title:"测试",link: "https://blog.csdn.net/qd_ljp/article/details" }, { key: 3,title:"ceshi",link: "https://blog.csdn.ne99999" }])
 	const showList = ref([])
+	const showTotal = ref()
 	// 分栏
 	const current = ref(0)
 	// 置顶按钮
@@ -67,16 +65,23 @@
 		oldScrollTop.value = e.detail.scrollTop
 		e.detail.scrollTop > 50 ? topArrow.value = true : topArrow.value = false
 	}
-
+	//跳转详情   
+	const goTo = (item : any) => {
+		store.link = { ...store.link, ...item };
+		uni.navigateTo({
+			url: "/page-home/resourceDetail"
+		})
+	}
 
 
 	//获取信息
 	const getArticleList = async (resourceType : number) => {
-		const res = await articleListApi({ resourceType })
+		const res = await resourcesList({ resourceType })
 		if (res.code === 200) {
-			showList.value = res.data.list
+			console.log(res)
+			showList.value = res.data.rows
+			showTotal.value = res.data.count
 		}
-		showList.value = showLists.value
 		loading.value = false
 	}
 
@@ -167,13 +172,15 @@
 				flex-direction: row;
 				justify-content: space-around;
 				align-items: center;
-				width: 80%;
+				width: 90%;
 
 				.linkWord {
+					width: 100%;
 					font-size: 14px;
 					color: #9a9999;
 					overflow: hidden;
 					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 
 				.linkButton {
